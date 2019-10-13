@@ -1,7 +1,12 @@
 package scenes;
 
+import core.Drawable;
 import core.Game;
+import core.Updatable;
+
 import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 public class SceneManager {
 
@@ -11,9 +16,19 @@ public class SceneManager {
 
     public void setActiveScene(Scene scene) {
 
-        this.game.removeKeyListener(this.activeScene);
+        if(scene instanceof MouseListener)
+            this.game.removeMouseListener((MouseListener)this.activeScene);
+
+        if(scene instanceof KeyListener)
+            this.game.removeKeyListener((KeyListener)this.activeScene);
+
         this.activeScene = scene;
-        this.game.addKeyListener(scene);
+
+        if(scene instanceof MouseListener)
+            this.game.addMouseListener((MouseListener)scene);
+
+        if(scene instanceof KeyListener)
+            this.game.addKeyListener((KeyListener)scene);
     }
 
     private Scene activeScene;
@@ -26,7 +41,7 @@ public class SceneManager {
     public void update(double deltaTime) {
         if (this.activeScene != null) {
             if (this.activeScene instanceof Updatable) {
-                this.activeScene.update(deltaTime);
+                ((Updatable)this.activeScene).update(deltaTime);
             }
         }
     }
@@ -34,7 +49,7 @@ public class SceneManager {
     public void draw(Graphics g) {
         if (this.activeScene != null) {
             if (this.activeScene instanceof Drawable) {
-                this.activeScene.draw(g);
+                ((Drawable)this.activeScene).draw(g);
             }
         }
     }
