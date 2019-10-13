@@ -1,12 +1,16 @@
+package ;
+
 import scenes.SceneManager;
+import scenes.TestScene;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Game extends JFrame {
+public class Game extends JFrame implements KeyListener {
 
-    final int TARGET_FPS = 60;
+    final int TARGET_FPS = 30;
     final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 
     public static Game getInstance(){
@@ -22,7 +26,6 @@ public class Game extends JFrame {
 
     private static Game instance;
 
-    private JPanel canvas = null;
     private Image doubleBufferImage = null;
     private Graphics doubleBufferGraphics = null;
     private boolean isRunning;
@@ -32,6 +35,8 @@ public class Game extends JFrame {
     {
         instance = this;
 
+        this.sceneManager = new SceneManager();
+
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(size.x, size.y));
         this.setBackground(Color.white);
@@ -40,19 +45,25 @@ public class Game extends JFrame {
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        /*this.canvas = new JPanel();
-        this.canvas.setVisible(true);
-        this.canvas.setBackground(Color.RED);
-        this.canvas.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-
-        this.setContentPane(this.canvas);
-
-        JButton btn = new JButton("Test");
-        this.canvas.add(btn);
-        */
-
         this.pack();
         this.setLocationRelativeTo(null);
+
+        this.sceneManager.setActiveScene(new TestScene());
+    }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+        System.out.println("Key typed");
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+
     }
 
     public void run() {
@@ -62,6 +73,7 @@ public class Game extends JFrame {
     }
 
     public void update(double deltaTime) {
+        this.sceneManager.update(deltaTime);
     }
 
     @Override
@@ -78,6 +90,8 @@ public class Game extends JFrame {
 
         // render game
         draw(doubleBufferImage.getGraphics());
+
+        this.sceneManager.draw(doubleBufferImage.getGraphics());
 
         // render double buffer
         g.drawImage(doubleBufferImage, 0, 0, null);
@@ -111,5 +125,4 @@ public class Game extends JFrame {
             }
         }
     }
-
 }
