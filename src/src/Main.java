@@ -1,4 +1,5 @@
-import javax.swing.*;
+import core.Game;
+
 import java.awt.*;
 
 public class Main {

@@ -1,4 +1,4 @@
-package ;
+package core;
 
 import scenes.SceneManager;
 import scenes.TestScene;
@@ -35,7 +35,7 @@ public class Game extends JFrame implements KeyListener {
     {
         instance = this;
 
-        this.sceneManager = new SceneManager();
+        this.sceneManager = new SceneManager(this);
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(size.x, size.y));
