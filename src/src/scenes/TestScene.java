@@ -5,7 +5,6 @@ import core.Game;
 import core.Updatable;
 import core.Renderer;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class TestScene extends Scene implements Updatable, Drawable {

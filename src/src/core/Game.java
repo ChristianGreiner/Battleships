@@ -49,9 +49,8 @@ public class Game extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         this.renderer.setBackground(Color.black);
-        this.renderer.setSize(320, 320);
-        this.renderer.setLocation(200, 200);
-        this.renderer.setPreferredSize(new Dimension(320, 320));
+        this.renderer.setSize(size.x, size.y);
+        this.renderer.setLocation(0, 0);
         this.add(this.renderer, BorderLayout.CENTER);
 
         this.pack();
