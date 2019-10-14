@@ -40,16 +40,18 @@ public class Game extends JFrame {
         this.sceneManager = new SceneManager(this);
         this.renderer = new Renderer();
 
-        this.setLayout(new BorderLayout());
+        this.setLayout(null);
         this.setPreferredSize(new Dimension(size.x, size.y));
-        this.setBackground(Color.black);
+        this.setBackground(Color.WHITE);
         this.setTitle(title);
         this.setSize(size.x, size.y);
         this.setResizable(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         this.renderer.setBackground(Color.black);
-        this.renderer.setPreferredSize(new Dimension(size.x, size.y));
+        this.renderer.setSize(320, 320);
+        this.renderer.setLocation(200, 200);
+        this.renderer.setPreferredSize(new Dimension(320, 320));
         this.add(this.renderer, BorderLayout.CENTER);
 
         this.pack();
@@ -81,8 +83,10 @@ public class Game extends JFrame {
             this.update(deltaTime);
 
             Graphics g = this.renderer.begin();
-            this.sceneManager.draw(g);
-            this.renderer.end();
+            if(g != null) {
+                this.sceneManager.draw(this.renderer);
+                this.renderer.end();
+            }
 
             try {
                 long timeout = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;

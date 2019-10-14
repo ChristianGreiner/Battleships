@@ -1,10 +1,6 @@
 package scenes;
 
-import core.Drawable;
-import core.Game;
-import core.Updatable;
-
-import java.awt.*;
+import core.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
@@ -46,10 +42,10 @@ public class SceneManager {
         }
     }
 
-    public void draw(Graphics g) {
+    public void draw(Renderer renderer) {
         if (this.activeScene != null) {
             if (this.activeScene instanceof Drawable) {
-                ((Drawable)this.activeScene).draw(g);
+                ((Drawable)this.activeScene).draw(renderer);
             }
         }
     }

@@ -2,34 +2,33 @@ package core;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
 
-public class Renderer extends JPanel {
+public class Renderer extends Canvas {
 
-    private Image doubleBufferImage = null;
-    private Graphics doubleBufferGraphics = null;
-
-    public Graphics begin(){
-        if (doubleBufferImage == null) {
-            doubleBufferImage = createImage(getWidth(), getHeight());
-        }
-        doubleBufferGraphics = doubleBufferImage.getGraphics();
-
-        // clear image
-        doubleBufferGraphics.clearRect(0, 0, getWidth(), getHeight());
-
+    public Graphics getDoubleBufferGraphics() {
         return doubleBufferGraphics;
     }
 
-    public void end() {
-        this.repaint();
-    }
+    private Graphics doubleBufferGraphics = null;
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        if(this.doubleBufferGraphics != null && this.doubleBufferImage != null) {
-            g.drawImage(doubleBufferImage, 0, 0, null);
+    private BufferStrategy bs = null;
+
+    public Graphics begin() {
+        this.bs = getBufferStrategy();
+        if(this.bs == null) {
+            createBufferStrategy(2);
+            return null;
         }
 
+        this.doubleBufferGraphics = this.bs.getDrawGraphics();
+        this.doubleBufferGraphics.clearRect(0, 0, getWidth(), getHeight());
+
+        return this.doubleBufferGraphics;
+    }
+
+    public void end() {
+        this.doubleBufferGraphics.dispose();
+        this.bs.show();
     }
 }
