@@ -16,6 +16,7 @@ public class Ship {
 
     public Ship() {
         Ship.id++;
+        // todo
     }
 
 }
