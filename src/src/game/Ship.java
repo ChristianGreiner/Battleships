@@ -12,11 +12,10 @@ public class Ship {
         return size;
     }
 
-    private int size = 0;
+    private int size;
 
     public Ship() {
         Ship.id++;
-        // todo
     }
 
 }
