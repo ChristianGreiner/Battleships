@@ -1,6 +1,10 @@
 package scenes;
 
-import core.*;
+import core.Drawable;
+import core.Game;
+import core.Renderer;
+import core.Updatable;
+
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
@@ -13,18 +17,18 @@ public class SceneManager {
     public void setActiveScene(Scene scene) {
 
         if(scene instanceof MouseListener)
-            this.game.removeMouseListener((MouseListener)this.activeScene);
+            this.game.getWindow().removeMouseListener((MouseListener) this.activeScene);
 
         if(scene instanceof KeyListener)
-            this.game.removeKeyListener((KeyListener)this.activeScene);
+            this.game.getWindow().removeKeyListener((KeyListener) this.activeScene);
 
         this.activeScene = scene;
 
         if(scene instanceof MouseListener)
-            this.game.addMouseListener((MouseListener)scene);
+            this.game.getWindow().addMouseListener((MouseListener) scene);
 
         if(scene instanceof KeyListener)
-            this.game.addKeyListener((KeyListener)scene);
+            this.game.getWindow().addKeyListener((KeyListener) scene);
     }
 
     private Scene activeScene;

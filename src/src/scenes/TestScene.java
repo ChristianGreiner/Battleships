@@ -5,10 +5,12 @@ import core.Game;
 import core.Renderer;
 import core.Updatable;
 import game.Map;
+import ui.UIScene;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class TestScene extends Scene implements Updatable, Drawable {
+public class TestScene extends Scene implements Updatable, Drawable, UIScene {
 
     private Point mousePos = new Point();
     private Map playerMap;
@@ -37,5 +39,15 @@ public class TestScene extends Scene implements Updatable, Drawable {
 
         this.playerMap.draw(renderer);
         this.enemyMap.draw(renderer);
+    }
+
+    @Override
+    public JPanel build() {
+
+        JPanel panel = new JPanel();
+
+        panel.add(new JButton("Test"));
+
+        return panel;
     }
 }

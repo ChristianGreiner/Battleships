@@ -1,12 +1,12 @@
 package core;
 
+import game.GameWindow;
 import scenes.SceneManager;
 import scenes.TestScene;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class Game extends JFrame {
+public class Game implements Runnable {
 
     final int TARGET_FPS = 60;
     final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
@@ -28,6 +28,12 @@ public class Game extends JFrame {
         return renderer;
     }
 
+    public GameWindow getWindow() {
+        return window;
+    }
+
+    private GameWindow window;
+
     private Renderer renderer = null;
     private boolean isRunning;
 
@@ -35,39 +41,20 @@ public class Game extends JFrame {
     {
         instance = this;
 
+        this.window = new GameWindow(this, title, size);
         this.sceneManager = new SceneManager(this);
-        this.renderer = new Renderer();
-
-        this.setLayout(null);
-        this.setPreferredSize(new Dimension(size.x, size.y));
-        this.setBackground(Color.WHITE);
-        this.setTitle(title);
-        this.setSize(size.x, size.y);
-        this.setResizable(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        this.renderer.setBackground(Color.black);
-        this.renderer.setSize(size.x, size.y);
-        this.renderer.setLocation(0, 0);
-        this.add(this.renderer, BorderLayout.CENTER);
-
-        this.pack();
-        this.setLocationRelativeTo(null);
 
         this.sceneManager.setActiveScene(new TestScene());
     }
 
-    public void run() {
+    public void start() {
         this.isRunning = true;
-        this.setVisible(true);
-        this.gameLoop();
+        this.window.setVisible(true);
+        this.run();
     }
 
-    public void update(double deltaTime) {
-        this.sceneManager.update(deltaTime);
-    }
-
-    private void gameLoop() {
+    @Override
+    public void run() {
         long lastLoopTime = System.nanoTime();
 
         while (isRunning)
@@ -82,7 +69,8 @@ public class Game extends JFrame {
             Graphics g = this.renderer.begin();
             if(g != null) {
                 this.sceneManager.draw(this.renderer);
-                this.renderer.end();
+                this.getWindow().paint(g);
+                //this.renderer.end();
             }
 
             try {
@@ -92,5 +80,9 @@ public class Game extends JFrame {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void update(double deltaTime) {
+        this.sceneManager.update(deltaTime);
     }
 }
