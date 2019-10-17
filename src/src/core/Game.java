@@ -1,9 +1,10 @@
 package core;
 
-import game.GameWindow;
 import scenes.SceneManager;
 import scenes.TestScene;
+import scenes.TestScene2;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Game implements Runnable {
@@ -24,32 +25,35 @@ public class Game implements Runnable {
 
     private static Game instance;
 
-    public Renderer getRenderer() {
-        return renderer;
-    }
-
     public GameWindow getWindow() {
         return window;
     }
 
     private GameWindow window;
 
-    private Renderer renderer = null;
     private boolean isRunning;
+    private String title;
+    private Point gameSize;
 
     public Game(String title, Point size)
     {
         instance = this;
+        this.gameSize = size;
+        this.title = title;
 
-        this.window = new GameWindow(this, title, size);
+        //this.window = new GameWindow(this, title, size);
         this.sceneManager = new SceneManager(this);
+        this.sceneManager.addScene(new TestScene());
+        this.sceneManager.addScene(new TestScene2());
 
-        this.sceneManager.setActiveScene(new TestScene());
     }
 
     public void start() {
+        SwingUtilities.invokeLater(this.window = new GameWindow(instance, this.title, this.gameSize));
+
+        this.sceneManager.setActiveScene("TestScene");
+
         this.isRunning = true;
-        this.window.setVisible(true);
         this.run();
     }
 
@@ -65,13 +69,8 @@ public class Game implements Runnable {
             double deltaTime = updateLength / ((double)OPTIMAL_TIME);
 
             this.update(deltaTime);
-
-            Graphics g = this.renderer.begin();
-            if(g != null) {
-                this.sceneManager.draw(this.renderer);
-                this.getWindow().paint(g);
-                //this.renderer.end();
-            }
+            this.sceneManager.draw();
+            this.window.draw();
 
             try {
                 long timeout = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;

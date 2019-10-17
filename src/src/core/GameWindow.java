@@ -1,12 +1,9 @@
-package game;
-
-import core.Game;
-import core.Renderer;
+package core;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GameWindow extends JFrame {
+public class GameWindow extends JFrame implements Runnable {
 
     final int TARGET_FPS = 60;
     final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
@@ -26,13 +23,29 @@ public class GameWindow extends JFrame {
         this.setResizable(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        this.renderer.setBackground(Color.black);
-        this.renderer.setSize(size.x, size.y);
-        this.renderer.setLocation(0, 0);
-        this.add(this.renderer, BorderLayout.CENTER);
-
         this.pack();
         this.setLocationRelativeTo(null);
     }
 
+    public void addGui(JPanel panel) {
+        panel.setSize(this.getWidth(), this.getHeight());
+        this.add(panel);
+
+        panel.repaint();
+        this.repaint();
+    }
+
+    public void removeGui(JPanel panel) {
+        panel.removeAll();
+        this.remove(panel);
+        this.repaint();
+    }
+
+    @Override
+    public void run() {
+        this.setVisible(true);
+    }
+
+    public void draw() {
+    }
 }

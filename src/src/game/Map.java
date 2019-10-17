@@ -1,12 +1,9 @@
 package game;
 
-import core.Drawable;
-import core.Renderer;
-
 import java.awt.*;
 import java.util.HashMap;
 
-public class Map implements Drawable {
+public class Map {
 
     private int[][] ships;
     private HashMap<Integer, Ship> shipsLookup = new HashMap<Integer, Ship>();
@@ -41,11 +38,5 @@ public class Map implements Drawable {
 
     public boolean remove(int id) {
         return true;
-    }
-
-    @Override
-    public void draw(Renderer renderer) {
-        Graphics g = renderer.getDoubleBufferGraphics();
-        g.fillRect(this.pos.x, this.pos.y, this.size.x * this.tileSize.x, this.size.y * this.tileSize.y);
     }
 }

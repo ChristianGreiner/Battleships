@@ -4,7 +4,6 @@ import core.Drawable;
 import core.Game;
 import core.Renderer;
 import core.Updatable;
-import game.Map;
 import ui.GuiScene;
 
 import javax.swing.*;
@@ -12,20 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
-
-    private Point mousePos = new Point();
-    private Map playerMap;
-    private Map enemyMap;
-    private String name;
+public class TestScene2 extends Scene implements Updatable, Drawable, GuiScene {
 
     private Renderer renderer = new Renderer();
 
-    public TestScene() {
-        super("TestScene");
-
-        this.playerMap = new Map(new Point(10, 10), new Point(10, 10), new Point(32, 32));
-        this.enemyMap = new Map(new Point(400, 10), new Point(10, 10), new Point(32, 32));
+    public TestScene2() {
+        super("TestScene2");
     }
 
     @Override
@@ -33,16 +24,8 @@ public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
     }
 
     public void draw() {
-        Point pos = this.renderer.getMousePosition();
-
-        if(pos != null)
-            this.mousePos = pos;
-
         Graphics g = this.renderer.begin();
-
-        g.fillOval(mousePos.x, mousePos.y, 5, 5);
-        g.fillRect(20, 20, 20, 20);
-
+        g.fillRect(320, 320, 20, 20);
         this.renderer.end();
     }
 
@@ -51,11 +34,11 @@ public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
 
         JPanel panel = new JPanel();
 
-        JButton btn = new JButton("Zu Scene 2 wechseln");
+        JButton btn = new JButton("Zu Scene 1 wechseln");
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Game.getInstance().getSceneManager().setActiveScene("TestScene2");
+                Game.getInstance().getSceneManager().setActiveScene("TestScene");
             }
         });
         btn.setSize(200, 200);
@@ -64,7 +47,6 @@ public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
         this.renderer.setLocation(300, 300);
         this.renderer.setSize(360, 360);
         panel.add(this.renderer);
-
         panel.add(btn, BorderLayout.CENTER);
 
         return panel;
