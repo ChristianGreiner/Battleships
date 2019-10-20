@@ -8,7 +8,7 @@ public class MapTile {
 
     private Point pos;
     private Ship ship;
-    private boolean shot;
+    private boolean hit;
 
     public MapTile(Point pos) {
         this.pos = pos;
@@ -22,12 +22,12 @@ public class MapTile {
         this.ship = ship;
     }
 
-    public boolean isShot() {
-        return shot;
+    public boolean isHit() {
+        return hit;
     }
 
-    public void setShot(boolean shot) {
-        this.shot = shot;
+    public void setHit(boolean shot) {
+        this.hit = shot;
     }
 
     public Point getPos() {
