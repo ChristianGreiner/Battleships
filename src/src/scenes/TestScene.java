@@ -24,8 +24,8 @@ public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
     public TestScene() {
         super("TestScene");
 
-        this.playerMap = new Map(new Point(10, 10), new Point(10, 10), new Point(32, 32));
-        this.enemyMap = new Map(new Point(400, 10), new Point(10, 10), new Point(32, 32));
+        this.playerMap = new Map(10);
+        this.enemyMap = new Map(10);
     }
 
     @Override
