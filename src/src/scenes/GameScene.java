@@ -20,11 +20,11 @@ public class GameScene extends Scene implements Updatable, Drawable {
     public GameScene() {
         super("GameScene");
 
-        this.playerMap = new Map(10);
-        this.enemyMap = new Map(10);
+        this.playerMap = new Map(20);
+        this.enemyMap = new Map(20);
 
         // Create ship
-        Carrier ship = new Carrier(new Point(0, 0));
+        Carrier ship = new Carrier(new Point(0, 10));
         this.playerMap.insert(ship, new Point(0, 0), false);
 
         for (int i = 0; i < ship.getSpace(); i++) {
@@ -33,12 +33,19 @@ public class GameScene extends Scene implements Updatable, Drawable {
 
         System.out.println("------");
 
-        // rotate
-        this.playerMap.rotateShip(ship);
+        Carrier ship2 = new Carrier(new Point(0, 0));
+        boolean ok = this.playerMap.insert(ship2, new Point(0, 0), false);
 
-        for (int i = 0; i < ship.getSpace(); i++) {
-            System.out.println(ship.getTiles().get(i));
+        boolean lol = this.playerMap.checkNeighborTiles(ship2);
+
+        System.out.println("Insert 2: " + lol);
+
+        if (ok) {
+            for (int i = 0; i < ship2.getSpace(); i++) {
+                System.out.println(ship2.getTiles().get(i));
+            }
         }
+
     }
 
     @Override

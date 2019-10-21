@@ -39,7 +39,9 @@ public class Map {
             return false;
         }
 
-        // todo: check neighbors
+        if (getTile(position).getShip() != null) {
+            return false;
+        }
 
         ship.setPosition(position);
 
@@ -64,6 +66,54 @@ public class Map {
         }
 
         return false;
+    }
+
+    public boolean checkNeighborTiles(Ship ship) {
+
+        if (getTile(ship.getPosition()).getShip() != null) {
+            return false;
+        }
+
+        // check vertical
+        if (!ship.isRotated()) {
+            for (int i = 0; i < ship.getTiles().size(); i++) {
+                Point pos = ship.getTiles().get(i);
+
+                // check top
+                if (pos.y - 1 >= 0 && i == 0) {
+                    if (this.tiles[pos.x][pos.y - 1].getShip() != null) {
+                        return false;
+                    }
+                } else if (pos.x - 1 >= 0 && pos.x + 1 < this.size - 1) {
+                    if (this.tiles[pos.x - 1][pos.y].getShip() != null || this.tiles[pos.x + 1][pos.y].getShip() != null) {
+                        return false;
+                    }
+                } else if (pos.y + 1 <= size && i == ship.getTiles().size() - 1) {
+                    if (this.tiles[pos.x][pos.y + 1].getShip() != null) {
+                        return false;
+                    }
+                }
+
+                /*// first tile
+                if(i == 0) {
+                    // top left
+                    if(this.tiles[pos.x][pos.y + i - 1].getShip() != null) {
+                        return false;
+                    }
+                } else if(i == ship.getTiles().size() - 1) {
+                    if(this.tiles[pos.x][pos.y + i + 1].getShip() != null) {
+                        return  false;
+                    }
+                }
+                else {
+                    if(this.tiles[pos.x - 1][pos.y].getShip() != null && this.tiles[pos.x - 1][pos.y].getShip() != null) {
+                        return false;
+                    }
+                }*/
+            }
+        }
+
+        return true;
     }
 
     public Ship getShip(Point position) {
