@@ -26,31 +26,33 @@ public class Map {
     }
 
     public MapTile getTile(Point pos) {
-        if (checkPosition(pos)) {
+        if (isInMap(pos)) {
             return this.tiles[pos.x][pos.y];
         }
         return null;
     }
 
-    public boolean insert(Ship ship, Point position, boolean fliped) {
+    public boolean insert(Ship ship, Point position, boolean rotated) {
 
         // prevent out of bounds
-        if (!checkPosition(position)) {
+        if (!isInMap(position)) {
             return false;
         }
 
-        if (!fliped) {
+        ship.setPosition(position);
+
+        if (!rotated) {
             // check vertical
-            if (position.y + ship.getFields() <= this.tiles.length - 1) {
-                for (int i = 0; i < ship.getFields(); i++) {
+            if (position.y + ship.getSpace() <= this.tiles.length - 1) {
+                for (int i = 0; i < ship.getSpace(); i++) {
                     this.tiles[position.x][position.y + i].setShip(ship);
                     ship.getTiles().add(new Point(position.x, position.y + i));
                 }
             }
         } else {
             // check horizontal
-            if (position.x + ship.getFields() <= this.tiles.length - 1) {
-                for (int i = 0; i < ship.getFields(); i++) {
+            if (position.x + ship.getSpace() <= this.tiles.length - 1) {
+                for (int i = 0; i < ship.getSpace(); i++) {
                     this.tiles[position.x + i][position.y].setShip(ship);
                     ship.getTiles().add(new Point(position.x + i, position.y));
                 }
@@ -61,22 +63,22 @@ public class Map {
     }
 
     public Ship getShip(Point position) {
-        if (checkPosition(position)) {
+        if (isInMap(position)) {
             return this.tiles[position.x][position.y].getShip();
         }
         return null;
     }
 
     public void shot(Point position) {
-        if (checkPosition(position)) {
+        if (isInMap(position)) {
             this.tiles[position.x][position.y].setHit(true);
         }
     }
 
     public boolean move(Ship ship, Point newPosition) {
-        if (checkPosition(newPosition)) {
+        if (isInMap(newPosition)) {
             this.remove(ship);
-            this.insert(ship, newPosition, ship.isFlipped());
+            this.insert(ship, newPosition, ship.isRotated());
 
             return true;
         }
@@ -93,7 +95,13 @@ public class Map {
         return true;
     }
 
-    private boolean checkPosition(Point position) {
+    public void rotateShip(Ship ship) {
+        boolean nextRotation = !ship.isRotated();
+        this.remove(ship);
+        this.insert(ship, ship.getPosition(), nextRotation);
+    }
+
+    private boolean isInMap(Point position) {
         return position.x >= 0 && position.y >= 0 && position.x <= this.size - 1 && position.y <= this.size - 1;
     }
 }

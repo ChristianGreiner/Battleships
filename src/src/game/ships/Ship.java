@@ -10,20 +10,30 @@ public abstract class Ship {
     }
     private static int id = 0;
 
-    private boolean flipped;
+    private boolean rotated;
     private ArrayList<Point> tiles = new ArrayList<>();
-    private int fields;
+    private int space;
 
-    public int getFields() {
-        return fields;
+    public Point getPosition() {
+        return position;
     }
 
-    public boolean isFlipped() {
-        return flipped;
+    public void setPosition(Point position) {
+        this.position = position;
     }
 
-    public void setFlipped(boolean flipped) {
-        this.flipped = flipped;
+    private Point position;
+
+    public int getSpace() {
+        return space;
+    }
+
+    public boolean isRotated() {
+        return rotated;
+    }
+
+    public void setRotated(boolean rotated) {
+        this.rotated = rotated;
     }
 
     public ArrayList<Point> getTiles() {
@@ -34,9 +44,10 @@ public abstract class Ship {
         this.tiles = tiles;
     }
 
-    public Ship(int fields) {
+    public Ship(int space, Point position) {
         Ship.id++;
-        this.fields = fields;
+        this.space = space;
+        this.position = position;
     }
 
 

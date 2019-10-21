@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class Game implements Runnable {
 
-    final int TARGET_FPS = 60;
+    final int TARGET_FPS = 144;
     final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 
     public static Game getInstance(){
@@ -53,7 +53,7 @@ public class Game implements Runnable {
     public void start() {
         SwingUtilities.invokeLater(this.window = new GameWindow(instance, this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("GameScene");
+        this.sceneManager.setActiveScene("TestScene");
 
         this.isRunning = true;
         this.run();

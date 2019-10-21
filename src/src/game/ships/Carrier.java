@@ -1,8 +1,10 @@
 package game.ships;
 
+import java.awt.*;
+
 public class Carrier extends Ship {
 
-    public Carrier() {
-        super(5);
+    public Carrier(Point position) {
+        super(5, position);
     }
 }
