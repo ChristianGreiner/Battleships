@@ -1,16 +1,13 @@
 package core;
 
-import scenes.GameScene;
-import scenes.SceneManager;
-import scenes.TestScene;
-import scenes.TestScene2;
+import scenes.*;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Game implements Runnable {
 
-    final int TARGET_FPS = 144;
+    final int TARGET_FPS = 30;
     final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 
     public static Game getInstance(){
@@ -47,13 +44,14 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new TestScene());
         this.sceneManager.addScene(new TestScene2());
         this.sceneManager.addScene(new GameScene());
+        this.sceneManager.addScene(new TestMenu());
 
     }
 
     public void start() {
         SwingUtilities.invokeLater(this.window = new GameWindow(instance, this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("TestScene");
+        this.sceneManager.setActiveScene("GameScene");
 
         this.isRunning = true;
         this.run();

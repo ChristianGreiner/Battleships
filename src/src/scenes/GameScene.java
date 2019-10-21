@@ -4,6 +4,7 @@ import core.Drawable;
 import core.Renderer;
 import core.Updatable;
 import game.Map;
+import game.gamestates.SinglePlayerStates;
 import game.ships.Carrier;
 
 import java.awt.*;
@@ -14,6 +15,7 @@ public class GameScene extends Scene implements Updatable, Drawable {
     private Map enemyMap;
 
     private Renderer renderer = new Renderer();
+    private SinglePlayerStates gameState = SinglePlayerStates.ShipsSelection;
 
     public GameScene() {
         super("GameScene");
@@ -37,11 +39,17 @@ public class GameScene extends Scene implements Updatable, Drawable {
         for (int i = 0; i < ship.getSpace(); i++) {
             System.out.println(ship.getTiles().get(i));
         }
-
     }
 
     @Override
     public void update(double deltaTime) {
+
+        if (gameState == SinglePlayerStates.ShipsSelection) {
+            // logik
+
+            this.gameState = SinglePlayerStates.BattleStart;
+        }
+
     }
 
     @Override

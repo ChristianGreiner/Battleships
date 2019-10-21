@@ -28,6 +28,10 @@ public class GameWindow extends JFrame implements Runnable {
     }
 
     public void addGui(JPanel panel) {
+
+        if (panel == null)
+            return;
+
         panel.setSize(this.getWidth(), this.getHeight());
         this.add(panel);
 

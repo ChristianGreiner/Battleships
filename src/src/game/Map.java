@@ -39,6 +39,8 @@ public class Map {
             return false;
         }
 
+        // todo: check neighbors
+
         ship.setPosition(position);
 
         if (!rotated) {
@@ -48,6 +50,7 @@ public class Map {
                     this.tiles[position.x][position.y + i].setShip(ship);
                     ship.getTiles().add(new Point(position.x, position.y + i));
                 }
+                return true;
             }
         } else {
             // check horizontal
@@ -56,10 +59,11 @@ public class Map {
                     this.tiles[position.x + i][position.y].setShip(ship);
                     ship.getTiles().add(new Point(position.x + i, position.y));
                 }
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     public Ship getShip(Point position) {

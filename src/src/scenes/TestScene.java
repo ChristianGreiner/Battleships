@@ -30,6 +30,7 @@ public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
 
     @Override
     public void update(double deltaTime) {
+
     }
 
     public void draw() {
