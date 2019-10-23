@@ -37,17 +37,30 @@ public class GameScene extends Scene implements Updatable, Drawable {
 
         // Create ship
         Carrier ship = new Carrier();
-        this.playerMap.insert(ship, new Point(0, 1), false);
+        //this.playerMap.insert(ship, new Point(0, 1), false);
 
         // create second ship
         Destoryer ship2 = new Destoryer();
-        boolean ok = this.playerMap.insert(ship2, new Point(2, 1), false);
+        this.playerMap.insert(ship2, new Point(4, 9), true);
 
-        this.playerMap.shot(new Point(0, 1));
+        // create second ship
+        Destoryer ship4 = new Destoryer();
+        this.playerMap.insert(ship4, new Point(1, 2), false);
+
+        Carrier ship3 = new Carrier();
+        this.playerMap.insert(ship3, new Point(3, 3), false);
+
+
+        Destoryer ship5 = new Destoryer();
+        //this.playerMap.insert(ship5, new Point(6, 3), false);
+
+
+
+        /*this.playerMap.shot(new Point(0, 1));
         this.playerMap.shot(new Point(0, 2));
         this.playerMap.shot(new Point(0, 3));
         this.playerMap.shot(new Point(0, 4));
-        this.playerMap.shot(new Point(0, 5));
+        this.playerMap.shot(new Point(0, 5));*/
 
 
         System.out.println("Ship destoryed: " + ship.isDestroyed());

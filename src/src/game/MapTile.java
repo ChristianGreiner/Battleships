@@ -18,9 +18,7 @@ public class MapTile {
         return ship;
     }
 
-    public void setShip(Ship ship) {
-        this.ship = ship;
-    }
+    public boolean blocked = false;
 
     public boolean isHit() {
         return hit;
@@ -36,6 +34,19 @@ public class MapTile {
 
     public Point getPos() {
         return pos;
+    }
+
+    public void setShip(Ship ship) {
+        this.setBlocked(ship != null);
+        this.ship = ship;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     public void setPos(Point pos) {

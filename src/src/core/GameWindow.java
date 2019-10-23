@@ -11,21 +11,7 @@ public class GameWindow extends JFrame implements Runnable {
     private Renderer renderer = null;
     private Game game;
 
-    public GameWindow(Game game, String title, Point size) {
-        this.game = game;
-        this.renderer = new Renderer();
-
-        this.setLayout(null);
-        this.setPreferredSize(new Dimension(size.x, size.y));
-        this.setBackground(Color.WHITE);
-        this.setTitle(title);
-        this.setSize(size.x, size.y);
-        this.setResizable(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        this.pack();
-        this.setLocationRelativeTo(null);
-    }
+    private int lastWindowWidth = 0;
 
     public void addGui(JPanel panel) {
 
@@ -51,5 +37,31 @@ public class GameWindow extends JFrame implements Runnable {
     }
 
     public void draw() {
+    }
+
+    private int lastWindowHeight = 0;
+
+    public GameWindow(Game game, String title, Point size) {
+        this.game = game;
+        this.renderer = new Renderer();
+
+        this.setLayout(null);
+        this.setPreferredSize(new Dimension(size.x, size.y));
+        this.setBackground(Color.WHITE);
+        this.setTitle(title);
+        this.setSize(size.x, size.y);
+        this.setResizable(true);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        this.pack();
+        this.setLocationRelativeTo(null);
+
+        this.lastWindowHeight = this.getHeight();
+        this.lastWindowWidth = this.getWidth();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
     }
 }

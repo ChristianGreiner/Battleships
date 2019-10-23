@@ -45,34 +45,63 @@ public class Map {
         ship.setPosition(position);
         ship.setRotated(rotated);
 
-        /*if(!hasFreeNeighborTiles(ship, position)) {
+        if (!hasFreeNeighborTiles(ship, position)) {
             return false;
-        }*/
+        }
 
-        if (!rotated) {
-            // check vertical
-            if (position.y + ship.getSpace() <= this.tiles.length - 1) {
-                for (int i = 0; i < ship.getSpace(); i++) {
-                    this.tiles[position.x][position.y + i].setShip(ship);
-                    ship.getTiles().add(this.tiles[position.x][position.y + i]);
-                }
-                return true;
-            }
-        } else {
+        if (rotated) {
             // check horizontal
-            if (position.x + ship.getSpace() <= this.tiles.length - 1) {
+            if (position.x + ship.getSpace() <= this.getSize()) {
                 for (int i = 0; i < ship.getSpace(); i++) {
                     this.tiles[position.x + i][position.y].setShip(ship);
                     ship.getTiles().add(this.tiles[position.x + i][position.y]);
                 }
                 return true;
             }
+        } else {
+            if (areTilesEmpty(position, ship.getSpace(), false)) {
+                // check vertical
+                if (position.y + ship.getSpace() <= this.getSize()) {
+                    for (int i = 0; i < ship.getSpace(); i++) {
+                        this.tiles[position.x][position.y + i].setShip(ship);
+                        ship.getTiles().add(this.tiles[position.x][position.y + i]);
+                    }
+                    return true;
+                }
+            }
         }
 
         return false;
     }
 
-    public boolean hasFreeNeighborTiles(Ship ship, Point position) {
+    /***
+     * Hilfsmethode zum Prüfen, ob alle Felder frei sind, wenn das Schiff plaziert wird.
+     * @param startPos
+     * @param size
+     * @param rotated
+     * @return
+     */
+    private boolean areTilesEmpty(Point startPos, int size, boolean rotated) {
+        if (rotated) {
+            for (int x = 0; x < size; x++) {
+                Point nextPos = new Point(startPos.x + x, startPos.y);
+                if (getTile(nextPos).hasShip()) {
+                    return false;
+                }
+            }
+        } else {
+            for (int y = 0; y < size; y++) {
+                Point nextPos = new Point(startPos.x, startPos.y + y);
+                if (getTile(nextPos).hasShip()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean hasFreeNeighborTiles(Ship ship, Point position) {
 
         if (!isInMap(position))
             return false;
@@ -83,16 +112,61 @@ public class Map {
 
                 // check first tile (LEFT, TOP, DOWN)
                 if (i == 0) {
-                    /*if (pos.x - 1 >= 0 && pos.x + 1 < this.size - 1) {
-                        if (this.tiles[pos.x - 1][pos.y].getShip() != null && this.tiles[pos.x][pos.y - 1].getShip() != null) {
+                    // check top
+                    if (pos.y >= 1) {
+                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
                             return false;
                         }
-                    }*/
-                } else if (i == getSize() - 1) {
+                    }
 
+                    // check left
+                    if (pos.x >= 1) {
+                        if (this.tiles[pos.x - 1][pos.y].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check top left
+                    if (pos.x >= 1 && pos.y >= 1) {
+                        if (this.tiles[pos.x - 1][pos.y - 1].hasShip()) {
+                            return false;
+                        }
+                    }
+                } else if (i == ship.getSpace() - 1) {
+                    // TODO
                 }
 
             } else {
+                Point pos = new Point(position.x, position.y + i);
+                if (i == 0) {
+                    // check top
+                    if (pos.y >= 1) {
+                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check left
+                    if (pos.x >= 1) {
+                        if (this.tiles[pos.x - 1][pos.y].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check top left
+                    if (pos.x >= 1 && pos.y >= 1) {
+                        if (this.tiles[pos.x - 1][pos.y - 1].hasShip()) {
+                            return false;
+                        }
+                    }
+                } else if (i == ship.getSpace() - 1) {
+                    // check right
+                    if (pos.x < getSize() + 1 && pos.y < getSize() + 1) {
+                        if (this.tiles[pos.x + 1][pos.y + 1].hasShip()) {
+                            return false;
+                        }
+                    }
+                }
             }
         }
 
@@ -139,6 +213,6 @@ public class Map {
     }
 
     private boolean isInMap(Point position) {
-        return position.x >= 0 && position.y >= 0 && position.x <= this.size - 1 && position.y <= this.size - 1;
+        return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
     }
 }
