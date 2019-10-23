@@ -26,8 +26,12 @@ public class MapTile {
         return hit;
     }
 
-    public void setHit(boolean shot) {
-        this.hit = shot;
+    public boolean hasShip() {
+        return this.getShip() != null;
+    }
+
+    public void setHit(boolean hit) {
+        this.hit = hit;
     }
 
     public Point getPos() {

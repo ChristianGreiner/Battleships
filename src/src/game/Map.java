@@ -6,12 +6,10 @@ import java.awt.*;
 
 public class Map {
     private MapTile[][] tiles;
-    //private HashMap<Point, Ship> shipsLookup = new HashMap<Point, Ship>();
     private int size;
 
     public Map(int size) {
         this.size = size;
-
         this.tiles = new MapTile[size][size];
 
         for (int x = 0; x < size; x++) {
@@ -39,18 +37,24 @@ public class Map {
             return false;
         }
 
-        if (getTile(position).getShip() != null) {
+        // prevent playing in a other ship
+        if (getTile(position).hasShip()) {
             return false;
         }
 
         ship.setPosition(position);
+        ship.setRotated(rotated);
+
+        /*if(!hasFreeNeighborTiles(ship, position)) {
+            return false;
+        }*/
 
         if (!rotated) {
             // check vertical
             if (position.y + ship.getSpace() <= this.tiles.length - 1) {
                 for (int i = 0; i < ship.getSpace(); i++) {
                     this.tiles[position.x][position.y + i].setShip(ship);
-                    ship.getTiles().add(new Point(position.x, position.y + i));
+                    ship.getTiles().add(this.tiles[position.x][position.y + i]);
                 }
                 return true;
             }
@@ -59,7 +63,7 @@ public class Map {
             if (position.x + ship.getSpace() <= this.tiles.length - 1) {
                 for (int i = 0; i < ship.getSpace(); i++) {
                     this.tiles[position.x + i][position.y].setShip(ship);
-                    ship.getTiles().add(new Point(position.x + i, position.y));
+                    ship.getTiles().add(this.tiles[position.x + i][position.y]);
                 }
                 return true;
             }
@@ -68,48 +72,27 @@ public class Map {
         return false;
     }
 
-    public boolean checkNeighborTiles(Ship ship) {
+    public boolean hasFreeNeighborTiles(Ship ship, Point position) {
 
-        if (getTile(ship.getPosition()).getShip() != null) {
+        if (!isInMap(position))
             return false;
-        }
 
-        // check vertical
-        if (!ship.isRotated()) {
-            for (int i = 0; i < ship.getTiles().size(); i++) {
-                Point pos = ship.getTiles().get(i);
+        for (int i = 0; i < ship.getSpace(); i++) {
+            if (ship.isRotated()) {
+                Point pos = new Point(position.x + i, position.y);
 
-                // check top
-                if (pos.y - 1 >= 0 && i == 0) {
-                    if (this.tiles[pos.x][pos.y - 1].getShip() != null) {
-                        return false;
-                    }
-                } else if (pos.x - 1 >= 0 && pos.x + 1 < this.size - 1) {
-                    if (this.tiles[pos.x - 1][pos.y].getShip() != null || this.tiles[pos.x + 1][pos.y].getShip() != null) {
-                        return false;
-                    }
-                } else if (pos.y + 1 <= size && i == ship.getTiles().size() - 1) {
-                    if (this.tiles[pos.x][pos.y + 1].getShip() != null) {
-                        return false;
-                    }
+                // check first tile (LEFT, TOP, DOWN)
+                if (i == 0) {
+                    /*if (pos.x - 1 >= 0 && pos.x + 1 < this.size - 1) {
+                        if (this.tiles[pos.x - 1][pos.y].getShip() != null && this.tiles[pos.x][pos.y - 1].getShip() != null) {
+                            return false;
+                        }
+                    }*/
+                } else if (i == getSize() - 1) {
+
                 }
 
-                /*// first tile
-                if(i == 0) {
-                    // top left
-                    if(this.tiles[pos.x][pos.y + i - 1].getShip() != null) {
-                        return false;
-                    }
-                } else if(i == ship.getTiles().size() - 1) {
-                    if(this.tiles[pos.x][pos.y + i + 1].getShip() != null) {
-                        return  false;
-                    }
-                }
-                else {
-                    if(this.tiles[pos.x - 1][pos.y].getShip() != null && this.tiles[pos.x - 1][pos.y].getShip() != null) {
-                        return false;
-                    }
-                }*/
+            } else {
             }
         }
 
@@ -141,7 +124,7 @@ public class Map {
 
     public boolean remove(Ship ship) {
         for (int i = 0; i < ship.getTiles().size(); i++) {
-            Point pos = ship.getTiles().get(i);
+            Point pos = ship.getTiles().get(i).getPos();
             this.tiles[pos.x][pos.y].setShip(null);
         }
         ship.getTiles().clear();
