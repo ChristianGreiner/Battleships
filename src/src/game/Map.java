@@ -106,62 +106,168 @@ public class Map {
         if (!isInMap(position))
             return false;
 
+        /*
+         * OOO
+         * OXO
+         * OXO
+         * OXO
+         * OOO
+         */
+
         for (int i = 0; i < ship.getSpace(); i++) {
             if (ship.isRotated()) {
                 Point pos = new Point(position.x + i, position.y);
 
                 // check first tile (LEFT, TOP, DOWN)
                 if (i == 0) {
+
                     // check top
-                    if (pos.y >= 1) {
+                    if (pos.y > 0) {
                         if (this.tiles[pos.x][pos.y - 1].hasShip()) {
                             return false;
                         }
                     }
 
+                    // check bottom
+                    if (pos.y < getSize()) {
+                        if (this.tiles[pos.x][pos.y + 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
                     // check left
-                    if (pos.x >= 1) {
+                    if (pos.x > 0) {
                         if (this.tiles[pos.x - 1][pos.y].hasShip()) {
                             return false;
                         }
                     }
 
-                    // check top left
-                    if (pos.x >= 1 && pos.y >= 1) {
+                    // check left bottom
+                    if (pos.x > 0 && pos.y < this.getSize()) {
+                        if (this.tiles[pos.x - 1][pos.y + 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check left top
+                    if (pos.x > 0 && pos.y < this.getSize()) {
                         if (this.tiles[pos.x - 1][pos.y - 1].hasShip()) {
                             return false;
                         }
                     }
                 } else if (i == ship.getSpace() - 1) {
-                    // TODO
+
+                    // check top
+                    if (pos.y > 0) {
+                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check bottom
+                    if (pos.y < getSize()) {
+                        if (this.tiles[pos.x][pos.y + 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check right
+                    if (pos.x < this.getSize()) {
+                        if (this.tiles[pos.x + 1][pos.y].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check top right
+                    if (pos.x < this.getSize() && pos.y > 0) {
+                        if (this.tiles[pos.x + 1][pos.y - 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check right bottom
+                    if (pos.x > 0 && pos.y < this.getSize()) {
+                        if (this.tiles[pos.x + 1][pos.y + 1].hasShip()) {
+                            return false;
+                        }
+                    }
                 }
 
             } else {
                 Point pos = new Point(position.x, position.y + i);
+
+                // check first tile
                 if (i == 0) {
+
                     // check top
-                    if (pos.y >= 1) {
+                    if (pos.y > 0) {
                         if (this.tiles[pos.x][pos.y - 1].hasShip()) {
                             return false;
                         }
                     }
 
                     // check left
-                    if (pos.x >= 1) {
+                    if (pos.x > 0) {
                         if (this.tiles[pos.x - 1][pos.y].hasShip()) {
                             return false;
                         }
                     }
 
+                    // check right
+                    if (pos.x < this.getSize()) {
+                        if (this.tiles[pos.x + 1][pos.y].hasShip()) {
+                            return false;
+                        }
+                    }
+
                     // check top left
-                    if (pos.x >= 1 && pos.y >= 1) {
+                    if (pos.x > 0 && pos.y > 0) {
                         if (this.tiles[pos.x - 1][pos.y - 1].hasShip()) {
                             return false;
                         }
                     }
-                } else if (i == ship.getSpace() - 1) {
+
+                    // check top right
+                    if (pos.x < this.getSize() && pos.y > 0) {
+                        if (this.tiles[pos.x + 1][pos.y - 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                }
+                // check last tile
+                else if (i == ship.getSpace() - 1) {
+
+                    // check left
+                    if (pos.x > 0) {
+                        if (this.tiles[pos.x - 1][pos.y].hasShip()) {
+                            return false;
+                        }
+                    }
+
                     // check right
-                    if (pos.x < getSize() + 1 && pos.y < getSize() + 1) {
+                    if (pos.x < this.getSize()) {
+                        if (this.tiles[pos.x + 1][pos.y].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check bottom
+                    if (pos.y < this.getSize()) {
+                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check left bottom
+                    if (pos.x > 0 && pos.y < this.getSize()) {
+                        if (this.tiles[pos.x - 1][pos.y - 1].hasShip()) {
+                            return false;
+                        }
+                    }
+
+                    // check right bottom
+                    if (pos.x < this.getSize() && pos.y < this.getSize()) {
                         if (this.tiles[pos.x + 1][pos.y + 1].hasShip()) {
                             return false;
                         }
