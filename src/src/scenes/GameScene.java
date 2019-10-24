@@ -8,7 +8,6 @@ import game.MapData;
 import game.MapGenerator;
 import game.MapTile;
 import game.gamestates.SinglePlayerStates;
-import game.ships.Destroyer;
 import io.JsonReader;
 
 import java.awt.*;
@@ -39,36 +38,13 @@ public class GameScene extends Scene implements Updatable, Drawable {
 
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
-
+/*
         // Create ship
-        Destroyer ship = new Destroyer();
-        //this.playerMap.insert(ship, new Point(4, 4), true);
-
         Destroyer ship2 = new Destroyer();
-        //this.playerMap.insert(ship2, new Point(0, 4), true);
+        this.playerMap.insert(ship2, new Point(0, 5), false);
 
-        /*this.playerMap.shot(new Point(0, 1));
-        this.playerMap.shot(new Point(0, 2));
-        this.playerMap.shot(new Point(0, 3));
-        this.playerMap.shot(new Point(0, 4));
-        this.playerMap.shot(new Point(0, 5));*/
-
-
-        // exmaple reading json file
-        File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
-        HashMap<Integer, MapData> configMap = new HashMap<>();
-        try {
-            MapData[] dat = JsonReader.readJson(file.getAbsolutePath());
-            for (int i = 0; i < dat.length; i++) {
-                configMap.put(dat[i].MapSize, dat[i]);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        MapGenerator generator = new MapGenerator();
-        this.playerMap = generator.generate(20, configMap.get(20));
-
+        Destroyer ship = new Destroyer();
+        this.playerMap.insert(ship, new Point(1, 9), true);
 
         for (int y = 0; y < this.playerMap.getSize(); y++) {
             for (int x = 0; x < this.playerMap.getSize(); x++) {
@@ -87,6 +63,45 @@ public class GameScene extends Scene implements Updatable, Drawable {
                 }
             }
             System.out.print("\n" + ANSI_RESET);
+        }
+
+        */
+        // exmaple reading json file
+        File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
+        HashMap<Integer, MapData> configMap = new HashMap<>();
+        try {
+            MapData[] dat = JsonReader.readJson(file.getAbsolutePath());
+            for (int i = 0; i < dat.length; i++) {
+                configMap.put(dat[i].MapSize, dat[i]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < 20; i++) {
+            System.out.println("-----------------------------------");
+            MapGenerator generator = new MapGenerator();
+            this.playerMap = generator.generate(20, configMap.get(20));
+
+
+            for (int y = 0; y < this.playerMap.getSize(); y++) {
+                for (int x = 0; x < this.playerMap.getSize(); x++) {
+                    MapTile tile = this.playerMap.getTile(new Point(x, y));
+
+                    if (tile.isHit()) {
+                        System.out.print(ANSI_RED + "X");
+                    } else if (tile.hasShip()) {
+                        if (tile.isHit()) {
+                            System.out.print(ANSI_RED + "X");
+                        } else {
+                            System.out.print(ANSI_YELLOW + "X");
+                        }
+                    } else {
+                        System.out.print(ANSI_BLUE + "O");
+                    }
+                }
+                System.out.print("\n" + ANSI_RESET);
+            }
         }
 
         // exmaple reading json file
