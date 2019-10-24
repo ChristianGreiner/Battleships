@@ -7,7 +7,7 @@ import game.Map;
 import game.MapTile;
 import game.gamestates.SinglePlayerStates;
 import game.ships.Carrier;
-import game.ships.Destoryer;
+import game.ships.Destroyer;
 
 import java.awt.*;
 
@@ -22,6 +22,7 @@ public class GameScene extends Scene implements Updatable, Drawable {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
+
 
     private Map playerMap;
     private Map enemyMap;
@@ -40,17 +41,17 @@ public class GameScene extends Scene implements Updatable, Drawable {
         //this.playerMap.insert(ship, new Point(0, 1), false);
 
         // create second ship
-        Destoryer ship2 = new Destoryer();
+        Destroyer ship2 = new Destroyer();
         //this.playerMap.insert(ship2, new Point(4, 9), true);
 
         Carrier ship3 = new Carrier();
         this.playerMap.insert(ship3, new Point(0, 0), false);
 
         // create second ship
-        Destoryer ship4 = new Destoryer();
+        Destroyer ship4 = new Destroyer();
         this.playerMap.insert(ship4, new Point(2, 5), true);
 
-        Destoryer ship5 = new Destoryer();
+        Destroyer ship5 = new Destroyer();
         this.playerMap.insert(ship5, new Point(6, 3), false);
 
         /*this.playerMap.shot(new Point(0, 1));
@@ -78,9 +79,47 @@ public class GameScene extends Scene implements Updatable, Drawable {
                     System.out.print(ANSI_BLUE + "O");
                 }
             }
-            System.out.print("\n");
+            System.out.print("\n" + ANSI_RESET);
         }
 
+        // exmaple reading json file
+        /*File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
+        try {
+            HashMap<Integer, MapData> configMap = new HashMap<>();
+            MapData[] dat = JsonReader.readJson(file.getAbsolutePath());
+            for (int i = 0; i < dat.length; i++) {
+                configMap.put(dat[i].MapSize, dat[i]);
+            }
+            System.out.print(configMap.get(10).Battleships);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+
+        // exmaple playing audio
+        /*File file = new File(getClass().getClassLoader().getResource("hit.wav").getFile());
+        Clip clip;
+        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(file.getAbsoluteFile())) {
+            clip = null;
+            try {
+                clip = AudioSystem.getClip();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
+            try {
+                clip.open(audioIn);
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            clip.start();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 
     @Override

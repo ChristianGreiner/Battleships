@@ -1,0 +1,184 @@
+[
+  {
+    "Carriers": 0,
+    "Battleships": 0,
+    "Destroyers": 1,
+    "Submarines": 1,
+    "MapSize": 5
+  },
+  {
+    "Carriers": 0,
+    "Battleships": 1,
+    "Destroyers": 1,
+    "Submarines": 1,
+    "MapSize": 6
+  },
+  {
+    "Carriers": 0,
+    "Battleships": 1,
+    "Destroyers": 1,
+    "Submarines": 2,
+    "MapSize": 7
+  },
+  {
+    "Carriers": 0,
+    "Battleships": 1,
+    "Destroyers": 2,
+    "Submarines": 3,
+    "MapSize": 8
+  },
+  {
+    "Carriers": 1,
+    "Battleships": 1,
+    "Destroyers": 2,
+    "Submarines": 3,
+    "MapSize": 9
+  },
+  {
+    "Carriers": 1,
+    "Battleships": 2,
+    "Destroyers": 2,
+    "Submarines": 2,
+    "MapSize": 10
+  },
+  {
+    "Carriers": 2,
+    "Battleships": 2,
+    "Destroyers": 3,
+    "Submarines": 3,
+    "MapSize": 11
+  },
+  {
+    "Carriers": 2,
+    "Battleships": 2,
+    "Destroyers": 3,
+    "Submarines": 4,
+    "MapSize": 12
+  },
+  {
+    "Carriers": 2,
+    "Battleships": 2,
+    "Destroyers": 4,
+    "Submarines": 4,
+    "MapSize": 13
+  },
+  {
+    "Carriers": 3,
+    "Battleships": 3,
+    "Destroyers": 4,
+    "Submarines": 5,
+    "MapSize": 14
+  },
+  {
+    "Carriers": 3,
+    "Battleships": 3,
+    "Destroyers": 4,
+    "Submarines": 4,
+    "MapSize": 15
+  },
+  {
+    "Carriers": 3,
+    "Battleships": 3,
+    "Destroyers": 4,
+    "Submarines": 6,
+    "MapSize": 16
+  },
+  {
+    "Carriers": 3,
+    "Battleships": 4,
+    "Destroyers": 5,
+    "Submarines": 7,
+    "MapSize": 17
+  },
+  {
+    "Carriers": 4,
+    "Battleships": 5,
+    "Destroyers": 5,
+    "Submarines": 7,
+    "MapSize": 18
+  },
+  {
+    "Carriers": 4,
+    "Battleships": 6,
+    "Destroyers": 6,
+    "Submarines": 7,
+    "MapSize": 19
+  },
+  {
+    "Carriers": 4,
+    "Battleships": 6,
+    "Destroyers": 7,
+    "Submarines": 7,
+    "MapSize": 20
+  },
+  {
+    "Carriers": 4,
+    "Battleships": 7,
+    "Destroyers": 7,
+    "Submarines": 7,
+    "MapSize": 21
+  },
+  {
+    "Carriers": 5,
+    "Battleships": 8,
+    "Destroyers": 8,
+    "Submarines": 8,
+    "MapSize": 22
+  },
+  {
+    "Carriers": 5,
+    "Battleships": 9,
+    "Destroyers": 9,
+    "Submarines": 9,
+    "MapSize": 23
+  },
+  {
+    "Carriers": 5,
+    "Battleships": 10,
+    "Destroyers": 10,
+    "Submarines": 10,
+    "MapSize": 24
+  },
+  {
+    "Carriers": 6,
+    "Battleships": 10,
+    "Destroyers": 11,
+    "Submarines": 11,
+    "MapSize": 25
+  },
+  {
+    "Carriers": 6,
+    "Battleships": 10,
+    "Destroyers": 12,
+    "Submarines": 12,
+    "MapSize": 26
+  },
+  {
+    "Carriers": 7,
+    "Battleships": 11,
+    "Destroyers": 13,
+    "Submarines": 13,
+    "MapSize": 27
+  },
+  {
+    "Carriers": 7,
+    "Battleships": 12,
+    "Destroyers": 14,
+    "Submarines": 15,
+    "MapSize": 28
+  },
+  {
+    "Carriers": 8,
+    "Battleships": 14,
+    "Destroyers": 16,
+    "Submarines": 18,
+    "MapSize": 29
+  },
+  {
+    "Carriers": 8,
+    "Battleships": 15,
+    "Destroyers": 20,
+    "Submarines": 20,
+    "MapSize": 30
+  }
+]
