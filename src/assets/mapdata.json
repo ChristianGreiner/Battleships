@@ -4,6 +4,7 @@
     "Battleships": 0,
     "Destroyers": 1,
     "Submarines": 1,
+    "ShipsCount": 2,
     "MapSize": 5
   },
   {
@@ -11,6 +12,7 @@
     "Battleships": 1,
     "Destroyers": 1,
     "Submarines": 1,
+    "ShipsCount": 3,
     "MapSize": 6
   },
   {
@@ -18,6 +20,7 @@
     "Battleships": 1,
     "Destroyers": 1,
     "Submarines": 2,
+    "ShipsCount": 4,
     "MapSize": 7
   },
   {
@@ -25,6 +28,7 @@
     "Battleships": 1,
     "Destroyers": 2,
     "Submarines": 3,
+    "ShipsCount": 6,
     "MapSize": 8
   },
   {
@@ -32,6 +36,7 @@
     "Battleships": 1,
     "Destroyers": 2,
     "Submarines": 3,
+    "ShipsCount": 7,
     "MapSize": 9
   },
   {
@@ -39,6 +44,7 @@
     "Battleships": 2,
     "Destroyers": 2,
     "Submarines": 2,
+    "ShipsCount": 7,
     "MapSize": 10
   },
   {
@@ -46,6 +52,7 @@
     "Battleships": 2,
     "Destroyers": 3,
     "Submarines": 3,
+    "ShipsCount": 10,
     "MapSize": 11
   },
   {
@@ -53,6 +60,7 @@
     "Battleships": 2,
     "Destroyers": 3,
     "Submarines": 4,
+    "ShipsCount": 11,
     "MapSize": 12
   },
   {
@@ -60,6 +68,7 @@
     "Battleships": 2,
     "Destroyers": 4,
     "Submarines": 4,
+    "ShipsCount": 12,
     "MapSize": 13
   },
   {
@@ -67,6 +76,7 @@
     "Battleships": 3,
     "Destroyers": 4,
     "Submarines": 5,
+    "ShipsCount": 15,
     "MapSize": 14
   },
   {
@@ -74,6 +84,7 @@
     "Battleships": 3,
     "Destroyers": 4,
     "Submarines": 4,
+    "ShipsCount": 14,
     "MapSize": 15
   },
   {
@@ -81,6 +92,7 @@
     "Battleships": 3,
     "Destroyers": 4,
     "Submarines": 6,
+    "ShipsCount": 16,
     "MapSize": 16
   },
   {
@@ -88,6 +100,7 @@
     "Battleships": 4,
     "Destroyers": 5,
     "Submarines": 7,
+    "ShipsCount": 19,
     "MapSize": 17
   },
   {
@@ -95,6 +108,7 @@
     "Battleships": 5,
     "Destroyers": 5,
     "Submarines": 7,
+    "ShipsCount": 21,
     "MapSize": 18
   },
   {
@@ -102,6 +116,7 @@
     "Battleships": 6,
     "Destroyers": 6,
     "Submarines": 7,
+    "ShipsCount": 23,
     "MapSize": 19
   },
   {
@@ -109,6 +124,7 @@
     "Battleships": 6,
     "Destroyers": 7,
     "Submarines": 7,
+    "ShipsCount": 24,
     "MapSize": 20
   },
   {
@@ -116,6 +132,7 @@
     "Battleships": 7,
     "Destroyers": 7,
     "Submarines": 7,
+    "ShipsCount": 25,
     "MapSize": 21
   },
   {
@@ -123,6 +140,7 @@
     "Battleships": 8,
     "Destroyers": 8,
     "Submarines": 8,
+    "ShipsCount": 29,
     "MapSize": 22
   },
   {
@@ -130,6 +148,7 @@
     "Battleships": 9,
     "Destroyers": 9,
     "Submarines": 9,
+    "ShipsCount": 32,
     "MapSize": 23
   },
   {
@@ -137,6 +156,7 @@
     "Battleships": 10,
     "Destroyers": 10,
     "Submarines": 10,
+    "ShipsCount": 35,
     "MapSize": 24
   },
   {
@@ -144,6 +164,7 @@
     "Battleships": 10,
     "Destroyers": 11,
     "Submarines": 11,
+    "ShipsCount": 38,
     "MapSize": 25
   },
   {
@@ -151,6 +172,7 @@
     "Battleships": 10,
     "Destroyers": 12,
     "Submarines": 12,
+    "ShipsCount": 40,
     "MapSize": 26
   },
   {
@@ -158,6 +180,7 @@
     "Battleships": 11,
     "Destroyers": 13,
     "Submarines": 13,
+    "ShipsCount": 44,
     "MapSize": 27
   },
   {
@@ -165,6 +188,7 @@
     "Battleships": 12,
     "Destroyers": 14,
     "Submarines": 15,
+    "ShipsCount": 48,
     "MapSize": 28
   },
   {
@@ -172,6 +196,7 @@
     "Battleships": 14,
     "Destroyers": 16,
     "Submarines": 18,
+    "ShipsCount": 56,
     "MapSize": 29
   },
   {
@@ -179,6 +204,7 @@
     "Battleships": 15,
     "Destroyers": 20,
     "Submarines": 20,
+    "ShipsCount": 63,
     "MapSize": 30
   }
 ]

@@ -4,12 +4,16 @@ import core.Drawable;
 import core.Renderer;
 import core.Updatable;
 import game.Map;
+import game.MapData;
+import game.MapGenerator;
 import game.MapTile;
 import game.gamestates.SinglePlayerStates;
-import game.ships.Carrier;
 import game.ships.Destroyer;
+import io.JsonReader;
 
 import java.awt.*;
+import java.io.File;
+import java.util.HashMap;
 
 public class GameScene extends Scene implements Updatable, Drawable {
 
@@ -37,22 +41,11 @@ public class GameScene extends Scene implements Updatable, Drawable {
         this.enemyMap = new Map(10);
 
         // Create ship
-        Carrier ship = new Carrier();
-        //this.playerMap.insert(ship, new Point(0, 1), false);
+        Destroyer ship = new Destroyer();
+        //this.playerMap.insert(ship, new Point(4, 4), true);
 
-        // create second ship
         Destroyer ship2 = new Destroyer();
-        //this.playerMap.insert(ship2, new Point(4, 9), true);
-
-        Carrier ship3 = new Carrier();
-        this.playerMap.insert(ship3, new Point(0, 0), false);
-
-        // create second ship
-        Destroyer ship4 = new Destroyer();
-        this.playerMap.insert(ship4, new Point(2, 5), true);
-
-        Destroyer ship5 = new Destroyer();
-        this.playerMap.insert(ship5, new Point(6, 3), false);
+        //this.playerMap.insert(ship2, new Point(0, 4), true);
 
         /*this.playerMap.shot(new Point(0, 1));
         this.playerMap.shot(new Point(0, 2));
@@ -61,7 +54,21 @@ public class GameScene extends Scene implements Updatable, Drawable {
         this.playerMap.shot(new Point(0, 5));*/
 
 
-        System.out.println("Ship destoryed: " + ship.isDestroyed());
+        // exmaple reading json file
+        File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
+        HashMap<Integer, MapData> configMap = new HashMap<>();
+        try {
+            MapData[] dat = JsonReader.readJson(file.getAbsolutePath());
+            for (int i = 0; i < dat.length; i++) {
+                configMap.put(dat[i].MapSize, dat[i]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        MapGenerator generator = new MapGenerator();
+        this.playerMap = generator.generate(20, configMap.get(20));
+
 
         for (int y = 0; y < this.playerMap.getSize(); y++) {
             for (int x = 0; x < this.playerMap.getSize(); x++) {
