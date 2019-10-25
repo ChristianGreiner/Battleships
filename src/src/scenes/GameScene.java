@@ -5,15 +5,11 @@ import core.Renderer;
 import core.SoundPlayer;
 import core.Updatable;
 import game.Map;
-import game.MapData;
-import game.MapGenerator;
 import game.MapTile;
 import game.gamestates.SinglePlayerStates;
-import io.JsonReader;
+import game.ships.Destroyer;
 
 import java.awt.*;
-import java.io.File;
-import java.util.HashMap;
 
 public class GameScene extends Scene implements Updatable, Drawable {
 
@@ -39,13 +35,18 @@ public class GameScene extends Scene implements Updatable, Drawable {
 
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
-/*
+
         // Create ship
         Destroyer ship2 = new Destroyer();
         this.playerMap.insert(ship2, new Point(0, 5), false);
 
         Destroyer ship = new Destroyer();
         this.playerMap.insert(ship, new Point(1, 9), true);
+
+        boolean hitSomething = this.playerMap.shot(new Point(1, 9));
+
+        if (hitSomething)
+            System.out.println("TREFFER! TRY AGAIN");
 
         for (int y = 0; y < this.playerMap.getSize(); y++) {
             for (int x = 0; x < this.playerMap.getSize(); x++) {
@@ -66,7 +67,7 @@ public class GameScene extends Scene implements Updatable, Drawable {
             System.out.print("\n" + ANSI_RESET);
         }
 
-        */
+        /*
         // exmaple reading json file
         File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
         HashMap<Integer, MapData> configMap = new HashMap<>();

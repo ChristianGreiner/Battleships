@@ -320,11 +320,15 @@ public class Map {
         return null;
     }
 
-    public void shot(Point position) {
+    public boolean shot(Point position) {
         if (isInMap(position)) {
-            if (!getTile(position).isHit())
+            if (!getTile(position).isHit()) {
                 this.tiles[position.x][position.y].setHit(true);
+                return this.tiles[position.x][position.y].hasShip();
+            }
         }
+
+        return false;
     }
 
     public boolean move(Ship ship, Point newPosition) {
