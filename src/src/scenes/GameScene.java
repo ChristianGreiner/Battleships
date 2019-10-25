@@ -2,10 +2,10 @@ package scenes;
 
 import core.Drawable;
 import core.Renderer;
-import core.SoundPlayer;
 import core.Updatable;
 import game.Map;
 import game.MapTile;
+import game.PlayerType;
 import game.gamestates.SinglePlayerStates;
 import game.ships.Destroyer;
 
@@ -29,7 +29,6 @@ public class GameScene extends Scene implements Updatable, Drawable {
     private Renderer renderer = new Renderer();
     private SinglePlayerStates gameState = SinglePlayerStates.ShipsSelection;
 
-
     public GameScene() {
         super("GameScene");
 
@@ -47,6 +46,8 @@ public class GameScene extends Scene implements Updatable, Drawable {
 
         if (hitSomething)
             System.out.println("TREFFER! TRY AGAIN");
+
+        PlayerType playerTurn = PlayerType.Player;
 
         for (int y = 0; y < this.playerMap.getSize(); y++) {
             for (int x = 0; x < this.playerMap.getSize(); x++) {
@@ -119,8 +120,8 @@ public class GameScene extends Scene implements Updatable, Drawable {
             e.printStackTrace();
         }*/
 
-        SoundPlayer player = new SoundPlayer("hit.wav");
-        player.play();
+        //SoundPlayer player = new SoundPlayer("hit.wav");
+        //player.play();
     }
 
     @Override
