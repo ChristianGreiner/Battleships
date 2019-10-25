@@ -357,7 +357,7 @@ public class Map {
         this.insert(ship, ship.getPosition(), nextRotation);
     }
 
-    private boolean isInMap(Point position) {
+    public boolean isInMap(Point position) {
         return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
     }
 }

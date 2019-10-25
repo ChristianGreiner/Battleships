@@ -2,6 +2,7 @@ package scenes;
 
 import core.Drawable;
 import core.Renderer;
+import core.SoundPlayer;
 import core.Updatable;
 import game.Map;
 import game.MapTile;
@@ -42,10 +43,6 @@ public class GameScene extends Scene implements Updatable, Drawable {
         Destroyer ship = new Destroyer();
         this.playerMap.insert(ship, new Point(1, 9), true);
 
-        boolean hitSomething = this.playerMap.shot(new Point(1, 9));
-
-        if (hitSomething)
-            System.out.println("TREFFER! TRY AGAIN");
 
         PlayerType playerTurn = PlayerType.Player;
 
@@ -105,27 +102,29 @@ public class GameScene extends Scene implements Updatable, Drawable {
                 }
                 System.out.print("\n" + ANSI_RESET);
             }
-        }
-
-        // exmaple reading json file
-        /*File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
-        try {
-            HashMap<Integer, MapData> configMap = new HashMap<>();
-            MapData[] dat = JsonReader.readJson(file.getAbsolutePath());
-            for (int i = 0; i < dat.length; i++) {
-                configMap.put(dat[i].MapSize, dat[i]);
-            }
-            System.out.print(configMap.get(10).Battleships);
-        } catch (Exception e) {
-            e.printStackTrace();
         }*/
+    }
 
-        //SoundPlayer player = new SoundPlayer("hit.wav");
-        //player.play();
+    private double wait = 0;
+    private boolean played = false;
+
+    private void shotEnemy(double delaTime) {
+        SoundPlayer hitsound = new SoundPlayer("hit.wav");
+        hitsound.play();
+
+        boolean hitSomething = this.playerMap.shot(new Point(1, 9));
+        if (hitSomething)
+            System.out.println("TREFFER! TRY AGAIN");
     }
 
     @Override
     public void update(double deltaTime) {
+
+        if (!played) {
+            shotEnemy(deltaTime);
+            played = true;
+        }
+
 
         if (gameState == SinglePlayerStates.ShipsSelection) {
             this.gameState = SinglePlayerStates.BattleStart;

@@ -80,6 +80,7 @@ public class SceneManager {
     }
 
     public void update(double deltaTime) {
+
         if (this.activeScene != null) {
             if (this.activeScene instanceof Updatable) {
                 ((Updatable)this.activeScene).update(deltaTime);
