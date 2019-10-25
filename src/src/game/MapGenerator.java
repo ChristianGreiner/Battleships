@@ -13,9 +13,6 @@ public class MapGenerator {
     public Map generate(int size, MapData data) {
         Map map = new Map(size);
 
-        int shipsTotal = data.ShipsCount;
-        int currentShipTotal = 0;
-
         for (int i = 0; i < data.Submarines; i++) {
             if (!insertShip(new Submarine(), map))
                 i--;

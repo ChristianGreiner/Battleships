@@ -2,6 +2,7 @@ package scenes;
 
 import core.Drawable;
 import core.Renderer;
+import core.SoundPlayer;
 import core.Updatable;
 import game.Map;
 import game.MapData;
@@ -26,12 +27,12 @@ public class GameScene extends Scene implements Updatable, Drawable {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-
     private Map playerMap;
     private Map enemyMap;
 
     private Renderer renderer = new Renderer();
     private SinglePlayerStates gameState = SinglePlayerStates.ShipsSelection;
+
 
     public GameScene() {
         super("GameScene");
@@ -117,11 +118,13 @@ public class GameScene extends Scene implements Updatable, Drawable {
             e.printStackTrace();
         }*/
 
+        SoundPlayer player = new SoundPlayer("hit.wav");
+        player.play();
 
         // exmaple playing audio
-        /*File file = new File(getClass().getClassLoader().getResource("hit.wav").getFile());
+        /*File file2 = new File(getClass().getClassLoader().getResource("hit.wav").getFile());
         Clip clip;
-        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(file.getAbsoluteFile())) {
+        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(file2.getAbsoluteFile())) {
             clip = null;
             try {
                 clip = AudioSystem.getClip();

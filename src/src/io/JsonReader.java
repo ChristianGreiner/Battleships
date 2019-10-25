@@ -9,7 +9,6 @@ import java.io.FileReader;
 public class JsonReader {
 
     public JsonReader() {
-
     }
 
     public static MapData[] readJson(String filename) throws Exception {

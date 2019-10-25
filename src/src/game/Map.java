@@ -322,7 +322,8 @@ public class Map {
 
     public void shot(Point position) {
         if (isInMap(position)) {
-            this.tiles[position.x][position.y].setHit(true);
+            if (!getTile(position).isHit())
+                this.tiles[position.x][position.y].setHit(true);
         }
     }
 
