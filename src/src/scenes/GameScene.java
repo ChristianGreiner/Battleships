@@ -120,31 +120,6 @@ public class GameScene extends Scene implements Updatable, Drawable {
 
         SoundPlayer player = new SoundPlayer("hit.wav");
         player.play();
-
-        // exmaple playing audio
-        /*File file2 = new File(getClass().getClassLoader().getResource("hit.wav").getFile());
-        Clip clip;
-        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(file2.getAbsoluteFile())) {
-            clip = null;
-            try {
-                clip = AudioSystem.getClip();
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            }
-            try {
-                clip.open(audioIn);
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            clip.start();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override

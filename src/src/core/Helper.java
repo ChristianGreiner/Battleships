@@ -6,8 +6,6 @@ public class Helper {
     }
 
     public static boolean randomBoolean() {
-        int i = randomNumber(0, 1);
-
-        return i == 1;
+        return randomNumber(0, 1) == 1;
     }
 }
