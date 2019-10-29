@@ -10,6 +10,16 @@ public class MapTile {
     private Ship ship;
     private boolean hit;
 
+    private boolean neighbor;
+
+    public boolean isNeighbor() {
+        return neighbor;
+    }
+
+    public void setNeighbor(boolean neighbor) {
+        this.neighbor = neighbor;
+    }
+
     public MapTile(Point pos) {
         this.pos = pos;
     }

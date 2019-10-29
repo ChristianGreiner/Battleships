@@ -38,7 +38,7 @@ public class GameScene extends Scene implements Updatable, Drawable {
 
         // Create ship
         Destroyer ship2 = new Destroyer();
-        this.playerMap.insert(ship2, new Point(0, 5), false);
+        this.playerMap.insert(ship2, new Point(3, 5), false);
 
         Destroyer ship = new Destroyer();
         this.playerMap.insert(ship, new Point(1, 9), true);
@@ -58,6 +58,8 @@ public class GameScene extends Scene implements Updatable, Drawable {
                     } else {
                         System.out.print(ANSI_YELLOW + "X");
                     }
+                } else if (tile.isNeighbor()) {
+                    System.out.print(ANSI_GREEN + "#");
                 } else {
                     System.out.print(ANSI_BLUE + "O");
                 }
@@ -110,7 +112,7 @@ public class GameScene extends Scene implements Updatable, Drawable {
 
     private void shotEnemy(double delaTime) {
         SoundPlayer hitsound = new SoundPlayer("hit.wav");
-        hitsound.play();
+        //hitsound.play();
 
         boolean hitSomething = this.playerMap.shot(new Point(1, 9));
         if (hitSomething)
