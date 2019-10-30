@@ -1,6 +1,5 @@
 package game;
 
-import core.Helper;
 import game.ships.Carrier;
 import game.ships.Destroyer;
 import game.ships.Ship;
@@ -19,8 +18,7 @@ public class MapGenerator {
         }
 
         for (int i = 0; i < data.Carriers; i++) {
-            if (!insertShip(new Carrier(), map))
-                i--;
+            if (!insertShip(new Carrier(), map)) i--;
         }
 
         for (int i = 0; i < data.Destoryers; i++) {
@@ -38,6 +36,6 @@ public class MapGenerator {
 
     private boolean insertShip(Ship ship, Map map) {
         MapTile freeTile = map.getRandomFreeTile();
-        return map.insert(ship, freeTile.getPos(), Helper.randomBoolean());
+        return map.insert(ship, freeTile.getPos(), false);
     }
 }

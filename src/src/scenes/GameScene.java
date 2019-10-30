@@ -37,18 +37,19 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
 
+        Destroyer ship = new Destroyer();
+        this.playerMap.insert(ship, new Point(5, 3), true);
+
+
         // Create ship
         ship2 = new Destroyer();
-        this.playerMap.insert(ship2, new Point(4, 5), false);
-
-        Destroyer ship = new Destroyer();
-        this.playerMap.insert(ship, new Point(1, 5), true);
+        this.playerMap.insert(ship2, new Point(0, 0), false);
 
 
         PlayerType playerTurn = PlayerType.Player;
 
         // exmaple reading json file
-        /*File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
+       /* File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
         HashMap<Integer, MapData> configMap = new HashMap<>();
         try {
             MapData[] dat = JsonReader.readJson(file.getAbsolutePath());
@@ -63,10 +64,9 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
             System.out.println("-----------------------------------");
             MapGenerator generator = new MapGenerator();
             this.playerMap = generator.generate(20, configMap.get(20));
+            DrawMap();
 
-        }
-*/
-
+        }*/
 
         DrawMap();
 
@@ -99,9 +99,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     @Override
     void onAdded() {
         super.onAdded();
-
         Game.getInstance().getWindow().addKeyListener(this);
-        System.out.println("Sasdasd");
     }
 
     private double wait = 0;

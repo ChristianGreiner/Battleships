@@ -46,36 +46,13 @@ public class Map {
 
     public boolean insert(Ship ship, Point position, boolean rotated) {
 
-        // prevent out of bounds
-        if (!isInMap(position)) {
+        if (!canInsertShip(ship, position, rotated))
             return false;
-        }
-
-        MapTile firstTile = getTile(position);
-
-        // prevent putting into an other ship
-        if (firstTile.hasShip()) {
-            return false;
-        }
-
-        // prevent putting into an neighbor field
-        if (firstTile.isNeighbor()) {
-            return false;
-        }
-
-        if (!areTilesEmpty(position, ship.getSpace(), rotated))
-            return false;
-
-        if (!hasFreeNeighborTiles(position, ship.getSpace(), rotated)) {
-            return false;
-        }
 
         // all checks passed!
         ship.setPosition(position);
         ship.setRotated(rotated);
         ship.setNeighborTiles(getNeighborTiles(ship));
-
-        this.ships.put(position, ship);
 
         if (rotated) {
             // check horizontal
@@ -108,6 +85,97 @@ public class Map {
 
             if (ship.isRotated()) {
 
+                Point pos = new Point(ship.getPosition().x + i, ship.getPosition().y);
+
+                // check first tile (LEFT, TOP, DOWN)
+                if (i == 0) {
+
+                    // check top
+                    if (pos.y > 0) {
+                        MapTile t = this.tiles[pos.x][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check bottom
+                    if (pos.y < getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check left
+                    if (pos.x > 0) {
+                        MapTile t = this.tiles[pos.x - 1][pos.y];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check left bottom
+                    if (pos.x > 0 && pos.y < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x - 1][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check left top
+                    if (pos.x > 0 && pos.y > 0 && pos.y < this.getSize()) {
+                        MapTile t = this.tiles[pos.x - 1][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+                } else if (i == ship.getSpace() - 1) {
+
+                    // check top
+                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check bottom
+                    if (pos.y < getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check right
+                    if (pos.x < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x + 1][pos.y];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check top right
+                    if (pos.x < this.getSize() - 1 && pos.y > 0) {
+                        MapTile t = this.tiles[pos.x + 1][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check right bottom
+                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x + 1][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+                } else {
+                    // check top
+                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check bottom
+                    if (pos.y < getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                }
             } else {
 
                 Point pos = new Point(ship.getPosition().x, ship.getPosition().y + i);
@@ -236,6 +304,7 @@ public class Map {
 
         for (int i = 0; i < space; i++) {
             if (rotated) {
+
                 Point pos = new Point(position.x + i, position.y);
 
                 if (!isInMap(pos))
@@ -246,104 +315,90 @@ public class Map {
 
                     // check top
                     if (pos.y > 0) {
-                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
+                        if (this.tiles[pos.x][pos.y - 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        if (this.tiles[pos.x][pos.y + 1].hasShip()) {
+                        if (this.tiles[pos.x][pos.y + 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check left
                     if (pos.x > 0) {
-                        if (this.tiles[pos.x - 1][pos.y].hasShip()) {
+                        if (this.tiles[pos.x - 1][pos.y].hasShip())
                             return false;
-                        }
                     }
 
                     // check left bottom
                     if (pos.x > 0 && pos.y < this.getSize() - 1) {
-                        if (this.tiles[pos.x - 1][pos.y + 1].hasShip()) {
+                        if (this.tiles[pos.x - 1][pos.y + 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check left top
                     if (pos.x > 0 && pos.y > 0 && pos.y < this.getSize()) {
-                        return !this.tiles[pos.x - 1][pos.y - 1].hasShip();
+                        if (this.tiles[pos.x - 1][pos.y - 1].hasShip())
+                            return false;
                     }
-
                 } else if (i == space - 1) {
 
                     // check top
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
+                        if (this.tiles[pos.x][pos.y - 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        if (this.tiles[pos.x][pos.y + 1].hasShip()) {
+                        if (this.tiles[pos.x][pos.y + 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        if (this.tiles[pos.x + 1][pos.y].hasShip()) {
+                        if (this.tiles[pos.x + 1][pos.y].hasShip())
                             return false;
-                        }
                     }
 
                     // check top right
                     if (pos.x < this.getSize() - 1 && pos.y > 0) {
-                        if (this.tiles[pos.x + 1][pos.y - 1].hasShip()) {
+                        if (this.tiles[pos.x + 1][pos.y - 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check right bottom
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        if (this.tiles[pos.x + 1][pos.y + 1].hasShip()) {
+                        if (this.tiles[pos.x + 1][pos.y + 1].hasShip())
                             return false;
-                        }
                     }
                 } else {
                     // check top
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
+                        if (this.tiles[pos.x][pos.y - 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        if (this.tiles[pos.x][pos.y + 1].hasShip()) {
+                        if (this.tiles[pos.x][pos.y + 1].hasShip())
                             return false;
-                        }
                     }
 
                 }
-
             } else {
                 Point pos = new Point(position.x, position.y + i);
 
                 if (!isInMap(pos))
                     return false;
 
-                // check first tile
+                // Check first tile
                 if (i == 0) {
-
                     // check top
                     if (pos.y > 0) {
-                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
+                        if (this.tiles[pos.x][pos.y - 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check left
@@ -392,38 +447,33 @@ public class Map {
                     }
 
                     // check bottom
-                    if (pos.y < this.getSize()) {
-                        if (this.tiles[pos.x][pos.y - 1].hasShip()) {
+                    if (pos.y < this.getSize() - 1) {
+                        if (this.tiles[pos.x][pos.y + 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check left bottom
                     if (pos.x > 0 && pos.y < this.getSize() - 1) {
-                        if (this.tiles[pos.x - 1][pos.y + 1].hasShip()) {
+                        if (this.tiles[pos.x - 1][pos.y + 1].hasShip())
                             return false;
-                        }
                     }
 
                     // check right bottom
                     if (pos.x < this.getSize() - 1 && pos.y < this.getSize() - 1) {
-                        if (this.tiles[pos.x + 1][pos.y + 1].hasShip()) {
+                        if (this.tiles[pos.x + 1][pos.y + 1].hasShip())
                             return false;
-                        }
                     }
                 } else {
                     // check left
                     if (pos.x > 0) {
-                        if (this.tiles[pos.x - 1][pos.y].hasShip()) {
+                        if (this.tiles[pos.x - 1][pos.y].hasShip())
                             return false;
-                        }
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        if (this.tiles[pos.x + 1][pos.y].hasShip()) {
+                        if (this.tiles[pos.x + 1][pos.y].hasShip())
                             return false;
-                        }
                     }
                 }
             }
@@ -450,22 +500,49 @@ public class Map {
     }
 
     public boolean move(Ship ship, Point newPosition) {
-        System.out.println(newPosition);
-        if (isInMap(newPosition)) {
-            this.remove(ship);
-            return this.insert(ship, newPosition, ship.isRotated());
+        Point oldPos = ship.getPosition();
+
+        this.remove(ship);
+
+        if (canInsertShip(ship, newPosition, ship.isRotated())) {
+            this.insert(ship, newPosition, ship.isRotated());
+        } else {
+            this.insert(ship, oldPos, ship.isRotated());
         }
-        return false;
+
+        return true;
     }
 
-    public boolean remove(Ship ship) {
+    private boolean canInsertShip(Ship ship, Point position, boolean rotated) {
+
+        // prevent out of bounds
+        if (!isInMap(position)) {
+            return false;
+        }
+
+        MapTile firstTile = getTile(position);
+
+        // prevent putting into an other ship
+        if (firstTile.hasShip()) {
+            return false;
+        }
+
+        if (!areTilesEmpty(position, ship.getSpace(), rotated))
+            return false;
+
+        if (!hasFreeNeighborTiles(position, ship.getSpace(), rotated))
+            return false;
+
+        return true;
+    }
+
+    public void remove(Ship ship) {
         for (int i = 0; i < ship.getTiles().size(); i++) {
             ship.getTiles().get(i).reset();
         }
         for (int i = 0; i < ship.getNeighborTiles().size(); i++) {
             ship.getNeighborTiles().get(i).reset();
         }
-        return true;
     }
 
     public boolean rotateShip(Ship ship) {
