@@ -54,8 +54,6 @@ public class Map {
         ship.setRotated(rotated);
         ship.setNeighborTiles(getNeighborTiles(ship));
 
-        //this.ships.put(position, ship);
-
         if (rotated) {
             // check horizontal
             if (position.x + ship.getSpace() <= this.getSize()) {
@@ -87,6 +85,97 @@ public class Map {
 
             if (ship.isRotated()) {
 
+                Point pos = new Point(ship.getPosition().x + i, ship.getPosition().y);
+
+                // check first tile (LEFT, TOP, DOWN)
+                if (i == 0) {
+
+                    // check top
+                    if (pos.y > 0) {
+                        MapTile t = this.tiles[pos.x][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check bottom
+                    if (pos.y < getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check left
+                    if (pos.x > 0) {
+                        MapTile t = this.tiles[pos.x - 1][pos.y];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check left bottom
+                    if (pos.x > 0 && pos.y < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x - 1][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check left top
+                    if (pos.x > 0 && pos.y > 0 && pos.y < this.getSize()) {
+                        MapTile t = this.tiles[pos.x - 1][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+                } else if (i == ship.getSpace() - 1) {
+
+                    // check top
+                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check bottom
+                    if (pos.y < getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check right
+                    if (pos.x < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x + 1][pos.y];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check top right
+                    if (pos.x < this.getSize() - 1 && pos.y > 0) {
+                        MapTile t = this.tiles[pos.x + 1][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check right bottom
+                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x + 1][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+                } else {
+                    // check top
+                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y - 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                    // check bottom
+                    if (pos.y < getSize() - 1) {
+                        MapTile t = this.tiles[pos.x][pos.y + 1];
+                        t.setNeighbor(true);
+                        tiles.add(t);
+                    }
+
+                }
             } else {
 
                 Point pos = new Point(ship.getPosition().x, ship.getPosition().y + i);
@@ -298,8 +387,6 @@ public class Map {
                     }
 
                 }
-
-
             } else {
                 Point pos = new Point(position.x, position.y + i);
 

@@ -43,7 +43,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         // Create ship
         ship2 = new Destroyer();
-        this.playerMap.insert(ship2, new Point(0, 0), true);
+        this.playerMap.insert(ship2, new Point(0, 0), false);
 
 
         PlayerType playerTurn = PlayerType.Player;
