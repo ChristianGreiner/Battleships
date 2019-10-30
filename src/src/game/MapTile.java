@@ -9,7 +9,6 @@ public class MapTile {
     private Point pos;
     private Ship ship;
     private boolean hit;
-
     private boolean neighbor;
 
     public boolean isNeighbor() {
@@ -28,8 +27,6 @@ public class MapTile {
         return ship;
     }
 
-    public boolean blocked = false;
-
     public boolean isHit() {
         return hit;
     }
@@ -47,19 +44,24 @@ public class MapTile {
     }
 
     public void setShip(Ship ship) {
-        this.setBlocked(ship != null);
         this.ship = ship;
-    }
-
-    public boolean isBlocked() {
-        return blocked;
-    }
-
-    public void setBlocked(boolean blocked) {
-        this.blocked = blocked;
     }
 
     public void setPos(Point pos) {
         this.pos = pos;
+    }
+
+    public boolean canPlace() {
+        return !hasShip();
+    }
+
+    public void reset() {
+        this.ship = null;
+        this.neighbor = false;
+        this.hit = false;
+    }
+
+    public boolean canHit() {
+        return !hit && !neighbor;
     }
 }

@@ -52,6 +52,8 @@ public class GameWindow extends JFrame implements Runnable {
         this.setSize(size.x, size.y);
         this.setResizable(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setFocusable(true);
+        this.setFocusTraversalKeysEnabled(false);
 
         this.pack();
         this.setLocationRelativeTo(null);
