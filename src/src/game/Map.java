@@ -507,6 +507,7 @@ public class Map {
         if (canInsertShip(ship, newPosition, ship.isRotated())) {
             this.insert(ship, newPosition, ship.isRotated());
         } else {
+            // fallback
             this.insert(ship, oldPos, ship.isRotated());
         }
 
@@ -545,10 +546,19 @@ public class Map {
         }
     }
 
-    public boolean rotateShip(Ship ship) {
+    public boolean rotate(Ship ship) {
+        boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
         this.remove(ship);
-        return this.insert(ship, ship.getPosition(), nextRotation);
+
+        if (canInsertShip(ship, ship.getPosition(), nextRotation)) {
+            this.insert(ship, ship.getPosition(), nextRotation);
+        } else {
+            // fallback
+            this.insert(ship, ship.getPosition(), oldRotation);
+        }
+
+        return true;
     }
 
     public boolean isInMap(Point position) {

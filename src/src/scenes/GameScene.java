@@ -156,6 +156,8 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
             this.playerMap.move(this.ship2, new Point(pos.x, pos.y - 1));
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             this.playerMap.move(this.ship2, new Point(pos.x, pos.y + 1));
+        } else if (e.getKeyCode() == KeyEvent.VK_R) {
+            this.playerMap.rotate(this.ship2);
         }
 
         DrawMap();
