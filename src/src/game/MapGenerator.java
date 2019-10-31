@@ -1,5 +1,6 @@
 package game;
 
+import core.Helper;
 import game.ships.Carrier;
 import game.ships.Destroyer;
 import game.ships.Ship;
@@ -36,6 +37,6 @@ public class MapGenerator {
 
     private boolean insertShip(Ship ship, Map map) {
         MapTile freeTile = map.getRandomFreeTile();
-        return map.insert(ship, freeTile.getPos(), false);
+        return map.insert(ship, freeTile.getPos(), Helper.randomBoolean());
     }
 }

@@ -1,15 +1,16 @@
 package scenes;
 
 import core.*;
-import game.Map;
-import game.MapTile;
-import game.PlayerType;
+import game.*;
 import game.gamestates.SinglePlayerStates;
 import game.ships.Destroyer;
+import io.JsonReader;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.util.HashMap;
 
 public class GameScene extends Scene implements Updatable, Drawable, KeyListener {
 
@@ -37,19 +38,19 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
 
-        Destroyer ship = new Destroyer();
-        this.playerMap.insert(ship, new Point(5, 3), true);
+        //Destroyer ship = new Destroyer();
+        //this.playerMap.insert(ship, new Point(5, 3), true);
 
 
         // Create ship
-        ship2 = new Destroyer();
-        this.playerMap.insert(ship2, new Point(0, 0), false);
+        //ship2 = new Destroyer();
+        //this.playerMap.insert(ship2, new Point(0, 0), false);
 
 
         PlayerType playerTurn = PlayerType.Player;
 
         // exmaple reading json file
-       /* File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
+        File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
         HashMap<Integer, MapData> configMap = new HashMap<>();
         try {
             MapData[] dat = JsonReader.readJson(file.getAbsolutePath());
@@ -66,7 +67,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
             this.playerMap = generator.generate(20, configMap.get(20));
             DrawMap();
 
-        }*/
+        }
 
         DrawMap();
 

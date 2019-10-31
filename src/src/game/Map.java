@@ -92,87 +92,63 @@ public class Map {
 
                     // check top
                     if (pos.y > 0) {
-                        MapTile t = this.tiles[pos.x][pos.y - 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        MapTile t = this.tiles[pos.x][pos.y + 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
                     }
 
                     // check left
                     if (pos.x > 0) {
-                        MapTile t = this.tiles[pos.x - 1][pos.y];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
                     }
 
                     // check left bottom
                     if (pos.x > 0 && pos.y < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x - 1][pos.y + 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y + 1);
                     }
 
                     // check left top
                     if (pos.x > 0 && pos.y > 0 && pos.y < this.getSize()) {
-                        MapTile t = this.tiles[pos.x - 1][pos.y - 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y - 1);
                     }
                 } else if (i == ship.getSpace() - 1) {
 
                     // check top
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x][pos.y - 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        MapTile t = this.tiles[pos.x][pos.y + 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x + 1][pos.y];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
                     }
 
                     // check top right
                     if (pos.x < this.getSize() - 1 && pos.y > 0) {
-                        MapTile t = this.tiles[pos.x + 1][pos.y - 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y - 1);
                     }
 
                     // check right bottom
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x + 1][pos.y + 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y + 1);
                     }
                 } else {
                     // check top
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x][pos.y - 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        MapTile t = this.tiles[pos.x][pos.y + 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
                     }
 
                 }
@@ -184,37 +160,27 @@ public class Map {
                 if (i == 0) {
                     // check top
                     if (pos.y > 0) {
-                        MapTile t = this.tiles[pos.x][pos.y - 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
                     }
 
                     // check left
                     if (pos.x > 0) {
-                        MapTile t = this.tiles[pos.x - 1][pos.y];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x + 1][pos.y];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
                     }
 
                     // check top left
                     if (pos.x > 0 && pos.y > 0) {
-                        MapTile t = this.tiles[pos.x - 1][pos.y - 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y - 1);
                     }
 
                     // check top right
                     if (pos.x < this.getSize() - 1 && pos.y > 0) {
-                        MapTile t = this.tiles[pos.x + 1][pos.y - 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y - 1);
                     }
                 }
                 // check last tile
@@ -222,59 +188,49 @@ public class Map {
 
                     // check left
                     if (pos.x > 0) {
-
-                        MapTile t = this.tiles[pos.x - 1][pos.y];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x + 1][pos.y];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
                     }
 
                     // check bottom
                     if (pos.y < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x][pos.y + 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
                     }
 
                     // check left bottom
                     if (pos.x > 0 && pos.y < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x - 1][pos.y + 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y + 1);
                     }
 
                     // check right bottom
                     if (pos.x < this.getSize() - 1 && pos.y < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x + 1][pos.y + 1];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y + 1);
                     }
                 } else {
                     // check left
                     if (pos.x > 0) {
-
-                        MapTile t = this.tiles[pos.x - 1][pos.y];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        MapTile t = this.tiles[pos.x + 1][pos.y];
-                        t.setNeighbor(true);
-                        tiles.add(t);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
                     }
                 }
             }
         }
 
         return tiles;
+    }
+
+    private void AddNeighborTiles(ArrayList<MapTile> tiles, int x, int y) {
+        MapTile t = this.tiles[x][y];
+        t.setNeighbor(true);
+        tiles.add(t);
     }
 
     private boolean areTilesEmpty(Point startPos, int size, boolean rotated) {
@@ -482,6 +438,12 @@ public class Map {
         return true;
     }
 
+    /**
+     * Gets a ship by given position.
+     *
+     * @param position
+     * @return
+     */
     public Ship getShip(Point position) {
         if (isInMap(position)) {
             return this.tiles[position.x][position.y].getShip();
@@ -489,6 +451,11 @@ public class Map {
         return null;
     }
 
+    /**
+     * Shot a bullet at given position on the map.
+     * @param position
+     * @return
+     */
     public boolean shot(Point position) {
         if (isInMap(position)) {
             if (!getTile(position).isHit()) {
@@ -499,6 +466,12 @@ public class Map {
         return false;
     }
 
+    /**
+     * Moves the ship to the new position, if its possible.
+     * @param ship The ship.
+     * @param newPosition The new position.
+     * @return Whether or not it could be moved.
+     */
     public boolean move(Ship ship, Point newPosition) {
         Point oldPos = ship.getPosition();
 
@@ -514,6 +487,13 @@ public class Map {
         return true;
     }
 
+    /**
+     * Checks if a ship can placed into the map at given point.
+     * @param ship The ship.
+     * @param position The position where it should be placed.
+     * @param rotated Whether or not the ship is rotated.
+     * @return Returns boolean if the should could be insert sucessfully
+     */
     private boolean canInsertShip(Ship ship, Point position, boolean rotated) {
 
         // prevent out of bounds
@@ -537,6 +517,10 @@ public class Map {
         return true;
     }
 
+    /**
+     * Removes the ship from the map
+     * @param ship The ship.
+     */
     public void remove(Ship ship) {
         for (int i = 0; i < ship.getTiles().size(); i++) {
             ship.getTiles().get(i).reset();
@@ -546,6 +530,11 @@ public class Map {
         }
     }
 
+    /***
+     * Rotates a ship in the map, if its possible.
+     * @param ship The ship.
+     * @return Returns true if it could be rotated.
+     */
     public boolean rotate(Ship ship) {
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
@@ -561,6 +550,11 @@ public class Map {
         return true;
     }
 
+    /***
+     * Checks if the point is in the map.
+     * @param position The position
+     * @return
+     */
     public boolean isInMap(Point position) {
         return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
     }
