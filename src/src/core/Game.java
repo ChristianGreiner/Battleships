@@ -39,7 +39,6 @@ public class Game implements Runnable {
         this.gameSize = size;
         this.title = title;
 
-        //this.window = new GameWindow(this, title, size);
         this.sceneManager = new SceneManager(this);
         this.sceneManager.addScene(new TestScene());
         this.sceneManager.addScene(new TestScene2());
@@ -49,9 +48,9 @@ public class Game implements Runnable {
     }
 
     public void start() {
-        SwingUtilities.invokeLater(this.window = new GameWindow(instance, this.title, this.gameSize));
+        SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("GameScene");
+        this.sceneManager.setActiveScene("TestScene");
 
         this.isRunning = true;
         this.run();

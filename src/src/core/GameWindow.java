@@ -5,14 +5,6 @@ import java.awt.*;
 
 public class GameWindow extends JFrame implements Runnable {
 
-    final int TARGET_FPS = 60;
-    final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
-
-    private Renderer renderer = null;
-    private Game game;
-
-    private int lastWindowWidth = 0;
-
     public void addGui(JPanel panel) {
 
         if (panel == null)
@@ -39,11 +31,7 @@ public class GameWindow extends JFrame implements Runnable {
     public void draw() {
     }
 
-    private int lastWindowHeight = 0;
-
-    public GameWindow(Game game, String title, Point size) {
-        this.game = game;
-        this.renderer = new Renderer();
+    public GameWindow(String title, Point size) {
 
         this.setLayout(null);
         this.setPreferredSize(new Dimension(size.x, size.y));
@@ -57,9 +45,6 @@ public class GameWindow extends JFrame implements Runnable {
 
         this.pack();
         this.setLocationRelativeTo(null);
-
-        this.lastWindowHeight = this.getHeight();
-        this.lastWindowWidth = this.getWidth();
     }
 
     @Override

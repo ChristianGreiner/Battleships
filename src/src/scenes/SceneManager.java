@@ -10,40 +10,15 @@ import java.util.HashMap;
 
 public class SceneManager {
 
-    public Scene getActiveScene() {
-        return activeScene;
-    }
-
-    /*public void setActiveScene(Scene scene) {
-
-       /*if(scene instanceof MouseListener)
-            this.game.getWindow().removeMouseListener((MouseListener) this.activeScene);
-
-        if(scene instanceof KeyListener)
-            this.game.getWindow().removeKeyListener((KeyListener) this.activeScene);
-
-        if(scene instanceof GuiScene){
-        this.game.getWindow().addGui(((GuiScene)scene).buildGui());
-        }
-
-        if(this.activeScene != null)
-            this.activeScene.onRemove();
-
-        this.activeScene = scene;
-        this.activeScene.onAdded();
-
-        if(scene instanceof MouseListener)
-            this.game.getWindow().addMouseListener((MouseListener) scene);
-
-        if(scene instanceof KeyListener)
-            this.game.getWindow().addKeyListener((KeyListener) scene);
-    }*/
-
     private Scene activeScene;
     private Game game;
     private JPanel activeGui;
 
     private HashMap<String, Scene> scenes = new HashMap<>();
+
+    public Scene getActiveScene() {
+        return activeScene;
+    }
 
     public SceneManager(Game game) {
         this.game = game;
