@@ -62,6 +62,7 @@ public abstract class Ship {
         this.neighborTiles = neighborTiles;
     }
 
+
     public void destroy() {
         for (int i = 0; i < this.tiles.size(); i++) {
             this.tiles.get(i).reset();
@@ -77,6 +78,11 @@ public abstract class Ship {
                 return false;
             }
         }
+        // its true, so block all neighbors
+        for (int i = 0; i < this.neighborTiles.size(); i++) {
+            this.neighborTiles.get(i).setBlocked(true);
+        }
+
         return true;
     }
 }

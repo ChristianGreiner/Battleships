@@ -92,63 +92,63 @@ public class Map {
 
                     // check top
                     if (pos.y > 0) {
-                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
+                        AddNeighborTiles(tiles, ship, pos.x, pos.y - 1);
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
+                        AddNeighborTiles(tiles, ship, pos.x, pos.y + 1);
                     }
 
                     // check left
                     if (pos.x > 0) {
-                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
+                        AddNeighborTiles(tiles, ship, pos.x - 1, pos.y);
                     }
 
                     // check left bottom
                     if (pos.x > 0 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x - 1, pos.y + 1);
+                        AddNeighborTiles(tiles, ship, pos.x - 1, pos.y + 1);
                     }
 
                     // check left top
                     if (pos.x > 0 && pos.y > 0 && pos.y < this.getSize()) {
-                        AddNeighborTiles(tiles, pos.x - 1, pos.y - 1);
+                        AddNeighborTiles(tiles, ship, pos.x - 1, pos.y - 1);
                     }
                 } else if (i == ship.getSpace() - 1) {
 
                     // check top
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
+                        AddNeighborTiles(tiles, ship, pos.x, pos.y - 1);
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
+                        AddNeighborTiles(tiles, ship, pos.x, pos.y + 1);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
+                        AddNeighborTiles(tiles, ship, pos.x + 1, pos.y);
                     }
 
                     // check top right
                     if (pos.x < this.getSize() - 1 && pos.y > 0) {
-                        AddNeighborTiles(tiles, pos.x + 1, pos.y - 1);
+                        AddNeighborTiles(tiles, ship, pos.x + 1, pos.y - 1);
                     }
 
                     // check right bottom
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x + 1, pos.y + 1);
+                        AddNeighborTiles(tiles, ship, pos.x + 1, pos.y + 1);
                     }
                 } else {
                     // check top
                     if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
+                        AddNeighborTiles(tiles, ship, pos.x, pos.y - 1);
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
+                        AddNeighborTiles(tiles, ship, pos.x, pos.y + 1);
                     }
 
                 }
@@ -160,27 +160,27 @@ public class Map {
                 if (i == 0) {
                     // check top
                     if (pos.y > 0) {
-                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
+                        AddNeighborTiles(tiles, ship, pos.x, pos.y - 1);
                     }
 
                     // check left
                     if (pos.x > 0) {
-                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
+                        AddNeighborTiles(tiles, ship, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
+                        AddNeighborTiles(tiles, ship, pos.x + 1, pos.y);
                     }
 
                     // check top left
                     if (pos.x > 0 && pos.y > 0) {
-                        AddNeighborTiles(tiles, pos.x - 1, pos.y - 1);
+                        AddNeighborTiles(tiles, ship, pos.x - 1, pos.y - 1);
                     }
 
                     // check top right
                     if (pos.x < this.getSize() - 1 && pos.y > 0) {
-                        AddNeighborTiles(tiles, pos.x + 1, pos.y - 1);
+                        AddNeighborTiles(tiles, ship, pos.x + 1, pos.y - 1);
                     }
                 }
                 // check last tile
@@ -188,37 +188,37 @@ public class Map {
 
                     // check left
                     if (pos.x > 0) {
-                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
+                        AddNeighborTiles(tiles, ship, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
+                        AddNeighborTiles(tiles, ship, pos.x + 1, pos.y);
                     }
 
                     // check bottom
                     if (pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
+                        AddNeighborTiles(tiles, ship, pos.x, pos.y + 1);
                     }
 
                     // check left bottom
                     if (pos.x > 0 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x - 1, pos.y + 1);
+                        AddNeighborTiles(tiles, ship, pos.x - 1, pos.y + 1);
                     }
 
                     // check right bottom
                     if (pos.x < this.getSize() - 1 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x + 1, pos.y + 1);
+                        AddNeighborTiles(tiles, ship, pos.x + 1, pos.y + 1);
                     }
                 } else {
                     // check left
                     if (pos.x > 0) {
-                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
+                        AddNeighborTiles(tiles, ship, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
+                        AddNeighborTiles(tiles, ship, pos.x + 1, pos.y);
                     }
                 }
             }
@@ -227,9 +227,10 @@ public class Map {
         return tiles;
     }
 
-    private void AddNeighborTiles(ArrayList<MapTile> tiles, int x, int y) {
+    private void AddNeighborTiles(ArrayList<MapTile> tiles, Ship ship, int x, int y) {
         MapTile t = this.tiles[x][y];
         t.setNeighbor(true);
+        t.setBelongsToShip(ship);
         tiles.add(t);
     }
 
@@ -453,17 +454,51 @@ public class Map {
 
     /**
      * Shot a bullet at given position on the map.
-     * @param position
+     * @param pos
      * @return
      */
-    public boolean shot(Point position) {
-        if (isInMap(position)) {
-            if (!getTile(position).isHit()) {
-                this.tiles[position.x][position.y].setHit(true);
-                return this.tiles[position.x][position.y].hasShip();
+    public boolean shot(Point pos) {
+        if (isInMap(pos)) {
+            if (!getTile(pos).isHit()) {
+                this.tiles[pos.x][pos.y].setHit(true);
+                return this.tiles[pos.x][pos.y].hasShip();
             }
         }
         return false;
+    }
+
+    public HitData shot2(Point pos) {
+        HitData data = null;
+        HitType type = HitType.Water;
+        Ship ship = null;
+
+        if (isInMap(pos)) {
+            MapTile tile = getTile(pos);
+
+            if (tile.isHit() || tile.isBlocked()) {
+                return new HitData(null, null, HitType.NotPossible);
+            }
+
+            // Water
+            if (!tile.hasShip()) {
+                type = HitType.Water;
+            } else if (tile.hasShip()) {
+                ship = tile.getShip();
+
+                // Ship destoryed
+                if (ship.isDestroyed()) {
+                    type = HitType.ShipDestroyed;
+                } else {
+                    // only ship
+                    type = HitType.Ship;
+                }
+            }
+
+            this.tiles[pos.x][pos.y].setHit(true);
+            data = new HitData(pos, ship, type);
+        }
+
+        return data;
     }
 
     /**

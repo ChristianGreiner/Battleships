@@ -1,16 +1,15 @@
 package scenes;
 
 import core.*;
-import game.*;
+import game.HitData;
+import game.Map;
+import game.MapTile;
 import game.gamestates.SinglePlayerStates;
 import game.ships.Destroyer;
-import io.JsonReader;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.util.HashMap;
 
 public class GameScene extends Scene implements Updatable, Drawable, KeyListener {
 
@@ -38,16 +37,22 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
 
-        //Destroyer ship = new Destroyer();
-        //this.playerMap.insert(ship, new Point(5, 3), true);
+        Destroyer ship = new Destroyer();
+        this.playerMap.insert(ship, new Point(5, 3), true);
 
 
         // Create ship
-        //ship2 = new Destroyer();
-        //this.playerMap.insert(ship2, new Point(0, 0), false);
+        ship2 = new Destroyer();
+        this.playerMap.insert(ship2, new Point(0, 0), false);
 
 
-        PlayerType playerTurn = PlayerType.Player;
+        this.playerMap.shot2(new Point(5, 3));
+        this.playerMap.shot2(new Point(6, 3));
+        this.playerMap.shot2(new Point(7, 3));
+        HitData data = this.playerMap.shot2(new Point(5, 4));
+        System.out.println(data.getType());
+
+        /*PlayerType playerTurn = PlayerType.Player;
 
         // exmaple reading json file
         File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
@@ -67,7 +72,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
             this.playerMap = generator.generate(20, configMap.get(20));
             DrawMap();
 
-        }
+        }*/
 
         DrawMap();
 
@@ -86,7 +91,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
                     } else {
                         System.out.print(ANSI_YELLOW + "X");
                     }
-                } else if (tile.isNeighbor()) {
+                } else if (tile.isNeighbor() && tile.getBelongsToShip().isDestroyed()) {
                     System.out.print(ANSI_GREEN + "#");
                 } else {
                     System.out.print(ANSI_BLUE + "O");
