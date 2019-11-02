@@ -50,7 +50,7 @@ public class Game implements Runnable {
     public void start() {
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("TestScene");
+        this.sceneManager.setActiveScene("GameScene");
 
         this.isRunning = true;
         this.run();

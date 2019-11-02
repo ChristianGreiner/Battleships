@@ -8,6 +8,10 @@ public class MapTile {
 
     private Point pos;
     private Ship ship;
+    private Ship belongsToShip;
+    private boolean hit;
+    private boolean neighbor;
+    private boolean blocked;
 
     public Ship getBelongsToShip() {
         return belongsToShip;
@@ -17,10 +21,6 @@ public class MapTile {
         this.belongsToShip = belongsToShip;
     }
 
-    private Ship belongsToShip;
-    private boolean hit;
-    private boolean neighbor;
-
     public boolean isBlocked() {
         return blocked;
     }
@@ -28,8 +28,6 @@ public class MapTile {
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
     }
-
-    private boolean blocked;
 
     public boolean isNeighbor() {
         return neighbor;
@@ -56,7 +54,6 @@ public class MapTile {
     }
 
     public void setHit(boolean hit) {
-
         this.hit = hit;
         if (hasShip())
             ship.isDestroyed();
@@ -78,10 +75,10 @@ public class MapTile {
         return !hasShip();
     }
 
-
     public void reset() {
         this.ship = null;
         this.neighbor = false;
         this.hit = false;
+        this.belongsToShip = null;
     }
 }
