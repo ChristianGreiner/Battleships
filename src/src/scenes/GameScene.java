@@ -58,7 +58,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
         HashMap<Integer, MapData> configMap = new HashMap<>();
         try {
-            MapData[] dat = JsonReader.readJson(file.getAbsolutePath());
+            MapData[] dat = JsonFileHandler.readMapConfig(file.getAbsolutePath());
             for (int i = 0; i < dat.length; i++) {
                 configMap.put(dat[i].MapSize, dat[i]);
             }
