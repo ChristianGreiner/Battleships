@@ -4,11 +4,10 @@ import core.Helper;
 import game.ships.Ship;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Map {
-    private HashMap<Point, Ship> ships = new HashMap<>();
+public class Map implements Serializable {
     private MapTile[][] tiles;
     private int size;
 
@@ -61,7 +60,6 @@ public class Map {
                     this.tiles[position.x + i][position.y].setShip(ship);
                     ship.getTiles().add(this.tiles[position.x + i][position.y]);
                 }
-                return true;
             }
         } else {
             // check vertical
@@ -70,11 +68,10 @@ public class Map {
                     this.tiles[position.x][position.y + i].setShip(ship);
                     ship.getTiles().add(this.tiles[position.x][position.y + i]);
                 }
-                return true;
             }
         }
 
-        return false;
+        return true;
     }
 
     private ArrayList<MapTile> getNeighborTiles(Ship ship) {

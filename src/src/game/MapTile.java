@@ -3,8 +3,9 @@ package game;
 import game.ships.Ship;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class MapTile {
+public class MapTile implements Serializable {
 
     private Point pos;
     private Ship ship;

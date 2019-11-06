@@ -1,15 +1,15 @@
 package scenes;
 
 import core.*;
-import game.HitData;
-import game.Map;
-import game.MapTile;
+import game.*;
 import game.gamestates.SinglePlayerStates;
 import game.ships.Destroyer;
+import io.SavegameHandler;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Timestamp;
 
 public class GameScene extends Scene implements Updatable, Drawable, KeyListener {
 
@@ -74,6 +74,13 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         }*/
 
+
+        SavegameHandler sgh = new SavegameHandler();
+        sgh.writeSavegame(new Savegame(new Timestamp(System.currentTimeMillis()), this.playerMap, this.enemyMap, PlayerType.AI));
+        DrawMap();
+
+        Savegame sg = sgh.loadSavegame();
+        this.playerMap = sg.getPlayerMap();
         DrawMap();
 
     }
@@ -164,7 +171,10 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
             this.playerMap.move(this.ship2, new Point(pos.x, pos.y + 1));
         } else if (e.getKeyCode() == KeyEvent.VK_R) {
             this.playerMap.rotate(this.ship2);
+        } else if (e.getKeyCode() == KeyEvent.VK_G) {
+            this.playerMap.remove(this.ship2);
         }
+
 
         DrawMap();
     }

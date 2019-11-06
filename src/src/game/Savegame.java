@@ -1,9 +1,9 @@
 package game;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Savegame {
-    private Timestamp timestamp;
+public class Savegame implements Serializable {
 
     public Savegame(Timestamp timestamp, Map playerMap, Map enemyMap, PlayerType currentTurn) {
         this.timestamp = timestamp;
@@ -12,6 +12,7 @@ public class Savegame {
         this.currentTurn = currentTurn;
     }
 
+    private Timestamp timestamp;
     private Map playerMap;
     private Map enemyMap;
 

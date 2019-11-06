@@ -3,18 +3,18 @@ package game.ships;
 import game.MapTile;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Ship {
+public abstract class Ship implements Serializable {
 
     private static int id = 0;
 
     private boolean rotated;
-    private ArrayList<MapTile> tiles = new ArrayList<>();
-
-    private ArrayList<MapTile> neighborTiles = new ArrayList<>();
     private Point position;
     private int space;
+    private ArrayList<MapTile> tiles = new ArrayList<>();
+    private ArrayList<MapTile> neighborTiles = new ArrayList<>();
 
     public Ship(int space) {
         Ship.id++;
@@ -50,26 +50,12 @@ public abstract class Ship {
         return tiles;
     }
 
-    public void setTiles(ArrayList<MapTile> tiles) {
-        this.tiles = tiles;
-    }
-
     public ArrayList<MapTile> getNeighborTiles() {
         return neighborTiles;
     }
 
     public void setNeighborTiles(ArrayList<MapTile> neighborTiles) {
         this.neighborTiles = neighborTiles;
-    }
-
-
-    public void destroy() {
-        for (int i = 0; i < this.tiles.size(); i++) {
-            this.tiles.get(i).reset();
-        }
-        for (int i = 0; i < this.neighborTiles.size(); i++) {
-            this.neighborTiles.get(i).reset();
-        }
     }
 
     public boolean isDestroyed() {

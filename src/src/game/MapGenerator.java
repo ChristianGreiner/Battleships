@@ -7,9 +7,6 @@ import game.ships.Ship;
 import game.ships.Submarine;
 
 public class MapGenerator {
-    public MapGenerator() {
-    }
-
     public Map generate(int size, MapData data) {
         Map map = new Map(size);
 
