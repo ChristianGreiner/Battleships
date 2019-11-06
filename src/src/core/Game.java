@@ -1,6 +1,8 @@
 package core;
 
-import scenes.*;
+import scenes.GameScene;
+import scenes.MainMenuScene;
+import scenes.SceneManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,11 +42,8 @@ public class Game implements Runnable {
         this.title = title;
 
         this.sceneManager = new SceneManager(this);
-        this.sceneManager.addScene(new TestScene());
-        this.sceneManager.addScene(new TestScene2());
+        this.sceneManager.addScene(new MainMenuScene());
         this.sceneManager.addScene(new GameScene());
-        this.sceneManager.addScene(new TestMenu());
-
     }
 
     public void start() {

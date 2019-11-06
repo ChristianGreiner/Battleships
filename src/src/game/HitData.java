@@ -24,7 +24,7 @@ public class HitData {
         return position;
     }
 
-    public HitType getType() {
+    public HitType getHitType() {
         return type;
     }
 }

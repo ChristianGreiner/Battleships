@@ -5,10 +5,10 @@ import ui.GuiScene;
 
 import javax.swing.*;
 
-public class TestMenu extends Scene implements Updatable, GuiScene {
+public class MainMenuScene extends Scene implements Updatable, GuiScene {
 
-    public TestMenu() {
-        super("TestMenu");
+    public MainMenuScene() {
+        super("TestMenuScene");
     }
 
     @Override

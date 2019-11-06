@@ -33,6 +33,13 @@ public class SceneManager {
     }
 
     public void setActiveScene(String name) {
+        if (!this.scenes.containsKey(name)) {
+            try {
+                throw new Exception("Scene not found");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         Scene scene = this.getScene(name);
 
         if (this.activeScene != null) {

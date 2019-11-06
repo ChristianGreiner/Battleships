@@ -11,6 +11,21 @@ public class Map implements Serializable {
     private MapTile[][] tiles;
     private int size;
 
+    public int getNumberOfShips() {
+        return numberOfShips;
+    }
+
+    public int getNumberOfDestoryedShips() {
+        return numberOfDestoryedShips;
+    }
+
+    private int numberOfShips;
+    private int numberOfDestoryedShips;
+
+    public int getSize() {
+        return size;
+    }
+
     public Map(int size) {
         this.size = size;
         this.tiles = new MapTile[size][size];
@@ -20,10 +35,6 @@ public class Map implements Serializable {
                 this.tiles[x][y] = new MapTile(new Point(x, y));
             }
         }
-    }
-
-    public int getSize() {
-        return size;
     }
 
     public MapTile getTile(Point pos) {
@@ -48,6 +59,7 @@ public class Map implements Serializable {
         if (!canInsertShip(ship, position, rotated))
             return false;
 
+        this.numberOfShips++;
         // all checks passed!
         ship.setPosition(position);
         ship.setRotated(rotated);
@@ -485,6 +497,7 @@ public class Map implements Serializable {
                 // Ship destoryed
                 if (ship.isDestroyed()) {
                     type = HitType.ShipDestroyed;
+                    this.numberOfDestoryedShips++;
                 } else {
                     // only ship
                     type = HitType.Ship;
@@ -560,6 +573,8 @@ public class Map implements Serializable {
         for (int i = 0; i < ship.getNeighborTiles().size(); i++) {
             ship.getNeighborTiles().get(i).reset();
         }
+
+        this.numberOfShips--;
     }
 
     /***

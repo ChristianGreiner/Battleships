@@ -1,33 +1,44 @@
 package game;
 
 import core.Helper;
-import game.ships.Carrier;
-import game.ships.Destroyer;
-import game.ships.Ship;
-import game.ships.Submarine;
+import game.ships.*;
 
 public class MapGenerator {
     public Map generate(int size, MapData data) {
         Map map = new Map(size);
 
-        for (int i = 0; i < data.Submarines; i++) {
-            if (!insertShip(new Submarine(), map))
-                i--;
+        int countCarriers = 0;
+        while (countCarriers < data.Carriers) {
+            if (insertShip(new Carrier(), map)) {
+                countCarriers++;
+                System.out.println("Ship created: Carriers" + countCarriers);
+            }
         }
 
-        for (int i = 0; i < data.Carriers; i++) {
-            if (!insertShip(new Carrier(), map)) i--;
+        int countBattleships = 0;
+        while (countBattleships < data.Battleships) {
+            if (insertShip(new Battleship(), map)) {
+                countBattleships++;
+                System.out.println("Ship created: Battleships" + countBattleships);
+            }
         }
 
-        for (int i = 0; i < data.Destoryers; i++) {
-            if (!insertShip(new Destroyer(), map))
-                i--;
+        int countSubmarines = 0;
+        while (countSubmarines < data.Submarines) {
+            if (insertShip(new Submarine(), map)) {
+                countSubmarines++;
+                System.out.println("Ship created: Submarine" + countSubmarines);
+            }
         }
 
-        for (int i = 0; i < data.Destoryers; i++) {
-            if (!insertShip(new Destroyer(), map))
-                i--;
+        int countDestroyer = 0;
+        while (countDestroyer < data.Destroyers) {
+            if (insertShip(new Destroyer(), map)) {
+                countDestroyer++;
+                System.out.println("Ship created: Destroyer" + countDestroyer);
+            }
         }
+
 
         return map;
     }

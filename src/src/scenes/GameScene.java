@@ -1,15 +1,19 @@
 package scenes;
 
+import ai.SinglePlayerAI;
 import core.*;
-import game.*;
+import game.Map;
+import game.MapData;
+import game.MapGenerator;
+import game.MapTile;
 import game.gamestates.SinglePlayerStates;
-import game.ships.Destroyer;
-import io.SavegameHandler;
+import io.JsonFileHandler;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.Timestamp;
+import java.io.File;
+import java.util.HashMap;
 
 public class GameScene extends Scene implements Updatable, Drawable, KeyListener {
 
@@ -29,60 +33,11 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     private Renderer renderer = new Renderer();
     private SinglePlayerStates gameState = SinglePlayerStates.ShipsSelection;
 
-    private Destroyer ship2;
-
     public GameScene() {
         super("GameScene");
 
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
-
-        Destroyer ship = new Destroyer();
-        this.playerMap.insert(ship, new Point(5, 3), true);
-
-
-        // Create ship
-        ship2 = new Destroyer();
-        this.playerMap.insert(ship2, new Point(0, 0), false);
-
-
-        this.playerMap.shot2(new Point(5, 3));
-        this.playerMap.shot2(new Point(6, 3));
-        this.playerMap.shot2(new Point(7, 3));
-        HitData data = this.playerMap.shot2(new Point(5, 4));
-        System.out.println(data.getType());
-
-        /*PlayerType playerTurn = PlayerType.Player;
-
-        // exmaple reading json file
-        File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
-        HashMap<Integer, MapData> configMap = new HashMap<>();
-        try {
-            MapData[] dat = JsonFileHandler.readMapConfig(file.getAbsolutePath());
-            for (int i = 0; i < dat.length; i++) {
-                configMap.put(dat[i].MapSize, dat[i]);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        for (int i = 0; i < 20; i++) {
-            System.out.println("-----------------------------------");
-            MapGenerator generator = new MapGenerator();
-            this.playerMap = generator.generate(20, configMap.get(20));
-            DrawMap();
-
-        }*/
-
-
-        SavegameHandler sgh = new SavegameHandler();
-        sgh.writeSavegame(new Savegame(new Timestamp(System.currentTimeMillis()), this.playerMap, this.enemyMap, PlayerType.AI));
-        DrawMap();
-
-        Savegame sg = sgh.loadSavegame();
-        this.playerMap = sg.getPlayerMap();
-        DrawMap();
-
     }
 
     private void DrawMap() {
@@ -90,18 +45,16 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
             for (int x = 0; x < this.playerMap.getSize(); x++) {
                 MapTile tile = this.playerMap.getTile(new Point(x, y));
 
-                if (tile.isHit()) {
-                    System.out.print(ANSI_RED + "X");
-                } else if (tile.hasShip()) {
+                if (tile.hasShip()) {
                     if (tile.isHit()) {
-                        System.out.print(ANSI_RED + "X");
+                        System.out.print(ANSI_RED + "X" + ANSI_RESET + "|");
                     } else {
-                        System.out.print(ANSI_YELLOW + "X");
+                        System.out.print(ANSI_YELLOW + "X" + ANSI_RESET + "|");
                     }
-                } else if (tile.isNeighbor() && tile.getBelongsToShip().isDestroyed()) {
-                    System.out.print(ANSI_GREEN + "#");
+                } else if (tile.isHit()) {
+                    System.out.print(ANSI_BLUE + "X" + ANSI_RESET + "|");
                 } else {
-                    System.out.print(ANSI_BLUE + "O");
+                    System.out.print(ANSI_BLUE + " " + ANSI_RESET + "|");
                 }
             }
             System.out.print("\n" + ANSI_RESET);
@@ -113,6 +66,32 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     void onAdded() {
         super.onAdded();
         Game.getInstance().getWindow().addKeyListener(this);
+
+        // exmaple reading json file
+        File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
+        HashMap<Integer, MapData> configMap = new HashMap<>();
+        JsonFileHandler jsonFileHandler = new JsonFileHandler();
+        try {
+            MapData[] dat = jsonFileHandler.readMapConfig(file.getAbsolutePath());
+            for (int i = 0; i < dat.length; i++) {
+                configMap.put(dat[i].MapSize, dat[i]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        MapGenerator generator = new MapGenerator();
+        this.playerMap = generator.generate(20, configMap.get(20));
+
+        System.out.println(this.playerMap.getNumberOfShips());
+
+        SinglePlayerAI ai = new SinglePlayerAI(1, this.playerMap);
+
+        do {
+            ai.shot();
+        } while (this.playerMap.getNumberOfDestoryedShips() <= this.playerMap.getNumberOfShips());
+
+        DrawMap();
     }
 
     private double wait = 0;
@@ -159,7 +138,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
     @Override
     public void keyReleased(KeyEvent e) {
-        Point pos = this.ship2.getPosition();
+        /*Point pos = this.ship2.getPosition();
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             this.playerMap.move(this.ship2, new Point(pos.x + 1, pos.y));
@@ -176,6 +155,6 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         }
 
 
-        DrawMap();
+        DrawMap();*/
     }
 }
