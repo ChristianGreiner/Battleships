@@ -87,10 +87,11 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         SinglePlayerAI ai = new SinglePlayerAI(1, this.playerMap);
 
-        do {
+        /*do {
             ai.shot();
         } while (this.playerMap.getNumberOfDestoryedShips() <= this.playerMap.getNumberOfShips());
 
+        */
         DrawMap();
     }
 

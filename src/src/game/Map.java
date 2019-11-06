@@ -239,7 +239,6 @@ public class Map implements Serializable {
     private void AddNeighborTiles(ArrayList<MapTile> tiles, Ship ship, int x, int y) {
         MapTile t = this.tiles[x][y];
         t.setNeighbor(true);
-        t.setBelongsToShip(ship);
         tiles.add(t);
     }
 

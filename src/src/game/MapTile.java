@@ -9,18 +9,9 @@ public class MapTile implements Serializable {
 
     private Point pos;
     private Ship ship;
-    private Ship belongsToShip;
     private boolean hit;
     private boolean neighbor;
     private boolean blocked;
-
-    public Ship getBelongsToShip() {
-        return belongsToShip;
-    }
-
-    public void setBelongsToShip(Ship belongsToShip) {
-        this.belongsToShip = belongsToShip;
-    }
 
     public boolean isBlocked() {
         return blocked;
@@ -80,6 +71,5 @@ public class MapTile implements Serializable {
         this.ship = null;
         this.neighbor = false;
         this.hit = false;
-        this.belongsToShip = null;
     }
 }
