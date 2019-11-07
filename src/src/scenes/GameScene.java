@@ -7,30 +7,25 @@ import game.MapData;
 import game.MapGenerator;
 import game.MapTile;
 import game.gamestates.SinglePlayerStates;
+import graphics.MapRenderer;
 import io.JsonFileHandler;
+import ui.GuiScene;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.HashMap;
 
-public class GameScene extends Scene implements Updatable, Drawable, KeyListener {
+public class GameScene extends Scene implements Updatable, Drawable, KeyListener, GuiScene {
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+
 
     private Map playerMap;
     private Map enemyMap;
 
-    private Renderer renderer = new Renderer();
+    private MapRenderer playerMapRenderer;
     private SinglePlayerStates gameState = SinglePlayerStates.ShipsSelection;
 
     public GameScene() {
@@ -38,6 +33,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
+        this.playerMapRenderer = new MapRenderer(this.playerMap);
     }
 
     private void DrawMap() {
@@ -47,17 +43,17 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
                 if (tile.hasShip()) {
                     if (tile.isHit()) {
-                        System.out.print(ANSI_RED + "X" + ANSI_RESET + "|");
+                        System.out.print(ANSIColors.RED + "X" + ANSIColors.RESET + "|");
                     } else {
-                        System.out.print(ANSI_YELLOW + "X" + ANSI_RESET + "|");
+                        System.out.print(ANSIColors.YELLOW + "X" + ANSIColors.RESET + "|");
                     }
                 } else if (tile.isHit()) {
-                    System.out.print(ANSI_BLUE + "X" + ANSI_RESET + "|");
+                    System.out.print(ANSIColors.BLUE + "X" + ANSIColors.RESET + "|");
                 } else {
-                    System.out.print(ANSI_BLUE + " " + ANSI_RESET + "|");
+                    System.out.print(ANSIColors.BLUE + " " + ANSIColors.RESET + "|");
                 }
             }
-            System.out.print("\n" + ANSI_RESET);
+            System.out.print("\n" + ANSIColors.RESET);
         }
         System.out.println("-------------------------");
     }
@@ -87,75 +83,43 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         SinglePlayerAI ai = new SinglePlayerAI(1, this.playerMap);
 
-        /*do {
-            ai.shot();
-        } while (this.playerMap.getNumberOfDestoryedShips() <= this.playerMap.getNumberOfShips());
-
-        */
         DrawMap();
-    }
-
-    private double wait = 0;
-    private boolean played = false;
-
-    private void shotEnemy(double delaTime) {
-        SoundPlayer hitsound = new SoundPlayer("hit.wav");
-        //hitsound.play();
-
-        boolean hitSomething = this.playerMap.shot(new Point(1, 9));
-        if (hitSomething)
-            System.out.println("TREFFER! TRY AGAIN");
     }
 
     @Override
     public void update(double deltaTime) {
-
-        if (!played) {
-            shotEnemy(deltaTime);
-            played = true;
-        }
-
-
-        if (gameState == SinglePlayerStates.ShipsSelection) {
-            this.gameState = SinglePlayerStates.BattleStart;
-        }
-
     }
 
     @Override
     public void draw() {
+
+        // draw player map
+        playerMapRenderer.draw();
+
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
-
     }
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        /*Point pos = this.ship2.getPosition();
+    }
 
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.playerMap.move(this.ship2, new Point(pos.x + 1, pos.y));
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            this.playerMap.move(this.ship2, new Point(pos.x - 1, pos.y));
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            this.playerMap.move(this.ship2, new Point(pos.x, pos.y - 1));
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.playerMap.move(this.ship2, new Point(pos.x, pos.y + 1));
-        } else if (e.getKeyCode() == KeyEvent.VK_R) {
-            this.playerMap.rotate(this.ship2);
-        } else if (e.getKeyCode() == KeyEvent.VK_G) {
-            this.playerMap.remove(this.ship2);
-        }
+    @Override
+    public JPanel buildGui(GameWindow gameWindow) {
+        JPanel panel = new JPanel();
 
+        this.playerMapRenderer.setBackground(Color.black);
+        this.playerMapRenderer.setLocation(0, 0);
+        this.playerMapRenderer.setSize(360, 360);
+        panel.add(this.playerMapRenderer);
+        panel.setLayout(null);
 
-        DrawMap();*/
+        return panel;
     }
 }

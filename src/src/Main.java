@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Game game = new Game("Battleships", new Point(640, 360));
+        Game game = new Game("Battleships", new Point(1280, 720));
         game.start();
     }
 }

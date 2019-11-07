@@ -3,6 +3,7 @@ package core;
 import scenes.GameScene;
 import scenes.MainMenuScene;
 import scenes.SceneManager;
+import scenes.TestScene;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +45,7 @@ public class Game implements Runnable {
         this.sceneManager = new SceneManager(this);
         this.sceneManager.addScene(new MainMenuScene());
         this.sceneManager.addScene(new GameScene());
+        this.sceneManager.addScene(new TestScene());
     }
 
     public void start() {

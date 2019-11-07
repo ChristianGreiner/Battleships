@@ -1,23 +1,26 @@
 package scenes;
 
-import core.Drawable;
-import core.Game;
 import core.Renderer;
-import core.Updatable;
+import core.*;
 import game.Map;
+import game.ships.Ship;
 import ui.GuiScene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
+public class TestScene extends Scene implements Updatable, Drawable, GuiScene, MouseListener {
 
     private Point mousePos = new Point();
     private Map playerMap;
     private Map enemyMap;
     private String name;
+
+    private Ship selectedShip;
 
     private Renderer renderer = new Renderer();
 
@@ -44,11 +47,13 @@ public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
         g.fillOval(mousePos.x, mousePos.y, 5, 5);
         g.fillRect(20, 20, 20, 20);
 
+        g.drawLine(0, 0, mousePos.x, mousePos.y);
+
         this.renderer.end();
     }
 
     @Override
-    public JPanel buildGui() {
+    public JPanel buildGui(GameWindow gameWindow) {
 
         JPanel panel = new JPanel();
 
@@ -64,10 +69,36 @@ public class TestScene extends Scene implements Updatable, Drawable, GuiScene {
         this.renderer.setBackground(Color.black);
         this.renderer.setLocation(300, 300);
         this.renderer.setSize(360, 360);
+        this.renderer.addMouseListener(this);
         panel.add(this.renderer);
 
         panel.add(btn, BorderLayout.CENTER);
 
         return panel;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        System.out.println("Clicked at: " + this.renderer.getMousePosition());
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
     }
 }

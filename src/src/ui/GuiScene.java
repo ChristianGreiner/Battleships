@@ -1,7 +1,9 @@
 package ui;
 
+import core.GameWindow;
+
 import javax.swing.*;
 
 public interface GuiScene {
-    JPanel buildGui();
+    JPanel buildGui(GameWindow gameWindow);
 }

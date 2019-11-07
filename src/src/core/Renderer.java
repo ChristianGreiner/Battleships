@@ -4,7 +4,7 @@ package core;
 import javax.swing.*;
 import java.awt.*;
 
-public class Renderer extends JPanel {
+public class Renderer extends JPanel implements Drawable {
 
     private Image doubleBufferImage = null;
     private Graphics doubleBufferGraphics = null;
@@ -36,6 +36,9 @@ public class Renderer extends JPanel {
         if (this.doubleBufferGraphics != null && this.doubleBufferImage != null) {
             g.drawImage(doubleBufferImage, 0, 0, null);
         }
+    }
 
+    @Override
+    public void draw() {
     }
 }
