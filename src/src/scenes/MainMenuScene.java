@@ -1,12 +1,13 @@
 package scenes;
 
+import core.Game;
 import core.GameWindow;
 import core.Updatable;
 import ui.GuiScene;
+import ui.MainMenuPanel;
 
 import javax.swing.*;
-
-import static java.awt.Component.CENTER_ALIGNMENT;
+import java.awt.*;
 
 public class MainMenuScene extends Scene implements Updatable, GuiScene {
 
@@ -15,48 +16,32 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
     }
 
     @Override
+    void onAdded() {
+        super.onAdded();
+
+        Game.getInstance().getSoundManager().playBackgroundMusic("we-will-win-sc1.wav");
+    }
+
+    @Override
     public void update(double deltaTime) {
     }
 
-    private JButton spBtn, mpBtn, creditsBtn, optBtn, quitBtn;
-
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        JPanel panel = new JPanel();
+        MainMenuPanel menu = new MainMenuPanel();
+        JPanel pnl = menu.create();
+        pnl.setBackground(Color.WHITE);
 
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(Box.createVerticalGlue());
+        menu.getSingleplayerBtn().addActionListener((e) -> {
+            Game.getInstance().getSceneManager().setActiveScene("GameScene");
+        });
 
-        this.spBtn = new JButton();
-        this.spBtn.setSize(32, 300);
-        this.spBtn.setText("Test");
-        this.spBtn.setAlignmentX(CENTER_ALIGNMENT);
-        this.spBtn.setContentAreaFilled(false);
-        this.spBtn.setBorder(null);
-        this.spBtn.addActionListener(
-                (e) -> {
-                    System.out.println("singleplayerbtn gedruekt");
-                }
-        );
+        menu.getCreditsBtn().addActionListener((e) -> {
+            Game.getInstance().getSceneManager().setActiveScene("CreditsScene");
+        });
 
-        panel.add(spBtn, CENTER_ALIGNMENT);
-        panel.add(Box.createVerticalStrut(20));
+        menu.getExitBtn().addActionListener((e) -> { System.exit(0); });
 
-        this.mpBtn = new JButton();
-        this.mpBtn.setSize(32, 300);
-        this.mpBtn.setText("Test");
-        this.mpBtn.setAlignmentX(CENTER_ALIGNMENT);
-        this.mpBtn.setContentAreaFilled(false);
-        this.mpBtn.setBorder(null);
-        this.mpBtn.addActionListener(
-                (e) -> {
-                    System.out.println("singleplayerbtn gedruekt");
-                }
-        );
-
-        panel.add(mpBtn, CENTER_ALIGNMENT);
-        panel.add(Box.createVerticalStrut(20));
-
-        return panel;
+        return pnl;
     }
 }

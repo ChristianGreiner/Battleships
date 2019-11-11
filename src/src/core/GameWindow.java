@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class GameWindow extends JFrame implements Runnable {
 
+    private JPanel rootPanel;
+
     public void addGui(JPanel panel) {
 
         if (panel == null)
@@ -13,13 +15,15 @@ public class GameWindow extends JFrame implements Runnable {
         panel.setSize(this.getWidth(), this.getHeight());
         this.add(panel);
 
-        panel.repaint();
+        this.rootPanel = panel;
+        this.rootPanel.repaint();
         this.repaint();
     }
 
     public void removeGui(JPanel panel) {
         panel.removeAll();
-        this.remove(panel);
+        this.rootPanel.removeAll();
+        this.remove(rootPanel);
         this.repaint();
     }
 
@@ -50,5 +54,8 @@ public class GameWindow extends JFrame implements Runnable {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+
+        if(this.rootPanel != null)
+            this.rootPanel.setSize(this.getWidth(), this.getHeight());
     }
 }

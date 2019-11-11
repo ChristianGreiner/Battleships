@@ -1,9 +1,6 @@
 package core;
 
-import scenes.GameScene;
-import scenes.MainMenuScene;
-import scenes.SceneManager;
-import scenes.TestScene;
+import scenes.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,17 +18,22 @@ public class Game implements Runnable {
         return sceneManager;
     }
 
-    // Managers
-    private SceneManager sceneManager;
-
-    private static Game instance;
-
     public GameWindow getWindow() {
         return window;
     }
 
-    private GameWindow window;
+    private static Game instance;
 
+    // Managers
+    private SceneManager sceneManager;
+
+    public SoundManager getSoundManager() {
+        return soundManager;
+    }
+
+    private SoundManager soundManager;
+
+    private GameWindow window;
     private boolean isRunning;
     private String title;
     private Point gameSize;
@@ -44,14 +46,17 @@ public class Game implements Runnable {
 
         this.sceneManager = new SceneManager(this);
         this.sceneManager.addScene(new MainMenuScene());
+        this.sceneManager.addScene(new CreditsScene());
         this.sceneManager.addScene(new GameScene());
         this.sceneManager.addScene(new TestScene());
+
+        this.soundManager = new SoundManager();
     }
 
     public void start() {
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("GameScene");
+        this.sceneManager.setActiveScene("MainMenuScene");
 
         this.isRunning = true;
         this.run();

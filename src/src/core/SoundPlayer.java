@@ -28,4 +28,9 @@ public class SoundPlayer {
         }
         this.soundClip.start();
     }
+
+    public void stop() {
+        if(this.soundClip != null)
+            this.soundClip.stop();
+    }
 }

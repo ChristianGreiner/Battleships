@@ -5,94 +5,88 @@ import java.awt.*;
 
 public class MainMenuPanel extends JPanel {
 
-    private JButton spBtn, mpBtn, creditsBtn, optBtn, quitBtn;
+    public JButton getSingleplayerBtn() {
+        return singleplayerBtn;
+    }
 
+    public JButton getMultiplayerBtn() {
+        return multiplayerBtn;
+    }
 
-    public MainMenuPanel() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    public JButton getCreditsBtn() {
+        return creditsBtn;
+    }
 
-        this.add(Box.createVerticalGlue());
+    public JButton getOptionsBtn() {
+        return optionsBtn;
+    }
 
-        //TO DO make the size of the buttons the same as that of the images they display
-        this.spBtn = new JButton();
-        this.spBtn.setIcon(new ImageIcon("green.png"));
-        this.spBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.spBtn.setContentAreaFilled(false);
-        this.spBtn.setBorder(null);
-        this.spBtn.setRolloverIcon(new ImageIcon("greenTilted.png"));
-        this.spBtn.setRolloverEnabled(true);
-        this.spBtn.addActionListener(
-                (e) -> {
-                    System.out.println("singleplayerbtn gedruekt");
-                }
-        );
+    public JButton getExitBtn() {
+        return exitBtn;
+    }
 
-        this.add(spBtn);
-        this.add(Box.createVerticalStrut(20));
+    private JButton singleplayerBtn, multiplayerBtn, creditsBtn, optionsBtn, exitBtn;
 
-        this.mpBtn = new JButton();
-        this.mpBtn.setIcon(new ImageIcon("green.png"));
-        this.mpBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.mpBtn.setContentAreaFilled(false);
-        this.mpBtn.setBorder(null);
-        this.mpBtn.setRolloverIcon(new ImageIcon("greenTilted.png"));
-        this.mpBtn.setRolloverEnabled(true);
-        this.mpBtn.addActionListener(
-                (e) -> {
-                    System.out.println("multiplayerbtn gedrueckt");
-                }
-        );
+    private final int paddingSize = 12;
 
-        this.add(mpBtn);
-        this.add(Box.createVerticalStrut(20));
+    public JPanel create() {
+        JPanel panel = new JPanel();
 
-        this.creditsBtn = new JButton();
-        this.creditsBtn.setIcon(new ImageIcon("green.png"));
-        this.creditsBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.creditsBtn.setContentAreaFilled(false);
-        this.creditsBtn.setBorder(null);
-        this.creditsBtn.setRolloverIcon(new ImageIcon("greenTilted.png"));
-        this.creditsBtn.setRolloverEnabled(true);
-        this.creditsBtn.addActionListener(
-                (e) -> {
-                    System.out.println("creditsbtn gedruekt");
-                }
-        );
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
-        this.add(creditsBtn);
-        this.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalGlue());
 
-        this.optBtn = new JButton();
-        this.optBtn.setIcon(new ImageIcon("green.png"));
-        this.optBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.optBtn.setContentAreaFilled(false);
-        this.optBtn.setBorder(null);
-        this.optBtn.setRolloverIcon(new ImageIcon("greenTilted.png"));
-        this.optBtn.setRolloverEnabled(true);
-        this.optBtn.addActionListener(
-                (e) -> {
-                    System.out.println("optbtn gedruekt");
-                }
-        );
+        // -----------------------------------
+        this.singleplayerBtn = addButton("SINGLEPLAYER");
+        panel.add(this.singleplayerBtn);
+        // -----------------------------------
 
-        this.add(optBtn);
-        this.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalStrut(this.paddingSize));
 
-        this.quitBtn = new JButton();
-        this.quitBtn.setIcon(new ImageIcon("green.png"));
-        this.quitBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.quitBtn.setContentAreaFilled(false);
-        this.quitBtn.setBorder(null);
-        this.quitBtn.setRolloverIcon(new ImageIcon("greenTilted.png"));
-        this.quitBtn.setRolloverEnabled(true);
-        this.quitBtn.addActionListener(
-                (e) -> {
-                    System.out.println("quitbtn gedruekt");
-                }
-        );
+        // -----------------------------------
+        this.multiplayerBtn = addButton("MULTIPLAYER");
+        panel.add(this.multiplayerBtn);
+        // -----------------------------------
 
-        this.add(quitBtn);
-        this.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalStrut(this.paddingSize));
 
+        // -----------------------------------
+        this.creditsBtn = addButton("CREDITS");
+        panel.add(this.creditsBtn);
+        // -----------------------------------
+
+        panel.add(Box.createVerticalStrut(this.paddingSize));
+
+        // -----------------------------------
+        this.optionsBtn = addButton("OPTIONS");
+        panel.add(this.optionsBtn);
+        // -----------------------------------
+
+        panel.add(Box.createVerticalStrut(this.paddingSize));
+
+        // -----------------------------------
+        this.exitBtn = addButton("Exit");
+        panel.add(this.exitBtn);
+        // -----------------------------------
+
+        panel.add(Box.createVerticalGlue());
+
+        return panel;
+    }
+
+    private JButton addButton(String text) {
+        JButton btn = new JButton(text);
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn.setPreferredSize(new Dimension(320, 32));
+        btn.setMaximumSize(new Dimension(320, 32));
+        btn.setBorder(null);
+        btn.setBackground(Color.BLACK);
+        btn.setForeground(Color.WHITE);
+        return btn;
+    }
+
+    @Override
+    public void paint(Graphics graphics) {
+        super.paint(graphics);
     }
 }

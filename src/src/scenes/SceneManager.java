@@ -56,6 +56,13 @@ public class SceneManager {
         if (this.activeScene instanceof GuiScene) {
             this.activeGui = ((GuiScene) scene).buildGui(this.game.getWindow());
             this.game.getWindow().addGui(this.activeGui);
+
+            this.activeGui.repaint();
+            this.activeGui.validate();
+
+            this.game.getWindow().repaint();
+            this.game.getWindow().validate();
+            this.game.getWindow().pack();
         }
 
         this.activeScene.onAdded();
