@@ -6,6 +6,7 @@ import core.Updatable;
 import ui.GuiScene;
 
 import javax.swing.*;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 public class SceneManager {
@@ -43,9 +44,14 @@ public class SceneManager {
         Scene scene = this.getScene(name);
 
         if (this.activeScene != null) {
+            if (this.activeScene instanceof KeyListener) {
+                this.game.getWindow().removeKeyListener((KeyListener) this.activeScene);
+            }
+
             if (this.activeGui != null) {
                 this.game.getWindow().removeGui(this.activeGui);
             }
+
             this.activeScene.onRemove();
             this.activeScene = null;
         }
@@ -54,7 +60,9 @@ public class SceneManager {
         this.activeScene = scene;
 
         if (this.activeScene instanceof GuiScene) {
-            this.activeGui = ((GuiScene) scene).buildGui(this.game.getWindow());
+            JPanel panel = new JPanel();
+            panel.setSize(this.game.getWindow().getWidth(), this.game.getWindow().getHeight());
+            this.activeGui = ((GuiScene) scene).buildGui(this.game.getWindow(), panel);
             this.game.getWindow().addGui(this.activeGui);
 
             this.activeGui.repaint();
@@ -63,6 +71,10 @@ public class SceneManager {
             this.game.getWindow().repaint();
             this.game.getWindow().validate();
             this.game.getWindow().pack();
+        }
+
+        if (this.activeScene instanceof KeyListener) {
+            this.game.getWindow().addKeyListener((KeyListener) this.activeScene);
         }
 
         this.activeScene.onAdded();

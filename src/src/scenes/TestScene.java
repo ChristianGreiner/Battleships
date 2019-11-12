@@ -53,9 +53,7 @@ public class TestScene extends Scene implements Updatable, Drawable, GuiScene, M
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow) {
-
-        JPanel panel = new JPanel();
+    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
 
         JButton btn = new JButton("Zu Scene 2 wechseln");
         btn.addActionListener(new ActionListener() {

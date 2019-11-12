@@ -29,44 +29,52 @@ public class MainMenuPanel extends JPanel {
 
     private final int paddingSize = 12;
 
-    public JPanel create() {
-        JPanel panel = new JPanel();
+    public JPanel create(JPanel panel) {
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
         panel.add(Box.createVerticalGlue());
 
+
+        JLabel title = new JLabel("BATTLESHIPS");
+        title.setBackground(Color.RED);
+        title.setHorizontalAlignment(JLabel.LEFT);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+        panel.add(title, BorderLayout.WEST);
+        panel.add(Box.createVerticalStrut(this.paddingSize));
+
+
         // -----------------------------------
         this.singleplayerBtn = addButton("SINGLEPLAYER");
-        panel.add(this.singleplayerBtn);
+        panel.add(this.singleplayerBtn, BorderLayout.CENTER);
         // -----------------------------------
 
         panel.add(Box.createVerticalStrut(this.paddingSize));
 
         // -----------------------------------
         this.multiplayerBtn = addButton("MULTIPLAYER");
-        panel.add(this.multiplayerBtn);
+        panel.add(this.multiplayerBtn, BorderLayout.CENTER);
         // -----------------------------------
 
         panel.add(Box.createVerticalStrut(this.paddingSize));
 
         // -----------------------------------
         this.creditsBtn = addButton("CREDITS");
-        panel.add(this.creditsBtn);
+        panel.add(this.creditsBtn, BorderLayout.CENTER);
         // -----------------------------------
 
         panel.add(Box.createVerticalStrut(this.paddingSize));
 
         // -----------------------------------
         this.optionsBtn = addButton("OPTIONS");
-        panel.add(this.optionsBtn);
+        panel.add(this.optionsBtn, BorderLayout.CENTER);
         // -----------------------------------
 
         panel.add(Box.createVerticalStrut(this.paddingSize));
 
         // -----------------------------------
         this.exitBtn = addButton("Exit");
-        panel.add(this.exitBtn);
+        panel.add(this.exitBtn, BorderLayout.CENTER);
         // -----------------------------------
 
         panel.add(Box.createVerticalGlue());
@@ -83,10 +91,5 @@ public class MainMenuPanel extends JPanel {
         btn.setBackground(Color.BLACK);
         btn.setForeground(Color.WHITE);
         return btn;
-    }
-
-    @Override
-    public void paint(Graphics graphics) {
-        super.paint(graphics);
     }
 }

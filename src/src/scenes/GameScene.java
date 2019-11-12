@@ -1,7 +1,10 @@
 package scenes;
 
 import ai.SinglePlayerAI;
-import core.*;
+import core.ANSIColors;
+import core.Drawable;
+import core.GameWindow;
+import core.Updatable;
 import game.Map;
 import game.MapData;
 import game.MapGenerator;
@@ -61,7 +64,6 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     @Override
     void onAdded() {
         super.onAdded();
-        Game.getInstance().getWindow().addKeyListener(this);
 
         // exmaple reading json file
         File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
@@ -111,8 +113,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow) {
-        JPanel panel = new JPanel();
+    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
 
         this.playerMapRenderer.setBackground(Color.black);
         this.playerMapRenderer.setLocation(0, 0);

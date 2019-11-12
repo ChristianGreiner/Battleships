@@ -45,6 +45,7 @@ public class Game implements Runnable {
         this.title = title;
 
         this.sceneManager = new SceneManager(this);
+        this.sceneManager.addScene(new SplashScene());
         this.sceneManager.addScene(new MainMenuScene());
         this.sceneManager.addScene(new CreditsScene());
         this.sceneManager.addScene(new GameScene());
@@ -56,7 +57,7 @@ public class Game implements Runnable {
     public void start() {
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("MainMenuScene");
+        this.sceneManager.setActiveScene("SplashScene");
 
         this.isRunning = true;
         this.run();

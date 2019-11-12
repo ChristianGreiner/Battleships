@@ -23,13 +23,11 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     @Override
     void onAdded() {
         super.onAdded();
-        Game.getInstance().getWindow().addKeyListener(this);
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow) {
+    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
         this.gameWindow = gameWindow;
-        JPanel panel = new JPanel();
 
         panel.setLayout(new BorderLayout());
 

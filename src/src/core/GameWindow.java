@@ -2,6 +2,10 @@ package core;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 
 public class GameWindow extends JFrame implements Runnable {
 
@@ -9,10 +13,7 @@ public class GameWindow extends JFrame implements Runnable {
 
     public void addGui(JPanel panel) {
 
-        if (panel == null)
-            return;
 
-        panel.setSize(this.getWidth(), this.getHeight());
         this.add(panel);
 
         this.rootPanel = panel;
@@ -49,13 +50,24 @@ public class GameWindow extends JFrame implements Runnable {
 
         this.pack();
         this.setLocationRelativeTo(null);
+
+        this.getRootPane().addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                if (rootPanel != null)
+                    rootPanel.setSize(getWidth(), getHeight());
+            }
+        });
+
+        this.addWindowStateListener(new WindowStateListener() {
+            public void windowStateChanged(WindowEvent e) {
+                if (rootPanel != null)
+                    rootPanel.setSize(getWidth(), getHeight());
+            }
+        });
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        if(this.rootPanel != null)
-            this.rootPanel.setSize(this.getWidth(), this.getHeight());
+    public void fullscreen() {
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setVisible(true);
     }
 }
