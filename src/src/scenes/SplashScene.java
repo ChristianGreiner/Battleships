@@ -1,5 +1,6 @@
 package scenes;
 
+import core.Fonts;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
@@ -32,7 +33,7 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
         title.setBackground(Color.RED);
         title.setVerticalAlignment(JLabel.CENTER);
         title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 24));
+        title.setFont(Fonts.TITLE);
         title.setPreferredSize(new Dimension(panel.getWidth(), 32));
         title.setMaximumSize(new Dimension(panel.getWidth(), 32));
         panel.add(title, BorderLayout.CENTER);

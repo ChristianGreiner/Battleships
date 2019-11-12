@@ -55,9 +55,12 @@ public class Game implements Runnable {
     }
 
     public void start() {
+        // initialize fonts
+        Fonts fonts = new Fonts();
+
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("SplashScene");
+        this.sceneManager.setActiveScene("MainMenuScene");
 
         this.isRunning = true;
         this.run();
