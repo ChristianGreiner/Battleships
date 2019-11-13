@@ -21,10 +21,6 @@ public class MapRenderer extends Renderer {
 
         g.fillRect(20, 20, 20, 20);
 
-        for (int x = 0; x < (this.getWidth() / map.getSize()); x++) {
-            // hier zeichen yeeet jospeh
-        }
-
 
         this.end();
     }

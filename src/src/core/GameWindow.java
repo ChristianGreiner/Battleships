@@ -9,13 +9,14 @@ import java.awt.event.WindowStateListener;
 
 public class GameWindow extends JFrame implements Runnable {
 
+    public JPanel getRootPanel() {
+        return rootPanel;
+    }
+
     private JPanel rootPanel;
 
     public void addGui(JPanel panel) {
-
-
         this.add(panel);
-
         this.rootPanel = panel;
         this.rootPanel.repaint();
         this.repaint();
@@ -47,6 +48,7 @@ public class GameWindow extends JFrame implements Runnable {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(false);
+        this.setMinimumSize(new Dimension(1280, 720));
 
         this.pack();
         this.setLocationRelativeTo(null);
@@ -69,5 +71,10 @@ public class GameWindow extends JFrame implements Runnable {
     public void fullscreen() {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
+    }
+
+    @Override
+    public void paint(Graphics graphics) {
+        super.paint(graphics);
     }
 }

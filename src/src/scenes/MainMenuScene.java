@@ -7,7 +7,6 @@ import ui.GuiScene;
 import ui.MainMenuPanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MainMenuScene extends Scene implements Updatable, GuiScene {
 
@@ -30,7 +29,6 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
     public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
         MainMenuPanel menu = new MainMenuPanel();
         panel = menu.create(panel);
-        panel.setBackground(Color.WHITE);
 
         menu.getSingleplayerBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene("GameScene");

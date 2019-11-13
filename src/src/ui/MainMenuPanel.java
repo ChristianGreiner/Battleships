@@ -5,7 +5,7 @@ import core.Fonts;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainMenuPanel extends JPanel {
+public class MainMenuPanel extends JPanel implements UiPanel {
 
     public JButton getSingleplayerBtn() {
         return singleplayerBtn;
@@ -31,39 +31,7 @@ public class MainMenuPanel extends JPanel {
 
     private final int paddingSize = 12;
 
-    private JButton addButton(String title, JPanel container, int y) {
-        JButton btn = new JButton();
-        btn.setText(title);
-        btn.setBackground(Color.BLACK);
-        btn.setForeground(Color.WHITE);
-        btn.setFont(Fonts.DEFAULT);
-        btn.setPreferredSize(new Dimension(320, 32));
-        btn.setMaximumSize(new Dimension(320, 32));
-        btn.setBorder(null);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = y;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        container.add(btn, gbc);
-
-        return btn;
-    }
-
-    private void addSpace(JPanel container, int y, Insets insets) {
-        final JPanel spacer = new JPanel();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = y;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        if (insets != null)
-            gbc.insets = insets;
-        spacer.setBackground(Color.white);
-        container.add(spacer, gbc);
-    }
-
     public JPanel create(JPanel panel) {
-
-        //panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc;
@@ -75,7 +43,7 @@ public class MainMenuPanel extends JPanel {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(0, 0, 20, 0);
         panel.add(title, gbc);
 
         addSpace(panel, 2, null);
@@ -98,66 +66,48 @@ public class MainMenuPanel extends JPanel {
 
         this.exitBtn = addButton("EXIT", panel, 11);
 
-        /*
+        panel.validate();
 
-        panel.add(Box.createVerticalGlue());
-
-        JLabel title = new JLabel("BATTLESHIPS");
-        title.setBackground(Color.RED);
-        title.setHorizontalAlignment(JLabel.LEFT);
-        title.setFont(new Font("Arial", Font.BOLD, 24));
-        panel.add(title, BorderLayout.WEST);
-        panel.add(Box.createVerticalStrut(this.paddingSize));
-
-
-        // -----------------------------------
-        this.singleplayerBtn = addButton("SINGLEPLAYER");
-        panel.add(this.singleplayerBtn, BorderLayout.CENTER);
-        // -----------------------------------
-
-        panel.add(Box.createVerticalStrut(this.paddingSize));
-
-        // -----------------------------------
-        this.multiplayerBtn = addButton("MULTIPLAYER");
-        panel.add(this.multiplayerBtn, BorderLayout.CENTER);
-        // -----------------------------------
-
-        panel.add(Box.createVerticalStrut(this.paddingSize));
-
-        // -----------------------------------
-        this.creditsBtn = addButton("CREDITS");
-        panel.add(this.creditsBtn, BorderLayout.CENTER);
-        // -----------------------------------
-
-        panel.add(Box.createVerticalStrut(this.paddingSize));
-
-        // -----------------------------------
-        this.optionsBtn = addButton("OPTIONS");
-        panel.add(this.optionsBtn, BorderLayout.CENTER);
-        // -----------------------------------
-
-        panel.add(Box.createVerticalStrut(this.paddingSize));
-
-        // -----------------------------------
-        this.exitBtn = addButton("Exit");
-        panel.add(this.exitBtn, BorderLayout.CENTER);
-        // -----------------------------------
-
-        panel.add(Box.createVerticalGlue());
-*/
         return panel;
     }
 
-
-    private JButton addButton(String text) {
-        JButton btn = new JButton(text);
-        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btn.setPreferredSize(new Dimension(320, 32));
-        btn.setMaximumSize(new Dimension(320, 32));
-        btn.setBorder(null);
+    private JButton addButton(String title, JPanel container, int y) {
+        JButton btn = new JButton();
+        btn.setText(title);
         btn.setBackground(Color.BLACK);
         btn.setForeground(Color.WHITE);
         btn.setFont(Fonts.DEFAULT);
+        btn.setPreferredSize(new Dimension(320, 32));
+        btn.setMaximumSize(new Dimension(320, 32));
+        btn.setBorder(null);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = y;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        container.add(btn, gbc);
+
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn.setBackground(Color.DARK_GRAY);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn.setBackground(Color.BLACK);
+            }
+        });
+
         return btn;
+    }
+
+    private void addSpace(JPanel container, int y, Insets insets) {
+        final JPanel spacer = new JPanel();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = y;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        if (insets != null)
+            gbc.insets = insets;
+        spacer.setBackground(null);
+        container.add(spacer, gbc);
     }
 }

@@ -49,7 +49,7 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new MainMenuScene());
         this.sceneManager.addScene(new CreditsScene());
         this.sceneManager.addScene(new GameScene());
-        this.sceneManager.addScene(new TestScene());
+        this.sceneManager.addScene(new SinglePlayerScene());
 
         this.soundManager = new SoundManager();
     }
@@ -60,7 +60,7 @@ public class Game implements Runnable {
 
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("MainMenuScene");
+        this.sceneManager.setActiveScene("SinglePlayer");
 
         this.isRunning = true;
         this.run();
