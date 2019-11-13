@@ -22,17 +22,22 @@ public class Helper {
         return Alignment.Horizontal;
     }
 
-    public static Direction getRandomDirection() {
-        int dirNumber = randomNumber(0, 3);
+    public static Direction getRandomDirection(Alignment getalign) {
 
-        if (dirNumber == 0)
-            return Direction.Up;
-        else if (dirNumber == 1)
-            return Direction.Right;
-        else if (dirNumber == 2)
-            return Direction.Down;
-        else
-            return Direction.Left;
+        int dirNumber = randomNumber(0, 1);
+
+        if (getalign == Alignment.Horizontal){
+            if (dirNumber == 0){
+                return Direction.Left;
+            }
+            else return Direction.Right;
+        }
+        else {
+            if (dirNumber == 0) {
+                return Direction.Up;
+            } else return Direction.Down;
+        }
+
     }
 
     /**

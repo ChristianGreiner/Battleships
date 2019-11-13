@@ -1,5 +1,5 @@
 package core;
 
 public interface AI {
-    public void shot();
+    //public void shot();
 }
