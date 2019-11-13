@@ -30,7 +30,7 @@ public class GameScene {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        createUIComponents();
+        panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         mapsContainer = new JPanel();
         mapsContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));

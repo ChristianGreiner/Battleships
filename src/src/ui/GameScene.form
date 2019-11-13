@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ui.GameScene">
-  <grid id="27dc6" binding="panel" custom-create="true" layout-manager="GridBagLayout">
+  <grid id="27dc6" binding="panel" layout-manager="GridBagLayout">
     <constraints>
       <xy x="285" y="23" width="514" height="335"/>
     </constraints>

@@ -7,6 +7,7 @@ import ui.GuiScene;
 
 import javax.swing.*;
 import java.awt.event.KeyListener;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class SceneManager {
@@ -15,7 +16,7 @@ public class SceneManager {
     private Game game;
     private JPanel activeGui;
 
-    private HashMap<String, Scene> scenes = new HashMap<>();
+    private HashMap<Type, Scene> scenes = new HashMap<>();
 
     public Scene getActiveScene() {
         return activeScene;
@@ -26,22 +27,22 @@ public class SceneManager {
     }
 
     public void addScene(Scene scene) {
-        this.scenes.put(scene.getName(), scene);
+        this.scenes.put(scene.getClass(), scene);
     }
 
-    public Scene getScene(String name) {
-        return this.scenes.get(name);
+    public Scene getScene(Type type) {
+        return this.scenes.get(type);
     }
 
-    public void setActiveScene(String name) {
-        if (!this.scenes.containsKey(name)) {
+    public void setActiveScene(Type type) {
+        if (!this.scenes.containsKey(type)) {
             try {
                 throw new Exception("Scene not found");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        Scene scene = this.getScene(name);
+        Scene scene = this.getScene(type);
 
         if (this.activeScene != null) {
             if (this.activeScene instanceof KeyListener) {

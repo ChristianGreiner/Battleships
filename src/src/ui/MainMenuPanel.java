@@ -72,29 +72,12 @@ public class MainMenuPanel extends JPanel implements UiPanel {
     }
 
     private JButton addButton(String title, JPanel container, int y) {
-        JButton btn = new JButton();
-        btn.setText(title);
-        btn.setBackground(Color.BLACK);
-        btn.setForeground(Color.WHITE);
-        btn.setFont(Fonts.DEFAULT);
-        btn.setPreferredSize(new Dimension(320, 32));
-        btn.setMaximumSize(new Dimension(320, 32));
-        btn.setBorder(null);
+        JButton btn = UiBuilder.createButton(title, new Dimension(320, 32));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = y;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         container.add(btn, gbc);
-
-        btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn.setBackground(Color.DARK_GRAY);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn.setBackground(Color.BLACK);
-            }
-        });
 
         return btn;
     }

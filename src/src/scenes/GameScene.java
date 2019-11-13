@@ -59,6 +59,8 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
             System.out.print("\n" + ANSIColors.RESET);
         }
         System.out.println("-------------------------");
+
+        //this.playerMap.getShipsCounter().forEach((k,v) -> System.out.println("key: "+k+" value:"+v));
     }
 
     @Override

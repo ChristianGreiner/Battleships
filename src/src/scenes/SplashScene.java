@@ -4,6 +4,7 @@ import core.Fonts;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
+import game.Assets;
 import ui.GuiScene;
 
 import javax.swing.*;
@@ -13,6 +14,8 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
 
     private int timeCounter;
 
+    private int maxCount = 120;
+
     public SplashScene() {
         super("SplashScene");
     }
@@ -20,6 +23,8 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
     @Override
     void onAdded() {
         super.onAdded();
+
+        Game.getInstance().getSoundManager().playSfx(Assets.SEATBELT_SFX);
     }
 
     @Override
@@ -30,7 +35,6 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
         panel.add(Box.createVerticalGlue());
 
         JLabel title = new JLabel("BITTE LEGEN SIE IHREN ANSCHNALLGURT AN!");
-        title.setBackground(Color.RED);
         title.setVerticalAlignment(JLabel.CENTER);
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setFont(Fonts.TITLE);
@@ -47,8 +51,8 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
     @Override
     public void update(double deltaTime) {
 
-        if (this.timeCounter >= 100) {
-            Game.getInstance().getSceneManager().setActiveScene("MainMenuScene");
+        if (this.timeCounter >= this.maxCount) {
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
         System.out.println(timeCounter);

@@ -22,6 +22,10 @@ public class Game implements Runnable {
         return window;
     }
 
+    public Options getOptions() {
+        return options;
+    }
+
     private static Game instance;
 
     // Managers
@@ -33,6 +37,9 @@ public class Game implements Runnable {
 
     private SoundManager soundManager;
 
+
+
+    private Options options = new Options();
     private GameWindow window;
     private boolean isRunning;
     private String title;
@@ -48,6 +55,7 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new SplashScene());
         this.sceneManager.addScene(new MainMenuScene());
         this.sceneManager.addScene(new CreditsScene());
+        this.sceneManager.addScene(new OptionsScene());
         this.sceneManager.addScene(new GameScene());
         this.sceneManager.addScene(new SinglePlayerScene());
 
@@ -60,7 +68,7 @@ public class Game implements Runnable {
 
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("SinglePlayer");
+        this.sceneManager.setActiveScene(SplashScene.class);
 
         this.isRunning = true;
         this.run();

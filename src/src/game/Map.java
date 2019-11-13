@@ -5,10 +5,18 @@ import game.ships.Ship;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Map implements Serializable {
     private MapTile[][] tiles;
+
+    public HashMap<Type, Integer> getShipsCounter() {
+        return shipsCounter;
+    }
+
+    private HashMap<Type, Integer> shipsCounter = new HashMap<>();
     private int size;
 
     public int getNumberOfShips() {
@@ -77,13 +85,24 @@ public class Map implements Serializable {
             // check vertical
             if (position.y + ship.getSpace() <= this.getSize()) {
                 for (int i = 0; i < ship.getSpace(); i++) {
-                    this.tiles[position.x][position.y + i].setShip(ship);
+                    this.tiles[position.x][position.y + 1].setShip(ship);
                     ship.getTiles().add(this.tiles[position.x][position.y + i]);
                 }
             }
         }
 
+        this.computeShipCountAdd(ship);
+
         return true;
+    }
+
+    private void computeShipCountAdd(Ship ship) {
+        int counter = 0;
+        if(this.shipsCounter.containsKey(ship.getClass()))
+            counter = this.shipsCounter.get(ship.getClass());
+
+        counter++;
+        this.shipsCounter.put(ship.getClass(), counter);
     }
 
     private ArrayList<MapTile> getNeighborTiles(Ship ship) {
@@ -555,10 +574,7 @@ public class Map implements Serializable {
         if (!areTilesEmpty(position, ship.getSpace(), rotated))
             return false;
 
-        if (!hasFreeNeighborTiles(position, ship.getSpace(), rotated))
-            return false;
-
-        return true;
+        return hasFreeNeighborTiles(position, ship.getSpace(), rotated);
     }
 
     /**

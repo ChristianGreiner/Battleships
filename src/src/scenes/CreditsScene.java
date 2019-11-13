@@ -59,7 +59,7 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Game.getInstance().getSceneManager().setActiveScene("MainMenuScene");
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
     }
 

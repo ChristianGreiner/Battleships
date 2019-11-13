@@ -18,7 +18,6 @@ public class SinglePlayerPanel extends JPanel implements UiPanel {
         this.playerMapRenderer = playerMapRenderer;
     }
 
-
     @Override
     public JPanel create(JPanel panel) {
 

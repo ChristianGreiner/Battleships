@@ -1,5 +1,6 @@
 package graphics;
 
+import core.Fonts;
 import core.Helper;
 import core.Renderer;
 
@@ -29,7 +30,7 @@ public class CreditsRenderer extends Renderer {
 
         for (int i = 0; i < this.lines.length; i++) {
             Rectangle rec = new Rectangle(0, currentY + i * 20, canvasSize.x, 32);
-            Helper.drawCenteredString(g, this.lines[i], rec, new Font("TimesRoman", Font.PLAIN, 26));
+            Helper.drawCenteredString(g, this.lines[i], rec, Fonts.DEFAULT_24);
         }
 
         currentY--;
