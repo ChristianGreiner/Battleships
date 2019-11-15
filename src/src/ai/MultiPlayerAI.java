@@ -29,7 +29,7 @@ public class MultiPlayerAI implements AI {
     //@Override
     public Point shot() {
             if (!shipinfocus){
-                return randomhit();
+                return randomHit();
             }
             return continuehit();
     }
@@ -196,7 +196,7 @@ public class MultiPlayerAI implements AI {
         return newpoint;
     }
 
-    private Point randomhit(){
+    private Point randomHit(){
 
         do {
             int tryMarkx = (int) (Math.random() * this.eMap.getSize());

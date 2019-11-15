@@ -10,6 +10,7 @@ public class MapTile implements Serializable {
     private Point pos;
     private Ship ship;
     private boolean hit;
+    private boolean logicfree;
     private boolean neighbor;
     private boolean blocked;
 
@@ -40,6 +41,12 @@ public class MapTile implements Serializable {
     public boolean isHit() {
         return hit;
     }
+
+    public void setlogicfree(boolean logicfree) {
+        this.logicfree = logicfree;
+    }
+
+    public boolean getlogicfree(){ return this.logicfree;}
 
     public boolean hasShip() {
         return this.getShip() != null;

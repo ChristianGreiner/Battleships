@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Map implements Serializable {
     private MapTile[][] tiles;
     private int size;
+    private int outOfShipLength = 1;
 
     public int getNumberOfShips() {
         return numberOfShips;
@@ -52,6 +53,20 @@ public class Map implements Serializable {
                 return getTile(new Point(rndX, rndY));
             }
         }
+    }
+
+    public void setOutOfShipLength(){ //everytime ship gets destroyed, this method should be refreshed
+        /*
+        if(out of submarine){
+            outOfShipLength=2;
+            if (out of destroyer){
+                outOfShipLength=3;
+                if (out of carrier){
+                    outOfShipLength=4;
+                }
+            }
+        }
+        */
     }
 
     public boolean insert(Ship ship, Point position, boolean rotated) {
@@ -444,6 +459,76 @@ public class Map implements Serializable {
             }
         }
 
+        return true;
+    }
+
+    public boolean fieldIsLogicFree(Point pos){
+
+        if(!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getlogicfree())) {return false;}
+
+        boolean borderXplusReached = false;
+        boolean borderYplusReached = false;
+        boolean borderXminusReached = false;
+        boolean borderYminusReached = false;
+        int rangeX = 1;
+        int rangeY = 1;
+
+        for (int i=1; i<5;i++){
+
+            Point newPosX = new Point(pos.x + i, pos.y);
+            Point newPosY = new Point(pos.x, pos.y + 1);
+            Point newPosNegX = new Point(pos.x - i,pos.y);
+            Point newPosNegY = new Point(pos.x, pos.y - 1);
+
+            if(!borderXplusReached){
+                if (!(isInMap(newPosX)) && !(this.tiles[pos.x+i][pos.y].isHit())){
+                    rangeX++;
+                }
+                else borderXplusReached = true;
+            }
+            if(!borderYplusReached){
+                if (!(isInMap(newPosY)) && !(this.tiles[pos.x][pos.y+i].isHit())){
+                    rangeY++;
+                }
+                else borderYplusReached = true;
+            }
+            if(!borderXminusReached){
+                if (!(isInMap(newPosNegX)) && !(this.tiles[pos.x-i][pos.y].isHit())){
+                    rangeX++;
+                }
+                else borderXminusReached = true;
+            }
+            if(!borderYminusReached){
+                if (!(isInMap(newPosNegY)) && !(this.tiles[pos.x][pos.y-i].isHit())){
+                    rangeY++;
+                }
+                else borderYminusReached = true;
+            }
+
+            if(rangeX == 5 || rangeY == 5) return true;
+
+            if(borderXminusReached && borderXplusReached && borderYminusReached && borderYplusReached){
+                if (rangeX == 1 && rangeY == 1) return false;
+                if (rangeX == 2 && rangeX>rangeY || rangeY == 2 && rangeY>rangeX) {
+                    if (outOfShipLength == 2) {
+                        this.tiles[pos.x][pos.y].setlogicfree(false);
+                        return false;
+                    }
+                }
+                if (rangeX == 3 && rangeX>rangeY || rangeY == 3 && rangeY>rangeX){
+                    if (outOfShipLength==3){
+                        this.tiles[pos.x][pos.y].setlogicfree(false);
+                        return false;
+                    }
+                }
+                if (rangeX == 4 && rangeX>rangeY || rangeY == 4 && rangeY>rangeX){
+                    if (outOfShipLength==4){
+                        this.tiles[pos.x][pos.y].setlogicfree(false);
+                        return false;
+                    }
+                }
+            }
+        }
         return true;
     }
 

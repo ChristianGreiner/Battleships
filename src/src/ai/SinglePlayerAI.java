@@ -271,7 +271,7 @@ public class SinglePlayerAI implements AI {
             int tryMarky = (int) (Math.random() * this.map.getSize());
             tryPoint = new Point(tryMarkx, tryMarky);
         }
-        while (this.map.getTile(tryPoint).isHit());
+        while (!(this.map.fieldIsLogicFree(tryPoint)));
         this.shotHit = this.map.shot(tryPoint);
         if (shotHit) {
             this.lastPoint = tryPoint;
