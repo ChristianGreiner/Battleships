@@ -1,6 +1,5 @@
 package ui;
 
-import core.Fonts;
 import core.Game;
 import game.Assets;
 
@@ -13,9 +12,9 @@ public class UiBuilder {
 
     public static JButton createButton(String name, Dimension size) {
         JButton btn = new JButton(name);
-        btn.setBackground(Color.BLACK);
+        btn.setBackground(new Color(44, 62, 80));
         btn.setForeground(Color.WHITE);
-        btn.setFont(Fonts.DEFAULT);
+        btn.setFont(Assets.Fonts.DEFAULT);
         btn.setPreferredSize(size);
         btn.setMaximumSize(size);
         btn.setBorder(null);
@@ -23,19 +22,19 @@ public class UiBuilder {
         btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent evt) {
-                btn.setBackground(Color.DARK_GRAY);
-                Game.getInstance().getSoundManager().playSfx(Assets.Button.HOVER_SFX);
+                btn.setBackground(new Color(52, 73, 94));
+                Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
             }
 
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 super.mousePressed(mouseEvent);
-                Game.getInstance().getSoundManager().playSfx(Assets.Button.CLICK_SFX);
+                Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_CLICK);
             }
 
             @Override
             public void mouseExited(MouseEvent evt) {
-                btn.setBackground(Color.BLACK);
+                btn.setBackground(new Color(44, 62, 80));
             }
         });
 

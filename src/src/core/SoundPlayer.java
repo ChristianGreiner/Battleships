@@ -1,17 +1,14 @@
 package core;
 
-import javax.sound.sampled.*;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 public class SoundPlayer {
 
     private Clip soundClip;
-    private AudioInputStream audioInputStream;
-    private InputStream inputStream;
 
-    public SoundPlayer(String fileName) {
-        this.inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+    public SoundPlayer(Clip soundClip) {
+        this.soundClip = soundClip;
     }
 
     public void setVolume(float value) {
@@ -30,17 +27,9 @@ public class SoundPlayer {
     }
 
     public void play() {
-        try {
-            this.audioInputStream = AudioSystem.getAudioInputStream(inputStream);
-            this.soundClip = AudioSystem.getClip();
-            this.soundClip.open(this.audioInputStream);
+        if(this.soundClip != null) {
+            this.soundClip.setFramePosition(0);
             this.soundClip.start();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
         }
     }
 

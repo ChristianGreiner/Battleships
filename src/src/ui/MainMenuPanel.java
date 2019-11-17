@@ -1,13 +1,10 @@
 package ui;
 
-import core.Fonts;
 import core.Game;
 import game.Assets;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 public class MainMenuPanel extends JPanel {
 
@@ -39,20 +36,10 @@ public class MainMenuPanel extends JPanel {
 
     private JButton singleplayerBtn, multiplayerBtn, creditsBtn, optionsBtn, exitBtn;
 
-    public Image getBackgroundImage() {
-        return backgroundImage;
-    }
-
-    private Image backgroundImage;
     private final int paddingSize = 12;
 
     public MainMenuPanel() {
         instance = this;
-        try {
-            this.backgroundImage = ImageIO.read(getClass().getClassLoader().getResourceAsStream(Assets.BACKGROUND));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public MainMenuPanel create() {
@@ -66,10 +53,10 @@ public class MainMenuPanel extends JPanel {
         GridBagConstraints gbc;
 
         final JLabel title = new JLabel("BATTLESHIPS");
-        title.setFont(Fonts.TITLE);
+        title.setFont(Assets.Fonts.TITLE_BIG);
         title.setHorizontalAlignment(0);
         title.setHorizontalTextPosition(0);
-        title.setForeground(Color.black);
+        title.setForeground(Color.white);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -125,6 +112,6 @@ public class MainMenuPanel extends JPanel {
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        graphics.drawImage( this.backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        graphics.drawImage(Assets.Images.BACKGROUND, 0, 0, getWidth(), getHeight(), this);
     }
 }

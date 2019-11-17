@@ -3,6 +3,7 @@ package scenes;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
+import game.Assets;
 import ui.GuiScene;
 import ui.MainMenuPanel;
 
@@ -18,7 +19,7 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
     void onAdded() {
         super.onAdded();
 
-        Game.getInstance().getSoundManager().playBackgroundMusic("we-will-win-sc1.wav");
+        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.BACKGROUND_MUSIC);
     }
 
     @Override

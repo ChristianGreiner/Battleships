@@ -1,6 +1,6 @@
 package ui;
 
-import core.Fonts;
+import game.Assets;
 import graphics.MapRenderer;
 
 import javax.swing.*;
@@ -39,7 +39,7 @@ public class SinglePlayerPanel extends JPanel {
         final JLabel playerLabel = new JLabel();
         playerLabel.setHorizontalAlignment(0);
         playerLabel.setText("Player 1");
-        playerLabel.setFont(Fonts.DEFAULT_24);
+        playerLabel.setFont(Assets.Fonts.DEFAULT_24);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -69,7 +69,7 @@ public class SinglePlayerPanel extends JPanel {
         enemyLabel.setHorizontalAlignment(0);
         enemyLabel.setHorizontalTextPosition(0);
         enemyLabel.setText("Player 2");
-        enemyLabel.setFont(Fonts.DEFAULT_24);
+        enemyLabel.setFont(Assets.Fonts.DEFAULT_24);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

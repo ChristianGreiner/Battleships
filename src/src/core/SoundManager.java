@@ -1,5 +1,7 @@
 package core;
 
+import javax.sound.sampled.Clip;
+
 public class SoundManager {
 
     public SoundPlayer getBackgroundPlayer() {
@@ -11,9 +13,9 @@ public class SoundManager {
     public SoundManager() {
     }
 
-    public void playBackgroundMusic(String fileName) {
+    public void playBackgroundMusic(Clip audioClip) {
         if(this.backgroundPlayer == null) {
-            this.backgroundPlayer = new SoundPlayer(fileName);
+            this.backgroundPlayer = new SoundPlayer(audioClip);
             this.backgroundPlayer.play(Game.getInstance().getOptions().getMusicVolume());
         }
     }
@@ -22,13 +24,15 @@ public class SoundManager {
         this.backgroundPlayer.stop();
     }
 
-    public void playSfx(String fileName) {
-        SoundPlayer soundPlayer = new SoundPlayer(fileName);
+    public void playSfx(Clip audioClip) {
+        SoundPlayer soundPlayer = new SoundPlayer(audioClip);
         soundPlayer.play(Game.getInstance().getOptions().getSfxVolume());
     }
 
-    public void playSfx(String fileName, float volume) {
-        SoundPlayer soundPlayer = new SoundPlayer(fileName);
+
+    public void playSfx(Clip audioClip, float volume) {
+        SoundPlayer soundPlayer = new SoundPlayer(audioClip);
         soundPlayer.play(volume);
     }
+
 }

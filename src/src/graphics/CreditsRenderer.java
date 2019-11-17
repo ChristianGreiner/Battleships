@@ -1,20 +1,22 @@
 package graphics;
 
-import core.Fonts;
 import core.Helper;
 import core.Renderer;
+import game.Assets;
+import game.Credit;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class CreditsRenderer extends Renderer {
 
-    private String[] lines;
+    private ArrayList<Credit> credits;
     private Point startPos;
     private Point canvasSize;
     private int currentY;
 
-    public CreditsRenderer(String[] lines, Point canvasSize) {
-        this.lines = lines;
+    public CreditsRenderer(ArrayList<Credit> credits, Point canvasSize) {
+        this.credits = credits;
         this.startPos = new Point(canvasSize.x / 2, canvasSize.y);
         this.currentY = startPos.y;
         this.canvasSize = canvasSize;
@@ -28,12 +30,17 @@ public class CreditsRenderer extends Renderer {
 
         Graphics g = this.begin();
 
-        for (int i = 0; i < this.lines.length; i++) {
-            Rectangle rec = new Rectangle(0, currentY + i * 20, canvasSize.x, 32);
-            Helper.drawCenteredString(g, this.lines[i], rec, Fonts.TITLE);
+        g.drawImage(Assets.Images.BACKGROUND, 0, 0, canvasSize.x, canvasSize.y, this);
+
+        g.setColor(Color.white);
+
+        for (int i = 0; i < this.credits.size(); i++) {
+            Credit c = this.credits.get(i);
+            Rectangle rec = new Rectangle(0, currentY + (i * 48), canvasSize.x, c.getFont().getSize());
+            Helper.drawCenteredString(g, c.getText(), rec, c.getFont());
         }
 
-        currentY--;
+        currentY -= 2;
 
         this.end();
     }

@@ -6,6 +6,8 @@ import scenes.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.Duration;
+import java.time.Instant;
 
 public class Game implements Runnable {
 
@@ -64,14 +66,22 @@ public class Game implements Runnable {
     }
 
     public void start() {
+
+        Instant start = Instant.now();
+
         // initialize fonts
-        Fonts fonts = new Fonts();
+        Assets.init();
 
         // load config
-        this.options = (Options)this.fileHandler.loadObject(Assets.OPTIONS);
+        this.options = (Options)this.fileHandler.loadObject(Assets.Paths.OPTIONS);
 
         if(this.options == null)
             this.options = new Options();
+
+        Instant finish = Instant.now();
+        long timeElapsed = Duration.between(start, finish).toMillis();
+
+        System.out.println("Assets loaded in " + timeElapsed + " ms");
 
 
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));

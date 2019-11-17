@@ -3,6 +3,8 @@ package scenes;
 import core.Drawable;
 import core.Game;
 import core.GameWindow;
+import game.Assets;
+import game.Credit;
 import graphics.CreditsRenderer;
 import ui.GuiScene;
 
@@ -10,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawable {
 
@@ -32,12 +35,16 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        String[] lines = new String[3];
-        lines[0] = "BATTLESHIPS";
-        lines[1] = "";
-        lines[2] = "EIN SPIEL VON TEAM XYZ";
+        ArrayList<Credit> credits = new ArrayList<>();
+        credits.add(new Credit("BATTLESHIPS", Assets.Fonts.TITLE_BIG));
+        credits.add(new Credit("", Assets.Fonts.TITLE_BIG));
+        credits.add(new Credit("EIN SPIEL VON:", Assets.Fonts.DEFAULT_BOLD_24));
+        credits.add(new Credit("JOSEPH DER ECHTE", Assets.Fonts.DEFAULT_18));
+        credits.add(new Credit("GREINER DER WEBDESIGNER", Assets.Fonts.DEFAULT_18));
+        credits.add(new Credit("SHADER DER INDER", Assets.Fonts.DEFAULT_18));
+        credits.add(new Credit("FREDDY", Assets.Fonts.DEFAULT_18));
 
-        this.creditsRenderer = new CreditsRenderer(lines, new Point(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight()));
+        this.creditsRenderer = new CreditsRenderer(credits, new Point(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight()));
         this.creditsRenderer.setBackground(Color.WHITE);
         this.creditsRenderer.setLocation(0, 0);
         this.creditsRenderer.setSize(gameWindow.getSize());

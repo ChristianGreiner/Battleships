@@ -1,7 +1,7 @@
 package ui;
 
-import core.Fonts;
 import core.Game;
+import game.Assets;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -38,7 +38,7 @@ public class OptionsPanel extends JPanel {
         panel.add(sfxVolumeContainer, gbc);
 
         final JLabel sfxVolumeLbl = new JLabel("Sfx Volume:");
-        sfxVolumeLbl.setFont(Fonts.DEFAULT);
+        sfxVolumeLbl.setFont(Assets.Fonts.DEFAULT);
         sfxVolumeContainer.add(sfxVolumeLbl);
 
         sfxVolumeSlider = new JSlider();
@@ -52,7 +52,7 @@ public class OptionsPanel extends JPanel {
         sfxVolumeContainer.add(sfxVolumeSlider);
 
         final JLabel titleLbl = new JLabel("OPTIONS");
-        titleLbl.setFont(Fonts.TITLE);
+        titleLbl.setFont(Assets.Fonts.TITLE);
         titleLbl.setHorizontalAlignment(0);
         titleLbl.setHorizontalTextPosition(0);
         titleLbl.setVerticalAlignment(1);
@@ -74,7 +74,7 @@ public class OptionsPanel extends JPanel {
         panel.add(musicVolumeContainer, gbc);
 
         final JLabel musicVolumeLbl = new JLabel("Music Volume:");
-        musicVolumeLbl.setFont(Fonts.DEFAULT);
+        musicVolumeLbl.setFont(Assets.Fonts.DEFAULT);
         musicVolumeContainer.add(musicVolumeLbl);
 
         musicVolumeSlider = new JSlider();
@@ -126,6 +126,7 @@ public class OptionsPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.BOTH;
+
         panel.add(panel6, gbc);
 
         final JPanel panel7 = new JPanel();
@@ -142,6 +143,6 @@ public class OptionsPanel extends JPanel {
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        //graphics.drawImage( MainMenuPanel.getInstance().getBackgroundImage(), 0, 0, getWidth(), getHeight(), this);
+        graphics.drawImage(Assets.Images.BACKGROUND, 0, 0, getWidth(), getHeight(), this);
     }
 }

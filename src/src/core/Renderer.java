@@ -8,6 +8,7 @@ public class Renderer extends JPanel implements Drawable {
 
     private Image doubleBufferImage = null;
     private Graphics doubleBufferGraphics = null;
+    private boolean initialized = false;
 
     public Renderer() {
         this.setBackground(Color.black);
@@ -16,7 +17,16 @@ public class Renderer extends JPanel implements Drawable {
     public Graphics begin() {
 
         if (doubleBufferImage == null) {
-            doubleBufferImage = createImage(getWidth(), getHeight());
+
+            int width = getWidth();
+            int height = getHeight();
+
+            if(width <= 0 || height <= 0) {
+                width = 1;
+                height = 1;
+            }
+
+            doubleBufferImage = createImage(width, height);
         }
         doubleBufferGraphics = doubleBufferImage.getGraphics();
 
