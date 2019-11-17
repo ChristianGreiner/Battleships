@@ -1,6 +1,8 @@
 package ai;
 
 import core.AI;
+import core.Alignment;
+import core.Direction;
 import core.Helper;
 import game.Map;
 import game.MapTile;
@@ -10,16 +12,15 @@ import java.awt.*;
 
 public class SinglePlayerAI implements AI {
 
-    private int difficulty = 1; //difficulty 0 for easy(stupid), 1 for fair, 2 hard, 3 hardcore
+    private int difficulty; //difficulty 0 for easy(stupid), 1 for fair, 2 hard, 3 hardcore
     private Point lastPoint; //last discovered hit
     private Point startP;//margin points of hits left or up
     private Point endP;//margin points of hits right or down
     private boolean shipInFocus = false; //keeps the shot ship in mind for nxt hit
     private boolean shotHit = false; //check of success of last hit
     private boolean shipDestroyed = true;
-    private int shipAlignment = -1; //-1 not set; 0 set vertical; 1 set horizontal
-    private int shipDirection = -1;//-1 not set; 0 set left/up; 1 set right/down
-
+    private Alignment shipAlignment = null; //-1 not set; 0 set vertical; 1 set horizontal
+    //private Direction shipDirection = null;//-1 not set; 0 set left/up; 1 set right/down
 
     private Map map;
 
@@ -28,7 +29,7 @@ public class SinglePlayerAI implements AI {
         this.map = map;
     }
 
-    @Override
+    //@Override
     public void shot() {
         if (this.difficulty != 1 && !this.shipInFocus) {
             if (permitInfluencedHit()) {
@@ -87,24 +88,21 @@ public class SinglePlayerAI implements AI {
     //complete shooting ship
 
     private void continueHit() {
-        int allignmenthit = (int) Helper.randomNumber(0, 1); //if 0 ,then vertical hit, if 1 horizontal hit
-        int choosedir = (int) Helper.randomNumber(0, 1);
+        Alignment align = Helper.getRandomAlignment(); //if 0 ,then vertical hit, if 1 horizontal hit
 
-        System.out.println("Align: " + allignmenthit + " , Choosdir" + choosedir);
         Point newpoint;
 
         //check, if alignment was set in last hit
-        if (this.shipAlignment == 0 || this.shipAlignment == 1) {
-            allignmenthit = this.shipAlignment;
+        if (this.shipAlignment == Alignment.Horizontal || this.shipAlignment == Alignment.Vertical) {
+            align = this.shipAlignment;
         }
 
-        //check if direction was set in last hit
-        if (this.shipDirection == 0 || this.shipDirection == 1) {
-            choosedir = this.shipDirection;
-        }
+        Direction dir = Helper.getRandomDirection(align);
 
-        if (allignmenthit == 0) { //vertical
-            if (choosedir == 0) {//vertical up
+        System.out.println("next shot in "+align+" "+dir+".");
+
+        if (align == Alignment.Vertical) { //vertical
+            if (dir == Direction.Up) {//vertical up
 
                 if (this.startP != null) {
                     newpoint = new Point(this.startP.x, this.startP.y - 1);
@@ -124,13 +122,17 @@ public class SinglePlayerAI implements AI {
                         this.lastPoint = null;
                         this.startP = null;
                         this.endP = null;
-                        this.shipAlignment = -1;
-                        this.shipDirection = -1;
+                        this.shipAlignment = null;
+                        ////this.shipDirection = null;
                     } else if (newtile.hasShip()) { //check, if shot hit a ship
-                        //this.lasttile = newtile;
+                        System.out.println("shot in" + newpoint);
                         this.startP = newpoint;
-                        this.endP = lastPoint;
-                        this.shipAlignment = 0;
+
+                        if (!(this.lastPoint == null))
+                            this.endP = this.lastPoint;
+
+                        this.lastPoint = null;
+                        this.shipAlignment = Alignment.Vertical;
                         this.shotHit = true;
                     } else {
                         //this.shipinfocus=true;
@@ -139,7 +141,7 @@ public class SinglePlayerAI implements AI {
                 } else {
                     continueHit();
                 }
-            } else if (choosedir == 1) { //vertical down
+            } else if (dir == Direction.Down) { //vertical down
 
                 if (this.endP != null) {
                     newpoint = new Point(this.endP.x, this.endP.y + 1);
@@ -159,14 +161,16 @@ public class SinglePlayerAI implements AI {
                         this.lastPoint = null;
                         this.startP = null;
                         this.endP = null;
-                        this.shipAlignment = -1;
-                        this.shipDirection = -1;
+                        this.shipAlignment = null;
+                        ////this.shipDirection = null;
                     } else if (newtile.hasShip()) { //check, if shot hit a ship
-                        //this.lasttile = newtile;
-                        this.startP = lastPoint;
+                        System.out.println("shot in" + newpoint);
+                        if (!(this.lastPoint == null))
+                            this.startP = this.lastPoint;
+
                         this.endP = newpoint;
-                        lastPoint = newpoint;
-                        this.shipAlignment = 0;
+                        this.lastPoint = null;
+                        this.shipAlignment = Alignment.Vertical;
                         this.shotHit = true;
                     } else {
                         //this.shipinfocus=true;
@@ -176,8 +180,8 @@ public class SinglePlayerAI implements AI {
                     continueHit();
                 }
             }
-        } else if (allignmenthit == 1) { //horizontal
-            if (choosedir == 0) { //horizontal left
+        } else if (align == Alignment.Horizontal) { //horizontal
+            if (dir == Direction.Left) { //horizontal left
 
                 if (this.startP != null) {
                     newpoint = new Point(this.startP.x - 1, this.startP.y);
@@ -196,13 +200,16 @@ public class SinglePlayerAI implements AI {
                         this.lastPoint = null;
                         this.startP = null;
                         this.endP = null;
-                        this.shipAlignment = -1;
-                        this.shipDirection = -1;
+                        this.shipAlignment = null;
+                        ////this.shipDirection = null;
                     } else if (newtile.hasShip()) { //check, if shot hit a ship
-                        //this.lasttile = newtile;
+                        System.out.println("shot in" + newpoint);
+
                         this.startP = newpoint;
-                        this.endP = lastPoint;
-                        this.shipAlignment = 1;
+                        if(!(this.lastPoint == null)) this.endP = this.lastPoint;
+
+                        this.lastPoint = null;
+                        this.shipAlignment = Alignment.Horizontal;
                         this.shotHit = true;
                     } else {
                         //this.shipinfocus=true;
@@ -211,7 +218,7 @@ public class SinglePlayerAI implements AI {
                 } else {
                     continueHit();
                 }
-            } else if (choosedir == 1) { //horizontal right
+            } else if (dir == Direction.Right) { //horizontal right
 
                 if (this.endP != null) {
                     newpoint = new Point(this.endP.x + 1, this.endP.y);
@@ -230,14 +237,17 @@ public class SinglePlayerAI implements AI {
                         this.lastPoint = null;
                         this.startP = null;
                         this.endP = null;
-                        this.shipAlignment = -1;
-                        this.shipDirection = -1;
+                        this.shipAlignment = null;
+                        ////this.shipDirection = null;
                     } else if (newtile.hasShip()) { //check, if shot hit a ship
-                        //this.lasttile = newtile;
-                        this.startP = lastPoint;
+                        System.out.println("shot in" + newpoint);
+
+                        if (!(this.lastPoint == null))
+                            this.startP = this.lastPoint;
+
                         this.endP = newpoint;
-                        this.shipAlignment = 1;
-                        this.shipDirection = -1;
+                        this.lastPoint = null;
+                        this.shipAlignment = Alignment.Horizontal;
                         this.shotHit = true;
                     } else {
                         //this.shipinfocus=true;
@@ -248,6 +258,7 @@ public class SinglePlayerAI implements AI {
                 }
             }
         }
+        System.out.println(startP+" "+endP);
     }
 
     //random hit
@@ -260,10 +271,11 @@ public class SinglePlayerAI implements AI {
             int tryMarky = (int) (Math.random() * this.map.getSize());
             tryPoint = new Point(tryMarkx, tryMarky);
         }
-        while (this.map.getTile(tryPoint).isHit());
+        while (!(this.map.fieldIsLogicFree(tryPoint)));
         this.shotHit = this.map.shot(tryPoint);
         if (shotHit) {
             this.lastPoint = tryPoint;
+            System.out.println("shot in" + tryPoint);
             shipInFocus = true;
         }
     }
