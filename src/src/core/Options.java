@@ -19,7 +19,7 @@ public class Options implements Serializable {
         this.musicVolume = Helper.limit(musicVolume, 0, 1);
     }
 
-    private float sfxVolume = 1f;
-    private float musicVolume = 1f;
+    private float sfxVolume = .5f;
+    private float musicVolume = .5f;
 
 }

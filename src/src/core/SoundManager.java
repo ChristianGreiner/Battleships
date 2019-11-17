@@ -14,7 +14,7 @@ public class SoundManager {
     public void playBackgroundMusic(String fileName) {
         if(this.backgroundPlayer == null) {
             this.backgroundPlayer = new SoundPlayer(fileName);
-            this.backgroundPlayer.play();
+            this.backgroundPlayer.play(Game.getInstance().getOptions().getMusicVolume());
         }
     }
 

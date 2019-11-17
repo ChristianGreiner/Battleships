@@ -30,7 +30,7 @@ public class CreditsRenderer extends Renderer {
 
         for (int i = 0; i < this.lines.length; i++) {
             Rectangle rec = new Rectangle(0, currentY + i * 20, canvasSize.x, 32);
-            Helper.drawCenteredString(g, this.lines[i], rec, Fonts.DEFAULT_24);
+            Helper.drawCenteredString(g, this.lines[i], rec, Fonts.TITLE);
         }
 
         currentY--;

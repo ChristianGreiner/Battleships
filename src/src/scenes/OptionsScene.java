@@ -2,7 +2,7 @@ package scenes;
 
 import core.Game;
 import core.GameWindow;
-import io.OptionsHandler;
+import game.Assets;
 import ui.GuiScene;
 import ui.OptionsPanel;
 
@@ -21,17 +21,14 @@ public class OptionsScene extends Scene implements GuiScene {
 
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
-        OptionsPanel options = new OptionsPanel();
-        panel = options.create(panel);
-
-        OptionsHandler optionsHandler = new OptionsHandler();
+    public JPanel buildGui(GameWindow gameWindow) {
+        OptionsPanel options = new OptionsPanel().create();
 
         options.getSaveBtn().addActionListener((e) -> {
-            optionsHandler.writeOptions(Game.getInstance().getOptions());
+            Game.getInstance().getFileHandler().writeObject(Game.getInstance().getOptions(), Assets.OPTIONS);
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
-        return panel;
+        return options;
     }
 }

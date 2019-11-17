@@ -1,11 +1,15 @@
 package ui;
 
 import core.Fonts;
+import core.Game;
+import game.Assets;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
-public class MainMenuPanel extends JPanel implements UiPanel {
+public class MainMenuPanel extends JPanel {
 
     public JButton getSingleplayerBtn() {
         return singleplayerBtn;
@@ -27,12 +31,37 @@ public class MainMenuPanel extends JPanel implements UiPanel {
         return exitBtn;
     }
 
+    public static MainMenuPanel getInstance(){
+        return instance;
+    }
+
+    private static MainMenuPanel instance;
+
     private JButton singleplayerBtn, multiplayerBtn, creditsBtn, optionsBtn, exitBtn;
 
+    public Image getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    private Image backgroundImage;
     private final int paddingSize = 12;
 
-    public JPanel create(JPanel panel) {
+    public MainMenuPanel() {
+        instance = this;
+        try {
+            this.backgroundImage = ImageIO.read(getClass().getClassLoader().getResourceAsStream(Assets.BACKGROUND));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public MainMenuPanel create() {
+        MainMenuPanel panel = this;
+
+        panel.setOpaque(true);
+        panel.setBackground(null);
+
+        panel.setSize(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight());
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc;
 
@@ -40,6 +69,7 @@ public class MainMenuPanel extends JPanel implements UiPanel {
         title.setFont(Fonts.TITLE);
         title.setHorizontalAlignment(0);
         title.setHorizontalTextPosition(0);
+        title.setForeground(Color.black);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -66,8 +96,6 @@ public class MainMenuPanel extends JPanel implements UiPanel {
 
         this.exitBtn = addButton("EXIT", panel, 11);
 
-        panel.validate();
-
         return panel;
     }
 
@@ -90,7 +118,13 @@ public class MainMenuPanel extends JPanel implements UiPanel {
         gbc.fill = GridBagConstraints.VERTICAL;
         if (insets != null)
             gbc.insets = insets;
-        spacer.setBackground(null);
+        spacer.setOpaque(false);
         container.add(spacer, gbc);
+    }
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        graphics.drawImage( this.backgroundImage, 0, 0, getWidth(), getHeight(), this);
     }
 }

@@ -6,7 +6,7 @@ import graphics.MapRenderer;
 import javax.swing.*;
 import java.awt.*;
 
-public class SinglePlayerPanel extends JPanel implements UiPanel {
+public class SinglePlayerPanel extends JPanel {
 
     private JPanel playerMapContainer;
     private JPanel enemyMapContainer;
@@ -18,8 +18,8 @@ public class SinglePlayerPanel extends JPanel implements UiPanel {
         this.playerMapRenderer = playerMapRenderer;
     }
 
-    @Override
-    public JPanel create(JPanel panel) {
+    public SinglePlayerPanel create() {
+        SinglePlayerPanel panel = this;
 
         panel.setLayout(new GridBagLayout());
 

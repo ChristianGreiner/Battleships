@@ -28,8 +28,9 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
+    public JPanel buildGui(GameWindow gameWindow) {
 
+        JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
         panel.add(Box.createVerticalGlue());

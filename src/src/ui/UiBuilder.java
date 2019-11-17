@@ -28,8 +28,8 @@ public class UiBuilder {
             }
 
             @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                super.mouseClicked(mouseEvent);
+            public void mousePressed(MouseEvent mouseEvent) {
+                super.mousePressed(mouseEvent);
                 Game.getInstance().getSoundManager().playSfx(Assets.Button.CLICK_SFX);
             }
 

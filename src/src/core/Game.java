@@ -1,5 +1,7 @@
 package core;
 
+import game.Assets;
+import io.FileHandler;
 import scenes.*;
 
 import javax.swing.*;
@@ -26,20 +28,19 @@ public class Game implements Runnable {
         return options;
     }
 
-    private static Game instance;
-
-    // Managers
-    private SceneManager sceneManager;
-
     public SoundManager getSoundManager() {
         return soundManager;
     }
 
+    public FileHandler getFileHandler() {
+        return fileHandler;
+    }
+
+    private static Game instance;
+    private SceneManager sceneManager;
     private SoundManager soundManager;
-
-
-
     private Options options = new Options();
+    private FileHandler fileHandler = new FileHandler();
     private GameWindow window;
     private boolean isRunning;
     private String title;
@@ -66,9 +67,17 @@ public class Game implements Runnable {
         // initialize fonts
         Fonts fonts = new Fonts();
 
+        // load config
+        this.options = (Options)this.fileHandler.loadObject(Assets.OPTIONS);
+
+        if(this.options == null)
+            this.options = new Options();
+
+
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene(SplashScene.class);
+        this.sceneManager.setActiveScene(MainMenuScene.class);
+
 
         this.isRunning = true;
         this.run();

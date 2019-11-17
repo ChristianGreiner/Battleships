@@ -8,7 +8,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class OptionsPanel extends JPanel implements UiPanel {
+public class OptionsPanel extends JPanel {
 
     private JSlider sfxVolumeSlider;
     private JPanel sfxVolumeContainer;
@@ -20,8 +20,12 @@ public class OptionsPanel extends JPanel implements UiPanel {
 
     private JButton saveBtn;
 
-    @Override
-    public JPanel create(JPanel panel) {
+    public OptionsPanel() {
+    }
+
+    public OptionsPanel create() {
+
+        OptionsPanel panel = this;
 
         panel.setLayout(new GridBagLayout());
         sfxVolumeContainer = new JPanel();
@@ -133,5 +137,11 @@ public class OptionsPanel extends JPanel implements UiPanel {
         panel7.add(saveBtn);
 
         return panel;
+    }
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        //graphics.drawImage( MainMenuPanel.getInstance().getBackgroundImage(), 0, 0, getWidth(), getHeight(), this);
     }
 }

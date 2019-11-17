@@ -26,9 +26,8 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
-        MainMenuPanel menu = new MainMenuPanel();
-        panel = menu.create(panel);
+    public JPanel buildGui(GameWindow gameWindow) {
+        MainMenuPanel menu = new MainMenuPanel().create();
 
         menu.getSingleplayerBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
@@ -44,6 +43,6 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
 
         menu.getExitBtn().addActionListener((e) -> { System.exit(0); });
 
-        return panel;
+        return menu;
     }
 }

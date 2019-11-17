@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Map implements Serializable {
+public class Map implements MapInterface, Serializable {
     private MapTile[][] tiles;
 
     public HashMap<Type, Integer> getShipsCounter() {

@@ -38,10 +38,9 @@ public class SinglePlayerScene extends Scene implements Updatable, Drawable, Gui
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
-        SinglePlayerPanel sp = new SinglePlayerPanel(this.playerMapRenderer);
-        panel = sp.create(panel);
+    public JPanel buildGui(GameWindow gameWindow) {
+        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer).create();
 
-        return panel;
+        return singlePlayerPanel;
     }
 }
