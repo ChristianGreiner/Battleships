@@ -6,7 +6,11 @@ import java.awt.*;
 
 public interface MapInterface {
 
+    int getSize();
+
     boolean insert(Ship ship, Point position, boolean rotated);
+
+    boolean shot(Point pos);
 
     Ship getShip(Point position);
 

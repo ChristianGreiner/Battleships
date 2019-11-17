@@ -85,7 +85,7 @@ public class Map implements MapInterface, Serializable {
             // check vertical
             if (position.y + ship.getSpace() <= this.getSize()) {
                 for (int i = 0; i < ship.getSpace(); i++) {
-                    this.tiles[position.x][position.y + 1].setShip(ship);
+                    this.tiles[position.x][position.y + i].setShip(ship);
                     ship.getTiles().add(this.tiles[position.x][position.y + i]);
                 }
             }
@@ -329,7 +329,7 @@ public class Map implements MapInterface, Serializable {
                 } else if (i == space - 1) {
 
                     // check top
-                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                    if (pos.x > 0 && pos.y > 0) {
                         if (this.tiles[pos.x][pos.y - 1].hasShip())
                             return false;
                     }
@@ -353,13 +353,13 @@ public class Map implements MapInterface, Serializable {
                     }
 
                     // check right bottom
-                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                    if (pos.x < this.getSize() - 1 && pos.y < this.getSize() - 1) {
                         if (this.tiles[pos.x + 1][pos.y + 1].hasShip())
                             return false;
                     }
                 } else {
                     // check top
-                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                    if (pos.y > 0) {
                         if (this.tiles[pos.x][pos.y - 1].hasShip())
                             return false;
                     }
