@@ -1,6 +1,7 @@
 package scenes;
 
 import core.Drawable;
+import core.Game;
 import core.GameWindow;
 import core.Updatable;
 import game.GameState;
@@ -11,8 +12,10 @@ import ui.GuiScene;
 import ui.SinglePlayerPanel;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class SinglePlayerScene extends Scene implements Updatable, Drawable, GuiScene {
+public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene {
 
     private Map playerMap;
     private Map aiMap;
@@ -38,10 +41,26 @@ public class SinglePlayerScene extends Scene implements Updatable, Drawable, Gui
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
-        SinglePlayerPanel sp = new SinglePlayerPanel(this.playerMapRenderer);
-        panel = sp.create(panel);
+    public JPanel buildGui(GameWindow gameWindow) {
+        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer).create();
 
-        return panel;
+        return singlePlayerPanel;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+        if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+        }
     }
 }

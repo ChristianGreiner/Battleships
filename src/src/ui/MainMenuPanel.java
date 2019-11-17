@@ -1,11 +1,12 @@
 package ui;
 
-import core.Fonts;
+import core.Game;
+import game.Assets;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainMenuPanel extends JPanel implements UiPanel {
+public class MainMenuPanel extends JPanel {
 
     public JButton getSingleplayerBtn() {
         return singleplayerBtn;
@@ -27,19 +28,35 @@ public class MainMenuPanel extends JPanel implements UiPanel {
         return exitBtn;
     }
 
+    public static MainMenuPanel getInstance(){
+        return instance;
+    }
+
+    private static MainMenuPanel instance;
+
     private JButton singleplayerBtn, multiplayerBtn, creditsBtn, optionsBtn, exitBtn;
 
     private final int paddingSize = 12;
 
-    public JPanel create(JPanel panel) {
+    public MainMenuPanel() {
+        instance = this;
+    }
 
+    public MainMenuPanel create() {
+        MainMenuPanel panel = this;
+
+        panel.setOpaque(true);
+        panel.setBackground(null);
+
+        panel.setSize(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight());
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc;
 
         final JLabel title = new JLabel("BATTLESHIPS");
-        title.setFont(Fonts.TITLE);
+        title.setFont(Assets.Fonts.TITLE_BIG);
         title.setHorizontalAlignment(0);
         title.setHorizontalTextPosition(0);
+        title.setForeground(Color.white);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -66,35 +83,16 @@ public class MainMenuPanel extends JPanel implements UiPanel {
 
         this.exitBtn = addButton("EXIT", panel, 11);
 
-        panel.validate();
-
         return panel;
     }
 
     private JButton addButton(String title, JPanel container, int y) {
-        JButton btn = new JButton();
-        btn.setText(title);
-        btn.setBackground(Color.BLACK);
-        btn.setForeground(Color.WHITE);
-        btn.setFont(Fonts.DEFAULT);
-        btn.setPreferredSize(new Dimension(320, 32));
-        btn.setMaximumSize(new Dimension(320, 32));
-        btn.setBorder(null);
+        JButton btn = UiBuilder.createButton(title, new Dimension(320, 32));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = y;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         container.add(btn, gbc);
-
-        btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn.setBackground(Color.DARK_GRAY);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn.setBackground(Color.BLACK);
-            }
-        });
 
         return btn;
     }
@@ -107,7 +105,13 @@ public class MainMenuPanel extends JPanel implements UiPanel {
         gbc.fill = GridBagConstraints.VERTICAL;
         if (insets != null)
             gbc.insets = insets;
-        spacer.setBackground(null);
+        spacer.setOpaque(false);
         container.add(spacer, gbc);
+    }
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        graphics.drawImage(Assets.Images.BACKGROUND, 0, 0, getWidth(), getHeight(), this);
     }
 }

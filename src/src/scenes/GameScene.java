@@ -1,17 +1,14 @@
 package scenes;
 
-import ai.SinglePlayerAI;
-import core.ANSIColors;
-import core.Drawable;
-import core.GameWindow;
-import core.Updatable;
+import core.*;
 import game.Map;
 import game.MapData;
 import game.MapGenerator;
 import game.MapTile;
 import game.gamestates.SinglePlayerStates;
+import game.ships.Battleship;
+import game.ships.Destroyer;
 import graphics.MapRenderer;
-import io.JsonFileHandler;
 import ui.GuiScene;
 
 import javax.swing.*;
@@ -59,18 +56,37 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
             System.out.print("\n" + ANSIColors.RESET);
         }
         System.out.println("-------------------------");
+
+        this.playerMap.getShipsCounter().forEach((k,v) -> System.out.println("key: "+k+" value:"+v));
     }
 
     @Override
     void onAdded() {
         super.onAdded();
 
+
+
+        Battleship ship1 = new Battleship();
+        Destroyer ship2 = new Destroyer();
+
+        this.playerMap.insert(ship1, new Point(9, 1), false);
+        this.playerMap.insert(ship2, new Point(6, 0), true);
+
+        this.playerMap = generateMap();
+
+        System.out.println(this.playerMap.getNumberOfShips());
+
+        //SinglePlayerAI ai = new SinglePlayerAI(1, this.playerMap);
+
+        DrawMap();
+    }
+
+    public Map generateMap() {
         // exmaple reading json file
         File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
         HashMap<Integer, MapData> configMap = new HashMap<>();
-        JsonFileHandler jsonFileHandler = new JsonFileHandler();
         try {
-            MapData[] dat = jsonFileHandler.readMapConfig(file.getAbsolutePath());
+            MapData[] dat = Game.getInstance().getFileHandler().readMapConfig(file.getAbsolutePath());
             for (int i = 0; i < dat.length; i++) {
                 configMap.put(dat[i].MapSize, dat[i]);
             }
@@ -79,13 +95,8 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         }
 
         MapGenerator generator = new MapGenerator();
-        this.playerMap = generator.generate(20, configMap.get(20));
 
-        System.out.println(this.playerMap.getNumberOfShips());
-
-        SinglePlayerAI ai = new SinglePlayerAI(1, this.playerMap);
-
-        DrawMap();
+        return generator.generate(20, configMap.get(20));
     }
 
     @Override
@@ -110,10 +121,20 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_R) {
+            this.playerMap = generateMap();
+            DrawMap();
+        }
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
+    public JPanel buildGui(GameWindow gameWindow) {
+
+        JPanel panel = new JPanel();
 
         this.playerMapRenderer.setBackground(Color.black);
         this.playerMapRenderer.setLocation(0, 0);

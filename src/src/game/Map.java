@@ -5,10 +5,18 @@ import game.ships.Ship;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Map implements Serializable {
+public class Map implements MapInterface, Serializable {
     private MapTile[][] tiles;
+
+    public HashMap<Type, Integer> getShipsCounter() {
+        return shipsCounter;
+    }
+
+    private HashMap<Type, Integer> shipsCounter = new HashMap<>();
     private int size;
     private int outOfShipLength = 1;
 
@@ -98,7 +106,18 @@ public class Map implements Serializable {
             }
         }
 
+        this.computeShipCountAdd(ship);
+
         return true;
+    }
+
+    private void computeShipCountAdd(Ship ship) {
+        int counter = 0;
+        if(this.shipsCounter.containsKey(ship.getClass()))
+            counter = this.shipsCounter.get(ship.getClass());
+
+        counter++;
+        this.shipsCounter.put(ship.getClass(), counter);
     }
 
     private ArrayList<MapTile> getNeighborTiles(Ship ship) {
@@ -325,7 +344,7 @@ public class Map implements Serializable {
                 } else if (i == space - 1) {
 
                     // check top
-                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                    if (pos.x > 0 && pos.y > 0) {
                         if (this.tiles[pos.x][pos.y - 1].hasShip())
                             return false;
                     }
@@ -349,13 +368,13 @@ public class Map implements Serializable {
                     }
 
                     // check right bottom
-                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                    if (pos.x < this.getSize() - 1 && pos.y < this.getSize() - 1) {
                         if (this.tiles[pos.x + 1][pos.y + 1].hasShip())
                             return false;
                     }
                 } else {
                     // check top
-                    if (pos.x > 0 && pos.x < this.getSize() - 1 && pos.y > 0 && pos.y < this.getSize() - 1) {
+                    if (pos.y > 0) {
                         if (this.tiles[pos.x][pos.y - 1].hasShip())
                             return false;
                     }
@@ -640,10 +659,7 @@ public class Map implements Serializable {
         if (!areTilesEmpty(position, ship.getSpace(), rotated))
             return false;
 
-        if (!hasFreeNeighborTiles(position, ship.getSpace(), rotated))
-            return false;
-
-        return true;
+        return hasFreeNeighborTiles(position, ship.getSpace(), rotated);
     }
 
     /**

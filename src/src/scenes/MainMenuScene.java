@@ -3,6 +3,7 @@ package scenes;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
+import game.Assets;
 import ui.GuiScene;
 import ui.MainMenuPanel;
 
@@ -18,7 +19,7 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
     void onAdded() {
         super.onAdded();
 
-        Game.getInstance().getSoundManager().playBackgroundMusic("we-will-win-sc1.wav");
+        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.BACKGROUND_MUSIC);
     }
 
     @Override
@@ -26,20 +27,23 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
     }
 
     @Override
-    public JPanel buildGui(GameWindow gameWindow, JPanel panel) {
-        MainMenuPanel menu = new MainMenuPanel();
-        panel = menu.create(panel);
+    public JPanel buildGui(GameWindow gameWindow) {
+        MainMenuPanel menu = new MainMenuPanel().create();
 
         menu.getSingleplayerBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene("GameScene");
+            Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+        });
+
+        menu.getOptionsBtn().addActionListener((e) -> {
+            Game.getInstance().getSceneManager().setActiveScene(OptionsScene.class);
         });
 
         menu.getCreditsBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene("CreditsScene");
+            Game.getInstance().getSceneManager().setActiveScene(CreditsScene.class);
         });
 
         menu.getExitBtn().addActionListener((e) -> { System.exit(0); });
 
-        return panel;
+        return menu;
     }
 }

@@ -62,4 +62,8 @@ public class Helper {
             g.setFont(font);
             g.drawString(text, rect.x + a, rect.y + b);
     }
+
+    public static float limit(float value, float min, float max) {
+        return (value > max) ? max : (value < min ? min: value );
+    }
 }

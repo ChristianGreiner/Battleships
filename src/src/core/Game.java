@@ -1,9 +1,13 @@
 package core;
 
+import game.Assets;
+import io.FileHandler;
 import scenes.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.Duration;
+import java.time.Instant;
 
 public class Game implements Runnable {
 
@@ -22,17 +26,23 @@ public class Game implements Runnable {
         return window;
     }
 
-    private static Game instance;
-
-    // Managers
-    private SceneManager sceneManager;
+    public Options getOptions() {
+        return options;
+    }
 
     public SoundManager getSoundManager() {
         return soundManager;
     }
 
-    private SoundManager soundManager;
+    public FileHandler getFileHandler() {
+        return fileHandler;
+    }
 
+    private static Game instance;
+    private SceneManager sceneManager;
+    private SoundManager soundManager;
+    private Options options = new Options();
+    private FileHandler fileHandler = new FileHandler();
     private GameWindow window;
     private boolean isRunning;
     private String title;
@@ -48,6 +58,7 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new SplashScene());
         this.sceneManager.addScene(new MainMenuScene());
         this.sceneManager.addScene(new CreditsScene());
+        this.sceneManager.addScene(new OptionsScene());
         this.sceneManager.addScene(new GameScene());
         this.sceneManager.addScene(new SinglePlayerScene());
 
@@ -55,12 +66,28 @@ public class Game implements Runnable {
     }
 
     public void start() {
+
+        Instant start = Instant.now();
+
         // initialize fonts
-        Fonts fonts = new Fonts();
+        Assets.init();
+
+        // load config
+        this.options = (Options)this.fileHandler.loadObject(Assets.Paths.OPTIONS);
+
+        if(this.options == null)
+            this.options = new Options();
+
+        Instant finish = Instant.now();
+        long timeElapsed = Duration.between(start, finish).toMillis();
+
+        System.out.println("Assets loaded in " + timeElapsed + " ms");
+
 
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene("SinglePlayer");
+        this.sceneManager.setActiveScene(GameScene.class);
+
 
         this.isRunning = true;
         this.run();

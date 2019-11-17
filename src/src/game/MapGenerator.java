@@ -11,7 +11,6 @@ public class MapGenerator {
         while (countCarriers < data.Carriers) {
             if (insertShip(new Carrier(), map)) {
                 countCarriers++;
-                System.out.println("Ship created: Carriers" + countCarriers);
             }
         }
 
@@ -19,7 +18,6 @@ public class MapGenerator {
         while (countBattleships < data.Battleships) {
             if (insertShip(new Battleship(), map)) {
                 countBattleships++;
-                System.out.println("Ship created: Battleships" + countBattleships);
             }
         }
 
@@ -27,7 +25,6 @@ public class MapGenerator {
         while (countSubmarines < data.Submarines) {
             if (insertShip(new Submarine(), map)) {
                 countSubmarines++;
-                System.out.println("Ship created: Submarine" + countSubmarines);
             }
         }
 
@@ -35,7 +32,6 @@ public class MapGenerator {
         while (countDestroyer < data.Destroyers) {
             if (insertShip(new Destroyer(), map)) {
                 countDestroyer++;
-                System.out.println("Ship created: Destroyer" + countDestroyer);
             }
         }
 
