@@ -65,7 +65,7 @@ public class Map implements MapInterface, Serializable {
 
     public void setOutOfShipLength(){ //everytime ship gets destroyed, this method should be refreshed
         /*
-        if(out of submarine){
+        if(){
             outOfShipLength=2;
             if (out of destroyer){
                 outOfShipLength=3;
@@ -106,17 +106,28 @@ public class Map implements MapInterface, Serializable {
             }
         }
 
+        ship.setParentMap(this);
+
         this.computeShipCountAdd(ship);
 
         return true;
     }
 
-    private void computeShipCountAdd(Ship ship) {
+    public void computeShipCountAdd(Ship ship) {
         int counter = 0;
         if(this.shipsCounter.containsKey(ship.getClass()))
             counter = this.shipsCounter.get(ship.getClass());
 
         counter++;
+        this.shipsCounter.put(ship.getClass(), counter);
+    }
+
+    public void computeRemoveShip(Ship ship) {
+        int counter = 0;
+        if(this.shipsCounter.containsKey(ship.getClass()))
+            counter = this.shipsCounter.get(ship.getClass());
+
+        counter--;
         this.shipsCounter.put(ship.getClass(), counter);
     }
 
@@ -483,7 +494,9 @@ public class Map implements MapInterface, Serializable {
 
     public boolean fieldIsLogicFree(Point pos){
 
-        if(!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getlogicfree())) {return false;}
+        if(!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getlogicfree())) {
+            return false;
+        }
 
         boolean borderXplusReached = false;
         boolean borderYplusReached = false;
@@ -500,25 +513,25 @@ public class Map implements MapInterface, Serializable {
             Point newPosNegY = new Point(pos.x, pos.y - 1);
 
             if(!borderXplusReached){
-                if (!(isInMap(newPosX)) && !(this.tiles[pos.x+i][pos.y].isHit())){
+                if (!(isInMap(newPosX)) && !(this.tiles[pos.x + i][pos.y].isHit())){
                     rangeX++;
                 }
                 else borderXplusReached = true;
             }
             if(!borderYplusReached){
-                if (!(isInMap(newPosY)) && !(this.tiles[pos.x][pos.y+i].isHit())){
+                if (!(isInMap(newPosY)) && !(this.tiles[pos.x][pos.y + i].isHit())){
                     rangeY++;
                 }
                 else borderYplusReached = true;
             }
             if(!borderXminusReached){
-                if (!(isInMap(newPosNegX)) && !(this.tiles[pos.x-i][pos.y].isHit())){
+                if (!(isInMap(newPosNegX)) && !(this.tiles[pos.x - i][pos.y].isHit())){
                     rangeX++;
                 }
                 else borderXminusReached = true;
             }
             if(!borderYminusReached){
-                if (!(isInMap(newPosNegY)) && !(this.tiles[pos.x][pos.y-i].isHit())){
+                if (!(isInMap(newPosNegY)) && !(this.tiles[pos.x][pos.y - i].isHit())){
                     rangeY++;
                 }
                 else borderYminusReached = true;
@@ -528,20 +541,20 @@ public class Map implements MapInterface, Serializable {
 
             if(borderXminusReached && borderXplusReached && borderYminusReached && borderYplusReached){
                 if (rangeX == 1 && rangeY == 1) return false;
-                if (rangeX == 2 && rangeX>rangeY || rangeY == 2 && rangeY>rangeX) {
+                if (rangeX == 2 && rangeX > rangeY || rangeY == 2 && rangeY > rangeX) {
                     if (outOfShipLength == 2) {
                         this.tiles[pos.x][pos.y].setlogicfree(false);
                         return false;
                     }
                 }
-                if (rangeX == 3 && rangeX>rangeY || rangeY == 3 && rangeY>rangeX){
-                    if (outOfShipLength==3){
+                if (rangeX == 3 && rangeX > rangeY || rangeY == 3 && rangeY > rangeX){
+                    if (outOfShipLength == 3){
                         this.tiles[pos.x][pos.y].setlogicfree(false);
                         return false;
                     }
                 }
-                if (rangeX == 4 && rangeX>rangeY || rangeY == 4 && rangeY>rangeX){
-                    if (outOfShipLength==4){
+                if (rangeX == 4 && rangeX > rangeY || rangeY == 4 && rangeY > rangeX){
+                    if (outOfShipLength == 4){
                         this.tiles[pos.x][pos.y].setlogicfree(false);
                         return false;
                     }

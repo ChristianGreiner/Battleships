@@ -6,8 +6,6 @@ import game.MapData;
 import game.MapGenerator;
 import game.MapTile;
 import game.gamestates.SinglePlayerStates;
-import game.ships.Battleship;
-import game.ships.Destroyer;
 import graphics.MapRenderer;
 import ui.GuiScene;
 
@@ -57,24 +55,23 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         }
         System.out.println("-------------------------");
 
-        this.playerMap.getShipsCounter().forEach((k,v) -> System.out.println("key: "+k+" value:"+v));
+        this.playerMap.getShipsCounter().forEach((k,v) -> System.out.println("key: " + k + " value: " + v));
     }
 
     @Override
     void onAdded() {
         super.onAdded();
 
-
-
-        Battleship ship1 = new Battleship();
+        /*Battleship ship1 = new Battleship();
         Destroyer ship2 = new Destroyer();
 
-        this.playerMap.insert(ship1, new Point(9, 1), false);
-        this.playerMap.insert(ship2, new Point(6, 0), true);
+        this.playerMap.insert(ship2, new Point(9, 1), false);
+
+        this.playerMap.shot(new Point(9, 1));
+        this.playerMap.shot(new Point(9, 2));
+        this.playerMap.shot(new Point(9, 3));*/
 
         this.playerMap = generateMap();
-
-        System.out.println(this.playerMap.getNumberOfShips());
 
         //SinglePlayerAI ai = new SinglePlayerAI(1, this.playerMap);
 
