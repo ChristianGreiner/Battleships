@@ -1,5 +1,6 @@
 package game.ships;
 
+import game.Map;
 import game.MapTile;
 
 import java.awt.*;
@@ -10,6 +11,7 @@ public abstract class Ship implements Serializable {
 
     private static int id = 0;
 
+    private Map parentMap;
     private boolean rotated;
     private Point position;
     private int space;
@@ -24,6 +26,14 @@ public abstract class Ship implements Serializable {
 
     public int getId() {
         return Ship.id;
+    }
+
+    public Map getParentMap() {
+        return parentMap;
+    }
+
+    public void setParentMap(Map parentMap) {
+        this.parentMap = parentMap;
     }
 
     public Point getPosition() {
@@ -68,6 +78,9 @@ public abstract class Ship implements Serializable {
         for (int i = 0; i < this.neighborTiles.size(); i++) {
             this.neighborTiles.get(i).setBlocked(true);
         }
+
+        this.parentMap.computeRemoveShip(this);
+        this.parentMap.setOutOfShipLength();
 
         return true;
     }

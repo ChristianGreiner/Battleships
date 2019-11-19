@@ -4,21 +4,25 @@ import core.Game;
 import game.Assets;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class OptionsPanel extends JPanel {
 
     private JSlider sfxVolumeSlider;
-    private JPanel sfxVolumeContainer;
     private JSlider musicVolumeSlider;
+    private JButton saveBtn;
+
+    public JSlider getSfxVolumeSlider() {
+        return sfxVolumeSlider;
+    }
+
+    public JSlider getMusicVolumeSlider() {
+        return musicVolumeSlider;
+    }
 
     public JButton getSaveBtn() {
         return saveBtn;
     }
-
-    private JButton saveBtn;
 
     public OptionsPanel() {
     }
@@ -28,7 +32,7 @@ public class OptionsPanel extends JPanel {
         OptionsPanel panel = this;
 
         panel.setLayout(new GridBagLayout());
-        sfxVolumeContainer = new JPanel();
+        final JPanel sfxVolumeContainer = new JPanel();
         sfxVolumeContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
@@ -43,12 +47,6 @@ public class OptionsPanel extends JPanel {
 
         sfxVolumeSlider = new JSlider();
         sfxVolumeSlider.setValue((int)(Game.getInstance().getOptions().getSfxVolume() * 100f));
-        sfxVolumeSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                Game.getInstance().getOptions().setSfxVolume(sfxVolumeSlider.getValue() * 0.01f);
-            }
-        });
         sfxVolumeContainer.add(sfxVolumeSlider);
 
         final JLabel titleLbl = new JLabel("OPTIONS");
@@ -57,6 +55,7 @@ public class OptionsPanel extends JPanel {
         titleLbl.setHorizontalTextPosition(0);
         titleLbl.setVerticalAlignment(1);
         titleLbl.setVerticalTextPosition(1);
+        titleLbl.setForeground(Color.WHITE);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -79,13 +78,6 @@ public class OptionsPanel extends JPanel {
 
         musicVolumeSlider = new JSlider();
         musicVolumeSlider.setValue((int)(Game.getInstance().getOptions().getMusicVolume() * 100f));
-        musicVolumeSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                Game.getInstance().getOptions().setMusicVolume(musicVolumeSlider.getValue() * 0.01f);
-                Game.getInstance().getSoundManager().getBackgroundPlayer().setVolume(musicVolumeSlider.getValue() * 0.01f);
-            }
-        });
         musicVolumeContainer.add(musicVolumeSlider);
 
         final JPanel panel2 = new JPanel();

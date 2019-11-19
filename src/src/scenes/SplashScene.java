@@ -30,6 +30,7 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
     public JPanel buildGui(GameWindow gameWindow) {
 
         JPanel panel = new JPanel();
+        panel.setBackground(Color.BLACK);
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
         panel.add(Box.createVerticalGlue());
@@ -37,7 +38,8 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
         JLabel title = new JLabel("BITTE LEGEN SIE IHREN ANSCHNALLGURT AN!");
         title.setVerticalAlignment(JLabel.CENTER);
         title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(Assets.Fonts.DEFAULT_18);
+        title.setFont(Assets.Fonts.TITLE);
+        title.setForeground(Color.black);
         title.setPreferredSize(new Dimension(panel.getWidth(), 32));
         title.setMaximumSize(new Dimension(panel.getWidth(), 32));
         panel.add(title, BorderLayout.CENTER);
@@ -46,6 +48,11 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
 
 
         return panel;
+    }
+
+    @Override
+    public void sizeUpdated() {
+
     }
 
     @Override

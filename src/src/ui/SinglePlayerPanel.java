@@ -14,11 +14,15 @@ public class SinglePlayerPanel extends JPanel {
     private JPanel enemyMapRenderer;
     private MapRenderer playerMapRenderer;
 
+    public MapRenderer getPlayerMapRenderer() {
+        return playerMapRenderer;
+    }
+
     public SinglePlayerPanel(MapRenderer playerMapRenderer) {
         this.playerMapRenderer = playerMapRenderer;
     }
 
-    public SinglePlayerPanel create() {
+    public SinglePlayerPanel create(Dimension mapsRendererSize) {
         SinglePlayerPanel panel = this;
 
         panel.setLayout(new GridBagLayout());
@@ -54,7 +58,7 @@ public class SinglePlayerPanel extends JPanel {
         playerMapContainer.add(spacer1, gbc);
 
         playerMapRenderer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        playerMapRenderer.setPreferredSize(new Dimension(320, 320));
+        playerMapRenderer.setPreferredSize(new Dimension(mapsRendererSize.width, mapsRendererSize.height));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -85,7 +89,7 @@ public class SinglePlayerPanel extends JPanel {
 
         enemyMapRenderer = new JPanel();
         enemyMapRenderer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        enemyMapRenderer.setPreferredSize(new Dimension(320, 320));
+        enemyMapRenderer.setPreferredSize(new Dimension(mapsRendererSize.width, mapsRendererSize.height));
         enemyMapRenderer.setBackground(Color.GREEN);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;

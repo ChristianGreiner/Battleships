@@ -12,6 +12,7 @@ import ui.GuiScene;
 import ui.SinglePlayerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -22,6 +23,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     private PlayerType playerTurn = PlayerType.Player;
     private GameState gameState = GameState.Started;
     private MapRenderer playerMapRenderer;
+    private SinglePlayerPanel uiPanel;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -42,9 +44,17 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer).create();
+        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer);
+        singlePlayerPanel = singlePlayerPanel.create(new Dimension(512, 512));
+
+        this.uiPanel = singlePlayerPanel;
 
         return singlePlayerPanel;
+    }
+
+    @Override
+    public void sizeUpdated() {
+        this.uiPanel.getPlayerMapRenderer().setPreferredSize(new Dimension(64, 64));
     }
 
     @Override
