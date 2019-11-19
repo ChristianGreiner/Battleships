@@ -1,5 +1,7 @@
 package core;
 
+import ui.GuiScene;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -18,15 +20,20 @@ public class GameWindow extends JFrame implements Runnable {
     private static final int VIRTUAL_HEIGHT = 720;
     private static final float ASPECT_RATIO = (float)VIRTUAL_WIDTH / (float)VIRTUAL_HEIGHT;
     private JPanel rootPanel;
+    private GuiScene guiScene;
+    private Dimension lastWindowSize;
 
-    public void addGui(JPanel panel) {
+    public void addGui(JPanel panel, GuiScene guiScene) {
         this.add(panel);
         this.rootPanel = panel;
-        this.rootPanel.setSize(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight());
+        this.guiScene = guiScene;
+        this.rootPanel.setSize(getSize());
         this.rootPanel.repaint();
+        this.setPreferredSize(this.lastWindowSize);
     }
 
     public void removeGui(JPanel panel) {
+        this.guiScene = null;
         panel.removeAll();
         this.rootPanel.removeAll();
         this.remove(rootPanel);
@@ -41,7 +48,6 @@ public class GameWindow extends JFrame implements Runnable {
     public GameWindow(String title, Point size) {
 
         this.setLayout(null);
-        this.setPreferredSize(new Dimension(size.x, size.y));
         this.setBackground(Color.WHITE);
         this.setTitle(title);
         this.setSize(size.x, size.y);
@@ -51,30 +57,43 @@ public class GameWindow extends JFrame implements Runnable {
         this.setFocusTraversalKeysEnabled(false);
         this.setMinimumSize(new Dimension(1280, 720));
 
+        this.lastWindowSize = this.getSize();
+
         this.pack();
         this.setLocationRelativeTo(null);
 
         this.getRootPane().addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                Point size = calcAspectRatio();
-                if (rootPanel != null)
-                    rootPanel.setSize(size.x, size.y);
+                lastWindowSize = getSize();
+                Dimension size = getSize();//calcAspectRatio();
 
-                setSize(size.x, size.y);
+                if (rootPanel != null) {
+                    rootPanel.setSize(size);
+                    rootPanel.repaint();
+
+                    if (guiScene instanceof GuiScene)
+                        ((GuiScene) guiScene).sizeUpdated();
+                }
             }
         });
 
         this.addWindowStateListener(new WindowStateListener() {
             public void windowStateChanged(WindowEvent e) {
-                Point size = calcAspectRatio();
+                //Dimension size = calcAspectRatio();
+                lastWindowSize = getSize();
+
+                if (rootPanel != null) {
+                    rootPanel.setSize(lastWindowSize);
+                    rootPanel.repaint();
+                }
             }
         });
     }
 
-    private Point calcAspectRatio() {
+    private Dimension calcAspectRatio() {
 
         if(isFullscreen) {
-            return new Point(getWidth(), getHeight());
+            return getSize();
         }
 
         float aspectRatio = (float)getWidth() / (float)getHeight();
@@ -99,13 +118,13 @@ public class GameWindow extends JFrame implements Runnable {
         int w = (int)((float)VIRTUAL_WIDTH * scale);
         int h = (int)((float)VIRTUAL_HEIGHT * scale);
 
-        return new Point(w, h);
+        return new Dimension(w, h);
     }
 
-    public void setFullscreen() {
+    public void setFullscreen(boolean state) {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
-        this.isFullscreen = true;
+        this.isFullscreen = state;
     }
 
     public void draw() {

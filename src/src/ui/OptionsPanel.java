@@ -57,6 +57,7 @@ public class OptionsPanel extends JPanel {
         titleLbl.setHorizontalTextPosition(0);
         titleLbl.setVerticalAlignment(1);
         titleLbl.setVerticalTextPosition(1);
+        titleLbl.setForeground(Color.WHITE);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

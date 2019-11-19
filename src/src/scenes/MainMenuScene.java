@@ -46,4 +46,9 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
 
         return menu;
     }
+
+    @Override
+    public void sizeUpdated() {
+
+    }
 }

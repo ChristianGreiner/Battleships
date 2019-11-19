@@ -35,6 +35,11 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
     }
 
     @Override
+    public void sizeUpdated() {
+
+    }
+
+    @Override
     public void keyTyped(KeyEvent keyEvent) {
 
     }

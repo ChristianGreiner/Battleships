@@ -83,10 +83,9 @@ public class Game implements Runnable {
 
         System.out.println("Assets loaded in " + timeElapsed + " ms");
 
-
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene(GameScene.class);
+        this.sceneManager.setActiveScene(MainMenuScene.class);
 
 
         this.isRunning = true;

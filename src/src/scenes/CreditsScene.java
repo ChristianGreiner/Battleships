@@ -55,6 +55,11 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     }
 
     @Override
+    public void sizeUpdated() {
+
+    }
+
+    @Override
     public void keyTyped(KeyEvent keyEvent) {
 
     }

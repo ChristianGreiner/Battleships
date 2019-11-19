@@ -6,4 +6,6 @@ import javax.swing.*;
 
 public interface GuiScene {
     JPanel buildGui(GameWindow gameWindow);
+
+    void sizeUpdated();
 }

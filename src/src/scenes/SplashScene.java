@@ -49,6 +49,11 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
     }
 
     @Override
+    public void sizeUpdated() {
+
+    }
+
+    @Override
     public void update(double deltaTime) {
 
         if (this.timeCounter >= this.maxCount) {
