@@ -39,7 +39,7 @@ public class SinglePlayerAI implements AI {
         }
         if ((!this.shotHit && this.shipDestroyed) || !this.shipInFocus) {
             System.out.println("entered tryhit()");
-            tryHit();
+            tryHit(true);
         } else {
             System.out.println("entered continuehit()");
             continueHit();
@@ -262,22 +262,81 @@ public class SinglePlayerAI implements AI {
     }
 
     //random hit
-    private void tryHit() {
+    private void tryHit(boolean choose) {
         this.shipDestroyed = false;
         Point tryPoint;
+        int tryMarkx;
+        int tryMarky;
+        if(!choose) {
+            do {
+                tryMarkx = (int) (Math.random() * this.map.getSize());
+                tryMarky = (int) (Math.random() * this.map.getSize());
+                tryPoint = new Point(tryMarkx, tryMarky);
+            }
+            while (!(this.map.fieldIsLogicFree(tryPoint)));
+            this.shotHit = this.map.shot(tryPoint);
+            if (shotHit) {
+                this.lastPoint = tryPoint;
+                System.out.println("shot in" + tryPoint);
+                shipInFocus = true;
+            }
+        }
+        else{
+            do {
+                do {
+                    tryMarkx = (int) (Math.random() * this.map.getSize());
+                }
+                while (!(gridlinexcheck(tryMarkx)));
 
-        do {
-            int tryMarkx = (int) (Math.random() * this.map.getSize());
-            int tryMarky = (int) (Math.random() * this.map.getSize());
-            tryPoint = new Point(tryMarkx, tryMarky);
+                do {
+                    tryMarky = (int) (Math.random() * this.map.getSize());
+                }
+                while (!(gridlineycheck(tryMarky)));
+
+                tryPoint = new Point(tryMarkx, tryMarky);
+            }
+            while (!(this.map.fieldIsLogicFree(tryPoint)));
+            this.shotHit = this.map.shot(tryPoint);
+            if (shotHit) {
+                this.lastPoint = tryPoint;
+                System.out.println("shot in" + tryPoint);
+                shipInFocus = true;
+            }
         }
-        while (!(this.map.fieldIsLogicFree(tryPoint)));
-        this.shotHit = this.map.shot(tryPoint);
-        if (shotHit) {
-            this.lastPoint = tryPoint;
-            System.out.println("shot in" + tryPoint);
-            shipInFocus = true;
+    }
+
+    public boolean gridlinexcheck(int line) {
+
+        int counter=0;
+
+        for (int i = 0;i < this.map.getSize(); i++){
+            Point horizontalline = new Point(line, i);
+            MapTile newtile = this.map.getTile(horizontalline);
+            if(newtile.isHit()){
+                counter++;
+            }
+            if (counter >= 2){
+                return false;
+            }
         }
+        return true;
+    }
+
+    public boolean gridlineycheck(int line) {
+
+        int counter=0;
+
+        for (int i = 0;i < this.map.getSize(); i++){
+            Point verticalline = new Point(i, line);
+            MapTile newtile = this.map.getTile(verticalline);
+            if(newtile.isHit()){
+                counter++;
+            }
+            if (counter >= 2){
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean permitNextShot() {
