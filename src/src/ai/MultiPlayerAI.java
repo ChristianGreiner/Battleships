@@ -1,6 +1,5 @@
 package ai;
 
-import core.AI;
 import core.Alignment;
 import core.Direction;
 import core.Helper;
@@ -9,7 +8,7 @@ import game.MapTile;
 
 import java.awt.*;
 
-public class MultiPlayerAI implements AI {
+public class MultiPlayerAI {
 
     //private Map enemymap;
     private MultiplayerMap eMap;

@@ -1,6 +1,5 @@
 package ai;
 
-import core.AI;
 import core.Alignment;
 import core.Direction;
 import core.Helper;
@@ -10,7 +9,7 @@ import game.ships.Ship;
 
 import java.awt.*;
 
-public class SinglePlayerAI implements AI {
+public class SinglePlayerAI {
 
     private int difficulty; //difficulty 0 for easy(stupid), 1 for fair, 2 hard, 3 hardcore
     private Point lastPoint; //last discovered hit

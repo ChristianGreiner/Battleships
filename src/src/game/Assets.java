@@ -66,7 +66,7 @@ public final class Assets {
         public final static String BACKGROUND = "MainMenuBackground.jpg";
         public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
         public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
-        public final static String PLAYING_MUSIC = "music/redemption-sc1.wav";
+        public final static String PLAYING_MUSIC = "music/undiscovered.wav";
 
         public final static String ROBOTO_FONT = "fonts/Roboto-Regular.ttf";
         public final static String ROBOTO_BOLD_FONT = "fonts/Roboto-Bold.ttf";

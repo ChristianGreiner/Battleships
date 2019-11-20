@@ -19,10 +19,6 @@ public class Map implements MapInterface, Serializable {
         return shipsCounter;
     }
 
-    private HashMap<Type, Integer> shipsCounter = new HashMap<>();
-    private int size;
-    private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
-
     public int getNumberOfShips() {
         return numberOfShips;
     }
@@ -31,12 +27,15 @@ public class Map implements MapInterface, Serializable {
         return numberOfDestoryedShips;
     }
 
-    private int numberOfShips;
-    private int numberOfDestoryedShips;
-
     public int getSize() {
         return size;
     }
+
+    private HashMap<Type, Integer> shipsCounter = new HashMap<>();
+    private int size;
+    private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
+    private int numberOfShips;
+    private int numberOfDestoryedShips;
 
     public Map(int size) {
         this.size = size;
@@ -60,7 +59,19 @@ public class Map implements MapInterface, Serializable {
         while (true) {
             int rndX = Helper.randomNumber(0, this.getSize() - 1);
             int rndY = Helper.randomNumber(0, this.getSize() - 1);
-            if (!getTile(new Point(rndX, rndY)).hasShip()) {
+            MapTile tile = getTile(new Point(rndX, rndY));
+            if (!tile.hasShip() && !tile.isHit() && !tile.isBlocked()) {
+                return getTile(new Point(rndX, rndY));
+            }
+        }
+    }
+
+    public MapTile getRandomFreeTileIgnoreShip() {
+        while (true) {
+            int rndX = Helper.randomNumber(0, this.getSize() - 1);
+            int rndY = Helper.randomNumber(0, this.getSize() - 1);
+            MapTile tile = getTile(new Point(rndX, rndY));
+            if (!tile.isHit() && !tile.isBlocked()) {
                 return getTile(new Point(rndX, rndY));
             }
         }
@@ -608,6 +619,8 @@ public class Map implements MapInterface, Serializable {
                 return new HitData(null, null, HitType.NotPossible);
             }
 
+            this.tiles[pos.x][pos.y].setHit(true);
+
             // Water
             if (!tile.hasShip()) {
                 type = HitType.Water;
@@ -624,8 +637,13 @@ public class Map implements MapInterface, Serializable {
                 }
             }
 
-            this.tiles[pos.x][pos.y].setHit(true);
             data = new HitData(pos, ship, type);
+        } else {
+            try {
+                throw new Exception("Point out of Map");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return data;
@@ -720,6 +738,9 @@ public class Map implements MapInterface, Serializable {
      * @return
      */
     public boolean isInMap(Point position) {
+        if(position == null)
+            return false;
+
         return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
     }
 }

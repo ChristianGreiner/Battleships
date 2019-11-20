@@ -1,5 +1,7 @@
 package scenes;
 
+import ai.AI;
+import ai.AiDifficulty;
 import core.*;
 import game.*;
 import graphics.MapRenderer;
@@ -19,6 +21,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     private GameState gameState = GameState.Started;
     private MapRenderer playerMapRenderer;
     private SinglePlayerPanel uiPanel;
+    private AI ai;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -33,6 +36,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
     @Override
     public void update(double deltaTime) {
+
     }
 
     @Override
@@ -70,6 +74,32 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class, null);
         }
+
+        if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+                handleAiShot();
+        }
+    }
+
+    private HitType lastHitType;
+
+    private void handleAiShot() {
+
+        //if(lastHitType != null)
+          //  this.ai.receiveAnswer(lastHitType);
+
+        Point point = this.ai.shot();
+
+        HitData hitData = this.playerMap.shot2(point);
+
+        lastHitType = hitData.getHitType();
+
+        if(lastHitType != null)
+            this.ai.receiveAnswer(lastHitType);
+
+        DrawMap();
+
+        if(point != null)
+            System.out.println(point);
     }
 
     @Override
@@ -80,6 +110,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         this.playerMap = generator.generate(map.getSize());
 
         this.playerMapRenderer.setMap(this.playerMap);
+
+        this.ai = new AI(this.playerMap, AiDifficulty.Medium);
+
 
         DrawMap();
     }

@@ -3,10 +3,22 @@ package core;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 public class Helper {
+    private static Random r = new Random();
+
     public static int randomNumber(int min, int max) {
         return min + (int) (Math.random() * ((max - min) + 1));
+    }
+
+    public static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        return r.nextInt((max - min) + 1) + min;
     }
 
     public static boolean randomBoolean() {
@@ -22,20 +34,19 @@ public class Helper {
         return Alignment.Horizontal;
     }
 
-    public static Direction getRandomDirection(Alignment getalign) {
+    public static Direction getRandomDirection(Alignment align) {
 
-        int dirNumber = randomNumber(0, 1);
+        int dirNumber = getRandomNumberInRange(0, 1);
 
-        if (getalign == Alignment.Horizontal){
-            if (dirNumber == 0){
+        if (align == Alignment.Horizontal){
+            if (dirNumber == 0)
                 return Direction.Left;
-            }
-            else return Direction.Right;
+            return Direction.Right;
         }
         else {
-            if (dirNumber == 0) {
+            if (dirNumber == 0)
                 return Direction.Up;
-            } else return Direction.Down;
+            return Direction.Down;
         }
 
     }

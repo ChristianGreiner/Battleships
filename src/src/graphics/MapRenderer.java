@@ -40,6 +40,7 @@ public class MapRenderer extends Renderer {
                 MapTile tile = this.map.getTile(new Point(x, y));
 
                 if (tile.hasShip()) {
+
                     if (tile.getShip() instanceof Battleship) {
                         g.setColor(Color.DARK_GRAY);
                     } else if (tile.getShip() instanceof Carrier) {
@@ -49,8 +50,17 @@ public class MapRenderer extends Renderer {
                     } else {
                         g.setColor(Color.WHITE);
                     }
+
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
 
+                    if (tile.isHit()) {
+                        g.setColor(Color.ORANGE);
+                        g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    }
+
+                } else if (tile.isBlocked()) {
+                    g.setColor(Color.YELLOW);
+                    g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
                 } else if (tile.isHit()) {
                     g.setColor(Color.RED);
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
