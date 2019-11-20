@@ -73,17 +73,29 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         this.playerMap.insert(ship2, new Point(6, 0), true);
         *
         * */
-        this.playerMap = generateMap();
+        int playcounter=0;
+        int movecounteraverage=0;
+        while (playcounter < 1000){
+            this.playerMap = generateMap();
 
-        System.out.println(this.playerMap.getNumberOfShips());
+            System.out.println(this.playerMap.getNumberOfShips());
 
-        SinglePlayerAI ai = new SinglePlayerAI(1, this.playerMap);
+            SinglePlayerAI ai = new SinglePlayerAI(2, this.playerMap);
+            int movescounter = 0;
 
-        do{
-            ai.shot();
+            do {
+                ai.shot();
+                movescounter++;
+            }
+            while (!(this.playerMap.getNumberOfShips() == this.playerMap.getNumberOfDestoryedShips()));
+            System.out.println(this.playerMap.getNumberOfShips() + "=" + this.playerMap.getNumberOfDestoryedShips());
+            System.out.println(movescounter);
+            movecounteraverage = movecounteraverage+movescounter;
+            //DrawMap();
+            playcounter++;
         }
-        while (this.playerMap.getNumberOfShips() == this.playerMap.getNumberOfDestoryedShips());
-        DrawMap();
+        movecounteraverage = movecounteraverage/1000;
+        System.out.println("Durchschnittliche Anzahl an Züge:"+movecounteraverage+".");
     }
 
     public Map generateMap() {
@@ -101,7 +113,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         MapGenerator generator = new MapGenerator();
 
-        return generator.generate(20, configMap.get(20));
+        return generator.generate(10, configMap.get(10));
     }
 
     @Override

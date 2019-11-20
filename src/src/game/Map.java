@@ -587,8 +587,10 @@ public class Map implements MapInterface, Serializable {
         if (isInMap(pos)) {
             if (!getTile(pos).isHit()) {
                 this.tiles[pos.x][pos.y].setHit(true);
-                if (this.tiles[pos.x][pos.y].getShip().isDestroyed()){
-                    numberOfDestoryedShips++;
+                if (this.tiles[pos.x][pos.y].hasShip()) {
+                    if (this.tiles[pos.x][pos.y].getShip().isDestroyed()) {
+                        numberOfDestoryedShips++;
+                    }
                 }
                 return this.tiles[pos.x][pos.y].hasShip();
             }

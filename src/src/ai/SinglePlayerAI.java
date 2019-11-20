@@ -33,22 +33,22 @@ public class SinglePlayerAI implements AI {
     public void shot() {
         if (this.difficulty != 1 && !this.shipInFocus) {
             if (permitInfluencedHit()) {
-                System.out.println("entered AimedHit()");
+                //System.out.println("entered AimedHit()");
                 AimedHit();
             }
         }
         if ((!this.shotHit && this.shipDestroyed) || !this.shipInFocus) {
-            System.out.println("entered tryhit()");
+            //System.out.println("entered tryhit()");
             tryHit(true);
         } else {
-            System.out.println("entered continuehit()");
+            //System.out.println("entered continuehit()");
             continueHit();
         }
     }
 
     private boolean permitInfluencedHit() {
         int number = (int) (Math.random() * 10);
-        System.out.println(number);
+        //System.out.println(number);
 
         if (this.difficulty == 2 || this.difficulty == 0) {
             return number <= 2;
@@ -70,7 +70,7 @@ public class SinglePlayerAI implements AI {
             }
             while (this.map.getShip(hitPoint) == null || this.map.getTile(hitPoint).isHit());
             this.map.shot(hitPoint);
-            System.out.println("shot in" + hitPoint);
+            //System.out.println("shot in" + hitPoint);
             this.lastPoint = hitPoint;
             this.shipInFocus = true;
         } else if (this.difficulty == 0) {//NoHit
@@ -99,7 +99,7 @@ public class SinglePlayerAI implements AI {
 
         Direction dir = Helper.getRandomDirection(align);
 
-        System.out.println("next shot in "+align+" "+dir+".");
+        //System.out.println("next shot in "+align+" "+dir+".");
 
         if (align == Alignment.Vertical) { //vertical
             if (dir == Direction.Up) {//vertical up
@@ -115,7 +115,7 @@ public class SinglePlayerAI implements AI {
                     this.map.shot(newpoint);
 
                     if (!(unknownShip == null) && unknownShip.isDestroyed()) { //check of destroyed ship
-                        System.out.println("Schiff versenkt");
+                        //System.out.println("Schiff versenkt");
                         this.shotHit = false;
                         this.shipDestroyed = true;
                         this.shipInFocus = false;
@@ -125,7 +125,7 @@ public class SinglePlayerAI implements AI {
                         this.shipAlignment = null;
                         ////this.shipDirection = null;
                     } else if (newtile.hasShip()) { //check, if shot hit a ship
-                        System.out.println("shot in" + newpoint);
+                        //System.out.println("shot in" + newpoint);
                         this.startP = newpoint;
 
                         if (!(this.lastPoint == null))
@@ -154,7 +154,7 @@ public class SinglePlayerAI implements AI {
                     this.map.shot(newpoint);
 
                     if (!(unknownShip == null) && unknownShip.isDestroyed()) { //check of destroyed ship
-                        System.out.println("Schiff versenkt");
+                        //System.out.println("Schiff versenkt");
                         this.shotHit = false;
                         this.shipDestroyed = true;
                         this.shipInFocus = false;
@@ -164,7 +164,7 @@ public class SinglePlayerAI implements AI {
                         this.shipAlignment = null;
                         ////this.shipDirection = null;
                     } else if (newtile.hasShip()) { //check, if shot hit a ship
-                        System.out.println("shot in" + newpoint);
+                        //System.out.println("shot in" + newpoint);
                         if (!(this.lastPoint == null))
                             this.startP = this.lastPoint;
 
@@ -194,7 +194,7 @@ public class SinglePlayerAI implements AI {
                     this.map.shot(newpoint);
 
                     if (!(unknownShip == null) && unknownShip.isDestroyed()) { //check of destroyed ship
-                        System.out.println("Schiff versenkt");
+                        //System.out.println("Schiff versenkt");
                         this.shipDestroyed = true;
                         this.shipInFocus = false;
                         this.lastPoint = null;
@@ -203,7 +203,7 @@ public class SinglePlayerAI implements AI {
                         this.shipAlignment = null;
                         ////this.shipDirection = null;
                     } else if (newtile.hasShip()) { //check, if shot hit a ship
-                        System.out.println("shot in" + newpoint);
+                        //System.out.println("shot in" + newpoint);
 
                         this.startP = newpoint;
                         if(!(this.lastPoint == null)) this.endP = this.lastPoint;
@@ -231,7 +231,7 @@ public class SinglePlayerAI implements AI {
                     this.map.shot(newpoint);
 
                     if (!(unknownShip == null) && unknownShip.isDestroyed()) { //check of destroyed ship
-                        System.out.println("Schiff versenkt");
+                        //System.out.println("Schiff versenkt");
                         this.shipDestroyed = true;
                         this.shipInFocus = false;
                         this.lastPoint = null;
@@ -240,7 +240,7 @@ public class SinglePlayerAI implements AI {
                         this.shipAlignment = null;
                         ////this.shipDirection = null;
                     } else if (newtile.hasShip()) { //check, if shot hit a ship
-                        System.out.println("shot in" + newpoint);
+                        //System.out.println("shot in" + newpoint);
 
                         if (!(this.lastPoint == null))
                             this.startP = this.lastPoint;
@@ -258,7 +258,7 @@ public class SinglePlayerAI implements AI {
                 }
             }
         }
-        System.out.println(startP+" "+endP);
+        //System.out.println(startP+" "+endP);
     }
 
     //random hit
@@ -267,17 +267,18 @@ public class SinglePlayerAI implements AI {
         Point tryPoint;
         int tryMarkx;
         int tryMarky;
-        if(!choose) {
+        if(choose) {
             do {
                 tryMarkx = (int) (Math.random() * this.map.getSize());
                 tryMarky = (int) (Math.random() * this.map.getSize());
                 tryPoint = new Point(tryMarkx, tryMarky);
             }
-            while (!(this.map.fieldIsLogicFree(tryPoint)));
+            //while (!(this.map.fieldIsLogicFree(tryPoint)));
+            while (this.map.getTile(tryPoint).isHit());
             this.shotHit = this.map.shot(tryPoint);
             if (shotHit) {
                 this.lastPoint = tryPoint;
-                System.out.println("shot in" + tryPoint);
+                ////System.out.println("shot in" + tryPoint);
                 shipInFocus = true;
             }
         }
@@ -299,7 +300,7 @@ public class SinglePlayerAI implements AI {
             this.shotHit = this.map.shot(tryPoint);
             if (shotHit) {
                 this.lastPoint = tryPoint;
-                System.out.println("shot in" + tryPoint);
+                //System.out.println("shot in" + tryPoint);
                 shipInFocus = true;
             }
         }
