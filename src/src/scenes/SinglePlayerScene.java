@@ -1,13 +1,7 @@
 package scenes;
 
-import core.Drawable;
-import core.Game;
-import core.GameWindow;
-import core.Updatable;
-import game.Assets;
-import game.GameState;
-import game.Map;
-import game.PlayerType;
+import core.*;
+import game.*;
 import graphics.MapRenderer;
 import ui.GuiScene;
 import ui.SinglePlayerPanel;
@@ -81,6 +75,37 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     @Override
     public void onDataPassed(Object data) {
         Map map = (Map)data;
-        this.playerMap = map;
+
+        MapGenerator generator = new MapGenerator();
+        this.playerMap = generator.generate(map.getSize());
+
+        this.playerMapRenderer.setMap(this.playerMap);
+
+        DrawMap();
     }
+
+    private void DrawMap() {
+        for (int y = 0; y < this.playerMap.getSize(); y++) {
+            for (int x = 0; x < this.playerMap.getSize(); x++) {
+                MapTile tile = this.playerMap.getTile(new Point(x, y));
+
+                if (tile.hasShip()) {
+                    if (tile.isHit()) {
+                        System.out.print(ANSIColors.RED + "X" + ANSIColors.RESET + "|");
+                    } else {
+                        System.out.print(ANSIColors.YELLOW + "X" + ANSIColors.RESET + "|");
+                    }
+                } else if (tile.isHit()) {
+                    System.out.print(ANSIColors.BLUE + "X" + ANSIColors.RESET + "|");
+                } else {
+                    System.out.print(ANSIColors.BLUE + " " + ANSIColors.RESET + "|");
+                }
+            }
+            System.out.print("\n" + ANSIColors.RESET);
+        }
+        System.out.println("-------------------------");
+
+        //this.playerMap.getShipsCounter().forEach((k, v) -> System.out.println("key: " + k + " value: " + v));
+    }
+
 }

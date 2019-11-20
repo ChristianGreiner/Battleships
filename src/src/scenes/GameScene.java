@@ -80,8 +80,8 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
     public Map generateMap() {
         // exmaple reading json file
-        File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
         HashMap<Integer, MapData> configMap = new HashMap<>();
+        File file = new File(getClass().getClassLoader().getResource("mapdata.json").getFile());
         try {
             MapData[] dat = Game.getInstance().getFileHandler().readMapConfig(file.getAbsolutePath());
             for (int i = 0; i < dat.length; i++) {
@@ -93,7 +93,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         MapGenerator generator = new MapGenerator();
 
-        return generator.generate(20, configMap.get(20));
+        return generator.generate(20);
     }
 
     @Override

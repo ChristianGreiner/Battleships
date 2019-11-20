@@ -5,16 +5,16 @@ import core.GameWindow;
 import game.Assets;
 import game.Map;
 import ui.GuiScene;
-import ui.MapSelectionPanel;
+import ui.SingePlayerSettingsPanel;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class MapSelectionScene extends Scene implements GuiScene, KeyListener {
+public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener {
 
-    public MapSelectionScene() {
-        super("MapSelectionScene");
+    public SinglePlayerSettingsScene() {
+        super("SinglePlayerSettingsScene");
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MapSelectionScene extends Scene implements GuiScene, KeyListener {
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        MapSelectionPanel mapSelection = new MapSelectionPanel().create();
+        SingePlayerSettingsPanel mapSelection = new SingePlayerSettingsPanel().create();
 
         mapSelection.getBackBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);

@@ -1,10 +1,32 @@
 package game;
 
+import core.Game;
 import core.Helper;
 import game.ships.*;
 
+import java.util.HashMap;
+
 public class MapGenerator {
-    public Map generate(int size, MapData data) {
+
+    private HashMap<Integer, MapData> configMap = new HashMap<>();
+
+    public MapGenerator() {
+        try {
+            MapData[] dat = Game.getInstance().getFileHandler().readMapConfig(Assets.Files.MAPDATA.getAbsolutePath());
+            for (int i = 0; i < dat.length; i++) {
+                configMap.put(dat[i].MapSize, dat[i]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Map generate(int size) {
+
+        if (this.configMap == null)
+            return null;
+
+        MapData data = this.configMap.get(size);
         Map map = new Map(size);
 
         int countCarriers = 0;
