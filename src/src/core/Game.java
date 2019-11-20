@@ -1,6 +1,7 @@
 package core;
 
 import game.Assets;
+import io.AssetsLoader;
 import io.FileHandler;
 import scenes.*;
 
@@ -82,11 +83,11 @@ public class Game implements Runnable {
         Instant finish = Instant.now();
         long timeElapsed = Duration.between(start, finish).toMillis();
 
-        System.out.println("Assets loaded in " + timeElapsed + " ms");
+        System.out.println(AssetsLoader.getAssetsLoaded() + " Assets loaded in " + timeElapsed + " ms");
 
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene(MainMenuScene.class);
+        this.sceneManager.setActiveScene(MainMenuScene.class, null);
 
 
         this.isRunning = true;

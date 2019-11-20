@@ -2,7 +2,10 @@ package scenes;
 
 import core.Game;
 import core.GameWindow;
+import game.Assets;
+import game.Map;
 import ui.GuiScene;
+import ui.MapSelectionPanel;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -22,8 +25,25 @@ public class MapSelectionScene extends Scene implements GuiScene, KeyListener {
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
+        MapSelectionPanel mapSelection = new MapSelectionPanel().create();
 
-        return new JPanel();
+        mapSelection.getBackBtn().addActionListener((e) -> {
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+        });
+
+        mapSelection.getContinueBtn().addActionListener((e) -> {
+            Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class, new Map((int)mapSelection.getSizeSpinner().getValue()));
+        });
+
+        mapSelection.getSizeSpinner().addChangeListener(changeEvent -> {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
+        });
+
+        mapSelection.getAiDifficultyCbox().addActionListener(actionEvent -> {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
+        });
+
+        return mapSelection;
     }
 
     @Override

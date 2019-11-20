@@ -46,7 +46,6 @@ public class MainMenuPanel extends JPanel {
         MainMenuPanel panel = this;
 
         panel.setOpaque(true);
-        panel.setBackground(null);
 
         panel.setSize(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight());
         panel.setLayout(new GridBagLayout());
@@ -87,7 +86,7 @@ public class MainMenuPanel extends JPanel {
     }
 
     private JButton addButton(String title, JPanel container, int y) {
-        JButton btn = UiBuilder.createButton(title, new Dimension(320, 32));
+        JButton btn = UiBuilder.createButton(title, new Dimension(320, UiBuilder.BUTTON_HEIGHT));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = y;

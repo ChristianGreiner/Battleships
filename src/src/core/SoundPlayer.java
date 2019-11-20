@@ -33,6 +33,25 @@ public class SoundPlayer {
         }
     }
 
+    public void play(float volume, boolean loop) {
+        this.play();
+        if(this.soundClip != null){
+            this.setVolume(volume);
+
+            if(loop)
+                this.soundClip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+
+    public void play(boolean loop) {
+        if(this.soundClip != null) {
+            this.soundClip.setFramePosition(0);
+            if(loop)
+                this.soundClip.loop(Clip.LOOP_CONTINUOUSLY);
+            this.soundClip.start();
+        }
+    }
+
     public void stop() {
         if(this.soundClip != null)
             this.soundClip.stop();

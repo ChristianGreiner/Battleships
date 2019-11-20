@@ -21,7 +21,7 @@ public class Map implements MapInterface, Serializable {
 
     private HashMap<Type, Integer> shipsCounter = new HashMap<>();
     private int size;
-    private int outOfShipLength = 1;
+    private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
 
     public int getNumberOfShips() {
         return numberOfShips;
@@ -592,7 +592,6 @@ public class Map implements MapInterface, Serializable {
                 }
                 return this.tiles[pos.x][pos.y].hasShip();
             }
-
         }
         return false;
     }

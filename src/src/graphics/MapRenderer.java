@@ -16,11 +16,9 @@ public class MapRenderer extends Renderer {
     @Override
     public void draw() {
         super.draw();
-
         Graphics g = this.begin();
 
         g.fillRect(20, 20, 20, 20);
-
 
         this.end();
     }

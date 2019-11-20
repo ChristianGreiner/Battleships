@@ -127,7 +127,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     @Override
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class, null);
         }
 
         if(e.getKeyCode() == KeyEvent.VK_R) {

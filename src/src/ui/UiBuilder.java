@@ -10,6 +10,10 @@ import java.awt.event.MouseEvent;
 
 public class UiBuilder {
 
+    public final static int BUTTON_HEIGHT = 38;
+
+    public final static Color TRANSPARENT = new Color(0,0,0,0);
+
     public static JButton createButton(String name, Dimension size) {
         JButton btn = new JButton(name);
         btn.setBackground(new Color(44, 62, 80));
