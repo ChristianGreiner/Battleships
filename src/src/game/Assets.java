@@ -4,6 +4,7 @@ import io.AssetsLoader;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.io.File;
 
 public final class Assets {
 
@@ -23,9 +24,12 @@ public final class Assets {
         public static Font TITLE;
         public static Font TITLE_BIG;
         public static Font DEFAULT;
-        public static Font DEFAULT_18;
         public static Font DEFAULT_24;
         public static Font DEFAULT_BOLD_24;
+    }
+
+    public static class Files {
+        public static File MAPDATA;
     }
 
     public static void init() {
@@ -34,12 +38,14 @@ public final class Assets {
         Images.BACKGROUND =  AssetsLoader.loadImage(Assets.Paths.BACKGROUND);
 
         // load fonts
-        Fonts.TITLE = AssetsLoader.loadFont(Assets.Paths.OXYGEN_FONT, 48f);
-        Fonts.TITLE_BIG = AssetsLoader.loadFont(Assets.Paths.PLAY_FONT, 64f);
-        Fonts.DEFAULT = AssetsLoader.loadFont(Assets.Paths.OXYGEN_FONT, 16f);
-        Fonts.DEFAULT_18 = AssetsLoader.loadFont(Assets.Paths.OXYGEN_FONT, 18f);
-        Fonts.DEFAULT_24 = AssetsLoader.loadFont(Assets.Paths.OXYGEN_FONT, 24f);
-        Fonts.DEFAULT_BOLD_24 = AssetsLoader.loadFont(Assets.Paths.OXYGEN_BOLD_FONT, 24f);
+
+        String FONT = Paths.ROBOTO_FONT;
+
+        Fonts.TITLE = AssetsLoader.loadFont(Paths.PLAY_FONT, 48f);
+        Fonts.TITLE_BIG = AssetsLoader.loadFont(Paths.PLAY_FONT, 64f);
+        Fonts.DEFAULT = AssetsLoader.loadFont(FONT, 18f);
+        Fonts.DEFAULT_24 = AssetsLoader.loadFont(FONT, 24f);
+        Fonts.DEFAULT_BOLD_24 = AssetsLoader.loadFont(FONT, 24f);
 
         // load sounds
         Sounds.BUTTON_HOVER = AssetsLoader.loadSound(Paths.Button.HOVER_SFX);
@@ -49,19 +55,22 @@ public final class Assets {
         Sounds.BACKGROUND_MUSIC = AssetsLoader.loadSound(Paths.BACKGROUND_2_MUSIC);
         Sounds.PLAYING_MUSIC = AssetsLoader.loadSound(Paths.PLAYING_MUSIC);
         Sounds.SEATBELT_SFX = AssetsLoader.loadSound(Paths.SEATBELT_SFX);
+
+        Files.MAPDATA = new File(Assets.class.getClassLoader().getResource(Paths.MAPDATA).getFile());
     }
 
     public class Paths {
         public final static String OPTIONS = "options.txt";
+        public final static String MAPDATA = "mapdata.json";
 
         public final static String BACKGROUND = "MainMenuBackground.jpg";
         public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
         public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
-        public final static String PLAYING_MUSIC = "music/undiscovered.wav";
+        public final static String PLAYING_MUSIC = "music/redemption-sc1.wav";
 
+        public final static String ROBOTO_FONT = "fonts/Roboto-Regular.ttf";
+        public final static String ROBOTO_BOLD_FONT = "fonts/Roboto-Bold.ttf";
         public final static String PLAY_FONT = "fonts/Play-Regular.ttf";
-        public final static String OXYGEN_FONT = "fonts/Oxygen-Regular.ttf";
-        public final static String OXYGEN_BOLD_FONT = "fonts/Oxygen-Bold.ttf";
         public final static String SEATBELT_SFX = "sfx/seatbelt.wav";
 
         public final class Button {
