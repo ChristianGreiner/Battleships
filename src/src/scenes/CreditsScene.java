@@ -38,11 +38,11 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
         ArrayList<Credit> credits = new ArrayList<>();
         credits.add(new Credit("BATTLESHIPS", Assets.Fonts.TITLE_BIG));
         credits.add(new Credit("", Assets.Fonts.TITLE_BIG));
-        credits.add(new Credit("EIN SPIEL VON:", Assets.Fonts.DEFAULT_BOLD_24));
-        credits.add(new Credit("JOSEPH DER ECHTE", Assets.Fonts.DEFAULT_18));
-        credits.add(new Credit("GREINER DER WEBDESIGNER", Assets.Fonts.DEFAULT_18));
-        credits.add(new Credit("SHADY DER INDER", Assets.Fonts.DEFAULT_18));
-        credits.add(new Credit("FREDDY", Assets.Fonts.DEFAULT_18));
+        credits.add(new Credit("CREDITS", Assets.Fonts.DEFAULT_BOLD_24));
+        credits.add(new Credit("JOSEPH DER ECHTE", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("GREINER DER WEBDESIGNER", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("SHADY DER INDER", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("FREDDY", Assets.Fonts.DEFAULT));
 
         this.creditsRenderer = new CreditsRenderer(credits, new Point(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight()));
         this.creditsRenderer.setBackground(Color.WHITE);

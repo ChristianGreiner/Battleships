@@ -5,7 +5,7 @@ import game.Assets;
 import javax.swing.*;
 import java.awt.*;
 
-public class MapSelectionPanel extends JPanel {
+public class SingePlayerSettingsPanel extends JPanel {
 
     private JSpinner sizeSpn;
     private JButton continueBtn;
@@ -30,9 +30,9 @@ public class MapSelectionPanel extends JPanel {
 
     private JButton backBtn;
 
-    public MapSelectionPanel create() {
+    public SingePlayerSettingsPanel create() {
 
-        MapSelectionPanel panel = this;
+        SingePlayerSettingsPanel panel = this;
 
         panel.setLayout(new GridBagLayout());
         final JPanel spacer1 = new JPanel();
@@ -65,7 +65,7 @@ public class MapSelectionPanel extends JPanel {
         JLabel titleLbl = new JLabel();
         titleLbl.setHorizontalAlignment(0);
         titleLbl.setHorizontalTextPosition(0);
-        titleLbl.setText("MAP SETTINGS");
+        titleLbl.setText("SINGLEPLAYER");
         titleLbl.setForeground(Color.WHITE);
         titleLbl.setFont(Assets.Fonts.TITLE);
 
@@ -86,7 +86,7 @@ public class MapSelectionPanel extends JPanel {
         final JLabel sizeLbl = new JLabel();
         sizeLbl.setText("SIZE:");
         sizeLbl.setForeground(Color.white);
-        sizeLbl.setFont(Assets.Fonts.DEFAULT_18);
+        sizeLbl.setFont(Assets.Fonts.DEFAULT);
         sizeLblContainer.add(sizeLbl);
 
         final JPanel spinnerContainer = new JPanel();
@@ -108,15 +108,13 @@ public class MapSelectionPanel extends JPanel {
         final JLabel crossLbl = new JLabel();
         crossLbl.setText("x");
         crossLbl.setForeground(Color.WHITE);
-        crossLbl.setFont(Assets.Fonts.DEFAULT_BOLD_24);
+        crossLbl.setFont(Assets.Fonts.DEFAULT_24);
         spinnerContainer.add(crossLbl);
 
         final JSpinner sizeCopySpn = new JSpinner(spinnerModel);
         sizeCopySpn.setPreferredSize(new Dimension(128, 28));
-        crossLbl.setFont(Assets.Fonts.DEFAULT_18);
-        sizeCopySpn.setEnabled(false);
+        sizeCopySpn.setFont(Assets.Fonts.DEFAULT);
         spinnerContainer.add(sizeCopySpn);
-
 
         final JPanel aiDifficultLblContainer = new JPanel();
         aiDifficultLblContainer.setBackground(new Color(0, 0, 0, 155));
@@ -130,7 +128,7 @@ public class MapSelectionPanel extends JPanel {
         final JLabel aiDifficultLbl = new JLabel();
         aiDifficultLbl.setText("AI DIFFICULTY:");
         aiDifficultLbl.setForeground(Color.white);
-        aiDifficultLbl.setFont(Assets.Fonts.DEFAULT_18);
+        aiDifficultLbl.setFont(Assets.Fonts.DEFAULT);
         aiDifficultLblContainer.add(aiDifficultLbl);
 
         final JPanel aiSelectionContainer = new JPanel();
@@ -143,8 +141,8 @@ public class MapSelectionPanel extends JPanel {
         panel.add(aiSelectionContainer, gbc);
 
         aiDifficultyCbox = new JComboBox();
-        aiDifficultyCbox.setPreferredSize(new Dimension(160, 28));
-        aiDifficultyCbox.setFont(Assets.Fonts.DEFAULT_18);
+        aiDifficultyCbox.setPreferredSize(new Dimension(220, 28));
+        aiDifficultyCbox.setFont(Assets.Fonts.DEFAULT);
         final DefaultComboBoxModel aiComboboxModel = new DefaultComboBoxModel();
         aiComboboxModel.addElement("FULLRETARD");
         aiComboboxModel.addElement("EASY");
