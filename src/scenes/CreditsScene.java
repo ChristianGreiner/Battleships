@@ -18,6 +18,7 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
 
     private CreditsRenderer creditsRenderer;
     private GameWindow gameWindow;
+    private JPanel rootPanel;
 
     public CreditsScene() {
         super("CreditsScene");
@@ -32,8 +33,9 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     public JPanel buildGui(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        this.rootPanel = new JPanel();
+        this.rootPanel.setBackground(Color.RED);
+        this.rootPanel.setLayout(new BorderLayout());
 
         ArrayList<Credit> credits = new ArrayList<>();
         credits.add(new Credit("BATTLESHIPS", Assets.Fonts.TITLE_BIG));
@@ -48,14 +50,16 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
         this.creditsRenderer.setBackground(Color.WHITE);
         this.creditsRenderer.setLocation(0, 0);
         this.creditsRenderer.setSize(gameWindow.getSize());
-        panel.add(this.creditsRenderer, BorderLayout.CENTER);
+        this.rootPanel.add(this.creditsRenderer, BorderLayout.CENTER);
 
 
-        return panel;
+        return this.rootPanel;
     }
 
     @Override
     public void sizeUpdated() {
+        this.rootPanel.setPreferredSize(Game.getInstance().getWindow().getSize());
+        this.creditsRenderer.setSize(Game.getInstance().getWindow().getSize());
     }
 
     @Override
@@ -78,6 +82,7 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     @Override
     public void draw() {
         if(this.creditsRenderer != null) {
+            this.rootPanel.setPreferredSize(Game.getInstance().getWindow().getSize());
             this.creditsRenderer.setSize(this.gameWindow.getSize());
             this.creditsRenderer.draw();
         }
