@@ -72,7 +72,7 @@ public class GameWindow extends JFrame implements Runnable {
                     rootPanel.repaint();
 
                     if (guiScene instanceof GuiScene)
-                        ((GuiScene) guiScene).sizeUpdated();
+                        guiScene.sizeUpdated();
                 }
             }
         });

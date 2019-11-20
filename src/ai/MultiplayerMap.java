@@ -1,6 +1,5 @@
 package ai;
 
-import game.MapTile;
 import game.Map;
 
 public class MultiplayerMap extends Map {
