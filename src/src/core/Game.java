@@ -63,6 +63,7 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new GameScene());
         this.sceneManager.addScene(new SinglePlayerSettingsScene());
         this.sceneManager.addScene(new SinglePlayerScene());
+        this.sceneManager.addScene(new MultiplayerScene());
 
         this.soundManager = new SoundManager();
     }

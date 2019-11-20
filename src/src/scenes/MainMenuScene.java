@@ -30,15 +30,19 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
         MainMenuPanel menu = new MainMenuPanel().create();
 
         menu.getSingleplayerBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class, null);
+            Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
+        });
+
+        menu.getMultiplayerBtn().addActionListener((e) -> {
+            Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
         });
 
         menu.getOptionsBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(OptionsScene.class, null);
+            Game.getInstance().getSceneManager().setActiveScene(OptionsScene.class);
         });
 
         menu.getCreditsBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(CreditsScene.class, null);
+            Game.getInstance().getSceneManager().setActiveScene(CreditsScene.class);
         });
 
         menu.getExitBtn().addActionListener((e) -> { System.exit(0); });

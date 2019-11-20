@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
 
 public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene, PassableDataScene {
 
@@ -77,18 +76,10 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     public void onDataPassed(Object data) {
         Map map = (Map)data;
 
-        HashMap<Integer, MapData> configMap = new HashMap<>();
-        try {
-            MapData[] dat = Game.getInstance().getFileHandler().readMapConfig(Assets.Files.MAPDATA.getAbsolutePath());
-            for (int i = 0; i < dat.length; i++) {
-                configMap.put(dat[i].MapSize, dat[i]);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         MapGenerator generator = new MapGenerator();
-        this.playerMap = generator.generate(map.getSize(), configMap.get(map.getSize()));
+        this.playerMap = generator.generate(map.getSize());
+
+        this.playerMapRenderer.setMap(this.playerMap);
 
         DrawMap();
     }
@@ -114,7 +105,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
         System.out.println("-------------------------");
 
-        this.playerMap.getShipsCounter().forEach((k, v) -> System.out.println("key: " + k + " value: " + v));
+        //this.playerMap.getShipsCounter().forEach((k, v) -> System.out.println("key: " + k + " value: " + v));
     }
 
 }

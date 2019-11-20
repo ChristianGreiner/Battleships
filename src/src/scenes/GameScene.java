@@ -93,7 +93,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         MapGenerator generator = new MapGenerator();
 
-        return generator.generate(20, configMap.get(20));
+        return generator.generate(20);
     }
 
     @Override
