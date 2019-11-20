@@ -1,7 +1,10 @@
 package game;
 
 import core.Helper;
+import game.ships.Battleship;
+import game.ships.Destroyer;
 import game.ships.Ship;
+import game.ships.Submarine;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -64,17 +67,15 @@ public class Map implements MapInterface, Serializable {
     }
 
     public void setOutOfShipLength(){ //everytime ship gets destroyed, this method should be refreshed
-        /*
-        if(){
+        if(this.shipsCounter.get(Submarine.class) == 0){
             outOfShipLength=2;
-            if (out of destroyer){
+            if (this.shipsCounter.get(Destroyer.class) == 0){
                 outOfShipLength=3;
-                if (out of carrier){
+                if (this.shipsCounter.get(Battleship.class) == 0){
                     outOfShipLength=4;
                 }
             }
         }
-        */
     }
 
     public boolean insert(Ship ship, Point position, boolean rotated) {
@@ -586,8 +587,12 @@ public class Map implements MapInterface, Serializable {
         if (isInMap(pos)) {
             if (!getTile(pos).isHit()) {
                 this.tiles[pos.x][pos.y].setHit(true);
+                if (this.tiles[pos.x][pos.y].getShip().isDestroyed()){
+                    numberOfDestoryedShips++;
+                }
                 return this.tiles[pos.x][pos.y].hasShip();
             }
+
         }
         return false;
     }

@@ -149,4 +149,9 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         return panel;
     }
+
+    @Override
+    public void sizeUpdated() {
+
+    }
 }
