@@ -18,7 +18,6 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
     @Override
     void onAdded() {
         super.onAdded();
-
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.BACKGROUND_MUSIC);
     }
 
@@ -31,15 +30,15 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
         MainMenuPanel menu = new MainMenuPanel().create();
 
         menu.getSingleplayerBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(MapSelectionScene.class);
+            Game.getInstance().getSceneManager().setActiveScene(MapSelectionScene.class, null);
         });
 
         menu.getOptionsBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(OptionsScene.class);
+            Game.getInstance().getSceneManager().setActiveScene(OptionsScene.class, null);
         });
 
         menu.getCreditsBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(CreditsScene.class);
+            Game.getInstance().getSceneManager().setActiveScene(CreditsScene.class, null);
         });
 
         menu.getExitBtn().addActionListener((e) -> { System.exit(0); });

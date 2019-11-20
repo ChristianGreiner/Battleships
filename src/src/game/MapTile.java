@@ -52,10 +52,12 @@ public class MapTile implements Serializable {
         return this.getShip() != null;
     }
 
-    public void setHit(boolean hit) {
+    public boolean setHit(boolean hit) {
         this.hit = hit;
         if (hasShip())
-            ship.isDestroyed();
+            return ship.isDestroyed();
+
+        return false;
     }
 
     public Point getPos() {

@@ -14,10 +14,11 @@ public class SoundManager {
     }
 
     public void playBackgroundMusic(Clip audioClip) {
-        if(this.backgroundPlayer == null) {
-            this.backgroundPlayer = new SoundPlayer(audioClip);
-            this.backgroundPlayer.play(Game.getInstance().getOptions().getMusicVolume());
+        if(this.backgroundPlayer != null) {
+            this.backgroundPlayer.stop();
         }
+        this.backgroundPlayer = new SoundPlayer(audioClip);
+        this.backgroundPlayer.play(Game.getInstance().getOptions().getMusicVolume(), true);
     }
 
     public void stopBackgroundMusic() {

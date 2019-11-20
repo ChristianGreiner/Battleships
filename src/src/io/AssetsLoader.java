@@ -7,8 +7,15 @@ import java.io.IOException;
 
 public class AssetsLoader {
 
+    public static int getAssetsLoaded() {
+        return assetsLoaded;
+    }
+
+    private static int assetsLoaded = 0;
+
     public static Font loadFont(String fontName, float fontSize) {
         try {
+            assetsLoaded++;
             return Font.createFont(Font.TRUETYPE_FONT, AssetsLoader.class.getClassLoader().getResourceAsStream(fontName)).deriveFont(fontSize);
         } catch (FontFormatException e) {
             e.printStackTrace();
@@ -20,6 +27,7 @@ public class AssetsLoader {
 
     public static Image loadImage(String imageName) {
         try {
+            assetsLoaded++;
             return ImageIO.read(AssetsLoader.class.getClassLoader().getResourceAsStream(imageName));
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,6 +42,8 @@ public class AssetsLoader {
             audioInputStream = AudioSystem.getAudioInputStream(AssetsLoader.class.getClassLoader().getResourceAsStream(soundName));
             Clip soundClip = AudioSystem.getClip();
             soundClip.open(audioInputStream);
+
+            assetsLoaded++;
 
             return soundClip;
         } catch (UnsupportedAudioFileException e) {

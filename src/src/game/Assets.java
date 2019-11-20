@@ -13,6 +13,7 @@ public final class Assets {
 
     public static class Sounds {
         public static Clip BACKGROUND_MUSIC;
+        public static Clip PLAYING_MUSIC;
         public static Clip BUTTON_HOVER;
         public static Clip BUTTON_CLICK;
         public static Clip SEATBELT_SFX;
@@ -46,6 +47,7 @@ public final class Assets {
 
         // load music
         Sounds.BACKGROUND_MUSIC = AssetsLoader.loadSound(Paths.BACKGROUND_2_MUSIC);
+        Sounds.PLAYING_MUSIC = AssetsLoader.loadSound(Paths.PLAYING_MUSIC);
         Sounds.SEATBELT_SFX = AssetsLoader.loadSound(Paths.SEATBELT_SFX);
     }
 
@@ -55,6 +57,7 @@ public final class Assets {
         public final static String BACKGROUND = "MainMenuBackground.jpg";
         public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
         public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
+        public final static String PLAYING_MUSIC = "music/undiscovered.wav";
 
         public final static String PLAY_FONT = "fonts/Play-Regular.ttf";
         public final static String OXYGEN_FONT = "fonts/Oxygen-Regular.ttf";

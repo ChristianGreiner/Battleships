@@ -4,6 +4,7 @@ import core.Drawable;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
+import game.Assets;
 import game.GameState;
 import game.Map;
 import game.PlayerType;
@@ -16,7 +17,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene {
+public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene, PassableDataScene {
 
     private Map playerMap;
     private Map aiMap;
@@ -27,10 +28,13 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
     public SinglePlayerScene() {
         super("SinglePlayer");
+        this.playerMapRenderer = new MapRenderer(null);
+    }
 
-        this.playerMap = new Map(20);
-
-        this.playerMapRenderer = new MapRenderer(this.playerMap);
+    @Override
+    void onAdded() {
+        super.onAdded();
+        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC);
     }
 
     @Override
@@ -70,7 +74,13 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class, null);
         }
+    }
+
+    @Override
+    public void onDataPassed(Object data) {
+        Map map = (Map)data;
+        this.playerMap = map;
     }
 }
