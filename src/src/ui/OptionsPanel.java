@@ -110,32 +110,35 @@ public class OptionsPanel extends JPanel {
         gbc.gridy = 5;
         gbc.fill = GridBagConstraints.BOTH;
         panel.add(panel4, gbc);
+        */
 
-        final JPanel panel5 = new JPanel();
-        panel5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        final JPanel spacer = new JPanel();
+        spacer.setBackground(new Color(0, 0, 0, 155));
+        spacer.setPreferredSize(new Dimension(120, 10));
+        spacer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.BOTH;
-        panel.add(panel5, gbc);*/
+        panel.add(spacer, gbc);
 
-        final JPanel panel6 = new JPanel();
-        panel6.setLayout(new BorderLayout(0, 0));
+        final JPanel btnMainContainer = new JPanel();
+        btnMainContainer.setLayout(new BorderLayout(0, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.BOTH;
 
-        panel.add(panel6, gbc);
+        panel.add(btnMainContainer, gbc);
 
-        final JPanel panel7 = new JPanel();
-        panel7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        panel7.setBackground(new Color(0, 0, 0, 155));
-        panel6.add(panel7, BorderLayout.CENTER);
+        final JPanel btnContainer = new JPanel();
+        btnContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        btnContainer.setBackground(new Color(0, 0, 0, 155));
+        btnMainContainer.add(btnContainer, BorderLayout.CENTER);
 
         saveBtn = UiBuilder.createButton("SAVE", new Dimension(120, UiBuilder.BUTTON_HEIGHT));
 
-        panel7.add(saveBtn);
+        btnContainer.add(saveBtn);
 
         return panel;
     }

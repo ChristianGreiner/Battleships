@@ -10,6 +10,7 @@ import ui.SingePlayerSettingsPanel;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener {
 
@@ -31,8 +32,19 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
-        mapSelection.getContinueBtn().addActionListener((e) -> {
+        mapSelection.getNewGameBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class, new Map((int)mapSelection.getSizeSpinner().getValue()));
+        });
+
+        mapSelection.getLoadGameBtn().addActionListener((e) -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            int result = fileChooser.showOpenDialog(Game.getInstance().getWindow());
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            }
         });
 
         mapSelection.getSizeSpinner().addChangeListener(changeEvent -> {

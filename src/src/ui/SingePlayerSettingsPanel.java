@@ -8,7 +8,15 @@ import java.awt.*;
 public class SingePlayerSettingsPanel extends JPanel {
 
     private JSpinner sizeSpn;
-    private JButton continueBtn;
+    private JButton loadGameBtn;
+    private JButton newGameBtn;
+
+    public JButton getLoadGameBtn() {
+        return loadGameBtn;
+    }
+    public JButton getNewGameBtn() {
+        return newGameBtn;
+    }
 
     public JComboBox getAiDifficultyCbox() {
         return aiDifficultyCbox;
@@ -18,10 +26,6 @@ public class SingePlayerSettingsPanel extends JPanel {
 
     public JSpinner getSizeSpinner() {
         return sizeSpn;
-    }
-
-    public JButton getContinueBtn() {
-        return continueBtn;
     }
 
     public JButton getBackBtn() {
@@ -96,7 +100,6 @@ public class SingePlayerSettingsPanel extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0, 0, 0, 0);
         panel.add(spinnerContainer, gbc);
 
         SpinnerModel spinnerModel = new SpinnerNumberModel(10, 5, 30, 1);
@@ -154,6 +157,7 @@ public class SingePlayerSettingsPanel extends JPanel {
 
         final JPanel spacer = new JPanel();
         spacer.setBackground(new Color(0, 0, 0, 155));
+        spacer.setPreferredSize(new Dimension(360, 10));
         spacer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -162,6 +166,59 @@ public class SingePlayerSettingsPanel extends JPanel {
         panel.add(spacer, gbc);
 
         final JPanel btnContainer = new JPanel();
+        btnContainer.setLayout(new GridBagLayout());
+        btnContainer.setBackground(new Color(0, 0, 0, 155));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel.add(btnContainer, gbc);
+
+        final JPanel spacer3 = new JPanel();
+        spacer3.setOpaque(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        btnContainer.add(spacer3, gbc);
+
+        newGameBtn = UiBuilder.createButton("NEW GAME", new Dimension(360, UiBuilder.BUTTON_HEIGHT));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        btnContainer.add(newGameBtn, gbc);
+
+        final JPanel spacer5 = new JPanel();
+        spacer5.setOpaque(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        btnContainer.add(spacer5, gbc);
+
+        loadGameBtn = UiBuilder.createButton("LOAD GAME", new Dimension(360, UiBuilder.BUTTON_HEIGHT));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        btnContainer.add(loadGameBtn, gbc);
+
+        final JPanel spacer6 = new JPanel();
+        spacer6.setOpaque(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        btnContainer.add(spacer6, gbc);
+
+        backBtn = UiBuilder.createButton("BACK", new Dimension(360, UiBuilder.BUTTON_HEIGHT));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        btnContainer.add(backBtn, gbc);
+
+
+        /*final JPanel btnContainer = new JPanel();
         btnContainer.setBackground(new Color(0, 0, 0, 155));
         btnContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         gbc = new GridBagConstraints();
@@ -174,8 +231,8 @@ public class SingePlayerSettingsPanel extends JPanel {
         backBtn = UiBuilder.createButton("BACK", new Dimension(160, UiBuilder.BUTTON_HEIGHT));
         btnContainer.add(backBtn);
 
-        continueBtn = UiBuilder.createButton("CONTINUE", new Dimension(160, UiBuilder.BUTTON_HEIGHT));
-        btnContainer.add(continueBtn);
+        newGameBtn = UiBuilder.createButton("CONTINUE", new Dimension(160, UiBuilder.BUTTON_HEIGHT));
+        btnContainer.add(newGameBtn);*/
 
         return panel;
     }

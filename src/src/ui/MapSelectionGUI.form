@@ -87,28 +87,6 @@
           </component>
         </children>
       </grid>
-      <grid id="4c2d1" binding="btnContainer" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-        <constraints>
-          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag top="20" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="9a437" class="javax.swing.JButton" binding="backBtn">
-            <constraints/>
-            <properties>
-              <text value="BACK"/>
-            </properties>
-          </component>
-          <component id="857bd" class="javax.swing.JButton" binding="continueBtn">
-            <constraints/>
-            <properties>
-              <text value="CONTINUE"/>
-            </properties>
-          </component>
-        </children>
-      </grid>
       <grid id="44b61" binding="aiSelectionContainer" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -129,6 +107,61 @@
               </model>
             </properties>
           </component>
+        </children>
+      </grid>
+      <grid id="30767" binding="btnContainer" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="857bd" class="javax.swing.JButton" binding="newGameBtn">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="CONTINUE"/>
+            </properties>
+          </component>
+          <component id="9a437" class="javax.swing.JButton" binding="backBtn">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="BACK"/>
+            </properties>
+          </component>
+          <component id="30d5e" class="javax.swing.JButton" binding="loadGameBtn">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="Button"/>
+            </properties>
+          </component>
+          <vspacer id="eb58a">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="e3191">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="63836">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
     </children>

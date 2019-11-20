@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene, PassableDataScene {
 
@@ -76,7 +77,15 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
-                handleAiShot();
+            handleAiShot();
+        }
+
+        if(keyEvent.getKeyCode() == KeyEvent.VK_S) {
+            JFileChooser fileChooser = new JFileChooser();
+            if (fileChooser.showSaveDialog(Game.getInstance().getWindow()) == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                //Game.getInstance().getFileHandler().
+            }
         }
     }
 
