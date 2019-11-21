@@ -18,10 +18,11 @@ public abstract class Ship implements Serializable {
     private ArrayList<MapTile> tiles = new ArrayList<>();
     private ArrayList<MapTile> neighborTiles = new ArrayList<>();
 
-    public Ship(int space) {
+    public Ship(Map parentMap, int space) {
         Ship.id++;
         this.space = space;
         this.position = null;
+        this.parentMap = parentMap;
     }
 
     public int getId() {
@@ -30,10 +31,6 @@ public abstract class Ship implements Serializable {
 
     public Map getParentMap() {
         return parentMap;
-    }
-
-    public void setParentMap(Map parentMap) {
-        this.parentMap = parentMap;
     }
 
     public Point getPosition() {
@@ -74,12 +71,12 @@ public abstract class Ship implements Serializable {
                 return false;
             }
         }
+
         // its true, so block all neighbors
         for (int i = 0; i < this.neighborTiles.size(); i++) {
             this.neighborTiles.get(i).setBlocked(true);
         }
 
-        this.parentMap.computeRemoveShip(this);
         this.parentMap.setOutOfShipLength();
 
         return true;

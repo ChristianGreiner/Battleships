@@ -37,20 +37,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     public void setMapSize(int size) {
         MapGenerator generator = new MapGenerator();
         this.playerMap = generator.generate(size);
-
-        /*this.playerMap = new Map(size);
-        Destroyer ship = new Destroyer();
-
-        playerMap.insert(ship, new Point(7, 9), true);
-
-        playerMap.shot2(new Point(7, 1));
-        playerMap.shot2(new Point(0, 1));
-        playerMap.shot2(new Point(0, 1));*/
-
-
         this.ai = new AI(this.playerMap, AiDifficulty.Medium);
-
-
         this.playerMapRenderer.setMap(this.playerMap);
         DrawMap();
     }
@@ -64,7 +51,10 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
     @Override
     public void update(double deltaTime) {
-
+        if(this.playerMap == null) return;
+        if(this.playerMap.getNumberOfShips() == this.playerMap.getNumberOfDestoryedShips()) {
+            System.out.println("GAME ENDED");
+        }
     }
 
     @Override

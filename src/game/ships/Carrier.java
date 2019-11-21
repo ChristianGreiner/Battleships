@@ -1,8 +1,10 @@
 package game.ships;
 
+import game.Map;
+
 public class Carrier extends Ship {
 
-    public Carrier() {
-        super(5);
+    public Carrier(Map map) {
+        super(map, 5);
     }
 }

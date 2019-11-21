@@ -31,32 +31,31 @@ public class MapGenerator {
 
         int countCarriers = 0;
         while (countCarriers < data.Carriers) {
-            if (insertShip(new Carrier(), map)) {
+            if (insertShip(new Carrier(map), map)) {
                 countCarriers++;
             }
         }
 
         int countBattleships = 0;
         while (countBattleships < data.Battleships) {
-            if (insertShip(new Battleship(), map)) {
+            if (insertShip(new Battleship(map), map)) {
                 countBattleships++;
             }
         }
 
         int countSubmarines = 0;
         while (countSubmarines < data.Submarines) {
-            if (insertShip(new Submarine(), map)) {
+            if (insertShip(new Submarine(map), map)) {
                 countSubmarines++;
             }
         }
 
         int countDestroyer = 0;
         while (countDestroyer < data.Destroyers) {
-            if (insertShip(new Destroyer(), map)) {
+            if (insertShip(new Destroyer(map), map)) {
                 countDestroyer++;
             }
         }
-
 
         return map;
     }

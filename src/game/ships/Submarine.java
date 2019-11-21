@@ -1,8 +1,10 @@
 package game.ships;
 
+import game.Map;
+
 public class Submarine extends Ship {
 
-    public Submarine() {
-        super(2);
+    public Submarine(Map map) {
+        super(map, 2);
     }
 }
