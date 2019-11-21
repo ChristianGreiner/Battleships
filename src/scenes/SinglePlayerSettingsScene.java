@@ -3,14 +3,13 @@ package scenes;
 import core.Game;
 import core.GameWindow;
 import game.Assets;
-import game.Map;
+import game.Savegame;
 import ui.GuiScene;
 import ui.SingePlayerSettingsPanel;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 
 public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener {
 
@@ -33,18 +32,16 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         });
 
         mapSelection.getNewGameBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class, new Map((int)mapSelection.getSizeSpinner().getValue()));
+            // , new Map((int)mapSelection.getSizeSpinner().getValue())
+            SinglePlayerScene scene = (SinglePlayerScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+            int size = (int)mapSelection.getSizeSpinner().getValue();
+            scene.setMapSize(size);
         });
 
         mapSelection.getLoadGameBtn().addActionListener((e) -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-            int result = fileChooser.showOpenDialog(Game.getInstance().getWindow());
-
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-            }
+            Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
+            SinglePlayerScene scene = (SinglePlayerScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+            scene.initializeSavegame(savegame);
         });
 
         mapSelection.getSizeSpinner().addChangeListener(changeEvent -> {

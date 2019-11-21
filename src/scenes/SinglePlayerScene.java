@@ -12,9 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 
-public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene, PassableDataScene {
+public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene {
 
     private Map playerMap;
     private Map aiMap;
@@ -33,6 +32,34 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     void onAdded() {
         super.onAdded();
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC);
+    }
+
+    public void setMapSize(int size) {
+        MapGenerator generator = new MapGenerator();
+        this.playerMap = generator.generate(size);
+
+        /*this.playerMap = new Map(size);
+        Destroyer ship = new Destroyer();
+
+        playerMap.insert(ship, new Point(7, 9), true);
+
+        playerMap.shot2(new Point(7, 1));
+        playerMap.shot2(new Point(0, 1));
+        playerMap.shot2(new Point(0, 1));*/
+
+
+        this.ai = new AI(this.playerMap, AiDifficulty.Medium);
+
+
+        this.playerMapRenderer.setMap(this.playerMap);
+        DrawMap();
+    }
+
+    public void initializeSavegame(Savegame savegame) {
+        this.playerMap = savegame.getPlayerMap();
+        this.aiMap = savegame.getEnemyMap();
+        this.ai = savegame.getAi();
+        this.playerMapRenderer.setMap(this.playerMap);
     }
 
     @Override
@@ -73,7 +100,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class, null);
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -81,11 +108,12 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_S) {
-            JFileChooser fileChooser = new JFileChooser();
-            if (fileChooser.showSaveDialog(Game.getInstance().getWindow()) == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                //Game.getInstance().getFileHandler().
-            }
+            Savegame savegame = new Savegame(this.playerMap, this.aiMap, this.playerTurn, AiDifficulty.Medium, this.ai);
+            Game.getInstance().getFileHandler().saveSavegame(savegame);
+        }
+
+        if(keyEvent.getKeyCode() == KeyEvent.VK_D) {
+            Map map = this.playerMap;
         }
     }
 
@@ -109,21 +137,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
         if(point != null)
             System.out.println(point);
-    }
-
-    @Override
-    public void onDataPassed(Object data) {
-        Map map = (Map)data;
-
-        MapGenerator generator = new MapGenerator();
-        this.playerMap = generator.generate(map.getSize());
-
-        this.playerMapRenderer.setMap(this.playerMap);
-
-        this.ai = new AI(this.playerMap, AiDifficulty.Medium);
-
-
-        DrawMap();
     }
 
     private void DrawMap() {

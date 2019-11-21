@@ -1,6 +1,8 @@
 package ai;
 
-public enum AiDifficulty {
+import java.io.Serializable;
+
+public enum AiDifficulty implements Serializable {
     Easy,
     Medium,
     Hard

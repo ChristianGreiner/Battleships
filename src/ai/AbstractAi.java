@@ -2,7 +2,9 @@ package ai;
 
 import game.Map;
 
-public abstract class AbstractAi implements AiInterface{
+import java.io.Serializable;
+
+public abstract class AbstractAi implements AiInterface, Serializable {
 
     protected AiDifficulty difficulty;
     protected Map map;

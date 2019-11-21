@@ -39,7 +39,11 @@ public class MapRenderer extends Renderer {
             for (int x = 0; x < this.map.getSize(); x++) {
                 MapTile tile = this.map.getTile(new Point(x, y));
 
-                if (tile.hasShip()) {
+                if (tile.isBlocked()) {
+                    g.setColor(Color.YELLOW);
+                    g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    MapTile lol = tile;
+                } else if (tile.hasShip()) {
 
                     if (tile.getShip() instanceof Battleship) {
                         g.setColor(Color.DARK_GRAY);
@@ -58,10 +62,7 @@ public class MapRenderer extends Renderer {
                         g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
                     }
 
-                } else if (tile.isBlocked()) {
-                    g.setColor(Color.YELLOW);
-                    g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                } else if (tile.isHit()) {
+                } else if (tile.isHit() && !tile.isBlocked()) {
                     g.setColor(Color.RED);
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
                 } else {

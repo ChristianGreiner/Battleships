@@ -59,7 +59,7 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
     public void update(double deltaTime) {
 
         if (this.timeCounter >= this.maxCount) {
-            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class, null);
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
         System.out.println(timeCounter);

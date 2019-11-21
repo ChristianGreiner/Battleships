@@ -34,13 +34,6 @@ public class SceneManager {
         return this.scenes.get(type);
     }
 
-    public void setActiveScene(Type type, Object data) {
-        Scene scene = this.setActiveScene(type);
-        if(scene instanceof PassableDataScene)
-            ((PassableDataScene)scene).onDataPassed(data);
-
-    }
-
     public Scene setActiveScene(Type type) {
         if (!this.scenes.containsKey(type)) {
             try {

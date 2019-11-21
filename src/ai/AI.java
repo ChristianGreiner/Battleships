@@ -15,7 +15,7 @@ public class AI extends AbstractAi {
     public AI(Map map, AiDifficulty difficulty) {
         super(map, difficulty);
 
-        if(this.difficulty == AiDifficulty.Medium) {
+        if (this.difficulty == AiDifficulty.Medium) {
             this.strategy = new HumanStrategy();
         }
     }
@@ -35,8 +35,8 @@ public class AI extends AbstractAi {
         Point shotPos;
         shotPos = this.strategy.prepair(hitType, this.lastShotPos);
 
-        if (shotPos != null){
-            lastHit=shotPos;
+        if (shotPos != null) {
+            lastHit = shotPos;
         }
     }
 }
