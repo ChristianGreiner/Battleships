@@ -55,6 +55,7 @@ public class Game implements Runnable {
         this.gameSize = size;
         this.title = title;
 
+        // Initialize all Scenes
         this.sceneManager = new SceneManager(this);
         this.sceneManager.addScene(new SplashScene());
         this.sceneManager.addScene(new MainMenuScene());
@@ -62,6 +63,7 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new OptionsScene());
         this.sceneManager.addScene(new GameScene());
         this.sceneManager.addScene(new SinglePlayerSettingsScene());
+        this.sceneManager.addScene(new ShipsSelectionScene());
         this.sceneManager.addScene(new SinglePlayerScene());
         this.sceneManager.addScene(new MultiplayerScene());
 

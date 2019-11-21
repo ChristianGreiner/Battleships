@@ -13,16 +13,20 @@ public class SoundManager {
     public SoundManager() {
     }
 
-    public void playBackgroundMusic(Clip audioClip) {
-        if(this.backgroundPlayer != null) {
+    public void playBackgroundMusic(Clip audioClip, boolean forceRestart) {
+        if(this.backgroundPlayer != null && forceRestart) {
             this.backgroundPlayer.stop();
+            this.backgroundPlayer = null;
         }
-        this.backgroundPlayer = new SoundPlayer(audioClip);
-        this.backgroundPlayer.play(Game.getInstance().getOptions().getMusicVolume(), true);
+        if(this.backgroundPlayer == null) {
+            this.backgroundPlayer = new SoundPlayer(audioClip);
+            this.backgroundPlayer.play(Game.getInstance().getOptions().getMusicVolume(), true);
+        }
     }
 
     public void stopBackgroundMusic() {
         this.backgroundPlayer.stop();
+        this.backgroundPlayer = null;
     }
 
     public void playSfx(Clip audioClip) {

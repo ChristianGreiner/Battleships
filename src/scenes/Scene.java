@@ -12,6 +12,16 @@ public abstract class Scene {
         return name;
     }
 
+    public boolean isUpdatePaused() {
+        return updatePaused;
+    }
+
+    public void setUpdatePaused(boolean updatePaused) {
+        this.updatePaused = updatePaused;
+    }
+
+    private boolean updatePaused;
+
     void onRemove() {
     }
 

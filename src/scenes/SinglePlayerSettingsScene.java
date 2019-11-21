@@ -1,5 +1,6 @@
 package scenes;
 
+import ai.AiDifficulty;
 import core.Game;
 import core.GameWindow;
 import game.Assets;
@@ -34,8 +35,10 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         mapSelection.getNewGameBtn().addActionListener((e) -> {
             // , new Map((int)mapSelection.getSizeSpinner().getValue())
             SinglePlayerScene scene = (SinglePlayerScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+
             int size = (int)mapSelection.getSizeSpinner().getValue();
-            scene.setMapSize(size);
+            String difficulity = String.valueOf(mapSelection.getAiDifficultyCbox().getSelectedItem());
+            scene.initializeGame(size, AiDifficulty.valueOf(difficulity));
         });
 
         mapSelection.getLoadGameBtn().addActionListener((e) -> {

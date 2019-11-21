@@ -22,6 +22,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     private MapRenderer playerMapRenderer;
     private SinglePlayerPanel uiPanel;
     private AI ai;
+    private AiDifficulty difficulty = AiDifficulty.Easy;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -31,13 +32,14 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     @Override
     void onAdded() {
         super.onAdded();
-        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC);
+        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
     }
 
-    public void setMapSize(int size) {
+    public void initializeGame(int mapSize, AiDifficulty difficulty) {
+        this.difficulty = difficulty;
         MapGenerator generator = new MapGenerator();
-        this.playerMap = generator.generate(size);
-        this.ai = new AI(this.playerMap, AiDifficulty.Medium);
+        this.playerMap = generator.generate(mapSize);
+        this.ai = new AI(this.playerMap, difficulty);
         this.playerMapRenderer.setMap(this.playerMap);
         DrawMap();
     }
@@ -52,8 +54,14 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     @Override
     public void update(double deltaTime) {
         if(this.playerMap == null) return;
+
         if(this.playerMap.getNumberOfShips() == this.playerMap.getNumberOfDestoryedShips()) {
-            System.out.println("GAME ENDED");
+            this.gameState = GameState.Finished;
+        }
+
+        if(this.gameState == GameState.Finished) {
+            this.setUpdatePaused(true);
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game Ended!");
         }
     }
 
@@ -90,6 +98,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            Game.getInstance().getSoundManager().stopBackgroundMusic();
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
@@ -110,9 +119,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     private HitType lastHitType;
 
     private void handleAiShot() {
-
-        //if(lastHitType != null)
-          //  this.ai.receiveAnswer(lastHitType);
 
         Point point = this.ai.shot();
 
