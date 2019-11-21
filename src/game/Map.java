@@ -33,7 +33,7 @@ public class Map implements MapInterface, Serializable {
     private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
     private int numberOfShips;
     private int numberOfDestoryedShips;
-    
+
     public Map(int size) {
         this.size = size;
         this.tiles = new MapTile[size][size];
@@ -74,9 +74,8 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
-    public void setOutOfShipLength(){
-
-        /*if(this.shipsCounter.get(Submarine.class) == 0){
+    public void setOutOfShipLength(){ //everytime ship gets destroyed, this method should be refreshed
+        if(this.shipsCounter.get(Submarine.class) == 0){
             outOfShipLength=2;
             if (this.shipsCounter.get(Destroyer.class) == 0){
                 outOfShipLength=3;
