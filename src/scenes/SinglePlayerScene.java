@@ -133,6 +133,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
     private void handleAiShot() {
 
+        Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
+
         Point point = this.ai.shot();
 
         HitData hitData = this.playerMap.shot2(point);
