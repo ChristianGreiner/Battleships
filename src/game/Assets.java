@@ -10,6 +10,7 @@ public final class Assets {
 
     public static class Images {
         public static Image BACKGROUND;
+        public static Image TILESET;
     }
 
     public static class Sounds {
@@ -36,6 +37,7 @@ public final class Assets {
 
         // load images
         Images.BACKGROUND =  AssetsLoader.loadImage(Assets.Paths.BACKGROUND);
+        Images.TILESET = AssetsLoader.loadImage(Assets.Paths.TILESET);
 
         // load fonts
 
@@ -63,7 +65,9 @@ public final class Assets {
         public final static String OPTIONS = "options.txt";
         public final static String MAPDATA = "mapdata.json";
 
-        public final static String BACKGROUND = "MainMenuBackground.jpg";
+        public final static String BACKGROUND = "images/MainMenuBackground.jpg";
+        public final static String TILESET = "images/tileset.png";
+
         public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
         public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
         public final static String PLAYING_MUSIC = "music/undiscovered.wav";

@@ -16,17 +16,20 @@ import java.awt.event.KeyListener;
 public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene {
 
     private Map playerMap;
-    private Map aiMap;
+    private Map enemyMap;
     private PlayerType playerTurn = PlayerType.Player;
     private GameState gameState = GameState.Started;
     private MapRenderer playerMapRenderer;
+    private MapRenderer enemyMapRenderer;
     private SinglePlayerPanel uiPanel;
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
+
         this.playerMapRenderer = new MapRenderer(null);
+        this.enemyMapRenderer = new MapRenderer(null);
     }
 
     @Override
@@ -38,15 +41,21 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
         this.difficulty = difficulty;
         MapGenerator generator = new MapGenerator();
+
         this.playerMap = generator.generate(mapSize);
+        this.enemyMap = new Map(mapSize);
+
         this.ai = new AI(this.playerMap, difficulty);
+
         this.playerMapRenderer.setMap(this.playerMap);
+        this.enemyMapRenderer.setMap(this.enemyMap);
+
         DrawMap();
     }
 
     public void initializeSavegame(Savegame savegame) {
         this.playerMap = savegame.getPlayerMap();
-        this.aiMap = savegame.getEnemyMap();
+        this.enemyMap = savegame.getEnemyMap();
         this.ai = savegame.getAi();
         this.playerMapRenderer.setMap(this.playerMap);
     }
@@ -66,13 +75,17 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     }
 
     @Override
-    public void draw() {
-        this.playerMapRenderer.draw();
+    public void draw()
+    {
+       if(this.enemyMapRenderer != null && this.playerMapRenderer != null) {
+           this.playerMapRenderer.draw();
+           this.enemyMapRenderer.draw();
+       }
     }
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer);
+        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer, this.enemyMapRenderer);
         singlePlayerPanel = singlePlayerPanel.create(new Dimension(512, 512));
 
         this.uiPanel = singlePlayerPanel;
@@ -107,7 +120,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_S) {
-            Savegame savegame = new Savegame(this.playerMap, this.aiMap, this.playerTurn, AiDifficulty.Medium, this.ai);
+            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, AiDifficulty.Medium, this.ai);
             Game.getInstance().getFileHandler().saveSavegame(savegame);
         }
 

@@ -31,11 +31,16 @@ public class Map implements MapInterface, Serializable {
         return size;
     }
 
+    public ArrayList<Ship> getShips() {
+        return ships;
+    }
+
     private HashMap<Type, Integer> shipsCounter = new HashMap<>();
     private int size;
     private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
     private int numberOfShips;
     private int numberOfDestoryedShips;
+    private ArrayList<Ship> ships = new ArrayList<>();
     
     public Map(int size) {
         this.size = size;
@@ -130,6 +135,7 @@ public class Map implements MapInterface, Serializable {
 
         counter++;
         this.shipsCounter.put(ship.getClass(), counter);
+        this.ships.add(ship);
     }
 
     private void computeRemoveShip(Ship ship) {
@@ -139,6 +145,7 @@ public class Map implements MapInterface, Serializable {
 
         counter--;
         this.shipsCounter.put(ship.getClass(), counter);
+        this.ships.remove(ship);
     }
 
     private ArrayList<MapTile> getNeighborTiles(Ship ship) {
