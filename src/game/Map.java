@@ -1,7 +1,7 @@
 package game;
 
 import core.Helper;
-import game.ships.Ship;
+import game.ships.*;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -83,7 +83,7 @@ public class Map implements MapInterface, Serializable {
                     outOfShipLength=4;
                 }
             }
-        }*/
+        }
     }
 
     public boolean insert(Ship ship, Point position, boolean rotated) {

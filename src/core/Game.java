@@ -90,7 +90,7 @@ public class Game implements Runnable {
 
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
 
-        this.sceneManager.setActiveScene(GameScene.class, null);
+        this.sceneManager.setActiveScene(MainMenuScene.class);
 
 
         this.isRunning = true;

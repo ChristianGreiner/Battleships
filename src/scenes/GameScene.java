@@ -113,7 +113,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         MapGenerator generator = new MapGenerator();
 
-        return generator.generate(10, configMap.get(10));
+        return generator.generate(10);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     @Override
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class, null);
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
         if(e.getKeyCode() == KeyEvent.VK_R) {
