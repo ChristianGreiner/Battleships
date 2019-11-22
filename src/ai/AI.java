@@ -23,7 +23,7 @@ public class AI extends AbstractAi {
     @Override
     public Point shot() {
 
-        Point shotPoint = this.strategy.process(this.map, this.lastHit);
+        Point shotPoint = this.strategy.process(this.map);
 
         this.lastShotPos = shotPoint;
 

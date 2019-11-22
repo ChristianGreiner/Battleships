@@ -100,9 +100,9 @@ public class HumanStrategy implements AiStrategy, Serializable {
     }
 
     @Override
-    public Point process(Map map, Point lastHit) {
+    public Point process(Map map) {
 
-        if (!this.shipFocused || lastHit == null)
+        if (!this.shipFocused)
             return map.getRandomFreeTileIgnoreShip().getPos();
 
         // Continue Hit
@@ -127,11 +127,14 @@ public class HumanStrategy implements AiStrategy, Serializable {
                 MapTile newtile = map.getTile(this.newPoint);
 
                 if (map.isInMap(this.newPoint)) {//check of legal point
-                    if (!newtile.isHit()) {
+                    if (!newtile.isHit() && !newtile.isBlocked()) {
                         this.continuedDirection = Direction.Up;
                     }
+                    else {
+                        return process(map);
+                    }
                 } else {
-                    return process(map, this.hitPoint);
+                    return process(map);
                 }
             } else if (dir == Direction.Down) { //vertical down
 
@@ -142,11 +145,14 @@ public class HumanStrategy implements AiStrategy, Serializable {
                 MapTile newtile = map.getTile(this.newPoint);
 
                 if (map.isInMap(this.newPoint)) {//check of legal point
-                    if (!newtile.isHit()) {
+                    if (!newtile.isHit() && !newtile.isBlocked()) {
                         this.continuedDirection = Direction.Down;
                     }
+                    else {
+                        return process(map);
+                    }
                 } else {
-                    return process(map, this.hitPoint);
+                    return process(map);
                 }
             }
         } else if (align == Alignment.Horizontal) { //horizontal
@@ -159,11 +165,14 @@ public class HumanStrategy implements AiStrategy, Serializable {
                 MapTile newtile = map.getTile(this.newPoint);
 
                 if (map.isInMap(this.newPoint)) {//check of legal point
-                    if (!newtile.isHit()) {
+                    if (!newtile.isHit() && !newtile.isBlocked()) {
                         this.continuedDirection = Direction.Left;
                     }
+                    else {
+                        return process(map);
+                    }
                 } else {
-                    return process(map, this.hitPoint);
+                    return process(map);
                 }
 
             } else if (dir == Direction.Right) { //horizontal right
@@ -175,11 +184,14 @@ public class HumanStrategy implements AiStrategy, Serializable {
                 MapTile newtile = map.getTile(this.newPoint);
 
                 if (map.isInMap(this.newPoint)) {//check of legal point
-                    if (!newtile.isHit()) {
+                    if (!newtile.isHit() && !newtile.isBlocked()) {
                         this.continuedDirection = Direction.Right;
                     }
+                    else {
+                        return process(map);
+                    }
                 } else {
-                    return process(map, this.hitPoint);
+                    return process(map);
                 }
             }
         }
