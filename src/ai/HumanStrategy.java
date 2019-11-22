@@ -19,8 +19,12 @@ public class HumanStrategy implements AiStrategy {
     private Direction continuedDirection;
     private boolean shipFocused;
 
+    public void setShipFocused(boolean shipFocused) {
+        this.shipFocused = shipFocused;
+    }
+
     @Override
-    public Point prepair(HitType type, Point lastHit) {
+    public Point prepare(HitType type, Point lastHit) {
 
         if (!this.shipFocused) {
             if (type == HitType.Ship) { //ship
@@ -34,7 +38,7 @@ public class HumanStrategy implements AiStrategy {
                 this.startP = this.newPoint;
 
                 if (!(this.hitPoint == null))
-                    this.endP = this.hitPoint; //lasthit -> hitPoint
+                    this.endP = this.hitPoint;
 
                 this.hitPoint = null;
                 this.shipAlignment = Alignment.Vertical;
@@ -101,8 +105,14 @@ public class HumanStrategy implements AiStrategy {
     @Override
     public Point process(Map map) {
 
-        if (!this.shipFocused)
-            return map.getRandomFreeTileIgnoreShip().getPos();
+        if (!this.shipFocused) {
+            while(true){
+                Point trypoint = map.getRandomFreeTileIgnoreShip().getPos();
+                if (map.fieldIsUseful(trypoint)){
+                    return trypoint;
+                }
+            }
+        }
 
         // Continue Hit
         Alignment align = Helper.getRandomAlignment();

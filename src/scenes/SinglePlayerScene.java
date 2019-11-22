@@ -130,9 +130,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
             this.ai.receiveAnswer(lastHitType);
 
         DrawMap();
-
-        if(point != null)
-            System.out.println(point);
     }
 
     private void DrawMap() {

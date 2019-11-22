@@ -18,6 +18,9 @@ public class AI extends AbstractAi {
         if (this.difficulty == AiDifficulty.Medium) {
             this.strategy = new HumanStrategy();
         }
+        if(this.difficulty == AiDifficulty.Easy){
+            this.strategy = new EasyStrategy();
+        }
     }
 
     @Override
@@ -33,7 +36,7 @@ public class AI extends AbstractAi {
     @Override
     public void receiveAnswer(HitType hitType) {
         Point shotPos;
-        shotPos = this.strategy.prepair(hitType, this.lastShotPos);
+        shotPos = this.strategy.prepare(hitType, this.lastShotPos);
 
         if (shotPos != null) {
             lastHit = shotPos;
