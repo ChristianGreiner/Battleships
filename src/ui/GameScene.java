@@ -67,6 +67,8 @@ public class GameScene {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         playerMapContainer.add(playerMapRenderer, gbc);
+        final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
+        mapsContainer.add(spacer2);
         enemyMapContainer = new JPanel();
         enemyMapContainer.setLayout(new GridBagLayout());
         mapsContainer.add(enemyMapContainer);
@@ -81,12 +83,12 @@ public class GameScene {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         enemyMapContainer.add(label2, gbc);
-        final JPanel spacer2 = new JPanel();
+        final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        enemyMapContainer.add(spacer2, gbc);
+        enemyMapContainer.add(spacer3, gbc);
         enemyMapRenderer = new JPanel();
         enemyMapRenderer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         gbc = new GridBagConstraints();
@@ -94,18 +96,18 @@ public class GameScene {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         enemyMapContainer.add(enemyMapRenderer, gbc);
-        final JPanel spacer3 = new JPanel();
+        final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer3, gbc);
-        final JPanel spacer4 = new JPanel();
+        panel.add(spacer4, gbc);
+        final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer4, gbc);
+        panel.add(spacer5, gbc);
     }
 
     /**

@@ -8,8 +8,6 @@ import java.awt.*;
 public class AI extends AbstractAi {
 
     private Point lastShotPos;
-    private Point lastHit;
-    private Point nextHit;
     private AiStrategy strategy;
 
     public AI(Map map, AiDifficulty difficulty) {
@@ -25,21 +23,11 @@ public class AI extends AbstractAi {
 
     @Override
     public Point shot() {
-
-        Point shotPoint = this.strategy.process(this.map);
-
-        this.lastShotPos = shotPoint;
-
-        return shotPoint;
+        return this.lastShotPos = this.strategy.process(this.map);
     }
 
     @Override
     public void receiveAnswer(HitType hitType) {
-        Point shotPos;
-        shotPos = this.strategy.prepare(hitType, this.lastShotPos);
-
-        if (shotPos != null) {
-            lastHit = shotPos;
-        }
+        this.strategy.prepair(hitType, this.lastShotPos);
     }
 }
