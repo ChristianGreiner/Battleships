@@ -129,27 +129,31 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
     }
 
-    private HitType lastHitType;
-
     private void handleAiShot() {
 
-        Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
 
         Point point = this.ai.shot();
 
         HitData hitData = this.playerMap.shot2(point);
 
-        lastHitType = hitData.getHitType();
+        HitType lastHitType = hitData.getHitType();
 
         if(lastHitType != null)
             this.ai.receiveAnswer(lastHitType);
 
+
+        System.out.println(lastHitType);
+
+        if(lastHitType == HitType.Water) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_WATER);
+        } else if(lastHitType == HitType.Ship) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
+        }
+
+
         DrawMap();
 
         this.playerMapRenderer.playExplosion(hitData.getPosition());
-
-        if(point != null)
-            System.out.println(point);
     }
 
     private void DrawMap() {
