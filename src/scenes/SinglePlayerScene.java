@@ -146,6 +146,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
         DrawMap();
 
+        this.playerMapRenderer.playExplosion(hitData.getPosition());
+
         if(point != null)
             System.out.println(point);
     }

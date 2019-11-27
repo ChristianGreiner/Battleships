@@ -4,6 +4,7 @@ import io.AssetsLoader;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 public final class Assets {
@@ -11,6 +12,7 @@ public final class Assets {
     public static class Images {
         public static Image BACKGROUND;
         public static Image TILESET;
+        public static BufferedImage EXPLOSION;
     }
 
     public static class Sounds {
@@ -39,6 +41,7 @@ public final class Assets {
         // load images
         Images.BACKGROUND =  AssetsLoader.loadImage(Assets.Paths.BACKGROUND);
         Images.TILESET = AssetsLoader.loadImage(Assets.Paths.TILESET);
+        Images.EXPLOSION = AssetsLoader.loadBufferedImage(Assets.Paths.EXPLOSION);
 
         // load fonts
 
@@ -69,6 +72,7 @@ public final class Assets {
 
         public final static String BACKGROUND = "images/MainMenuBackground.jpg";
         public final static String TILESET = "images/tileset.png";
+        public final static String EXPLOSION = "images/Explosion.png";
 
         public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
         public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
@@ -79,8 +83,6 @@ public final class Assets {
         public final static String PLAY_FONT = "fonts/Play-Regular.ttf";
         public final static String SEATBELT_SFX = "sfx/seatbelt.wav";
         public final static String SHOT_SFX = "sfx/shot.wav";
-
-
 
         public final class Button {
             public final static String HOVER_SFX = "sfx/button-hover.wav";

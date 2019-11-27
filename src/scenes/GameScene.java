@@ -31,7 +31,6 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
-        this.playerMapRenderer = new MapRenderer(this.playerMap);
     }
 
     private void DrawMap() {
@@ -61,6 +60,8 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     @Override
     void onAdded() {
         super.onAdded();
+
+        this.playerMapRenderer = new MapRenderer(this.playerMap);
 
         /*Battleship ship1 = new Battleship();
         Destroyer ship2 = new Destroyer();

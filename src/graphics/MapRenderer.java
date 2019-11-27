@@ -10,15 +10,34 @@ import game.ships.Carrier;
 import game.ships.Destroyer;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class MapRenderer extends Renderer {
 
     private Map map;
     private ArrayList<MapTile> selectedShipTiles;
+    private ArrayList<BufferedImage> explosionFrames = new ArrayList<BufferedImage>();
+
+    private Sprite explosionSprite;
+    private Animation explosionAnim;
+    private Point explosionAnimPos;
 
     public void setMap(Map map) {
         this.map = map;
+
+        this.explosionSprite = new Sprite(Assets.Images.EXPLOSION, 48);
+        if(this.explosionSprite.getSpriteSheet() != null) {
+            for (int i = 0; i < 12; i++)
+                this.explosionFrames.add(explosionSprite.getSprite(i, 0));
+
+            this.explosionAnim = new Animation(explosionFrames.toArray(new BufferedImage[explosionFrames.size()]), 2);
+        }
+    }
+
+    public void playExplosion(Point pos) {
+        this.explosionAnimPos = pos;
+        this.explosionAnim.start();
     }
 
     public MapRenderer(Map map) {
@@ -32,6 +51,10 @@ public class MapRenderer extends Renderer {
     @Override
     public void draw() {
         super.draw();
+
+        if(this.explosionAnim != null) {
+            this.explosionAnim.update();
+        }
 
         if(this.map == null)
             return;
@@ -138,6 +161,13 @@ public class MapRenderer extends Renderer {
         {
             g.drawString(Character.toString((char) asciiCode),5 ,num * tileSize.y + tileSize.y / 2 + 20);
             asciiCode++;
+        }
+
+        if(this.explosionAnim != null && this.explosionAnimPos != null) {
+            if(!this.explosionAnim.isStopped()) {
+                Point explPos = new Point(this.explosionAnimPos.x * tileSize.x + this.explosionSprite.getTileSize(), this.explosionAnimPos.y * tileSize.y + this.explosionSprite.getTileSize());
+                this.explosionAnim.draw(g, explPos);
+            }
         }
 
         this.end();
