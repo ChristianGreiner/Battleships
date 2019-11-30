@@ -6,11 +6,8 @@ import game.MapData;
 import game.MapGenerator;
 import game.MapTile;
 import game.gamestates.SinglePlayerStates;
-import game.ships.Battleship;
-import game.ships.Destroyer;
 import graphics.MapRenderer;
 import ui.GuiScene;
-import ai.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +31,6 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         this.playerMap = new Map(10);
         this.enemyMap = new Map(10);
-        this.playerMapRenderer = new MapRenderer(this.playerMap);
     }
 
     private void DrawMap() {
@@ -58,44 +54,29 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         }
         System.out.println("-------------------------");
 
-        this.playerMap.getShipsCounter().forEach((k,v) -> System.out.println("key: "+k+" value:"+v));
+        this.playerMap.getShipsCounter().forEach((k,v) -> System.out.println("key: " + k + " value: " + v));
     }
 
     @Override
     void onAdded() {
         super.onAdded();
 
-        /*
-        * Battleship ship1 = new Battleship();
-            Destroyer ship2 = new Destroyer();
+        this.playerMapRenderer = new MapRenderer(this.playerMap);
 
-        this.playerMap.insert(ship1, new Point(9, 1), false);
-        this.playerMap.insert(ship2, new Point(6, 0), true);
-        *
-        * */
-        int playcounter=0;
-        int movecounteraverage=0;
-        while (playcounter < 1000){
-            this.playerMap = generateMap();
+        /*Battleship ship1 = new Battleship();
+        Destroyer ship2 = new Destroyer();
 
-            System.out.println(this.playerMap.getNumberOfShips());
+        this.playerMap.insert(ship2, new Point(9, 1), false);
 
-            SinglePlayerAI ai = new SinglePlayerAI(2, this.playerMap);
-            int movescounter = 0;
+        this.playerMap.shot(new Point(9, 1));
+        this.playerMap.shot(new Point(9, 2));
+        this.playerMap.shot(new Point(9, 3));*/
 
-            do {
-                ai.shot();
-                movescounter++;
-            }
-            while (!(this.playerMap.getNumberOfShips() == this.playerMap.getNumberOfDestoryedShips()));
-            System.out.println(this.playerMap.getNumberOfShips() + "=" + this.playerMap.getNumberOfDestoryedShips());
-            System.out.println(movescounter);
-            movecounteraverage = movecounteraverage+movescounter;
-            //DrawMap();
-            playcounter++;
-        }
-        movecounteraverage = movecounteraverage/1000;
-        System.out.println("Durchschnittliche Anzahl an Züge:"+movecounteraverage+".");
+        this.playerMap = generateMap();
+
+        //SinglePlayerAI ai = new SinglePlayerAI(1, this.playerMap);
+
+        DrawMap();
     }
 
     public Map generateMap() {
@@ -113,7 +94,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
         MapGenerator generator = new MapGenerator();
 
-        return generator.generate(10);
+        return generator.generate(20);
     }
 
     @Override
