@@ -35,7 +35,7 @@ public class EasyStrategy implements AiStrategy {
                     this.internstrategy.prepare(type, lastHit);
             }
         }
-        if(focusable){
+        else if(focusable){
             this.internstrategy.prepare(type, lastHit);
             if (type == HitType.ShipDestroyed){
                 //this.shipFocused = false;
@@ -49,7 +49,7 @@ public class EasyStrategy implements AiStrategy {
 
         //if (this.shipFocused){
             if(this.focusable){
-                //System.out.println("entered focusable");
+                System.out.println("entered focusable");
                 this.internstrategy.setShipFocused(focusable);
                 return this.internstrategy.process(map);
             }

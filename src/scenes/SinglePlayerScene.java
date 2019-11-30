@@ -116,6 +116,11 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+            /*while (this.playerMap.getNumberOfShips() != this.playerMap.getNumberOfDestoryedShips()) {
+                handleAiShot();
+            }
+            */
+
             handleAiShot();
         }
 
@@ -131,8 +136,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
     private void handleAiShot() {
 
-
         Point point = this.ai.shot();
+        System.out.println(point);
 
         HitData hitData = this.playerMap.shot2(point);
 
@@ -167,6 +172,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
                     } else {
                         System.out.print(ANSIColors.YELLOW + "X" + ANSIColors.RESET + "|");
                     }
+                } else if (tile.isBlocked()){
+                    System.out.print(ANSIColors.GREEN + "X" + ANSIColors.RESET + "|");
                 } else if (tile.isHit()) {
                     System.out.print(ANSIColors.BLUE + "X" + ANSIColors.RESET + "|");
                 } else {
