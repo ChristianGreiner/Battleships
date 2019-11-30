@@ -13,6 +13,10 @@ public class AI extends AbstractAi {
     public AI(Map map, AiDifficulty difficulty) {
         super(map, difficulty);
 
+        if(this.difficulty == AiDifficulty.Hard){
+            this.strategy = new HardStrategy(map);
+        }
+
         if (this.difficulty == AiDifficulty.Medium) {
             this.strategy = new HumanStrategy();
         }
@@ -28,6 +32,6 @@ public class AI extends AbstractAi {
 
     @Override
     public void receiveAnswer(HitType hitType) {
-        this.strategy.prepair(hitType, this.lastShotPos);
+        this.strategy.prepare(hitType, this.lastShotPos);
     }
 }

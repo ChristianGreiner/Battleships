@@ -24,13 +24,13 @@ public class HumanStrategy implements AiStrategy {
     }
 
     @Override
-    public Point prepare(HitType type, Point lastHit) {
+    public void prepare(HitType type, Point lastHit) {
 
         if (!this.shipFocused) {
             if (type == HitType.Ship) { //ship
                 this.shipFocused = true;
                 this.hitPoint = lastHit;
-                return lastHit;
+
             }
         } else if (this.continuedDirection == Direction.Up) { //up
             if (type == HitType.Ship) { //ship
@@ -42,7 +42,7 @@ public class HumanStrategy implements AiStrategy {
 
                 this.hitPoint = null;
                 this.shipAlignment = Alignment.Vertical;
-                return lastHit;
+
             } else if (type == HitType.ShipDestroyed) {//ship destroyed
                 this.startP = null;
                 this.endP = null;
@@ -58,7 +58,7 @@ public class HumanStrategy implements AiStrategy {
                 this.endP = this.newPoint;
                 this.hitPoint = null;
                 this.shipAlignment = Alignment.Horizontal;
-                return lastHit;
+
             } else if (type == HitType.ShipDestroyed) {//ship destroyed
                 this.startP = null;
                 this.endP = null;
@@ -74,7 +74,6 @@ public class HumanStrategy implements AiStrategy {
                 this.endP = this.newPoint;
                 this.hitPoint = null;
                 this.shipAlignment = Alignment.Vertical;
-                return lastHit;
             } else if (type == HitType.ShipDestroyed) {//ship destroyed
                 this.shipFocused = false;
                 this.startP = null;
@@ -90,7 +89,6 @@ public class HumanStrategy implements AiStrategy {
 
                 this.hitPoint = null;
                 this.shipAlignment = Alignment.Horizontal;
-                return lastHit;
             } else if (type == HitType.ShipDestroyed) { //ship destroyed
                 this.startP = null;
                 this.endP = null;
@@ -99,7 +97,6 @@ public class HumanStrategy implements AiStrategy {
                 this.hitPoint = null;
             }
         }
-        return null;
     }
 
     @Override
