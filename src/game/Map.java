@@ -509,9 +509,9 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
-    public boolean fieldIsUseful(Point pos){
+    public boolean fieldIsViable(Point pos){
 
-        if(!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getUseful() || this.tiles[pos.x][pos.y].isBlocked())) {
+        if(!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getViable() || this.tiles[pos.x][pos.y].isBlocked())) {
             return false;
         }
 
@@ -569,19 +569,19 @@ public class Map implements MapInterface, Serializable {
             if (rangeX == 1 && rangeY == 1) return false;
             if (rangeX == 2 && rangeX > rangeY || rangeY == 2 && rangeY > rangeX) {
                 if (outOfShipLength == 2) {
-                    this.tiles[pos.x][pos.y].setUseful(false);
+                    this.tiles[pos.x][pos.y].setViable(false);
                     return false;
                 }
             }
             if (rangeX == 3 && rangeX > rangeY || rangeY == 3 && rangeY > rangeX){
                 if (outOfShipLength == 3){
-                    this.tiles[pos.x][pos.y].setUseful(false);
+                    this.tiles[pos.x][pos.y].setViable(false);
                     return false;
                 }
             }
             if (rangeX == 4 && rangeX > rangeY || rangeY == 4 && rangeY > rangeX){
                 if (outOfShipLength == 4){
-                    this.tiles[pos.x][pos.y].setUseful(false);
+                    this.tiles[pos.x][pos.y].setViable(false);
                     return false;
                 }
             }

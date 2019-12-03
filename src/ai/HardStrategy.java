@@ -10,7 +10,6 @@ public class HardStrategy implements AiStrategy {
 
     private boolean raster = true;
     private boolean shipFocused;
-    private Map map;
     private int maxshotperline;
     private HashMap<Integer,Integer> columncounter = new HashMap<>();
     private HashMap<Integer,Integer> rowcounter = new HashMap<>();
@@ -19,7 +18,6 @@ public class HardStrategy implements AiStrategy {
     private HumanStrategy internstrategy = new HumanStrategy();
 
     public HardStrategy(Map map){
-        this.map = map;
         this.maxshotperline = map.getSize()/5;
         for (int i = 0; i < map.getSize(); i++){
             this.columncounter.put(i,0);
@@ -46,12 +44,12 @@ public class HardStrategy implements AiStrategy {
         Point trypoint = this.internstrategy.process(map);
         if (this.raster && !this.shipFocused){
             //System.out.println("Nächster Punkt: "+trypoint);
-            trypoint = rastercheck(trypoint);
+            trypoint = rastercheck(trypoint, map);
         }
         return trypoint;
     }
 
-    private Point rastercheck(Point checkpoint){
+    private Point rastercheck(Point checkpoint, Map map){
 
         //System.out.println("Vorher"+this.columncounter.keySet());
         //System.out.println("Vorher"+this.columncounter.values());
@@ -65,13 +63,13 @@ public class HardStrategy implements AiStrategy {
                     this.columncounter.replace(checkpoint.x, this.columncounter.get(checkpoint.x) + 1);
                     this.rowcounter.replace(checkpoint.y, this.rowcounter.get(checkpoint.y) + 1);
             }
-            else setnewrasterlocation(checkpoint);
+            else setnewrasterlocation(checkpoint, map);
         }
-        else setnewrasterlocation(checkpoint);
+        else setnewrasterlocation(checkpoint, map);
 
 
 
-        for(int i = 0;i < this.map.getSize();i++){
+        for(int i = 0;i < map.getSize();i++){
             if (this.columncounter.get(i) != null) {
                 if (this.columncounter.get(i) == this.maxshotperline) {
                     this.columncounter.remove(i);
@@ -96,7 +94,7 @@ public class HardStrategy implements AiStrategy {
         return checkpoint;
     }
 
-    private Point setnewrasterlocation(Point checkpoint){
+    private Point setnewrasterlocation(Point checkpoint, Map map){
         boolean searching = true;
         Object[] columncounterkey = this.columncounter.keySet().toArray();
         Object[] rowcounterkey = this.rowcounter.keySet().toArray();
@@ -120,7 +118,7 @@ public class HardStrategy implements AiStrategy {
             Point newcheckpoint = new Point(trymarkx,trymarky);
             //System.out.println("new setted point for raster: "+newcheckpoint);
 
-            if (this.map.fieldIsUseful(newcheckpoint)){
+            if (map.fieldIsViable(newcheckpoint)){
                 searching = false;
                 //System.out.println("key: "+newcheckpoint.x+"\nvalue: "+this.columncounter.get(newcheckpoint.x) + 1);
                 //System.out.println("key: "+newcheckpoint.y+"\nvalue: "+this.rowcounter.get(newcheckpoint.y) + 1);
@@ -132,7 +130,7 @@ public class HardStrategy implements AiStrategy {
                     this.columncounter.replace(newcheckpoint.x, this.columncounter.get(newcheckpoint.x) + 1);
                     this.rowcounter.replace(newcheckpoint.y, this.rowcounter.get(newcheckpoint.y) + 1);
                     Point ranPoint = map.getRandomFreeTileIgnoreShip().getPos();
-                    if (map.fieldIsUseful(ranPoint)){
+                    if (map.fieldIsViable(ranPoint)){
                         return  ranPoint;
                     }
             }

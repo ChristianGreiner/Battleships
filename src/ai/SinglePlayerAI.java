@@ -295,7 +295,7 @@ public class SinglePlayerAI {
 
                 tryPoint = new Point(tryMarkx, tryMarky);
             }
-            while (!(this.map.fieldIsUseful(tryPoint)));
+            while (!(this.map.fieldIsViable(tryPoint)));
             this.shotHit = this.map.shot(tryPoint);
             if (shotHit) {
                 this.lastPoint = tryPoint;

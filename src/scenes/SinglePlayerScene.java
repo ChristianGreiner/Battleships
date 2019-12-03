@@ -24,6 +24,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     private SinglePlayerPanel uiPanel;
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
+    private int counter;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -71,6 +72,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         if(this.gameState == GameState.Finished) {
             this.setUpdatePaused(true);
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game Ended!");
+            System.out.println(counter);
         }
     }
 
@@ -157,7 +159,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
 
         DrawMap();
-
+        counter++;
         this.playerMapRenderer.playExplosion(hitData.getPosition());
     }
 

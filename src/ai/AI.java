@@ -13,15 +13,23 @@ public class AI extends AbstractAi {
     public AI(Map map, AiDifficulty difficulty) {
         super(map, difficulty);
 
-        if(this.difficulty == AiDifficulty.Hard){
-            this.strategy = new HardStrategy(map);
-        }
-
-        if (this.difficulty == AiDifficulty.Medium) {
-            this.strategy = new HumanStrategy();
+        if(this.difficulty == AiDifficulty.FRM){
+            this.strategy = new FullRetardMode();
         }
         if(this.difficulty == AiDifficulty.Easy){
             this.strategy = new EasyStrategy();
+        }
+        if (this.difficulty == AiDifficulty.Medium) {
+            this.strategy = new HumanStrategy();
+        }
+        if(this.difficulty == AiDifficulty.Hard){
+            this.strategy = new HardStrategy(map);
+        }
+        if(this.difficulty == AiDifficulty.Allmighty){
+            this.strategy = new AllMightyMode();
+        }
+        if(this.difficulty == AiDifficulty.Troll){
+            this.strategy = new TrollMode();
         }
     }
 

@@ -119,7 +119,7 @@ public class MapRenderer extends Renderer {
 
 
             Point tempPoint = new Point( (this.getMousePosition().x / tileSize.x) - 1, (this.getMousePosition().y / tileSize.y) - 1);
-            System.out.println( ((this.getMousePosition().x / tileSize.x) - 1) + " " + ((this.getMousePosition().y / tileSize.y) - 1));
+            //System.out.println( ((this.getMousePosition().x / tileSize.x) - 1) + " " + ((this.getMousePosition().y / tileSize.y) - 1));
 
 
             MapTile hoverdMapTile = this.map.getTile(tempPoint);

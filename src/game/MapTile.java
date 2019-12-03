@@ -10,7 +10,7 @@ public class MapTile implements Serializable {
     private Point pos;
     private Ship ship;
     private boolean hit;
-    private boolean useful = true;
+    private boolean viable = true;
     private boolean neighbor;
     private boolean blocked;
 
@@ -44,11 +44,11 @@ public class MapTile implements Serializable {
         return hit;
     }
 
-    public void setUseful(boolean useful) {
-        this.useful = useful;
+    public void setViable(boolean viable) {
+        this.viable = viable;
     }
 
-    public boolean getUseful(){ return this.useful;}
+    public boolean getViable(){ return this.viable;}
 
     public boolean hasShip() {
         return this.getShip() != null;

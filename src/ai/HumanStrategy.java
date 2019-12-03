@@ -19,7 +19,7 @@ public class HumanStrategy implements AiStrategy {
     private Direction lastDirection;
     private boolean shipFocused;
 
-    public void setShipFocused(boolean shipFocused) {
+    void setShipFocused(boolean shipFocused) {
         this.shipFocused = shipFocused;
     }
 
@@ -105,7 +105,7 @@ public class HumanStrategy implements AiStrategy {
         if (!this.shipFocused) {
             while(true){
                 Point trypoint = map.getRandomFreeTileIgnoreShip().getPos();
-                if (map.fieldIsUseful(trypoint)){
+                if (map.fieldIsViable(trypoint)){
                     return trypoint;
                 }
             }
