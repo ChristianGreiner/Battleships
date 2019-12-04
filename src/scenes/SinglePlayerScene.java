@@ -4,6 +4,7 @@ import ai.AI;
 import ai.AiDifficulty;
 import core.*;
 import game.*;
+import game.ships.Battleship;
 import game.ships.Ship;
 import graphics.MapRenderer;
 import graphics.MapRendererListener;
@@ -27,6 +28,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private int counter;
+    private  Battleship battleship;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -40,7 +42,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     @Override
     void onAdded() {
         super.onAdded();
-        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
     }
 
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
@@ -48,6 +49,12 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         MapGenerator generator = new MapGenerator();
 
         this.playerMap = generator.generate(mapSize);
+
+        /*this.playerMap = new Map(mapSize);
+
+        battleship = new Battleship(playerMap);
+        this.playerMap.insert(battleship, new Point(0, 0), false);*/
+
         this.enemyMap = new Map(mapSize);
 
         this.ai = new AI(this.playerMap, difficulty);
@@ -129,6 +136,11 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
             handleAiShot();
         }
+
+        if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+            this.playerMap.move(this.battleship, new Point(this.battleship.getPosition().x + 1, this.battleship.getPosition().y));
+        }
+
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_S) {
             Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
