@@ -26,7 +26,6 @@ public class AllMightyMode implements AiStrategy {
 
     @Override
     public Point process(Map map) {
-        System.out.println(Trolls.values().length);
         if (!this.shipFocused) {
             if (permitInfluencedHit()) {
                 Point hitPoint;

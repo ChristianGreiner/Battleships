@@ -103,9 +103,9 @@ public class HumanStrategy implements AiStrategy {
     public Point process(Map map) {
 
         if (!this.shipFocused) {
-            while(true){
+            while (true) {
                 Point trypoint = map.getRandomFreeTileIgnoreShip().getPos();
-                if (map.fieldIsViable(trypoint)){
+                if (map.fieldIsViable(trypoint)) {
                     return trypoint;
                 }
             }
@@ -123,17 +123,17 @@ public class HumanStrategy implements AiStrategy {
 
         Direction dir = Helper.getRandomDirection(align);
 
-        if (this.newPoint == this.hitPoint){
-            if (lastDirection == Direction.Left){
+        if (this.newPoint == this.hitPoint) {
+            if (lastDirection == Direction.Left) {
                 dir = Direction.Right;
             }
-            if (lastDirection == Direction.Right){
+            if (lastDirection == Direction.Right) {
                 dir = Direction.Left;
             }
-            if (lastDirection == Direction.Up){
+            if (lastDirection == Direction.Up) {
                 dir = Direction.Down;
             }
-            if (lastDirection == Direction.Down){
+            if (lastDirection == Direction.Down) {
                 dir = Direction.Up;
             }
         }
@@ -150,7 +150,7 @@ public class HumanStrategy implements AiStrategy {
                 if (map.isInMap(this.newPoint)) {//check of legal point
                     this.lastDirection = Direction.Up;
                     if (newtile.isHit() || newtile.isBlocked()) {
-                        if (newtile.hasShip()){
+                        if (newtile.hasShip()) {
                             this.hitPoint = newtile.getPos();
                             this.shipAlignment = Alignment.Vertical;
                             this.lastDirection = Direction.Up;
@@ -171,7 +171,7 @@ public class HumanStrategy implements AiStrategy {
                 if (map.isInMap(this.newPoint)) {//check of legal point
                     this.lastDirection = Direction.Down;
                     if (newtile.isHit() || newtile.isBlocked()) {
-                        if (newtile.hasShip()){
+                        if (newtile.hasShip()) {
                             this.hitPoint = newtile.getPos();
                             this.shipAlignment = Alignment.Vertical;
                             this.lastDirection = Direction.Down;
@@ -194,7 +194,7 @@ public class HumanStrategy implements AiStrategy {
                 if (map.isInMap(this.newPoint)) {//check of legal point
                     this.lastDirection = Direction.Left;
                     if (newtile.isHit() || newtile.isBlocked()) {
-                        if (newtile.hasShip()){
+                        if (newtile.hasShip()) {
                             this.hitPoint = newtile.getPos();
                             this.shipAlignment = Alignment.Horizontal;
                             this.lastDirection = Direction.Left;
@@ -216,7 +216,7 @@ public class HumanStrategy implements AiStrategy {
                 if (map.isInMap(this.newPoint)) {//check of legal point
                     this.lastDirection = Direction.Right;
                     if (newtile.isHit() || newtile.isBlocked()) {
-                        if (newtile.hasShip()){
+                        if (newtile.hasShip()) {
                             this.hitPoint = newtile.getPos();
                             this.shipAlignment = Alignment.Horizontal;
                             this.lastDirection = Direction.Right;

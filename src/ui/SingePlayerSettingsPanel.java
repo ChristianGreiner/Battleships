@@ -147,11 +147,11 @@ public class SingePlayerSettingsPanel extends JPanel {
         aiDifficultyCbox.setPreferredSize(new Dimension(220, 28));
         aiDifficultyCbox.setFont(Assets.Fonts.DEFAULT);
         final DefaultComboBoxModel aiComboboxModel = new DefaultComboBoxModel();
-        aiComboboxModel.addElement("Full Retard Mode");
+        aiComboboxModel.addElement("Full Retard");
         aiComboboxModel.addElement("Easy");
         aiComboboxModel.addElement("Medium");
         aiComboboxModel.addElement("Hard");
-        aiComboboxModel.addElement("AllMighty Mode");
+        aiComboboxModel.addElement("Extreme");
         aiDifficultyCbox.setModel(aiComboboxModel);
         aiSelectionContainer.add(aiDifficultyCbox);
 

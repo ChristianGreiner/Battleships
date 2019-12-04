@@ -4,7 +4,10 @@ import ai.AI;
 import ai.AiDifficulty;
 import core.*;
 import game.*;
+import game.ships.Battleship;
+import game.ships.Ship;
 import graphics.MapRenderer;
+import graphics.MapRendererListener;
 import ui.GuiScene;
 import ui.SinglePlayerPanel;
 
@@ -13,7 +16,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene {
+public class SinglePlayerScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene {
 
     private Map playerMap;
     private Map enemyMap;
@@ -25,18 +28,20 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private int counter;
+    private  Battleship battleship;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
 
         this.playerMapRenderer = new MapRenderer(null);
         this.enemyMapRenderer = new MapRenderer(null);
+
+        this.playerMapRenderer.addMapRendererListener(this);
     }
 
     @Override
     void onAdded() {
         super.onAdded();
-        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
     }
 
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
@@ -44,6 +49,12 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         MapGenerator generator = new MapGenerator();
 
         this.playerMap = generator.generate(mapSize);
+
+        /*this.playerMap = new Map(mapSize);
+
+        battleship = new Battleship(playerMap);
+        this.playerMap.insert(battleship, new Point(0, 0), false);*/
+
         this.enemyMap = new Map(mapSize);
 
         this.ai = new AI(this.playerMap, difficulty);
@@ -126,8 +137,13 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
             handleAiShot();
         }
 
+        if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+            this.playerMap.move(this.battleship, new Point(this.battleship.getPosition().x + 1, this.battleship.getPosition().y));
+        }
+
+
         if(keyEvent.getKeyCode() == KeyEvent.VK_S) {
-            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, AiDifficulty.Medium, this.ai);
+            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
             Game.getInstance().getFileHandler().saveSavegame(savegame);
         }
 
@@ -160,7 +176,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
         DrawMap();
         counter++;
-        this.playerMapRenderer.playExplosion(hitData.getPosition());
+        //this.playerMapRenderer.playExplosion(hitData.getPosition());
     }
 
     private void DrawMap() {
@@ -189,4 +205,19 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         //this.playerMap.getShipsCounter().forEach((k, v) -> System.out.println("key: " + k + " value: " + v));
     }
 
+    @Override
+    public void OnShipDropped(Ship ship, Point pos) {
+        this.playerMap.move(ship, pos);
+        System.out.println("DROPED AT " + pos);
+    }
+
+    @Override
+    public void OnShotFired(Point pos) {
+
+    }
+
+    @Override
+    public void OnRotated(Ship ship) {
+
+    }
 }

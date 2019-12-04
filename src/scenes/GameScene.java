@@ -1,5 +1,7 @@
 package scenes;
 
+import ai.AI;
+import ai.AiDifficulty;
 import core.*;
 import game.Map;
 import game.MapData;
