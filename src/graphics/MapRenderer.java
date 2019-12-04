@@ -1,5 +1,6 @@
 package graphics;
 
+import core.ANSIColors;
 import core.Renderer;
 import game.Assets;
 import game.Map;
@@ -7,6 +8,7 @@ import game.MapTile;
 import game.ships.Battleship;
 import game.ships.Carrier;
 import game.ships.Destroyer;
+import game.ships.Submarine;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -19,7 +21,6 @@ public class MapRenderer extends Renderer implements MouseListener {
     private Point tileSize;
     private ArrayList<MapTile> selectedShipTiles;
     private MapTile hoveredMapTile;
-    private int selectedShipID;
     private Point MouseShipOffset;
     private boolean clicked;
     private boolean selected;
@@ -60,14 +61,10 @@ public class MapRenderer extends Renderer implements MouseListener {
         //draw grid
         this.drawGrid(g, tileSize);
 
-
-
         this.HighlightShip(g);
-
 
         this.drawNumbers(g, tileSize);
         this.drawLetters(g, tileSize);
-
 
         this.end();
 
@@ -169,6 +166,7 @@ public class MapRenderer extends Renderer implements MouseListener {
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                 }
 
+                //dropped
                 if(!this.pressed){
                     this.selected = false;
                     floatingShipPos.x = floatingShipPos.x  / tileSize.x - 1;
@@ -178,6 +176,7 @@ public class MapRenderer extends Renderer implements MouseListener {
                             mrl.OnShipDropped(this.selectedShipTiles.get(0).getShip(), floatingShipPos);
                         }
                     }
+
                     System.out.println("DROPPED " + floatingShipPos.x + " " + floatingShipPos.y);
                 }
             }
