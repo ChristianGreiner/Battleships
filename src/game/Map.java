@@ -723,6 +723,9 @@ public class Map implements MapInterface, Serializable {
             ship.getNeighborTiles().get(i).reset();
         }
 
+        ship.getTiles().clear();
+        ship.getNeighborTiles().clear();
+
         this.numberOfShips--;
     }
 
