@@ -16,17 +16,21 @@ import java.awt.event.KeyListener;
 public class SinglePlayerScene extends Scene implements KeyListener, Updatable, Drawable, GuiScene {
 
     private Map playerMap;
-    private Map aiMap;
+    private Map enemyMap;
     private PlayerType playerTurn = PlayerType.Player;
     private GameState gameState = GameState.Started;
     private MapRenderer playerMapRenderer;
+    private MapRenderer enemyMapRenderer;
     private SinglePlayerPanel uiPanel;
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
+    private int counter;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
+
         this.playerMapRenderer = new MapRenderer(null);
+        this.enemyMapRenderer = new MapRenderer(null);
     }
 
     @Override
@@ -38,15 +42,21 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
         this.difficulty = difficulty;
         MapGenerator generator = new MapGenerator();
+
         this.playerMap = generator.generate(mapSize);
+        this.enemyMap = new Map(mapSize);
+
         this.ai = new AI(this.playerMap, difficulty);
+
         this.playerMapRenderer.setMap(this.playerMap);
+        this.enemyMapRenderer.setMap(this.enemyMap);
+
         DrawMap();
     }
 
     public void initializeSavegame(Savegame savegame) {
         this.playerMap = savegame.getPlayerMap();
-        this.aiMap = savegame.getEnemyMap();
+        this.enemyMap = savegame.getEnemyMap();
         this.ai = savegame.getAi();
         this.playerMapRenderer.setMap(this.playerMap);
     }
@@ -62,17 +72,22 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         if(this.gameState == GameState.Finished) {
             this.setUpdatePaused(true);
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game Ended!");
+            System.out.println(counter);
         }
     }
 
     @Override
-    public void draw() {
-        this.playerMapRenderer.draw();
+    public void draw()
+    {
+       if(this.enemyMapRenderer != null && this.playerMapRenderer != null) {
+           this.playerMapRenderer.draw();
+           this.enemyMapRenderer.draw();
+       }
     }
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer);
+        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer, this.enemyMapRenderer);
         singlePlayerPanel = singlePlayerPanel.create(new Dimension(512, 512));
 
         this.uiPanel = singlePlayerPanel;
@@ -103,11 +118,16 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+            /*while (this.playerMap.getNumberOfShips() != this.playerMap.getNumberOfDestoryedShips()) {
+                handleAiShot();
+            }
+            */
+
             handleAiShot();
         }
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_S) {
-            Savegame savegame = new Savegame(this.playerMap, this.aiMap, this.playerTurn, AiDifficulty.Medium, this.ai);
+            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, AiDifficulty.Medium, this.ai);
             Game.getInstance().getFileHandler().saveSavegame(savegame);
         }
 
@@ -116,23 +136,31 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
     }
 
-    private HitType lastHitType;
-
     private void handleAiShot() {
 
         Point point = this.ai.shot();
+        System.out.println(point);
 
         HitData hitData = this.playerMap.shot2(point);
 
-        lastHitType = hitData.getHitType();
+        HitType lastHitType = hitData.getHitType();
 
         if(lastHitType != null)
             this.ai.receiveAnswer(lastHitType);
 
-        DrawMap();
 
-        if(point != null)
-            System.out.println(point);
+        System.out.println(lastHitType);
+
+        if(lastHitType == HitType.Water) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_WATER);
+        } else if(lastHitType == HitType.Ship) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
+        }
+
+
+        DrawMap();
+        counter++;
+        this.playerMapRenderer.playExplosion(hitData.getPosition());
     }
 
     private void DrawMap() {
@@ -146,6 +174,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
                     } else {
                         System.out.print(ANSIColors.YELLOW + "X" + ANSIColors.RESET + "|");
                     }
+                } else if (tile.isBlocked()){
+                    System.out.print(ANSIColors.GREEN + "X" + ANSIColors.RESET + "|");
                 } else if (tile.isHit()) {
                     System.out.print(ANSIColors.BLUE + "X" + ANSIColors.RESET + "|");
                 } else {

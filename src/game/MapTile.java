@@ -10,13 +10,15 @@ public class MapTile implements Serializable {
     private Point pos;
     private Ship ship;
     private boolean hit;
-    private boolean logicfree;
+    private boolean viable = true;
     private boolean neighbor;
     private boolean blocked;
 
     public boolean isBlocked() {
         return blocked;
     }
+
+    public boolean isFree() {return (!hit && !blocked && hasShip());}
 
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
@@ -42,11 +44,11 @@ public class MapTile implements Serializable {
         return hit;
     }
 
-    public void setlogicfree(boolean logicfree) {
-        this.logicfree = logicfree;
+    public void setViable(boolean viable) {
+        this.viable = viable;
     }
 
-    public boolean getlogicfree(){ return this.logicfree;}
+    public boolean getViable(){ return this.viable;}
 
     public boolean hasShip() {
         return this.getShip() != null;

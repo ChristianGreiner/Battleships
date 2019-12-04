@@ -4,12 +4,15 @@ import io.AssetsLoader;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 public final class Assets {
 
     public static class Images {
         public static Image BACKGROUND;
+        public static Image TILESET;
+        public static BufferedImage EXPLOSION;
     }
 
     public static class Sounds {
@@ -18,6 +21,8 @@ public final class Assets {
         public static Clip BUTTON_HOVER;
         public static Clip BUTTON_CLICK;
         public static Clip SEATBELT_SFX;
+        public static Clip SHOT_SFX;
+        public static Clip SHOT_WATER;
     }
 
     public static class Fonts {
@@ -36,6 +41,8 @@ public final class Assets {
 
         // load images
         Images.BACKGROUND =  AssetsLoader.loadImage(Assets.Paths.BACKGROUND);
+        Images.TILESET = AssetsLoader.loadImage(Assets.Paths.TILESET);
+        Images.EXPLOSION = AssetsLoader.loadBufferedImage(Assets.Paths.EXPLOSION);
 
         // load fonts
 
@@ -50,6 +57,8 @@ public final class Assets {
         // load sounds
         Sounds.BUTTON_HOVER = AssetsLoader.loadSound(Paths.Button.HOVER_SFX);
         Sounds.BUTTON_CLICK = AssetsLoader.loadSound(Paths.Button.CLICK_SFX);
+        Sounds.SHOT_SFX = AssetsLoader.loadSound(Paths.SHOT_SFX);
+        Sounds.SHOT_WATER = AssetsLoader.loadSound(Paths.SHOT_WATER);
 
         // load music
         Sounds.BACKGROUND_MUSIC = AssetsLoader.loadSound(Paths.BACKGROUND_2_MUSIC);
@@ -63,7 +72,10 @@ public final class Assets {
         public final static String OPTIONS = "options.txt";
         public final static String MAPDATA = "mapdata.json";
 
-        public final static String BACKGROUND = "MainMenuBackground.jpg";
+        public final static String BACKGROUND = "images/MainMenuBackground.jpg";
+        public final static String TILESET = "images/tileset.png";
+        public final static String EXPLOSION = "images/Explosion.png";
+
         public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
         public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
         public final static String PLAYING_MUSIC = "music/undiscovered.wav";
@@ -72,6 +84,8 @@ public final class Assets {
         public final static String ROBOTO_BOLD_FONT = "fonts/Roboto-Bold.ttf";
         public final static String PLAY_FONT = "fonts/Play-Regular.ttf";
         public final static String SEATBELT_SFX = "sfx/seatbelt.wav";
+        public final static String SHOT_SFX = "sfx/shot.wav";
+        public final static String SHOT_WATER = "sfx/shot_water.wav";
 
         public final class Button {
             public final static String HOVER_SFX = "sfx/button-hover.wav";

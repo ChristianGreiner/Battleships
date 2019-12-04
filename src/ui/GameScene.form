@@ -50,6 +50,9 @@
               </grid>
             </children>
           </grid>
+          <hspacer id="a05ce">
+            <constraints/>
+          </hspacer>
           <grid id="d55a" binding="enemyMapContainer" layout-manager="GridBagLayout">
             <constraints/>
             <properties/>

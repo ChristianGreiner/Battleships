@@ -1,7 +1,10 @@
 package game;
 
 import core.Helper;
+import game.ships.Battleship;
+import game.ships.Destroyer;
 import game.ships.Ship;
+import game.ships.Submarine;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -28,12 +31,17 @@ public class Map implements MapInterface, Serializable {
         return size;
     }
 
+    public ArrayList<Ship> getShips() {
+        return ships;
+    }
+
     private HashMap<Type, Integer> shipsCounter = new HashMap<>();
     private int size;
     private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
     private int numberOfShips;
     private int numberOfDestoryedShips;
-    
+    private ArrayList<Ship> ships = new ArrayList<>();
+
     public Map(int size) {
         this.size = size;
         this.tiles = new MapTile[size][size];
@@ -74,9 +82,8 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
-    public void setOutOfShipLength(){
-
-        /*if(this.shipsCounter.get(Submarine.class) == 0){
+    public void setOutOfShipLength(){ //everytime ship gets destroyed, this method should be refreshed
+        if(this.shipsCounter.get(Submarine.class) == 0){
             outOfShipLength=2;
             if (this.shipsCounter.get(Destroyer.class) == 0){
                 outOfShipLength=3;
@@ -84,7 +91,7 @@ public class Map implements MapInterface, Serializable {
                     outOfShipLength=4;
                 }
             }
-        }*/
+        }
     }
 
     public boolean insert(Ship ship, Point position, boolean rotated) {
@@ -128,6 +135,7 @@ public class Map implements MapInterface, Serializable {
 
         counter++;
         this.shipsCounter.put(ship.getClass(), counter);
+        this.ships.add(ship);
     }
 
     private void computeRemoveShip(Ship ship) {
@@ -137,6 +145,7 @@ public class Map implements MapInterface, Serializable {
 
         counter--;
         this.shipsCounter.put(ship.getClass(), counter);
+        this.ships.remove(ship);
     }
 
     private ArrayList<MapTile> getNeighborTiles(Ship ship) {
@@ -500,9 +509,9 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
-    public boolean fieldIsLogicFree(Point pos){
+    public boolean fieldIsViable(Point pos){
 
-        if(!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getlogicfree())) {
+        if(!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getViable() || this.tiles[pos.x][pos.y].isBlocked())) {
             return false;
         }
 
@@ -513,59 +522,67 @@ public class Map implements MapInterface, Serializable {
         int rangeX = 1;
         int rangeY = 1;
 
-        for (int i=1; i<5;i++){
+        for (int i=1; i<5;i++) {
 
-            Point newPosX = new Point(pos.x + i, pos.y);
-            Point newPosY = new Point(pos.x, pos.y + 1);
-            Point newPosNegX = new Point(pos.x - i,pos.y);
-            Point newPosNegY = new Point(pos.x, pos.y - 1);
+            if (!borderXplusReached) {
+                Point newPosX = new Point(pos.x + i, pos.y);
+                if (isInMap(newPosX)) {
+                    if (!(this.tiles[pos.x + i][pos.y].isHit() && !(this.tiles[pos.x + 1][pos.y].isBlocked()))) {
+                        rangeX++;
+                    } else borderXplusReached = true;
+                } else borderXplusReached = true;
+            }
+            if (!borderXminusReached) {
+                Point newPosNegX = new Point(pos.x - i, pos.y);
+                if (isInMap(newPosNegX)) {
+                    if (!(this.tiles[pos.x - i][pos.y].isHit() && !(this.tiles[pos.x - 1][pos.y].isBlocked()))) {
+                        rangeX++;
+                    } else borderXminusReached = true;
+                } else borderXminusReached = true;
+            }
+            if (!borderYplusReached) {
+                Point newPosY = new Point(pos.x, pos.y + i);
+                if (isInMap(newPosY)) {
+                    if (!(this.tiles[pos.x][pos.y + 1].isHit() && !(this.tiles[pos.x][pos.y + 1].isBlocked()))) {
+                        rangeX++;
+                    } else borderYplusReached = true;
+                } else borderYplusReached = true;
+            }
+            if (!borderYminusReached) {
+                Point newPosNegY = new Point(pos.x, pos.y - i);
+                if (isInMap(newPosNegY)) {
+                    if (!(this.tiles[pos.x][pos.y - 1].isHit() && !(this.tiles[pos.x][pos.y - 1].isBlocked()))) {
+                        rangeX++;
+                    } else borderYminusReached = true;
+                } else borderYminusReached = true;
+            }
+        }
 
-            if(!borderXplusReached){
-                if (!(isInMap(newPosX)) && !(this.tiles[pos.x + i][pos.y].isHit())){
-                    rangeX++;
-                }
-                else borderXplusReached = true;
-            }
-            if(!borderYplusReached){
-                if (!(isInMap(newPosY)) && !(this.tiles[pos.x][pos.y + i].isHit())){
-                    rangeY++;
-                }
-                else borderYplusReached = true;
-            }
-            if(!borderXminusReached){
-                if (!(isInMap(newPosNegX)) && !(this.tiles[pos.x - i][pos.y].isHit())){
-                    rangeX++;
-                }
-                else borderXminusReached = true;
-            }
-            if(!borderYminusReached){
-                if (!(isInMap(newPosNegY)) && !(this.tiles[pos.x][pos.y - i].isHit())){
-                    rangeY++;
-                }
-                else borderYminusReached = true;
-            }
+        if( ((rangeX == 2 || rangeX == 3) && rangeY == 1) || ((rangeY == 2 || rangeY == 3) && rangeX == 1)){
+            return false;
+        }
 
-            if(rangeX == 5 || rangeY == 5) return true;
+        if(rangeX == 5 || rangeY == 5)
+            return true;
 
-            if(borderXminusReached && borderXplusReached && borderYminusReached && borderYplusReached){
-                if (rangeX == 1 && rangeY == 1) return false;
-                if (rangeX == 2 && rangeX > rangeY || rangeY == 2 && rangeY > rangeX) {
-                    if (outOfShipLength == 2) {
-                        this.tiles[pos.x][pos.y].setlogicfree(false);
-                        return false;
-                    }
+        if(borderXminusReached && borderXplusReached && borderYminusReached && borderYplusReached){
+            if (rangeX == 1 && rangeY == 1) return false;
+            if (rangeX == 2 && rangeX > rangeY || rangeY == 2 && rangeY > rangeX) {
+                if (outOfShipLength == 2) {
+                    this.tiles[pos.x][pos.y].setViable(false);
+                    return false;
                 }
-                if (rangeX == 3 && rangeX > rangeY || rangeY == 3 && rangeY > rangeX){
-                    if (outOfShipLength == 3){
-                        this.tiles[pos.x][pos.y].setlogicfree(false);
-                        return false;
-                    }
+            }
+            if (rangeX == 3 && rangeX > rangeY || rangeY == 3 && rangeY > rangeX){
+                if (outOfShipLength == 3){
+                    this.tiles[pos.x][pos.y].setViable(false);
+                    return false;
                 }
-                if (rangeX == 4 && rangeX > rangeY || rangeY == 4 && rangeY > rangeX){
-                    if (outOfShipLength == 4){
-                        this.tiles[pos.x][pos.y].setlogicfree(false);
-                        return false;
-                    }
+            }
+            if (rangeX == 4 && rangeX > rangeY || rangeY == 4 && rangeY > rangeX){
+                if (outOfShipLength == 4){
+                    this.tiles[pos.x][pos.y].setViable(false);
+                    return false;
                 }
             }
         }

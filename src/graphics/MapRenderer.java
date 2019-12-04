@@ -1,6 +1,8 @@
 package graphics;
 
+import core.Helper;
 import core.Renderer;
+import game.Assets;
 import game.Map;
 import game.MapTile;
 import game.ships.Battleship;
@@ -8,26 +10,53 @@ import game.ships.Carrier;
 import game.ships.Destroyer;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class MapRenderer extends Renderer {
 
     private Map map;
     private ArrayList<MapTile> selectedShipTiles;
+    private ArrayList<BufferedImage> explosionFrames = new ArrayList<BufferedImage>();
+
+    private Sprite explosionSprite;
+    private Animation explosionAnim;
+    private Point explosionAnimPos;
 
     public void setMap(Map map) {
         this.map = map;
+
+        this.explosionSprite = new Sprite(Assets.Images.EXPLOSION, 48);
+        if(this.explosionSprite.getSpriteSheet() != null) {
+            for (int i = 0; i < 12; i++)
+                this.explosionFrames.add(explosionSprite.getSprite(i, 0));
+
+            this.explosionAnim = new Animation(explosionFrames.toArray(new BufferedImage[explosionFrames.size()]), 2);
+        }
+    }
+
+    public void playExplosion(Point pos) {
+        this.explosionAnimPos = pos;
+        this.explosionAnim.start();
     }
 
     public MapRenderer(Map map) {
         this.map = map;
     }
 
+    private void drawTile(Graphics g, int index, int x, int y, int w, int h) {
+        g.drawImage(Assets.Images.TILESET, x, y, x + w, y + h, index * w, index * h, index * w + w,index * h + h, null);
+    }
+
     @Override
     public void draw() {
         super.draw();
 
-        if (this.map == null)
+        if(this.explosionAnim != null) {
+            this.explosionAnim.update();
+        }
+
+        if(this.map == null)
             return;
 
         Graphics g = this.begin();
@@ -39,10 +68,12 @@ public class MapRenderer extends Renderer {
             for (int x = 0; x < this.map.getSize(); x++) {
                 MapTile tile = this.map.getTile(new Point(x, y));
 
+                Point tilePos = new Point(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y);
+                //g.drawImage(Assets.Images.TILESET, tilePos.x, tilePos.y, tilePos.x + tileSize.x, tilePos.y + tileSize.y, 0, 0, 0 + tileSize.x,0 + tileSize.y, null);
+                drawTile(g, 0, tilePos.x, tilePos.y, tileSize.x, tileSize.y);
+
                 if (tile.isBlocked()) {
-                    g.setColor(Color.YELLOW);
-                    g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                    MapTile lol = tile;
+                    drawTile(g, 1, tilePos.x, tilePos.y, tileSize.x, tileSize.y);
                 } else if (tile.hasShip()) {
 
                     if (tile.getShip() instanceof Battleship) {
@@ -64,10 +95,7 @@ public class MapRenderer extends Renderer {
 
                 } else if (tile.isHit() && !tile.isBlocked()) {
                     g.setColor(Color.RED);
-                    g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                } else {
-                    g.setColor(Color.BLUE);
-                    g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    Helper.drawCenteredString(g, "X", new Rectangle(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT);
                 }
             }
         }
@@ -76,43 +104,70 @@ public class MapRenderer extends Renderer {
         g.setColor(Color.BLACK);
         for (int i = 0; i < map.getSize() + 1; i++) {
             //vertical
-            g.drawLine(i * tileSize.x, 0, i * tileSize.x, this.getHeight());
+            g.drawLine(i * tileSize.x,0, i * tileSize.x, this.getHeight());
             //horizontal
-            g.drawLine(0, i * tileSize.y, this.getWidth(), i * tileSize.y);
+            g.drawLine(0,i * tileSize.y , this.getWidth(), i * tileSize.y);
         }
 
 
         //ship selection using mouse
-        if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
+        if(this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight() ) {
 
-            System.out.println(this.getMousePosition().x + " " + this.getMousePosition().y);
-            Point tempPoint = new Point(((this.getMousePosition().x / (tileSize.x)) * tileSize.x), ((this.getMousePosition().y / (tileSize.y)) * tileSize.y));
-            g.setColor(Color.GREEN);
-            g.drawRect(tempPoint.x, tempPoint.y, tileSize.x, tileSize.y);
+            // System.out.println( this.getMousePosition().x + " " + this.getMousePosition().y);
 
-            //MapTile selectedTile = this.map.getTile(tempPoint);
 
-            /*if (selectedTile.hasShip()) {
-                this.selectedShipTiles = selectedTile.getShip().getTiles();
-                g.setColor(Color.RED);
-                for (int i = 0; i < this.selectedShipTiles.size(); i++) {
-                    g.drawRect(this.selectedShipTiles.get(i).getPos().x * tileSize + 20, this.selectedShipTiles.get(i).getPos().y * tileSize + 20, tileSize, tileSize);
+
+
+            Point tempPoint = new Point( (this.getMousePosition().x / tileSize.x) - 1, (this.getMousePosition().y / tileSize.y) - 1);
+            //System.out.println( ((this.getMousePosition().x / tileSize.x) - 1) + " " + ((this.getMousePosition().y / tileSize.y) - 1));
+
+
+            MapTile hoverdMapTile = this.map.getTile(tempPoint);
+            if(hoverdMapTile != null)
+            {
+                if(hoverdMapTile.hasShip()) {
+                    MapTile selectedTile = hoverdMapTile;
+
+                    if (selectedTile.hasShip()) {
+                        this.selectedShipTiles = selectedTile.getShip().getTiles();
+
+                        g.setColor(Color.RED);
+
+                        for (int i = 0; i < this.selectedShipTiles.size(); i++) {
+                            g.drawRect(this.selectedShipTiles.get(i).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(i).getPos().y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                        }
+                    }
                 }
-            }*/
-        }
+                else
+                {
+                    Point highlightPoint = new Point(((this.getMousePosition().x / (tileSize.x)) * tileSize.x), ((this.getMousePosition().y / (tileSize.y )) * tileSize.y) );
+                    g.setColor(Color.GREEN);
+                    g.drawRect(highlightPoint.x, highlightPoint.y, tileSize.x, tileSize.y);
+                }
+            }
+            }
 
         g.setColor(Color.BLACK);
         g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 16));
         // draw numbers above board
-        for (Integer num = 1; num <= map.getSize(); num++) {
-            g.drawString(num.toString(), num * tileSize.x, 10);
+        for(Integer num = 1; num <= map.getSize(); num++)
+        {
+            g.drawString(num.toString(),num * tileSize.x ,10);
         }
 
         // draw letters next to board
         int asciiCode = 65;
-        for (int num = 1; num <= map.getSize(); num++) {
-            g.drawString(Character.toString((char) asciiCode), 5, num * tileSize.y + tileSize.y / 2);
+        for(int num = 1; num <= map.getSize(); num++)
+        {
+            g.drawString(Character.toString((char) asciiCode),5 ,num * tileSize.y + tileSize.y / 2 + 20);
             asciiCode++;
+        }
+
+        if(this.explosionAnim != null && this.explosionAnimPos != null) {
+            if(!this.explosionAnim.isStopped()) {
+                Point explPos = new Point(this.explosionAnimPos.x * tileSize.x + this.explosionSprite.getTileSize(), this.explosionAnimPos.y * tileSize.y + this.explosionSprite.getTileSize());
+                this.explosionAnim.draw(g, explPos);
+            }
         }
 
         this.end();

@@ -7,8 +7,8 @@ import java.awt.*;
 
 public interface AiStrategy {
 
-    Point prepair(HitType type, Point lastHit);
+    void prepare(HitType type, Point lastHit);
 
-    Point process(Map map, Point lastHit);
+    Point process(Map map);
 
 }

@@ -33,12 +33,12 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         });
 
         mapSelection.getNewGameBtn().addActionListener((e) -> {
-            // , new Map((int)mapSelection.getSizeSpinner().getValue())
             SinglePlayerScene scene = (SinglePlayerScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
 
             int size = (int)mapSelection.getSizeSpinner().getValue();
-            String difficulity = String.valueOf(mapSelection.getAiDifficultyCbox().getSelectedItem());
-            scene.initializeGame(size, AiDifficulty.valueOf(difficulity));
+            String difficulty = String.valueOf(mapSelection.getAiDifficultyCbox().getSelectedItem());
+            difficulty = difficulty.replaceAll(" ","");
+            scene.initializeGame(size, AiDifficulty.valueOf(difficulty));
         });
 
         mapSelection.getLoadGameBtn().addActionListener((e) -> {

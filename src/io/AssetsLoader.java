@@ -3,6 +3,7 @@ package io;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class AssetsLoader {
@@ -35,6 +36,17 @@ public class AssetsLoader {
 
         return null;
     }
+
+    public static BufferedImage loadBufferedImage(String imageName) {
+        try {
+            assetsLoaded++;
+            return ImageIO.read(AssetsLoader.class.getClassLoader().getResourceAsStream(imageName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static Clip loadSound(String soundName) {
         AudioInputStream audioInputStream = null;
