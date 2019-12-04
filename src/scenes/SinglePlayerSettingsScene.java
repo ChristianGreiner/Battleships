@@ -33,6 +33,13 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         });
 
         mapSelection.getNewGameBtn().addActionListener((e) -> {
+            /*ShipsSelectionScene scene = (ShipsSelectionScene)Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
+
+            int size = (int)mapSelection.getSizeSpinner().getValue();
+            String difficulty = String.valueOf(mapSelection.getAiDifficultyCbox().getSelectedItem());
+            difficulty = difficulty.replaceAll(" ","");
+            scene.initializeMap(size, AiDifficulty.valueOf(difficulty));*/
+
             SinglePlayerScene scene = (SinglePlayerScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
 
             int size = (int)mapSelection.getSizeSpinner().getValue();
