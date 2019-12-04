@@ -15,10 +15,9 @@ public class EasyStrategy implements AiStrategy {
     private HumanStrategy internstrategy = new HumanStrategy();
 
     private void setFocusable(boolean focusable) {
-        if(!focusable){
+        if (!focusable) {
             this.focusable = false;
-        }
-        else if(Helper.randomBoolean() && Helper.randomBoolean()){
+        } else if (Helper.randomBoolean() && Helper.randomBoolean()) {
             this.focusable = true;
         }
     }
@@ -34,10 +33,9 @@ public class EasyStrategy implements AiStrategy {
                 if (focusable)
                     this.internstrategy.prepare(type, lastHit);
             }
-        }
-        else if(focusable){
+        } else if (focusable) {
             this.internstrategy.prepare(type, lastHit);
-            if (type == HitType.ShipDestroyed){
+            if (type == HitType.ShipDestroyed) {
                 //this.shipFocused = false;
                 setFocusable(false);
             }
@@ -48,12 +46,12 @@ public class EasyStrategy implements AiStrategy {
     public Point process(Map map) {
 
         //if (this.shipFocused){
-            if(this.focusable){
-                System.out.println("entered focusable");
-                this.internstrategy.setShipFocused(focusable);
-                return this.internstrategy.process(map);
-            }
-      //}
+        if (this.focusable) {
+            System.out.println("entered focusable");
+            this.internstrategy.setShipFocused(focusable);
+            return this.internstrategy.process(map);
+        }
+        //}
         return map.getRandomFreeTileIgnoreShip().getPos();
     }
 }
