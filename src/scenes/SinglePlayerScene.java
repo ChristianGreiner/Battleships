@@ -24,6 +24,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
     private SinglePlayerPanel uiPanel;
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
+    private int counter;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -71,6 +72,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         if(this.gameState == GameState.Finished) {
             this.setUpdatePaused(true);
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game Ended!");
+            System.out.println(counter);
         }
     }
 
@@ -116,6 +118,11 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
         }
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+            /*while (this.playerMap.getNumberOfShips() != this.playerMap.getNumberOfDestoryedShips()) {
+                handleAiShot();
+            }
+            */
+
             handleAiShot();
         }
 
@@ -131,8 +138,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
     private void handleAiShot() {
 
-
         Point point = this.ai.shot();
+        System.out.println(point);
 
         HitData hitData = this.playerMap.shot2(point);
 
@@ -152,7 +159,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
 
 
         DrawMap();
-
+        counter++;
         this.playerMapRenderer.playExplosion(hitData.getPosition());
     }
 
@@ -167,6 +174,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, Updatable, 
                     } else {
                         System.out.print(ANSIColors.YELLOW + "X" + ANSIColors.RESET + "|");
                     }
+                } else if (tile.isBlocked()){
+                    System.out.print(ANSIColors.GREEN + "X" + ANSIColors.RESET + "|");
                 } else if (tile.isHit()) {
                     System.out.print(ANSIColors.BLUE + "X" + ANSIColors.RESET + "|");
                 } else {
