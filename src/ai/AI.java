@@ -25,7 +25,7 @@ public class AI extends AbstractAi {
         if(this.difficulty == AiDifficulty.Hard){
             this.strategy = new HardStrategy(map);
         }
-        if(this.difficulty == AiDifficulty.Allmighty){
+        if (this.difficulty == AiDifficulty.Extreme) {
             this.strategy = new AllMightyMode();
         }
         if(this.difficulty == AiDifficulty.Troll){

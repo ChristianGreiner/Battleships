@@ -7,6 +7,6 @@ public enum AiDifficulty implements Serializable {
     Easy,
     Medium,
     Hard,
-    Allmighty,
+    Extreme,
     Troll
 }
