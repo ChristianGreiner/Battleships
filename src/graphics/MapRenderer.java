@@ -147,10 +147,14 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
                     this.hovered = true;
                     if (!this.pressed) {
-                        for (int i = 0; i < this.selectedShipTiles.size(); i++) {
-                            g.setColor(Color.RED);
-                            g.drawRect(this.selectedShipTiles.get(i).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(i).getPos().y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                        g.setColor(Color.RED);
+                        if (this.selectedShipTiles.get(0).getShip().isRotated()) {
+                                g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
                         }
+                        else {
+                                g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                        }
+
                     }
 
                 } else if(!this.selected){
@@ -200,8 +204,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                         }
                     }
                     this.rotated = false;
-                    System.out.println("DROPPED " + floatingShipPos.x + " " + floatingShipPos.y);
-                    System.out.println(tempPoint);
+                    //System.out.println("DROPPED " + floatingShipPos.x + " " + floatingShipPos.y);
+                    //System.out.println(tempPoint);
                 }
             }
         }
