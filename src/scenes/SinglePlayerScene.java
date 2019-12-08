@@ -46,14 +46,14 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
         this.difficulty = difficulty;
+
+        /* this.playerMap = new Map(mapSize);
+        battleship = new Battleship(playerMap);
+        this.playerMap.insert(battleship, new Point(0, 0), false);*/
+
         MapGenerator generator = new MapGenerator();
 
         this.playerMap = generator.generate(mapSize);
-
-        /*this.playerMap = new Map(mapSize);
-
-        battleship = new Battleship(playerMap);
-        this.playerMap.insert(battleship, new Point(0, 0), false);*/
 
         this.enemyMap = new Map(mapSize);
 
@@ -139,6 +139,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
             this.playerMap.move(this.battleship, new Point(this.battleship.getPosition().x + 1, this.battleship.getPosition().y));
+            this.playerMap.rotate(this.battleship);
         }
 
 
@@ -176,7 +177,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         DrawMap();
         counter++;
-        //this.playerMapRenderer.playExplosion(hitData.getPosition());
+        this.playerMapRenderer.playExplosion(hitData.getPosition());
     }
 
     private void DrawMap() {
@@ -206,7 +207,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     }
 
     @Override
-    public void OnShipDropped(Ship ship, Point pos) {
+    public void OnShipDropped(Ship ship, Point pos, boolean rotated) {
+        //ship.setRotated(rotated);
         this.playerMap.move(ship, pos);
         System.out.println("DROPED AT " + pos);
     }
@@ -218,6 +220,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void OnRotated(Ship ship) {
-
+        this.playerMap.rotate(ship);
     }
 }

@@ -29,6 +29,7 @@ public final class Assets {
         public static Font TITLE;
         public static Font TITLE_BIG;
         public static Font DEFAULT;
+        public static Font DEFAULT_BOLD;
         public static Font DEFAULT_24;
         public static Font DEFAULT_BOLD_24;
     }
@@ -51,8 +52,9 @@ public final class Assets {
         Fonts.TITLE = AssetsLoader.loadFont(Paths.PLAY_FONT, 48f);
         Fonts.TITLE_BIG = AssetsLoader.loadFont(Paths.PLAY_FONT, 64f);
         Fonts.DEFAULT = AssetsLoader.loadFont(FONT, 18f);
+        Fonts.DEFAULT_BOLD = AssetsLoader.loadFont(Paths.ROBOTO_BOLD_FONT, 18f);
         Fonts.DEFAULT_24 = AssetsLoader.loadFont(FONT, 24f);
-        Fonts.DEFAULT_BOLD_24 = AssetsLoader.loadFont(FONT, 24f);
+        Fonts.DEFAULT_BOLD_24 = AssetsLoader.loadFont(Paths.ROBOTO_BOLD_FONT, 24f);
 
         // load sounds
         Sounds.BUTTON_HOVER = AssetsLoader.loadSound(Paths.Button.HOVER_SFX);
