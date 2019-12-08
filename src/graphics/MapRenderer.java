@@ -153,7 +153,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                         }
                     }
 
-                } else {
+                } else if(!this.selected){
                     Point highlightPoint = new Point(((this.getMousePosition().x / (tileSize.x)) * tileSize.x), ((this.getMousePosition().y / (tileSize.y)) * tileSize.y));
                     g.setColor(Color.GREEN);
                     g.drawRect(highlightPoint.x, highlightPoint.y, tileSize.x, tileSize.y);
@@ -164,7 +164,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             //picking up ship
             if (this.selected) {
                 g.setColor(new Color(124, 252, 0, 200));
-                Point floatingShipPos = new Point( this.getMousePosition().x - this.mouseShipOffset.x, this.getMousePosition().y - this.mouseShipOffset.y);
+               // Point floatingShipPos = new Point( this.getMousePosition().x - this.mouseShipOffset.x, this.getMousePosition().y - this.mouseShipOffset.y);
+                Point floatingShipPos = new Point( (this.getMousePosition().x / tileSize.x * tileSize.x) - (this.mouseShipOffset.x / tileSize.x * tileSize.x), (this.getMousePosition().y / tileSize.y * tileSize.y) - (this.mouseShipOffset.y / tileSize.y * tileSize.y));
                 if (this.selectedShipTiles.get(0).getShip().isRotated()) {
                     if(!this.rotated) {
                         g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
