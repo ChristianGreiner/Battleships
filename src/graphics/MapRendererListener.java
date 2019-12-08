@@ -6,7 +6,7 @@ import java.awt.*;
 
 public interface MapRendererListener {
 
-    void OnShipDropped(Ship ship, Point pos);
+    void OnShipDropped(Ship ship, Point pos, boolean rotated);
 
     void OnShotFired(Point pos);
 

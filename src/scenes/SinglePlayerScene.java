@@ -206,7 +206,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     }
 
     @Override
-    public void OnShipDropped(Ship ship, Point pos) {
+    public void OnShipDropped(Ship ship, Point pos, boolean rotated) {
         this.playerMap.move(ship, pos);
         System.out.println("DROPED AT " + pos);
     }

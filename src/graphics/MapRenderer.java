@@ -13,9 +13,11 @@ import game.ships.Submarine;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
-public class MapRenderer extends Renderer implements MouseListener {
+public class MapRenderer extends Renderer implements MouseListener, MouseWheelListener {
 
     private Map map;
     private Point tileSize;
@@ -24,6 +26,7 @@ public class MapRenderer extends Renderer implements MouseListener {
     private Point MouseShipOffset;
     private boolean clicked;
     private boolean selected;
+    private boolean rotated;
     private boolean pressed;
     private boolean hovered;
     private ArrayList<MapRendererListener> listener = new ArrayList<>();
@@ -39,7 +42,8 @@ public class MapRenderer extends Renderer implements MouseListener {
 
     public MapRenderer(Map map) {
         this.map = map;
-        this.addMouseListener((this));
+        this.addMouseListener(this);
+        this.addMouseWheelListener(this);
     }
 
     @Override
@@ -161,9 +165,20 @@ public class MapRenderer extends Renderer implements MouseListener {
                 g.setColor(new Color(124, 252, 0, 200));
                 Point floatingShipPos = new Point( this.getMousePosition().x - this.MouseShipOffset.x, this.getMousePosition().y - this.MouseShipOffset.y);
                 if (this.selectedShipTiles.get(0).getShip().isRotated()) {
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    if(!this.rotated) {
+                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    }
+                    else {
+                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    }
                 } else {
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    if(!this.rotated) {
+                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    }
+                    else {
+                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    }
+
                 }
 
                 //dropped
@@ -173,10 +188,10 @@ public class MapRenderer extends Renderer implements MouseListener {
                     floatingShipPos.y = floatingShipPos.y / tileSize.y - 1;
                     for(MapRendererListener mrl : listener ){
                         if(mrl != null) {
-                            mrl.OnShipDropped(this.selectedShipTiles.get(0).getShip(), floatingShipPos);
+                            mrl.OnShipDropped(this.selectedShipTiles.get(0).getShip(), floatingShipPos, this.rotated);
                         }
                     }
-
+                    this.rotated = false;
                     System.out.println("DROPPED " + floatingShipPos.x + " " + floatingShipPos.y);
                 }
             }
@@ -245,6 +260,13 @@ public class MapRenderer extends Renderer implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        this.rotated = !this.rotated;
+        System.out.println("rotated");
 
     }
 }
