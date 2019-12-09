@@ -19,6 +19,15 @@ import java.util.ArrayList;
 
 public class MapRenderer extends Renderer implements MouseListener, MouseWheelListener {
 
+    public boolean isEditorMode() {
+        return editorMode;
+    }
+
+    public void setEditorMode(boolean editorMode) {
+        this.editorMode = editorMode;
+    }
+
+    private boolean editorMode = false;
     private Map map;
     private Point tileSize;
     private ArrayList<MapTile> selectedShipTiles;
@@ -217,7 +226,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
                     for (MapRendererListener mouseListener : listener) {
                         if (mouseListener != null) {
-                            mouseListener.OnShipDropped(this.selectedShipTiles.get(0).getShip(), floatingShipPos, this.rotated);
+                            mouseListener.OnShipDropped(this.map, this.selectedShipTiles.get(0).getShip(), floatingShipPos, this.rotated);
                         }
                     }
                     this.rotated = false;
@@ -254,9 +263,17 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void mousePressed(MouseEvent e) {
+
         this.pressed = true;
 
         if (this.hoveredMapTile != null) {
+
+            for (MapRendererListener mouseListener : listener) {
+                if (mouseListener != null) {
+                    mouseListener.OnShotFired(this.map, this.hoveredMapTile.getPos());
+                }
+            }
+
             if (this.hoveredMapTile.hasShip() && !this.selected) {
 
                 this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
@@ -290,11 +307,15 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+
+        if(!this.editorMode)
+            return;
+
         if(this.hoveredMapTile != null) {
             if(this.hoveredMapTile.hasShip()) {
                 for (MapRendererListener mouseListener : listener) {
                     if (mouseListener != null) {
-                        mouseListener.OnRotated(this.hoveredMapTile.getShip());
+                        mouseListener.OnRotated(this.map, this.hoveredMapTile.getShip());
                     }
                 }
             }

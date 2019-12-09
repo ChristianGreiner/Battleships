@@ -154,6 +154,7 @@ public class SingePlayerSettingsPanel extends JPanel {
         aiComboboxModel.addElement("Extreme");
         aiDifficultyCbox.setModel(aiComboboxModel);
         aiSelectionContainer.add(aiDifficultyCbox);
+        aiDifficultyCbox.setSelectedItem("Medium");
 
         final JPanel spacer = new JPanel();
         spacer.setBackground(new Color(0, 0, 0, 155));

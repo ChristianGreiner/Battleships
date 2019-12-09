@@ -37,6 +37,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.enemyMapRenderer = new MapRenderer(null);
 
         this.playerMapRenderer.addMapRendererListener(this);
+        this.enemyMapRenderer.addMapRendererListener(this);
     }
 
     @Override
@@ -55,12 +56,14 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         this.playerMap = generator.generate(mapSize);
 
-        this.enemyMap = new Map(mapSize);
+        this.enemyMap = generator.generate(mapSize);
 
         this.ai = new AI(this.playerMap, difficulty);
 
         this.playerMapRenderer.setMap(this.playerMap);
+        this.playerMapRenderer.setEditorMode(true);
         this.enemyMapRenderer.setMap(this.enemyMap);
+        this.enemyMapRenderer.setEditorMode(true);
 
         DrawMap();
     }
@@ -207,19 +210,19 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     }
 
     @Override
-    public void OnShipDropped(Ship ship, Point pos, boolean rotated) {
+    public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
         //ship.setRotated(rotated);
-        this.playerMap.move(ship, pos);
+        map.move(ship, pos);
         System.out.println("DROPED AT " + pos);
     }
 
     @Override
-    public void OnShotFired(Point pos) {
-
+    public void OnShotFired(Map map, Point pos) {
+        System.out.println(pos);
     }
 
     @Override
-    public void OnRotated(Ship ship) {
-        this.playerMap.rotate(ship);
+    public void OnRotated(Map map, Ship ship) {
+        map.rotate(ship);
     }
 }
