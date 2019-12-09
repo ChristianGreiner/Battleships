@@ -121,4 +121,10 @@ public class SinglePlayerPanel extends JPanel {
 
         return panel;
     }
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        graphics.drawImage(Assets.Images.BACKGROUND, 0, 0, getWidth(), getHeight(), this);
+    }
 }
