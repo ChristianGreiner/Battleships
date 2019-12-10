@@ -10,14 +10,11 @@ import game.ships.Carrier;
 import game.ships.Destroyer;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class MapRenderer extends Renderer implements MouseListener, MouseWheelListener {
+public class MapRenderer extends Renderer implements MouseListener, MouseWheelListener, KeyListener {
 
     public boolean isEditorMode() {
         return editorMode;
@@ -50,6 +47,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.map = map;
         this.addMouseListener(this);
         this.addMouseWheelListener(this);
+        this.addKeyListener(this);
+
     }
 
     public void addMapRendererListener(MapRendererListener mrl) {
@@ -96,7 +95,14 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         //draw grid
         this.drawGrid(g, tileSize);
 
-        this.highlightShip(g);
+        if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
+            if (this.editorMode) {
+                this.highlightShip(g);
+            }
+            else{
+                this.drawHighlightTile(g);
+            }
+        }
 
         this.drawNumbers(g, tileSize);
         this.drawLetters(g, tileSize);
@@ -170,8 +176,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if(this.getMousePosition() == null || tileSize == null)
             return;
 
-        if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
-
             Point tempPoint = new Point((this.getMousePosition().x / tileSize.x) - 1, (this.getMousePosition().y / tileSize.y) - 1);
             // System.out.println(((this.getMousePosition().x / tileSize.x) - 1) + " " + ((this.getMousePosition().y / tileSize.y) - 1));
 
@@ -189,10 +193,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                             g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                         }
                     }
-                } else if (!this.selected) {
-                    Point highlightPoint = new Point(((this.getMousePosition().x / (tileSize.x)) * tileSize.x), ((this.getMousePosition().y / (tileSize.y)) * tileSize.y));
-                    g.setColor(Color.GREEN);
-                    g.drawRect(highlightPoint.x, highlightPoint.y, tileSize.x, tileSize.y);
+                } else if(!this.selected){
+                    this.drawHighlightTile(g);
                 }
             }
 
@@ -234,9 +236,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     //System.out.println(tempPoint);
                 }
             }
-        }
     }
 
+    void drawHighlightTile(Graphics g){
+        Point highlightPoint = new Point(((this.getMousePosition().x / (tileSize.x)) * tileSize.x), ((this.getMousePosition().y / (tileSize.y)) * tileSize.y));
+        g.setColor(Color.GREEN);
+        g.drawRect(highlightPoint.x, highlightPoint.y, tileSize.x, tileSize.y);
+    }
 
     void drawLetters(Graphics g, Point tileSize) {
         // draw letters next to board
@@ -258,7 +264,19 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
+            if (!this.editorMode) {
+                Point tempPoint = new Point(this.getMousePosition().x / tileSize.x - 1, this.getMousePosition().y / tileSize.y - 1);
 
+                for (MapRendererListener mouseListener : listener) {
+                    if (mouseListener != null) {
+                        mouseListener.OnShotFired(this.map, tempPoint);
+                    }
+                }
+                System.out.println("FIRED");
+
+            }
+        }
     }
 
     @Override
@@ -267,12 +285,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.pressed = true;
 
         if (this.hoveredMapTile != null) {
-
-            for (MapRendererListener mouseListener : listener) {
-                if (mouseListener != null) {
-                    mouseListener.OnShotFired(this.map, this.hoveredMapTile.getPos());
-                }
-            }
 
             if (this.hoveredMapTile.hasShip() && !this.selected) {
 
@@ -311,7 +323,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if(!this.editorMode)
             return;
 
-        if(this.hoveredMapTile != null) {
+       /* if(this.hoveredMapTile != null) {
             if(this.hoveredMapTile.hasShip()) {
                 for (MapRendererListener mouseListener : listener) {
                     if (mouseListener != null) {
@@ -319,10 +331,35 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     }
                 }
             }
-        } else {
+        } else {*/
             this.rotated = !this.rotated;
-        }
+        //}
 
         System.out.println("rotated");
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(!this.editorMode)
+            return;
+
+        if(e.getKeyCode() == KeyEvent.VK_R){
+
+                this.rotated = !this.rotated;
+
+
+            System.out.println("rotated");
+        }
+        System.out.println("rotated");
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println("rotated");
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
