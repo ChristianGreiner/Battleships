@@ -14,7 +14,7 @@ public class AI extends AbstractAi {
         super(map, difficulty);
 
         if (this.difficulty == AiDifficulty.FullRetard) {
-            this.strategy = new FullRetardMode();
+            this.strategy = new FullRetardMode(map);
         }
         if (this.difficulty == AiDifficulty.Easy) {
             this.strategy = new EasyStrategy();
@@ -29,7 +29,7 @@ public class AI extends AbstractAi {
             this.strategy = new AllMightyMode();
         }
         if (this.difficulty == AiDifficulty.Troll) {
-            this.strategy = new TrollMode();
+            this.strategy = new TrollMode(map);
         }
     }
 

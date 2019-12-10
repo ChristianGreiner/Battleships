@@ -1,25 +1,49 @@
 package ai;
 
+import core.Helper;
 import game.HitType;
 import game.Map;
-import core.Helper;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class TrollMode implements AiStrategy {
 
     private boolean shipFocused;
-
     private Trolls randomstrategy;
     private HumanStrategy internstrategy = new HumanStrategy();
 
-    public TrollMode() {
+    private ArrayList<Point> freeFields = new ArrayList<>();
+    private ArrayList<Point> shipFields = new ArrayList<>();
+
+    TrollMode(Map map) {
         this.randomstrategy = Helper.getRandomTrollStrategy();
+        for (int x = 0; x < map.getSize(); x++) {
+            for (int y = 0; y < map.getSize(); y++) {
+                Point p = new Point(x, y);
+                if (!(map.getTile(p).hasShip())) {
+                    this.freeFields.add(p);
+                } else this.shipFields.add(p);
+            }
+        }
     }
 
     @Override
     public void prepare(HitType type, Point lastHit) {
-
+        if (type == HitType.Ship) {
+            //this.internstrategy.setShipFocused(true);
+            this.internstrategy.prepare(type, lastHit);
+            this.shipFields.remove(lastHit);
+        }
+        if (type == HitType.ShipDestroyed) {
+            this.internstrategy.prepare(type, lastHit);
+            //this.internstrategy.setShipFocused(false);
+            this.shipFields.remove(lastHit);
+        }
+        if (type == HitType.Water) {
+            //if ((!this.freeFields.isEmpty()))
+            this.freeFields.remove(lastHit);
+        }
 
     }
 
@@ -31,19 +55,8 @@ public class TrollMode implements AiStrategy {
         return null;
     }
 
-    public Point noMercyHit(Map map) {
-        System.out.println(Trolls.values().length);
-        if (!this.shipFocused) {
-            Point hitPoint;
-            do {
-                int hitMarkx = (int) (Math.random() * map.getSize());
-                int hitMarky = (int) (Math.random() * map.getSize());
-                hitPoint = new Point(hitMarkx, hitMarky);
-            }
-            while (map.getShip(hitPoint) == null || map.getTile(hitPoint).isHit() || map.getTile(hitPoint).isBlocked());
-            return hitPoint;
-        }
-        return this.internstrategy.process(map);
+    private Point noMercyHit(Map map) {
+        return Helper.getRandomFreeIndex(shipFields);
     }
 
 }
