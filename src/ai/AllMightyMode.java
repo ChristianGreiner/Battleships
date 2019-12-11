@@ -4,8 +4,9 @@ import game.HitType;
 import game.Map;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class AllMightyMode implements AiStrategy {
+public class AllMightyMode implements AiStrategy, Serializable {
 
     private HumanStrategy internstrategy = new HumanStrategy();
     private boolean shipFocused;

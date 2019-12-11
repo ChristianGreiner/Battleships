@@ -5,9 +5,10 @@ import game.HitType;
 import game.Map;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TrollMode implements AiStrategy {
+public class TrollMode implements AiStrategy, Serializable {
 
     private boolean shipFocused;
     private Trolls randomstrategy;
