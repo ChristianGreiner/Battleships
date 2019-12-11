@@ -15,18 +15,6 @@ public class Animation {
     private boolean looped = false;
     private List<SpriteFrame> frames = new ArrayList<SpriteFrame>();    // Arraylist of frames
 
-    public boolean isStopped() {
-        return stopped;
-    }
-
-    public boolean isLooped() {
-        return looped;
-    }
-
-    public List<SpriteFrame> getFrames() {
-        return frames;
-    }
-
     public Animation(BufferedImage[] frames, int frameDelay) {
         this.frameDelay = frameDelay;
         this.stopped = true;
@@ -41,6 +29,18 @@ public class Animation {
         this.animationDirection = 1;
         this.totalFrames = this.frames.size();
 
+    }
+
+    public boolean isStopped() {
+        return stopped;
+    }
+
+    public boolean isLooped() {
+        return looped;
+    }
+
+    public List<SpriteFrame> getFrames() {
+        return frames;
     }
 
     public void start() {
@@ -102,10 +102,9 @@ public class Animation {
 
                 if (currentFrame > totalFrames - 1) {
                     currentFrame = 0;
-                    if(!looped)
+                    if (!looped)
                         stop();
-                }
-                else if (currentFrame < 0) {
+                } else if (currentFrame < 0) {
                     currentFrame = totalFrames - 1;
                 }
             }
@@ -113,7 +112,7 @@ public class Animation {
 
     }
 
-    public void draw(Graphics g, Point pos) {
-        g.drawImage(this.getSprite(), pos.x, pos.y, null);
+    public void draw(Graphics g, Point pos, Point size) {
+        g.drawImage(this.getSprite(), pos.x, pos.y, size.x, size.y, null);
     }
 }

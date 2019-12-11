@@ -20,15 +20,14 @@ public class Renderer extends JPanel implements Drawable {
             int width = getWidth();
             int height = getHeight();
 
-            if(width <= 0 || height <= 0) {
+            if (width <= 0 || height <= 0) {
                 width = 1;
                 height = 1;
             }
 
             doubleBufferImage = createImage(width, height);
         }
-        if(doubleBufferImage.getGraphics() != null)
-        {
+        if (doubleBufferImage.getGraphics() != null) {
             doubleBufferGraphics = doubleBufferImage.getGraphics();
 
             // clear image

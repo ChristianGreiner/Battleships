@@ -16,20 +16,6 @@ import java.util.ArrayList;
 
 public class MapRenderer extends Renderer implements MouseListener, MouseWheelListener, KeyListener {
 
-    public boolean isEditorMode() {
-        return this.editorMode;
-    }
-
-    public void setEditorMode(boolean editorMode) {
-        this.editorMode = editorMode;
-    }
-
-    public boolean isEnemyMap() {return this.enemyMap;}
-
-    public void setEnemyMap(boolean enemyMap) {this.enemyMap = enemyMap;}
-
-
-
     private boolean editorMode = false;
     private boolean enemyMap = false;
     private Map map;
@@ -58,6 +44,23 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     }
 
+    public boolean isEditorMode() {
+        return this.editorMode;
+    }
+
+    public void setEditorMode(boolean editorMode) {
+        this.editorMode = editorMode;
+    }
+
+    public boolean isEnemyMap() {
+        return this.enemyMap;
+    }
+
+    public void setEnemyMap(boolean enemyMap) {
+        this.enemyMap = enemyMap;
+    }
+
+
     public void addMapRendererListener(MapRendererListener mrl) {
         this.listener.add(mrl);
     }
@@ -65,7 +68,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     public void setMap(Map map) {
         this.map = map;
         this.explosionSprite = new Sprite(Assets.Images.EXPLOSION, 48);
-        if(this.explosionSprite.getSpriteSheet() != null) {
+        if (this.explosionSprite.getSpriteSheet() != null) {
             for (int i = 0; i < 12; i++)
                 this.explosionFrames.add(explosionSprite.getSprite(i, 0));
 
@@ -87,7 +90,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             return;
         }
 
-        if(this.explosionAnim != null) {
+        if (this.explosionAnim != null) {
             this.explosionAnim.update();
         }
 
@@ -102,22 +105,25 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         //draw grid
         this.drawGrid(g, tileSize);
 
-        if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
-            if (this.editorMode) {
-                this.highlightShip(g);
-            }
-            else{
-                this.drawHighlightTile(g);
+        if (this.getMousePosition() != null) {
+            if (this.tileSize != null) {
+                if (this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
+                    if (this.editorMode) {
+                        this.highlightShip(g);
+                    } else {
+                        this.drawHighlightTile(g);
+                    }
+                }
             }
         }
 
         this.drawNumbers(g, tileSize);
         this.drawLetters(g, tileSize);
 
-        if(this.explosionAnim != null && this.explosionAnimPos != null) {
-            if(!this.explosionAnim.isStopped()) {
+        if (this.explosionAnim != null && this.explosionAnimPos != null) {
+            if (!this.explosionAnim.isStopped()) {
                 Point explPos = new Point(this.explosionAnimPos.x * tileSize.x + this.explosionSprite.getTileSize(), this.explosionAnimPos.y * tileSize.y + this.explosionSprite.getTileSize());
-                this.explosionAnim.draw(g, explPos);
+                this.explosionAnim.draw(g, explPos, tileSize);
             }
         }
 
@@ -180,75 +186,75 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     private void highlightShip(Graphics g) {
         //ship selection using mouse
 
-        if(this.getMousePosition() == null || tileSize == null)
+        if (this.getMousePosition() == null || tileSize == null)
             return;
 
-            Point tempPoint = new Point((this.getMousePosition().x / tileSize.x) - 1, (this.getMousePosition().y / tileSize.y) - 1);
-            // System.out.println(((this.getMousePosition().x / tileSize.x) - 1) + " " + ((this.getMousePosition().y / tileSize.y) - 1));
+        Point tempPoint = new Point((this.getMousePosition().x / tileSize.x) - 1, (this.getMousePosition().y / tileSize.y) - 1);
+        // System.out.println(((this.getMousePosition().x / tileSize.x) - 1) + " " + ((this.getMousePosition().y / tileSize.y) - 1));
 
-            this.hoveredMapTile = this.map.getTile(tempPoint);
-            if (this.hoveredMapTile != null) {
-                if (this.hoveredMapTile.hasShip() && !this.selected) {
+        this.hoveredMapTile = this.map.getTile(tempPoint);
+        if (this.hoveredMapTile != null) {
+            if (this.hoveredMapTile.hasShip() && !this.selected) {
 
-                    this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
-                    this.hovered = true;
-                    if (!this.pressed) {
-                        g.setColor(Color.RED);
-                        if (this.selectedShipTiles.get(0).getShip().isRotated()) {
-                            g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
-                        } else {
-                            g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
-                        }
-                    }
-                } else if(!this.selected){
-                    this.drawHighlightTile(g);
-                }
-            }
-
-            //picking up ship
-            if (this.selected) {
-                g.setColor(new Color(124, 252, 0, 200));
-                // Point floatingShipPos = new Point( this.getMousePosition().x - this.mouseShipOffset.x, this.getMousePosition().y - this.mouseShipOffset.y);
-                Point floatingShipPos = new Point((this.getMousePosition().x / tileSize.x * tileSize.x) - (this.mouseShipOffset.x / tileSize.x * tileSize.x), (this.getMousePosition().y / tileSize.y * tileSize.y) - (this.mouseShipOffset.y / tileSize.y * tileSize.y));
-                boolean quickfix_rotate;
-                if (this.selectedShipTiles.get(0).getShip().isRotated()) {
-                    if (!this.rotated) {
-                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
-                        quickfix_rotate = true;
-                    } else {
-                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
-                        quickfix_rotate = false;
-                    }
-                } else {
-                    if (!this.rotated) {
-                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
-                        quickfix_rotate = false;
-                    } else {
-                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
-                        quickfix_rotate = true;
-                    }
-                }
-
-                //dropped
+                this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
+                this.hovered = true;
                 if (!this.pressed) {
-                    this.selected = false;
-
-                    floatingShipPos.x = tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1;
-                    floatingShipPos.y = tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1;
-
-                    for (MapRendererListener mouseListener : listener) {
-                        if (mouseListener != null) {
-                            mouseListener.OnShipDropped(this.map, this.selectedShipTiles.get(0).getShip(), floatingShipPos, quickfix_rotate);
-                        }
+                    g.setColor(Color.RED);
+                    if (this.selectedShipTiles.get(0).getShip().isRotated()) {
+                        g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    } else {
+                        g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                     }
-                    this.rotated = false;
-                    //System.out.println("DROPPED " + floatingShipPos.x + " " + floatingShipPos.y);
-                    //System.out.println(tempPoint);
+                }
+            } else if (!this.selected) {
+                this.drawHighlightTile(g);
+            }
+        }
+
+        //picking up ship
+        if (this.selected) {
+            g.setColor(new Color(124, 252, 0, 200));
+            // Point floatingShipPos = new Point( this.getMousePosition().x - this.mouseShipOffset.x, this.getMousePosition().y - this.mouseShipOffset.y);
+            Point floatingShipPos = new Point((this.getMousePosition().x / tileSize.x * tileSize.x) - (this.mouseShipOffset.x / tileSize.x * tileSize.x), (this.getMousePosition().y / tileSize.y * tileSize.y) - (this.mouseShipOffset.y / tileSize.y * tileSize.y));
+            boolean quickfix_rotate;
+            if (this.selectedShipTiles.get(0).getShip().isRotated()) {
+                if (!this.rotated) {
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    quickfix_rotate = true;
+                } else {
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    quickfix_rotate = false;
+                }
+            } else {
+                if (!this.rotated) {
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    quickfix_rotate = false;
+                } else {
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    quickfix_rotate = true;
                 }
             }
+
+            //dropped
+            if (!this.pressed) {
+                this.selected = false;
+
+                floatingShipPos.x = tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1;
+                floatingShipPos.y = tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1;
+
+                for (MapRendererListener mouseListener : listener) {
+                    if (mouseListener != null) {
+                        mouseListener.OnShipDropped(this.map, this.selectedShipTiles.get(0).getShip(), floatingShipPos, quickfix_rotate);
+                    }
+                }
+                this.rotated = false;
+                //System.out.println("DROPPED " + floatingShipPos.x + " " + floatingShipPos.y);
+                //System.out.println(tempPoint);
+            }
+        }
     }
 
-    void drawHighlightTile(Graphics g){
+    void drawHighlightTile(Graphics g) {
         Point highlightPoint = new Point(((this.getMousePosition().x / (tileSize.x)) * tileSize.x), ((this.getMousePosition().y / (tileSize.y)) * tileSize.y));
         g.setColor(Color.GREEN);
         g.drawRect(highlightPoint.x, highlightPoint.y, tileSize.x, tileSize.y);
@@ -274,17 +280,20 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
-            if (!this.editorMode && this.enemyMap) {
-                Point tempPoint = new Point(this.getMousePosition().x / tileSize.x - 1, this.getMousePosition().y / tileSize.y - 1);
+        if (this.getMousePosition() != null) {
+            if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
+                if (!this.editorMode && this.enemyMap) {
+                    Point tempPoint = new Point(this.getMousePosition().x / tileSize.x - 1, this.getMousePosition().y / tileSize.y - 1);
 
-                for (MapRendererListener mouseListener : listener) {
-                    if (mouseListener != null) {
-                        mouseListener.OnShotFired(this.map, tempPoint);
+                    for (MapRendererListener mouseListener : listener) {
+                        if (mouseListener != null) {
+                            if (this.map.isInMap(tempPoint)) {
+                                mouseListener.OnShotFired(this.map, tempPoint);
+                            }
+                        }
                     }
+                    System.out.println("FIRED");
                 }
-                System.out.println("FIRED");
-
             }
         }
     }
@@ -330,7 +339,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
 
-        if(!this.editorMode)
+        if (!this.editorMode)
             return;
 
        /* if(this.hoveredMapTile != null) {
@@ -342,7 +351,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 }
             }
         } else {*/
-       if(this.selected)
+        if (this.selected)
             this.rotated = !this.rotated;
         //}
 
@@ -351,12 +360,12 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(!this.editorMode)
+        if (!this.editorMode)
             return;
 
-        if(e.getKeyCode() == KeyEvent.VK_R){
+        if (e.getKeyCode() == KeyEvent.VK_R) {
 
-                this.rotated = !this.rotated;
+            this.rotated = !this.rotated;
 
 
             System.out.println("rotated");

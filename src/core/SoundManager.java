@@ -4,21 +4,21 @@ import javax.sound.sampled.Clip;
 
 public class SoundManager {
 
-    public SoundPlayer getBackgroundPlayer() {
-        return backgroundPlayer;
-    }
-
     private SoundPlayer backgroundPlayer;
 
     public SoundManager() {
     }
 
+    public SoundPlayer getBackgroundPlayer() {
+        return backgroundPlayer;
+    }
+
     public void playBackgroundMusic(Clip audioClip, boolean forceRestart) {
-        if(this.backgroundPlayer != null && forceRestart) {
+        if (this.backgroundPlayer != null && forceRestart) {
             this.backgroundPlayer.stop();
             this.backgroundPlayer = null;
         }
-        if(this.backgroundPlayer == null) {
+        if (this.backgroundPlayer == null) {
             this.backgroundPlayer = new SoundPlayer(audioClip);
             this.backgroundPlayer.play(Game.getInstance().getOptions().getMusicVolume(), true);
         }

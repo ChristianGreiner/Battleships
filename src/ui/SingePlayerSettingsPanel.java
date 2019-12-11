@@ -10,10 +10,13 @@ public class SingePlayerSettingsPanel extends JPanel {
     private JSpinner sizeSpn;
     private JButton loadGameBtn;
     private JButton newGameBtn;
+    private JComboBox aiDifficultyCbox;
+    private JButton backBtn;
 
     public JButton getLoadGameBtn() {
         return loadGameBtn;
     }
+
     public JButton getNewGameBtn() {
         return newGameBtn;
     }
@@ -22,8 +25,6 @@ public class SingePlayerSettingsPanel extends JPanel {
         return aiDifficultyCbox;
     }
 
-    private JComboBox aiDifficultyCbox;
-
     public JSpinner getSizeSpinner() {
         return sizeSpn;
     }
@@ -31,8 +32,6 @@ public class SingePlayerSettingsPanel extends JPanel {
     public JButton getBackBtn() {
         return backBtn;
     }
-
-    private JButton backBtn;
 
     public SingePlayerSettingsPanel create() {
 

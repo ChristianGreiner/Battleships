@@ -10,8 +10,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
 public class FileHandler {
-    private Gson gson = new Gson();
     FileNameExtensionFilter filter = new FileNameExtensionFilter("Battleship Savegame", "*.bsg", "bsg");
+    private Gson gson = new Gson();
 
     public FileHandler() {
     }
@@ -87,7 +87,7 @@ public class FileHandler {
         if (fileChooser.showOpenDialog(Game.getInstance().getWindow()) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
 
-            Savegame savegame = (Savegame)this.loadObject(file);
+            Savegame savegame = (Savegame) this.loadObject(file);
             return savegame;
         }
 

@@ -18,12 +18,12 @@ public class SceneManager {
 
     private HashMap<Type, Scene> scenes = new HashMap<>();
 
-    public Scene getActiveScene() {
-        return activeScene;
-    }
-
     public SceneManager(Game game) {
         this.game = game;
+    }
+
+    public Scene getActiveScene() {
+        return activeScene;
     }
 
     public void addScene(Scene scene) {
@@ -83,7 +83,7 @@ public class SceneManager {
 
         if (this.activeScene != null) {
             if (this.activeScene instanceof Updatable && !this.activeScene.isUpdatePaused()) {
-                ((Updatable)this.activeScene).update(deltaTime);
+                ((Updatable) this.activeScene).update(deltaTime);
             }
         }
     }

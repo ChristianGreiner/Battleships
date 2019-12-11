@@ -3,6 +3,11 @@ package game;
 public class Player {
 
     private int playedGames;
+    private String name;
+
+    public Player(String name) {
+        this.name = name;
+    }
 
     public int getPlayedGames() {
         return playedGames;
@@ -10,11 +15,6 @@ public class Player {
 
     public void setPlayedGames(int playedGames) {
         this.playedGames = playedGames;
-    }
-    private String name;
-
-    public Player(String name) {
-        this.name = name;
     }
 
     public String getName() {

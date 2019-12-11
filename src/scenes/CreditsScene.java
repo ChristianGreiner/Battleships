@@ -74,14 +74,14 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
     }
 
     @Override
     public void draw() {
-        if(this.creditsRenderer != null) {
+        if (this.creditsRenderer != null) {
             this.rootPanel.setPreferredSize(Game.getInstance().getWindow().getSize());
             this.creditsRenderer.setSize(this.gameWindow.getSize());
             this.creditsRenderer.draw();

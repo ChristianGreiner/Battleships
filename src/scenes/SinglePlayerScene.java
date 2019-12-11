@@ -28,7 +28,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private int counter;
-    private  Battleship battleship;
+    private Battleship battleship;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -62,8 +62,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         this.playerMapRenderer.setMap(this.playerMap);
         this.playerMapRenderer.setEditorMode(true);
+
         this.enemyMapRenderer.setMap(this.enemyMap);
-        this.enemyMapRenderer.setEditorMode(true);
+        this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
 
         DrawMap();
@@ -78,13 +79,13 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void update(double deltaTime) {
-        if(this.playerMap == null) return;
+        if (this.playerMap == null) return;
 
-        if(this.playerMap.getNumberOfShips() == this.playerMap.getNumberOfDestoryedShips()) {
+        if (this.playerMap.getNumberOfShips() == this.playerMap.getNumberOfDestoryedShips()) {
             this.gameState = GameState.Finished;
         }
 
-        if(this.gameState == GameState.Finished) {
+        if (this.gameState == GameState.Finished) {
             this.setUpdatePaused(true);
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game Ended!");
             System.out.println(counter);
@@ -92,12 +93,11 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     }
 
     @Override
-    public void draw()
-    {
-       if(this.enemyMapRenderer != null && this.playerMapRenderer != null) {
-           this.playerMapRenderer.draw();
-           this.enemyMapRenderer.draw();
-       }
+    public void draw() {
+        if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
+            this.playerMapRenderer.draw();
+            this.enemyMapRenderer.draw();
+        }
     }
 
     @Override
@@ -112,7 +112,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void sizeUpdated() {
-        this.uiPanel.getPlayerMapRenderer().setPreferredSize(new Dimension(64, 64));
+        //this.uiPanel.getPlayerMapRenderer().setPreferredSize(new Dimension(64, 64));
     }
 
     @Override
@@ -127,32 +127,27 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSoundManager().stopBackgroundMusic();
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
-        if(keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
-            /*while (this.playerMap.getNumberOfShips() != this.playerMap.getNumberOfDestoryedShips()) {
-                handleAiShot();
-            }
-            */
-
+        if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
             handleAiShot();
         }
 
-        if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
             this.playerMap.move(this.battleship, new Point(this.battleship.getPosition().x + 1, this.battleship.getPosition().y));
             this.playerMap.rotate(this.battleship);
         }
 
 
-        if(keyEvent.getKeyCode() == KeyEvent.VK_S) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
             Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
             Game.getInstance().getFileHandler().saveSavegame(savegame);
         }
 
-        if(keyEvent.getKeyCode() == KeyEvent.VK_D) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_D) {
             Map map = this.playerMap;
         }
     }
@@ -166,18 +161,19 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         HitType lastHitType = hitData.getHitType();
 
-        if(lastHitType != null)
+        if (lastHitType != null)
             this.ai.receiveAnswer(lastHitType);
 
 
         System.out.println(lastHitType);
 
-        if(lastHitType == HitType.Water) {
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_WATER);
-        } else if(lastHitType == HitType.Ship) {
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
+        if (lastHitType == HitType.Water) {
+            //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_WATER);
+        } else if (lastHitType == HitType.Ship) {
+            //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
         }
 
+        Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
 
         DrawMap();
         counter++;
@@ -195,7 +191,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
                     } else {
                         System.out.print(ANSIColors.YELLOW + "X" + ANSIColors.RESET + "|");
                     }
-                } else if (tile.isBlocked()){
+                } else if (tile.isBlocked()) {
                     System.out.print(ANSIColors.GREEN + "X" + ANSIColors.RESET + "|");
                 } else if (tile.isHit()) {
                     System.out.print(ANSIColors.BLUE + "X" + ANSIColors.RESET + "|");
@@ -206,8 +202,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
             System.out.print("\n" + ANSIColors.RESET);
         }
         System.out.println("-------------------------");
-
-        //this.playerMap.getShipsCounter().forEach((k, v) -> System.out.println("key: " + k + " value: " + v));
     }
 
     @Override
@@ -219,6 +213,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void OnShotFired(Map map, Point pos) {
+        HitData hitData = map.shot2(pos);
+        this.enemyMapRenderer.playExplosion(hitData.getPosition());
+        Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
         System.out.println("Fired at" + pos);
     }
 

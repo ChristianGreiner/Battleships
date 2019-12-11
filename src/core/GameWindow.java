@@ -11,40 +11,13 @@ import java.awt.event.WindowStateListener;
 
 public class GameWindow extends JFrame implements Runnable {
 
-    public JPanel getRootPanel() {
-        return rootPanel;
-    }
-
-    private boolean isFullscreen = false;
     private static final int VIRTUAL_WIDTH = 1280;
     private static final int VIRTUAL_HEIGHT = 720;
-    private static final float ASPECT_RATIO = (float)VIRTUAL_WIDTH / (float)VIRTUAL_HEIGHT;
+    private static final float ASPECT_RATIO = (float) VIRTUAL_WIDTH / (float) VIRTUAL_HEIGHT;
+    private boolean isFullscreen = false;
     private JPanel rootPanel;
     private GuiScene guiScene;
     private Dimension lastWindowSize;
-
-    public void addGui(JPanel panel, GuiScene guiScene) {
-        this.add(panel);
-        this.rootPanel = panel;
-        this.guiScene = guiScene;
-        this.rootPanel.setSize(getSize());
-        this.rootPanel.repaint();
-        this.setPreferredSize(this.lastWindowSize);
-    }
-
-    public void removeGui(JPanel panel) {
-        this.guiScene = null;
-        panel.removeAll();
-        this.rootPanel.removeAll();
-        this.remove(rootPanel);
-        this.repaint();
-    }
-
-    @Override
-    public void run() {
-        this.setVisible(true);
-    }
-
     public GameWindow(String title, Point size) {
 
         this.setLayout(null);
@@ -90,33 +63,54 @@ public class GameWindow extends JFrame implements Runnable {
         });
     }
 
+    public JPanel getRootPanel() {
+        return rootPanel;
+    }
+
+    public void addGui(JPanel panel, GuiScene guiScene) {
+        this.add(panel);
+        this.rootPanel = panel;
+        this.guiScene = guiScene;
+        this.rootPanel.setSize(getSize());
+        this.rootPanel.repaint();
+        this.setPreferredSize(this.lastWindowSize);
+    }
+
+    public void removeGui(JPanel panel) {
+        this.guiScene = null;
+        panel.removeAll();
+        this.rootPanel.removeAll();
+        this.remove(rootPanel);
+        this.repaint();
+    }
+
+    @Override
+    public void run() {
+        this.setVisible(true);
+    }
+
     private Dimension calcAspectRatio() {
 
-        if(isFullscreen) {
+        if (isFullscreen) {
             return getSize();
         }
 
-        float aspectRatio = (float)getWidth() / (float)getHeight();
+        float aspectRatio = (float) getWidth() / (float) getHeight();
         float scale = 1f;
         Point crop = new Point(0, 0);
 
-        if(aspectRatio > ASPECT_RATIO)
-        {
-            scale = (float)getHeight() / (float)VIRTUAL_HEIGHT;
-            crop.x = (int)((getWidth() - VIRTUAL_WIDTH * scale) / 2f);
-        }
-        else if(aspectRatio < ASPECT_RATIO)
-        {
-            scale = (float)getWidth() / (float)VIRTUAL_WIDTH;
-            crop.y = (int)((getHeight() - VIRTUAL_HEIGHT * scale) / 2f);
-        }
-        else
-        {
-            scale = (float)getWidth() / (float)VIRTUAL_WIDTH;
+        if (aspectRatio > ASPECT_RATIO) {
+            scale = (float) getHeight() / (float) VIRTUAL_HEIGHT;
+            crop.x = (int) ((getWidth() - VIRTUAL_WIDTH * scale) / 2f);
+        } else if (aspectRatio < ASPECT_RATIO) {
+            scale = (float) getWidth() / (float) VIRTUAL_WIDTH;
+            crop.y = (int) ((getHeight() - VIRTUAL_HEIGHT * scale) / 2f);
+        } else {
+            scale = (float) getWidth() / (float) VIRTUAL_WIDTH;
         }
 
-        int w = (int)((float)VIRTUAL_WIDTH * scale);
-        int h = (int)((float)VIRTUAL_HEIGHT * scale);
+        int w = (int) ((float) VIRTUAL_WIDTH * scale);
+        int h = (int) ((float) VIRTUAL_HEIGHT * scale);
 
         return new Dimension(w, h);
     }

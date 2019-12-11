@@ -14,13 +14,13 @@ public class SinglePlayerPanel extends JPanel {
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
 
-    public MapRenderer getPlayerMapRenderer() {
-        return playerMapRenderer;
-    }
-
     public SinglePlayerPanel(MapRenderer playerMapRenderer, MapRenderer enemyMapRenderer) {
         this.playerMapRenderer = playerMapRenderer;
         this.enemyMapRenderer = enemyMapRenderer;
+    }
+
+    public MapRenderer getPlayerMapRenderer() {
+        return playerMapRenderer;
     }
 
     public SinglePlayerPanel create(Dimension mapsRendererSize) {

@@ -14,6 +14,22 @@ import java.util.HashMap;
 
 public class Map implements MapInterface, Serializable {
     private MapTile[][] tiles;
+    private HashMap<Type, Integer> shipsCounter = new HashMap<>();
+    private int size;
+    private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
+    private int numberOfShips;
+    private int numberOfDestoryedShips;
+    private ArrayList<Ship> ships = new ArrayList<>();
+    public Map(int size) {
+        this.size = size;
+        this.tiles = new MapTile[size][size];
+
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                this.tiles[x][y] = new MapTile(new Point(x, y));
+            }
+        }
+    }
 
     public HashMap<Type, Integer> getShipsCounter() {
         return shipsCounter;
@@ -33,24 +49,6 @@ public class Map implements MapInterface, Serializable {
 
     public ArrayList<Ship> getShips() {
         return ships;
-    }
-
-    private HashMap<Type, Integer> shipsCounter = new HashMap<>();
-    private int size;
-    private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
-    private int numberOfShips;
-    private int numberOfDestoryedShips;
-    private ArrayList<Ship> ships = new ArrayList<>();
-
-    public Map(int size) {
-        this.size = size;
-        this.tiles = new MapTile[size][size];
-
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                this.tiles[x][y] = new MapTile(new Point(x, y));
-            }
-        }
     }
 
     public MapTile getTile(Point pos) {
@@ -82,13 +80,13 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
-    public void setOutOfShipLength(){ //everytime ship gets destroyed, this method should be refreshed
-        if(this.shipsCounter.get(Submarine.class) == 0){
-            outOfShipLength=2;
-            if (this.shipsCounter.get(Destroyer.class) == 0){
-                outOfShipLength=3;
-                if (this.shipsCounter.get(Battleship.class) == 0){
-                    outOfShipLength=4;
+    public void setOutOfShipLength() { //everytime ship gets destroyed, this method should be refreshed
+        if (this.shipsCounter.get(Submarine.class) == 0) {
+            outOfShipLength = 2;
+            if (this.shipsCounter.get(Destroyer.class) == 0) {
+                outOfShipLength = 3;
+                if (this.shipsCounter.get(Battleship.class) == 0) {
+                    outOfShipLength = 4;
                 }
             }
         }
@@ -130,7 +128,7 @@ public class Map implements MapInterface, Serializable {
 
     private void computeShipCountAdd(Ship ship) {
         int counter = 0;
-        if(this.shipsCounter.containsKey(ship.getClass()))
+        if (this.shipsCounter.containsKey(ship.getClass()))
             counter = this.shipsCounter.get(ship.getClass());
 
         counter++;
@@ -140,7 +138,7 @@ public class Map implements MapInterface, Serializable {
 
     private void computeRemoveShip(Ship ship) {
         int counter = 0;
-        if(this.shipsCounter.containsKey(ship.getClass()))
+        if (this.shipsCounter.containsKey(ship.getClass()))
             counter = this.shipsCounter.get(ship.getClass());
 
         counter--;
@@ -173,7 +171,7 @@ public class Map implements MapInterface, Serializable {
 
                     // check left
                     if (pos.x > 0) {
-                        AddNeighborTiles(tiles,pos.x - 1, pos.y);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
                     }
 
                     // check left bottom
@@ -183,43 +181,43 @@ public class Map implements MapInterface, Serializable {
 
                     // check left top
                     if (pos.x > 0 && pos.y > 0) {
-                        AddNeighborTiles(tiles,pos.x - 1, pos.y - 1);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y - 1);
                     }
                 } else if (i == ship.getSpace() - 1) {
 
                     // check top
                     if (pos.y > 0) {
-                        AddNeighborTiles(tiles,pos.x, pos.y - 1);
+                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x, pos.y + 1);
+                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x + 1, pos.y);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
                     }
 
                     // check top right
                     if (pos.x < this.getSize() - 1 && pos.y > 0) {
-                        AddNeighborTiles(tiles,pos.x + 1, pos.y - 1);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y - 1);
                     }
 
                     // check right bottom
                     if (pos.x < this.getSize() - 1 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x + 1, pos.y + 1);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y + 1);
                     }
                 } else {
                     // check top
                     if (pos.y > 0) {
-                        AddNeighborTiles(tiles,pos.x, pos.y - 1);
+                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
                     }
 
                     // check bottom
                     if (pos.y < getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x, pos.y + 1);
+                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
                     }
 
                 }
@@ -231,27 +229,27 @@ public class Map implements MapInterface, Serializable {
                 if (i == 0) {
                     // check top
                     if (pos.y > 0) {
-                        AddNeighborTiles(tiles,pos.x, pos.y - 1);
+                        AddNeighborTiles(tiles, pos.x, pos.y - 1);
                     }
 
                     // check left
                     if (pos.x > 0) {
-                        AddNeighborTiles(tiles,pos.x - 1, pos.y);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x + 1, pos.y);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
                     }
 
                     // check top left
                     if (pos.x > 0 && pos.y > 0) {
-                        AddNeighborTiles(tiles,pos.x - 1, pos.y - 1);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y - 1);
                     }
 
                     // check top right
                     if (pos.x < this.getSize() - 1 && pos.y > 0) {
-                        AddNeighborTiles(tiles,pos.x + 1, pos.y - 1);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y - 1);
                     }
                 }
                 // check last tile
@@ -259,37 +257,37 @@ public class Map implements MapInterface, Serializable {
 
                     // check left
                     if (pos.x > 0) {
-                        AddNeighborTiles(tiles,pos.x - 1, pos.y);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x + 1, pos.y);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
                     }
 
                     // check bottom
                     if (pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x, pos.y + 1);
+                        AddNeighborTiles(tiles, pos.x, pos.y + 1);
                     }
 
                     // check left bottom
                     if (pos.x > 0 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x - 1, pos.y + 1);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y + 1);
                     }
 
                     // check right bottom
                     if (pos.x < this.getSize() - 1 && pos.y < this.getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x + 1, pos.y + 1);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y + 1);
                     }
                 } else {
                     // check left
                     if (pos.x > 0) {
-                        AddNeighborTiles(tiles,pos.x - 1, pos.y);
+                        AddNeighborTiles(tiles, pos.x - 1, pos.y);
                     }
 
                     // check right
                     if (pos.x < this.getSize() - 1) {
-                        AddNeighborTiles(tiles,pos.x + 1, pos.y);
+                        AddNeighborTiles(tiles, pos.x + 1, pos.y);
                     }
                 }
             }
@@ -298,7 +296,7 @@ public class Map implements MapInterface, Serializable {
         return tiles;
     }
 
-    private void AddNeighborTiles(ArrayList<MapTile> tiles,int x, int y) {
+    private void AddNeighborTiles(ArrayList<MapTile> tiles, int x, int y) {
         MapTile t = this.tiles[x][y];
         t.setNeighbor(true);
         tiles.add(t);
@@ -509,9 +507,9 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
-    public boolean fieldIsViable(Point pos){
+    public boolean fieldIsViable(Point pos) {
 
-        if(!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getViable() || this.tiles[pos.x][pos.y].isBlocked())) {
+        if (!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getViable() || this.tiles[pos.x][pos.y].isBlocked())) {
             return false;
         }
 
@@ -522,7 +520,7 @@ public class Map implements MapInterface, Serializable {
         int rangeX = 1;
         int rangeY = 1;
 
-        for (int i=1; i<5;i++) {
+        for (int i = 1; i < 5; i++) {
 
             if (!borderXplusReached) {
                 Point newPosX = new Point(pos.x + i, pos.y);
@@ -558,14 +556,14 @@ public class Map implements MapInterface, Serializable {
             }
         }
 
-        if( ((rangeX == 2 || rangeX == 3) && rangeY == 1) || ((rangeY == 2 || rangeY == 3) && rangeX == 1)){
+        if (((rangeX == 2 || rangeX == 3) && rangeY == 1) || ((rangeY == 2 || rangeY == 3) && rangeX == 1)) {
             return false;
         }
 
-        if(rangeX == 5 || rangeY == 5)
+        if (rangeX == 5 || rangeY == 5)
             return true;
 
-        if(borderXminusReached && borderXplusReached && borderYminusReached && borderYplusReached){
+        if (borderXminusReached && borderXplusReached && borderYminusReached && borderYplusReached) {
             if (rangeX == 1 && rangeY == 1) return false;
             if (rangeX == 2 && rangeX > rangeY || rangeY == 2 && rangeY > rangeX) {
                 if (outOfShipLength == 2) {
@@ -573,14 +571,14 @@ public class Map implements MapInterface, Serializable {
                     return false;
                 }
             }
-            if (rangeX == 3 && rangeX > rangeY || rangeY == 3 && rangeY > rangeX){
-                if (outOfShipLength == 3){
+            if (rangeX == 3 && rangeX > rangeY || rangeY == 3 && rangeY > rangeX) {
+                if (outOfShipLength == 3) {
                     this.tiles[pos.x][pos.y].setViable(false);
                     return false;
                 }
             }
-            if (rangeX == 4 && rangeX > rangeY || rangeY == 4 && rangeY > rangeX){
-                if (outOfShipLength == 4){
+            if (rangeX == 4 && rangeX > rangeY || rangeY == 4 && rangeY > rangeX) {
+                if (outOfShipLength == 4) {
                     this.tiles[pos.x][pos.y].setViable(false);
                     return false;
                 }
@@ -604,6 +602,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Shot a bullet at given position on the map.
+     *
      * @param pos
      * @return
      */
@@ -611,7 +610,7 @@ public class Map implements MapInterface, Serializable {
         if (isInMap(pos)) {
             if (!getTile(pos).isHit()) {
                 boolean destroyed = this.tiles[pos.x][pos.y].setHit(true);
-                if(destroyed)
+                if (destroyed)
                     this.numberOfDestoryedShips++;
                 return this.tiles[pos.x][pos.y].hasShip();
             }
@@ -665,7 +664,8 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Moves the ship to the new position, if its possible.
-     * @param ship The ship.
+     *
+     * @param ship        The ship.
      * @param newPosition The new position.
      * @return Whether or not it could be moved.
      */
@@ -686,9 +686,10 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Checks if a ship can placed into the map at given point.
-     * @param ship The ship.
+     *
+     * @param ship     The ship.
      * @param position The position where it should be placed.
-     * @param rotated Whether or not the ship is rotated.
+     * @param rotated  Whether or not the ship is rotated.
      * @return Returns boolean if the should could be insert sucessfully
      */
     private boolean canInsertShip(Ship ship, Point position, boolean rotated) {
@@ -713,6 +714,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Removes the ship from the map
+     *
      * @param ship The ship.
      */
     public void remove(Ship ship) {
@@ -755,7 +757,7 @@ public class Map implements MapInterface, Serializable {
      * @return
      */
     public boolean isInMap(Point position) {
-        if(position == null)
+        if (position == null)
             return false;
 
         return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
