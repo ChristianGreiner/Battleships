@@ -64,6 +64,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.playerMapRenderer.setEditorMode(true);
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.enemyMapRenderer.setEditorMode(true);
+        this.enemyMapRenderer.setEnemyMap(true);
 
         DrawMap();
     }
@@ -211,14 +212,14 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
-        //ship.setRotated(rotated);
+        ship.setRotated(rotated);
         map.move(ship, pos);
-        System.out.println("DROPED AT " + pos);
+        System.out.println("DROPPED AT " + pos);
     }
 
     @Override
     public void OnShotFired(Map map, Point pos) {
-        System.out.println(pos);
+        System.out.println("Fired at" + pos);
     }
 
     @Override
