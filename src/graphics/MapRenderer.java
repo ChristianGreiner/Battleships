@@ -115,6 +115,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     }
                 }
             }
+        } else {
+
         }
 
         this.drawNumbers(g, tileSize);
