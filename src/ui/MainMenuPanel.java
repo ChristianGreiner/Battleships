@@ -8,6 +8,18 @@ import java.awt.*;
 
 public class MainMenuPanel extends JPanel {
 
+    private static MainMenuPanel instance;
+    private final int paddingSize = 12;
+    private JButton singleplayerBtn, multiplayerBtn, creditsBtn, optionsBtn, exitBtn;
+
+    public MainMenuPanel() {
+        instance = this;
+    }
+
+    public static MainMenuPanel getInstance() {
+        return instance;
+    }
+
     public JButton getSingleplayerBtn() {
         return singleplayerBtn;
     }
@@ -26,20 +38,6 @@ public class MainMenuPanel extends JPanel {
 
     public JButton getExitBtn() {
         return exitBtn;
-    }
-
-    public static MainMenuPanel getInstance(){
-        return instance;
-    }
-
-    private static MainMenuPanel instance;
-
-    private JButton singleplayerBtn, multiplayerBtn, creditsBtn, optionsBtn, exitBtn;
-
-    private final int paddingSize = 12;
-
-    public MainMenuPanel() {
-        instance = this;
     }
 
     public MainMenuPanel create() {

@@ -3,6 +3,7 @@ package scenes;
 public abstract class Scene {
 
     private String name;
+    private boolean updatePaused;
 
     public Scene(String name) {
         this.name = name;
@@ -19,8 +20,6 @@ public abstract class Scene {
     public void setUpdatePaused(boolean updatePaused) {
         this.updatePaused = updatePaused;
     }
-
-    private boolean updatePaused;
 
     void onRemove() {
     }

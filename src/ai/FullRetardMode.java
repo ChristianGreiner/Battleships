@@ -5,9 +5,10 @@ import game.HitType;
 import game.Map;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class FullRetardMode implements AiStrategy {
+public class FullRetardMode implements AiStrategy, Serializable {
 
     private HumanStrategy internstrategy = new HumanStrategy();
     private ArrayList<Point> freeFields = new ArrayList<>();

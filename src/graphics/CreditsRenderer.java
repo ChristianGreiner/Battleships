@@ -43,7 +43,7 @@ public class CreditsRenderer extends Renderer {
             Helper.drawCenteredString(g, c.getText(), rec, c.getFont());
         }
 
-        if(alpha > 0)
+        if (alpha > 0)
             alpha -= 5;
 
         currentY -= 2;

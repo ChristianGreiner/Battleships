@@ -12,10 +12,38 @@ import java.time.Instant;
 
 public class Game implements Runnable {
 
+    private static Game instance;
     final int TARGET_FPS = 30;
     final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+    private SceneManager sceneManager;
+    private SoundManager soundManager;
+    private Options options = new Options();
+    private FileHandler fileHandler = new FileHandler();
+    private GameWindow window;
+    private boolean isRunning;
+    private String title;
+    private Point gameSize;
+    public Game(String title, Point size) {
+        instance = this;
+        this.gameSize = size;
+        this.title = title;
 
-    public static Game getInstance(){
+        // Initialize all Scenes
+        this.sceneManager = new SceneManager(this);
+        this.sceneManager.addScene(new SplashScene());
+        this.sceneManager.addScene(new MainMenuScene());
+        this.sceneManager.addScene(new CreditsScene());
+        this.sceneManager.addScene(new OptionsScene());
+        this.sceneManager.addScene(new GameScene());
+        this.sceneManager.addScene(new SinglePlayerSettingsScene());
+        this.sceneManager.addScene(new ShipsSelectionScene());
+        this.sceneManager.addScene(new SinglePlayerScene());
+        this.sceneManager.addScene(new MultiplayerScene());
+
+        this.soundManager = new SoundManager();
+    }
+
+    public static Game getInstance() {
         return instance;
     }
 
@@ -39,37 +67,6 @@ public class Game implements Runnable {
         return fileHandler;
     }
 
-    private static Game instance;
-    private SceneManager sceneManager;
-    private SoundManager soundManager;
-    private Options options = new Options();
-    private FileHandler fileHandler = new FileHandler();
-    private GameWindow window;
-    private boolean isRunning;
-    private String title;
-    private Point gameSize;
-
-    public Game(String title, Point size)
-    {
-        instance = this;
-        this.gameSize = size;
-        this.title = title;
-
-        // Initialize all Scenes
-        this.sceneManager = new SceneManager(this);
-        this.sceneManager.addScene(new SplashScene());
-        this.sceneManager.addScene(new MainMenuScene());
-        this.sceneManager.addScene(new CreditsScene());
-        this.sceneManager.addScene(new OptionsScene());
-        this.sceneManager.addScene(new GameScene());
-        this.sceneManager.addScene(new SinglePlayerSettingsScene());
-        this.sceneManager.addScene(new ShipsSelectionScene());
-        this.sceneManager.addScene(new SinglePlayerScene());
-        this.sceneManager.addScene(new MultiplayerScene());
-
-        this.soundManager = new SoundManager();
-    }
-
     public void start() {
 
         Instant start = Instant.now();
@@ -78,9 +75,9 @@ public class Game implements Runnable {
         Assets.init();
 
         // load config
-        this.options = (Options)this.fileHandler.loadObject(Assets.Paths.OPTIONS);
+        this.options = (Options) this.fileHandler.loadObject(Assets.Paths.OPTIONS);
 
-        if(this.options == null)
+        if (this.options == null)
             this.options = new Options();
 
         Instant finish = Instant.now();
@@ -101,12 +98,11 @@ public class Game implements Runnable {
     public void run() {
         long lastLoopTime = System.nanoTime();
 
-        while (isRunning)
-        {
+        while (isRunning) {
             long now = System.nanoTime();
             long updateLength = now - lastLoopTime;
             lastLoopTime = now;
-            double deltaTime = updateLength / ((double)OPTIMAL_TIME);
+            double deltaTime = updateLength / ((double) OPTIMAL_TIME);
 
             this.update(deltaTime);
             this.sceneManager.draw();

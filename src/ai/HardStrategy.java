@@ -4,10 +4,11 @@ import game.HitType;
 import game.Map;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Random;
 
-public class HardStrategy implements AiStrategy {
+public class HardStrategy implements AiStrategy, Serializable {
 
     private boolean raster = true;
     private boolean shipFocused;

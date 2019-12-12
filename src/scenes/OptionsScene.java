@@ -68,7 +68,7 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }

@@ -12,6 +12,9 @@ public class OptionsPanel extends JPanel {
     private JSlider musicVolumeSlider;
     private JButton saveBtn;
 
+    public OptionsPanel() {
+    }
+
     public JSlider getSfxVolumeSlider() {
         return sfxVolumeSlider;
     }
@@ -22,9 +25,6 @@ public class OptionsPanel extends JPanel {
 
     public JButton getSaveBtn() {
         return saveBtn;
-    }
-
-    public OptionsPanel() {
     }
 
     public OptionsPanel create() {
@@ -49,7 +49,7 @@ public class OptionsPanel extends JPanel {
         sfxVolumeContainer.add(sfxVolumeLbl);
 
         sfxVolumeSlider = new JSlider();
-        sfxVolumeSlider.setValue((int)(Game.getInstance().getOptions().getSfxVolume() * 100f));
+        sfxVolumeSlider.setValue((int) (Game.getInstance().getOptions().getSfxVolume() * 100f));
         sfxVolumeSlider.setPreferredSize(new Dimension(160, 18));
         sfxVolumeContainer.add(sfxVolumeSlider);
 
@@ -84,7 +84,7 @@ public class OptionsPanel extends JPanel {
 
         musicVolumeSlider = new JSlider();
         musicVolumeSlider.setPreferredSize(new Dimension(160, 18));
-        musicVolumeSlider.setValue((int)(Game.getInstance().getOptions().getMusicVolume() * 100f));
+        musicVolumeSlider.setValue((int) (Game.getInstance().getOptions().getMusicVolume() * 100f));
         musicVolumeContainer.add(musicVolumeSlider);
 
         /*final JPanel panel2 = new JPanel();

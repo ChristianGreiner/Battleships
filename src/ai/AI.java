@@ -4,8 +4,9 @@ import game.HitType;
 import game.Map;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class AI extends AbstractAi {
+public class AI extends AbstractAi implements Serializable {
 
     private Point lastShotPos;
     private AiStrategy strategy;

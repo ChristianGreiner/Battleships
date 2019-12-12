@@ -14,13 +14,13 @@ public class SinglePlayerPanel extends JPanel {
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
 
-    public MapRenderer getPlayerMapRenderer() {
-        return playerMapRenderer;
-    }
-
     public SinglePlayerPanel(MapRenderer playerMapRenderer, MapRenderer enemyMapRenderer) {
         this.playerMapRenderer = playerMapRenderer;
         this.enemyMapRenderer = enemyMapRenderer;
+    }
+
+    public MapRenderer getPlayerMapRenderer() {
+        return playerMapRenderer;
     }
 
     public SinglePlayerPanel create(Dimension mapsRendererSize) {
@@ -120,5 +120,11 @@ public class SinglePlayerPanel extends JPanel {
         panel.add(spacer4, gbc);
 
         return panel;
+    }
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        graphics.drawImage(Assets.Images.BACKGROUND, 0, 0, getWidth(), getHeight(), this);
     }
 }

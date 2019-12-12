@@ -5,8 +5,9 @@ import game.HitType;
 import game.Map;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class EasyStrategy implements AiStrategy {
+public class EasyStrategy implements AiStrategy, Serializable {
 
     //private boolean shipFocused;
     private boolean focusable;

@@ -8,11 +8,11 @@ import java.io.IOException;
 
 public class AssetsLoader {
 
+    private static int assetsLoaded = 0;
+
     public static int getAssetsLoaded() {
         return assetsLoaded;
     }
-
-    private static int assetsLoaded = 0;
 
     public static Font loadFont(String fontName, float fontSize) {
         try {

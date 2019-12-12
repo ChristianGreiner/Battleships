@@ -8,8 +8,9 @@ import game.Map;
 import game.MapTile;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class HumanStrategy implements AiStrategy {
+public class HumanStrategy implements AiStrategy, Serializable {
 
     private Alignment shipAlignment = null;
     private Point hitPoint;

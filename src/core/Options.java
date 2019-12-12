@@ -3,6 +3,9 @@ package core;
 import java.io.Serializable;
 
 public class Options implements Serializable {
+    private float sfxVolume = .5f;
+    private float musicVolume = .5f;
+
     public float getSfxVolume() {
         return sfxVolume;
     }
@@ -18,8 +21,5 @@ public class Options implements Serializable {
     public void setMusicVolume(float musicVolume) {
         this.musicVolume = Helper.limit(musicVolume, 0, 1);
     }
-
-    private float sfxVolume = .5f;
-    private float musicVolume = .5f;
 
 }

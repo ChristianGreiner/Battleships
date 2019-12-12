@@ -41,12 +41,11 @@ public class Helper {
 
         int dirNumber = getRandomNumberInRange(0, 1);
 
-        if (align == Alignment.Horizontal){
+        if (align == Alignment.Horizontal) {
             if (dirNumber == 0)
                 return Direction.Left;
             return Direction.Right;
-        }
-        else {
+        } else {
             if (dirNumber == 0)
                 return Direction.Up;
             return Direction.Down;
@@ -69,27 +68,27 @@ public class Helper {
     /**
      * Draw a String centered in the middle of a Rectangle.
      *
-     * @param g The Graphics instance.
+     * @param g    The Graphics instance.
      * @param text The String to draw.
      * @param rect The Rectangle to center the text in.
      */
     public static void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
-            FontRenderContext frc = new FontRenderContext(null, true, true);
+        FontRenderContext frc = new FontRenderContext(null, true, true);
 
-            Rectangle2D r2D = font.getStringBounds(text, frc);
-            int rWidth = (int) Math.round(r2D.getWidth());
-            int rHeight = (int) Math.round(r2D.getHeight());
-            int rX = (int) Math.round(r2D.getX());
-            int rY = (int) Math.round(r2D.getY());
+        Rectangle2D r2D = font.getStringBounds(text, frc);
+        int rWidth = (int) Math.round(r2D.getWidth());
+        int rHeight = (int) Math.round(r2D.getHeight());
+        int rX = (int) Math.round(r2D.getX());
+        int rY = (int) Math.round(r2D.getY());
 
-            int a = (rect.width / 2) - (rWidth / 2) - rX;
-            int b = (rect.height / 2) - (rHeight / 2) - rY;
+        int a = (rect.width / 2) - (rWidth / 2) - rX;
+        int b = (rect.height / 2) - (rHeight / 2) - rY;
 
-            g.setFont(font);
-            g.drawString(text, rect.x + a, rect.y + b);
+        g.setFont(font);
+        g.drawString(text, rect.x + a, rect.y + b);
     }
 
     public static float limit(float value, float min, float max) {
-        return (value > max) ? max : (value < min ? min: value );
+        return (value > max) ? max : (value < min ? min : value);
     }
 }

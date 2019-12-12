@@ -41,10 +41,10 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
         credits.add(new Credit("BATTLESHIPS", Assets.Fonts.TITLE_BIG));
         credits.add(new Credit("", Assets.Fonts.TITLE_BIG));
         credits.add(new Credit("CREDITS", Assets.Fonts.DEFAULT_BOLD_24));
-        credits.add(new Credit("JOSEPH DER ECHTE", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("JUSUF DER ECHTE", Assets.Fonts.DEFAULT));
         credits.add(new Credit("GREINER DER WEBDESIGNER", Assets.Fonts.DEFAULT));
         credits.add(new Credit("SHADY DER INDER", Assets.Fonts.DEFAULT));
-        credits.add(new Credit("FREDDY", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("FREDY DER BUSBAUER", Assets.Fonts.DEFAULT));
 
         this.creditsRenderer = new CreditsRenderer(credits, new Point(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight()));
         this.creditsRenderer.setBackground(Color.WHITE);
@@ -74,14 +74,14 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
     }
 
     @Override
     public void draw() {
-        if(this.creditsRenderer != null) {
+        if (this.creditsRenderer != null) {
             this.rootPanel.setPreferredSize(Game.getInstance().getWindow().getSize());
             this.creditsRenderer.setSize(this.gameWindow.getSize());
             this.creditsRenderer.draw();

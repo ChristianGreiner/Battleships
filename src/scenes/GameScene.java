@@ -1,7 +1,5 @@
 package scenes;
 
-import ai.AI;
-import ai.AiDifficulty;
 import core.*;
 import game.Map;
 import game.MapData;
@@ -19,7 +17,6 @@ import java.io.File;
 import java.util.HashMap;
 
 public class GameScene extends Scene implements Updatable, Drawable, KeyListener, GuiScene {
-
 
 
     private Map playerMap;
@@ -56,7 +53,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
         }
         System.out.println("-------------------------");
 
-        this.playerMap.getShipsCounter().forEach((k,v) -> System.out.println("key: " + k + " value: " + v));
+        this.playerMap.getShipsCounter().forEach((k, v) -> System.out.println("key: " + k + " value: " + v));
     }
 
     @Override
@@ -121,11 +118,11 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_R) {
+        if (e.getKeyCode() == KeyEvent.VK_R) {
             this.playerMap = generateMap();
             DrawMap();
         }

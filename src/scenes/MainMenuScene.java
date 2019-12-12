@@ -45,7 +45,9 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
             Game.getInstance().getSceneManager().setActiveScene(CreditsScene.class);
         });
 
-        menu.getExitBtn().addActionListener((e) -> { System.exit(0); });
+        menu.getExitBtn().addActionListener((e) -> {
+            System.exit(0);
+        });
 
         return menu;
     }

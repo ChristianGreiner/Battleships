@@ -14,14 +14,20 @@ public class MapTile implements Serializable {
     private boolean neighbor;
     private boolean blocked;
 
+    public MapTile(Point pos) {
+        this.pos = pos;
+    }
+
     public boolean isBlocked() {
         return blocked;
     }
 
-    public boolean isFree() {return (!hit && !blocked && hasShip());}
-
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public boolean isFree() {
+        return (!hit && !blocked && hasShip());
     }
 
     public boolean isNeighbor() {
@@ -32,23 +38,25 @@ public class MapTile implements Serializable {
         this.neighbor = neighbor;
     }
 
-    public MapTile(Point pos) {
-        this.pos = pos;
-    }
-
     public Ship getShip() {
         return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
     public boolean isHit() {
         return hit;
     }
 
+    public boolean getViable() {
+        return this.viable;
+    }
+
     public void setViable(boolean viable) {
         this.viable = viable;
     }
-
-    public boolean getViable(){ return this.viable;}
 
     public boolean hasShip() {
         return this.getShip() != null;
@@ -64,10 +72,6 @@ public class MapTile implements Serializable {
 
     public Point getPos() {
         return pos;
-    }
-
-    public void setShip(Ship ship) {
-        this.ship = ship;
     }
 
     public void setPos(Point pos) {
