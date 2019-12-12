@@ -67,6 +67,13 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
 
+        Dimension size = new Dimension(512, 512);
+
+        if(this.playerMap.getSize() > 10) {
+            size = new Dimension(620, 620);
+        }
+
+        this.uiPanel.updateMapSize(size);
         DrawMap();
     }
 
@@ -120,6 +127,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer, this.enemyMapRenderer);
+
         singlePlayerPanel = singlePlayerPanel.create(new Dimension(512, 512));
 
         this.uiPanel = singlePlayerPanel;
