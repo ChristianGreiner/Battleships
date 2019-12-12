@@ -21,9 +21,9 @@ public abstract class Scene {
         this.updatePaused = updatePaused;
     }
 
-    void onRemove() {
+    public void onRemove() {
     }
 
-    void onAdded() {
+    public void onAdded() {
     }
 }

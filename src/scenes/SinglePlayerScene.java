@@ -41,7 +41,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
     }
 
@@ -77,18 +77,35 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.playerMapRenderer.setMap(this.playerMap);
     }
 
+    private float waitTimer = 0;
+
     @Override
     public void update(double deltaTime) {
+
         if (this.playerMap == null) return;
 
-        if (this.playerMap.getNumberOfShips() == this.playerMap.getNumberOfDestoryedShips()) {
+        if (this.playerMap.allShipsDestoryed() || this.enemyMap.allShipsDestoryed()) {
             this.gameState = GameState.Finished;
         }
+        else {
+            if(this.playerTurn == PlayerType.AI) {
+                if(this.waitTimer >= Game.getInstance().TARGET_FPS) {
+                    handleAiShot();
+                    this.waitTimer = 0;
+                }
+                this.waitTimer += deltaTime;
+            }
+        }
+    }
+
+    @Override
+    public void lateUpdate(double deltaTime) {
 
         if (this.gameState == GameState.Finished) {
-            this.setUpdatePaused(true);
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game Ended!");
-            System.out.println(counter);
+            this.playerMapRenderer.setDisabled(true);
+            this.enemyMapRenderer.setDisabled(true);
+            this.setUpdatePaused(true);
         }
     }
 
@@ -132,61 +149,42 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
-        if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
-            handleAiShot();
-        }
-
-        if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.playerMap.move(this.battleship, new Point(this.battleship.getPosition().x + 1, this.battleship.getPosition().y));
-            this.playerMap.rotate(this.battleship);
-        }
-
-
         if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
             Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
             Game.getInstance().getFileHandler().saveSavegame(savegame);
         }
-
-        if (keyEvent.getKeyCode() == KeyEvent.VK_D) {
-            Map map = this.playerMap;
-        }
     }
 
     private void handleAiShot() {
-        if(this.playerTurn == PlayerType.AI) {
+        Point point = this.ai.shot();
+        System.out.println(point);
 
-            Point point = this.ai.shot();
-            System.out.println(point);
+        HitData hitData = this.playerMap.shot(point);
 
-            HitData hitData = this.playerMap.shot2(point);
+        HitType lastHitType = hitData.getHitType();
 
-            HitType lastHitType = hitData.getHitType();
-
-            if (lastHitType != null)
-                this.ai.receiveAnswer(lastHitType);
+        if (lastHitType != null)
+            this.ai.receiveAnswer(lastHitType);
 
 
-            System.out.println(lastHitType);
+        System.out.println(lastHitType);
 
-            if (lastHitType == HitType.Water) {
-                //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_WATER);
-            } else if (lastHitType == HitType.Ship) {
-                //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
-            }
+        if (lastHitType == HitType.Water) {
+            //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_WATER);
+        } else if (lastHitType == HitType.Ship) {
+            //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
+        }
 
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
+        Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
 
-            //DrawMap();
-            //counter++;
-            this.playerMapRenderer.playExplosion(hitData.getPosition());
+        //DrawMap();
+        //counter++;
+        this.playerMapRenderer.playExplosion(hitData.getPosition());
 
-            // set playerturn
-            if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
-                this.playerTurn = PlayerType.AI;
-                handleAiShot();
-            } else if (hitData.getHitType() == HitType.Water) {
-                this.playerTurn = PlayerType.Player;
-            }
+        if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
+            this.playerTurn = PlayerType.AI;
+        } else if (hitData.getHitType() == HitType.Water) {
+            this.playerTurn = PlayerType.Player;
         }
     }
 
@@ -224,7 +222,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     @Override
     public void OnShotFired(Map map, Point pos) {
         if(this.playerTurn == PlayerType.Player) {
-            HitData hitData = map.shot2(pos);
+            HitData hitData = map.shot(pos);
             this.enemyMapRenderer.playExplosion(hitData.getPosition());
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
             System.out.println("Fired at" + pos);
@@ -234,7 +232,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
                 this.playerTurn = PlayerType.Player;
             } else if (hitData.getHitType() == HitType.Water) {
                 this.playerTurn = PlayerType.AI;
-                this.handleAiShot();
+                //this.handleAiShot();
             }
         }
     }

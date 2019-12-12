@@ -10,7 +10,7 @@ public interface MapInterface {
 
     boolean insert(Ship ship, Point position, boolean rotated);
 
-    boolean shot(Point pos);
+    HitData shot(Point pos);
 
     Ship getShip(Point position);
 

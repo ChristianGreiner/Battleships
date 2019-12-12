@@ -24,7 +24,7 @@ public class ShipsSelectionScene extends Scene implements GuiScene, KeyListener 
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
     }

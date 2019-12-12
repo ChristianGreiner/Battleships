@@ -1,8 +1,6 @@
-package scenes;
+package core;
 
-import core.Drawable;
-import core.Game;
-import core.Updatable;
+import scenes.Scene;
 import ui.GuiScene;
 
 import javax.swing.*;
@@ -80,10 +78,17 @@ public class SceneManager {
     }
 
     public void update(double deltaTime) {
-
         if (this.activeScene != null) {
             if (this.activeScene instanceof Updatable && !this.activeScene.isUpdatePaused()) {
                 ((Updatable) this.activeScene).update(deltaTime);
+            }
+        }
+    }
+
+    public void lateUpdate(double deltaTime) {
+        if (this.activeScene != null) {
+            if (this.activeScene instanceof Updatable && !this.activeScene.isUpdatePaused()) {
+                ((Updatable) this.activeScene).lateUpdate(deltaTime);
             }
         }
     }

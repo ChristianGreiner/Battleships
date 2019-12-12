@@ -19,7 +19,7 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
     }
 

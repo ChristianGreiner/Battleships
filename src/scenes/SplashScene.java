@@ -20,7 +20,7 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
 
         Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SEATBELT_SFX);
@@ -64,6 +64,11 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
 
         System.out.println(timeCounter);
         this.timeCounter++;
+    }
+
+    @Override
+    public void lateUpdate(double deltaTime) {
+
     }
 }
 

@@ -13,8 +13,10 @@ import java.time.Instant;
 public class Game implements Runnable {
 
     private static Game instance;
-    final int TARGET_FPS = 30;
+
+    public final int TARGET_FPS = 30;
     final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+
     private SceneManager sceneManager;
     private SoundManager soundManager;
     private Options options = new Options();
@@ -23,6 +25,7 @@ public class Game implements Runnable {
     private boolean isRunning;
     private String title;
     private Point gameSize;
+
     public Game(String title, Point size) {
         instance = this;
         this.gameSize = size;
@@ -105,8 +108,11 @@ public class Game implements Runnable {
             double deltaTime = updateLength / ((double) OPTIMAL_TIME);
 
             this.update(deltaTime);
+
             this.sceneManager.draw();
             this.window.draw();
+
+            this.lateUpdate(deltaTime);
 
             try {
                 long timeout = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;
@@ -119,5 +125,10 @@ public class Game implements Runnable {
 
     public void update(double deltaTime) {
         this.sceneManager.update(deltaTime);
+    }
+
+
+    public void lateUpdate(double deltaTime) {
+        this.sceneManager.lateUpdate(deltaTime);
     }
 }
