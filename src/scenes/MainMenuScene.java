@@ -16,13 +16,18 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.BACKGROUND_MUSIC, false);
     }
 
     @Override
     public void update(double deltaTime) {
+    }
+
+    @Override
+    public void lateUpdate(double deltaTime) {
+
     }
 
     @Override

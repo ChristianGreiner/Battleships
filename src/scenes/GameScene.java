@@ -57,7 +57,7 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
 
         this.playerMapRenderer = new MapRenderer(this.playerMap);
@@ -98,6 +98,11 @@ public class GameScene extends Scene implements Updatable, Drawable, KeyListener
 
     @Override
     public void update(double deltaTime) {
+    }
+
+    @Override
+    public void lateUpdate(double deltaTime) {
+
     }
 
     @Override

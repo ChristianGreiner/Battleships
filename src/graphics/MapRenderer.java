@@ -23,12 +23,21 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     private ArrayList<MapTile> selectedShipTiles;
     private MapTile hoveredMapTile;
     private Point mouseShipOffset;
-    private boolean clicked;
     private boolean selected;
     private boolean rotated;
     private boolean pressed;
     private boolean hovered;
     private ArrayList<MapRendererListener> listener = new ArrayList<>();
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    private boolean disabled = false;
 
     // WIP
     private ArrayList<BufferedImage> explosionFrames = new ArrayList<BufferedImage>();
@@ -59,7 +68,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     public void setEnemyMap(boolean enemyMap) {
         this.enemyMap = enemyMap;
     }
-
 
     public void addMapRendererListener(MapRendererListener mrl) {
         this.listener.add(mrl);
@@ -105,17 +113,19 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         //draw grid
         this.drawGrid(g, tileSize);
 
-        if (this.getMousePosition() != null) {
-            if (this.tileSize != null) {
-                if (this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
-                    if (this.editorMode) {
-                        this.highlightShip(g);
-                    } else {
-                        this.drawHighlightTile(g);
+        try {
+            if (this.getMousePosition() != null && !disabled) {
+                if (this.tileSize != null) {
+                    if (this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
+                        if (this.editorMode) {
+                            this.highlightShip(g);
+                        } else {
+                            this.drawHighlightTile(g);
+                        }
                     }
                 }
             }
-        } else {
+        } catch (Exception ex) {
 
         }
 
@@ -282,7 +292,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (this.getMousePosition() != null) {
+        if (this.getMousePosition() != null && !disabled) {
             if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
                 if (!this.editorMode && this.enemyMap) {
                     Point tempPoint = new Point(this.getMousePosition().x / tileSize.x - 1, this.getMousePosition().y / tileSize.y - 1);
@@ -305,7 +315,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
         this.pressed = true;
 
-        if (this.hoveredMapTile != null) {
+        if (this.hoveredMapTile != null && !disabled) {
 
             if (this.hoveredMapTile.hasShip() && !this.selected) {
 

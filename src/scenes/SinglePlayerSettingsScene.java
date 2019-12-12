@@ -19,10 +19,9 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
     }
-
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {

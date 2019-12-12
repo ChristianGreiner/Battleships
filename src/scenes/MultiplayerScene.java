@@ -17,12 +17,17 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
     }
 
     @Override
     public void update(double deltaTime) {
+    }
+
+    @Override
+    public void lateUpdate(double deltaTime) {
+
     }
 
     @Override

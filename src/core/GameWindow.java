@@ -18,6 +18,7 @@ public class GameWindow extends JFrame implements Runnable {
     private JPanel rootPanel;
     private GuiScene guiScene;
     private Dimension lastWindowSize;
+
     public GameWindow(String title, Point size) {
 
         this.setLayout(null);

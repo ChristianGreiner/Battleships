@@ -25,7 +25,7 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     }
 
     @Override
-    void onAdded() {
+    public void onAdded() {
         super.onAdded();
     }
 

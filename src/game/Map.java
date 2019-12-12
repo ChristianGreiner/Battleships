@@ -58,6 +58,10 @@ public class Map implements MapInterface, Serializable {
         return null;
     }
 
+    public boolean allShipsDestoryed() {
+        return this.getNumberOfShips() == this.getNumberOfDestoryedShips();
+    }
+
     public MapTile getRandomFreeTile() {
         while (true) {
             int rndX = Helper.randomNumber(0, this.getSize() - 1);
@@ -606,19 +610,7 @@ public class Map implements MapInterface, Serializable {
      * @param pos
      * @return
      */
-    public boolean shot(Point pos) {
-        if (isInMap(pos)) {
-            if (!getTile(pos).isHit()) {
-                boolean destroyed = this.tiles[pos.x][pos.y].setHit(true);
-                if (destroyed)
-                    this.numberOfDestoryedShips++;
-                return this.tiles[pos.x][pos.y].hasShip();
-            }
-        }
-        return false;
-    }
-
-    public HitData shot2(Point pos) {
+    public HitData shot(Point pos) {
         HitData data = null;
         HitType type = HitType.Water;
         Ship ship = null;
