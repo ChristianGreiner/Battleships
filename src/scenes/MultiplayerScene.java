@@ -19,8 +19,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
     @Override
     public void onAdded() {
         super.onAdded();
-        Game.getInstance().getNetworkManager().startSession(5555);
-        Game.getInstance().getNetworkManager().joinSession("localhost", 5555);
+
     }
 
     @Override
@@ -53,6 +52,14 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
         if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSoundManager().stopBackgroundMusic();
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+        }
+
+        if (keyEvent.getKeyCode() == KeyEvent.VK_J) {
+            Game.getInstance().getNetworkManager().joinSession("localhost", 5555);
+        }
+
+        if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
+            Game.getInstance().getNetworkManager().startSession(5555);
         }
     }
 

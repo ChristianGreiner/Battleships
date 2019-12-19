@@ -1,30 +1,37 @@
 package core;
 
 import network.Client;
+import network.NetworkListener;
 import network.Server;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
-public class NetworkManager {
+public class NetworkManager implements Updatable{
 
+    private ArrayList<NetworkListener> listeners = new ArrayList<>();
     private Client client;
     private Server server;
 
+    public void addNetworkListener(NetworkListener listener) {
+        this.listeners.add(listener);
+    }
+
     public void joinSession(String ip, int port) {
         this.client = new Client(ip, port);
-        try {
-            this.client.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.client.run();
     }
 
     public void startSession(int port) {
         this.server = new Server(port);
-        try {
-            this.server.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.server.run();
+    }
+
+    @Override
+    public void update(double deltaTime) {
+    }
+
+    @Override
+    public void lateUpdate(double deltaTime) {
+
     }
 }

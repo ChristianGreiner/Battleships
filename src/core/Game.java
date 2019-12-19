@@ -130,6 +130,7 @@ public class Game implements Runnable {
     }
 
     public void update(double deltaTime) {
+        this.networkManager.update(deltaTime);
         this.sceneManager.update(deltaTime);
     }
 

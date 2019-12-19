@@ -1,51 +1,52 @@
 package network;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    private ServerSocket socket;
+    private ServerSocket serverSocket;
+    private Socket clientSocket;
     private int port;
 
     public Server(int port) {
         this.port = port;
     }
 
-    public void run() throws IOException {
-        socket = new ServerSocket(this.port) {
-            protected void finalize() throws IOException {
-                this.close();
-            }
-        };
-        System.out.println("Server is running");
+    public void run() {
+        try {
+            this.serverSocket = new ServerSocket(this.port);
+            InetAddress adresse = InetAddress.getLocalHost();
+            System.out.println("Server gestartet \n" +
+                    "Server auf IP:  " +  adresse.getHostAddress() + adresse.getHostName());
 
-        while (true) {
-            // accepts a new client
-            Socket client = socket.accept();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-            System.out.println("New Client: \"\n\t     Host:" + client.getInetAddress().getHostAddress());
+    public void pool() {
+        System.out.println("LOL");
+        try {
+            System.out.println("POOLING SERVER");
+            Socket client = this.serverSocket.accept();
 
-            //read from socket to ObjectInputStream object
-            ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
-            //convert ObjectInputStream object to String
-            String message = null;
-            try {
-                message = (String) ois.readObject();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Message Received: " + message);
-            //create ObjectOutputStream object
-            ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
-            //write object to Socket
-            oos.writeObject("Hi Client "+message);
-            //close resources
-            ois.close();
-            oos.close();
-            socket.close();
+            String clientAdresse;
+            clientAdresse = client.getInetAddress().getHostAddress() + client.getInetAddress().getHostName();
+            System.out.println(clientAdresse);
+
+            InputStream is = client.getInputStream();
+
+            OutputStream os = client.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+            bw.write("Hello World");
+            System.out.println("SERVER: Message sent to the client is "+ "HELLO WORLD");
+            bw.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
