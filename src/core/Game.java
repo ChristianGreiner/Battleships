@@ -19,6 +19,7 @@ public class Game implements Runnable {
 
     private SceneManager sceneManager;
     private SoundManager soundManager;
+    private NetworkManager networkManager;
     private Options options = new Options();
     private FileHandler fileHandler = new FileHandler();
     private GameWindow window;
@@ -44,10 +45,15 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new MultiplayerScene());
 
         this.soundManager = new SoundManager();
+        this.networkManager = new NetworkManager();
     }
 
     public static Game getInstance() {
         return instance;
+    }
+
+    public NetworkManager getNetworkManager() {
+        return networkManager;
     }
 
     public SceneManager getSceneManager() {

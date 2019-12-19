@@ -19,6 +19,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
     @Override
     public void onAdded() {
         super.onAdded();
+        Game.getInstance().getNetworkManager().startSession(5555);
+        Game.getInstance().getNetworkManager().joinSession("localhost", 5555);
     }
 
     @Override
