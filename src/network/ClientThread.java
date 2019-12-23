@@ -1,46 +1,46 @@
 package network;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class ClientThread implements Runnable{
 
-    private Socket socket;
+    public static int counter = 0;
+
     private int port;
     private String hostname;
+
+    private Queue<String> commands;
+    private Socket socket;
+    private Scanner input;
+    private PrintWriter output;
 
     public ClientThread(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
+        this.commands = new LinkedBlockingDeque<>(99);
+        this.counter++;
+        System.out.println("CLIENT THREAD CREATED " + counter);
+    }
+
+    public void sendCommand(String commands) {
+        this.commands.add(commands);
     }
 
     @Override
     public void run() {
-        try
-        {
-            this.socket = null;
+        try {
+            this.socket = new Socket(this.hostname, this.port);
+            this.input = new Scanner(this.socket.getInputStream());
+            this.output = new PrintWriter(this.socket.getOutputStream(), true);
 
-            while (true)
-            {
-                this.socket = new Socket(this.hostname, this.port);
-
-                DataInputStream input = new DataInputStream(this.socket.getInputStream());
-                DataOutputStream output = new DataOutputStream(this.socket.getOutputStream());
-
-                output.writeUTF(" Hey from Client!");
-                System.out.println("[CLIENT] " + input.readUTF());
-
-                Thread.sleep(100);
+            while (true) {
+                //System.out.println(counter + ": CLIENT LOOP");
             }
-
-        }catch(Exception e){
-            try {
-                this.socket.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        } catch(Exception e){
             e.printStackTrace();
         }
     }

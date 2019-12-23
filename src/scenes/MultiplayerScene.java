@@ -3,6 +3,7 @@ package scenes;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
+import network.commands.ShotCommand;
 import ui.GuiScene;
 import ui.MultiplayerPanel;
 
@@ -59,6 +60,14 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
 
         if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
             Game.getInstance().getNetworkManager().startSession(5555);
+        }
+
+        if (keyEvent.getKeyCode() == KeyEvent.VK_B) {
+            Game.getInstance().getNetworkManager().sendClientMessage(new ShotCommand(1, 2));
+        }
+
+        if (keyEvent.getKeyCode() == KeyEvent.VK_N) {
+            Game.getInstance().getNetworkManager().sendServerMessage(new ShotCommand(1, 2));
         }
     }
 
