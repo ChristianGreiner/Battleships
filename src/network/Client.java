@@ -1,15 +1,13 @@
 package network;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 
-public class Client{
+public class Client extends Thread{
     private Socket server;
     private String hostname;
     private int port;
+    private ClientThread clientThread;
 
     public Client(String hostname, int port) {
         this.hostname = hostname;
@@ -19,29 +17,18 @@ public class Client{
     public void run() {
         try {
             this.server = new Socket(this.hostname, this.port);
+
+            // create a new thread object
+            Thread t = new Thread(new ClientThread(this.hostname, this.port));
+
+            // Invoking the start() method
+            t.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void pool() {
-
-        if(this.server == null)
-            return;
-
-        System.out.println("POOLING CLIENT");
-        try {
-          if(!this.server.isClosed()) {
-              InputStream is = null;
-              is = this.server.getInputStream();
-              InputStreamReader isr = new InputStreamReader(is);
-              BufferedReader br = new BufferedReader(isr);
-              String message =  br.readLine();
-              System.out.println("Message received from the server : " + message);
-          }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 }

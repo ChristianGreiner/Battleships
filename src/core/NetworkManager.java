@@ -18,12 +18,14 @@ public class NetworkManager implements Updatable{
 
     public void joinSession(String ip, int port) {
         this.client = new Client(ip, port);
-        this.client.run();
+        Thread client = new Thread(this.client);
+        client.start();
     }
 
     public void startSession(int port) {
         this.server = new Server(port);
-        this.server.run();
+        Thread server = new Thread(this.server);
+        server.start();
     }
 
     @Override
@@ -32,6 +34,5 @@ public class NetworkManager implements Updatable{
 
     @Override
     public void lateUpdate(double deltaTime) {
-
     }
 }
