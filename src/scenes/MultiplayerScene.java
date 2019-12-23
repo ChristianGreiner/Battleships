@@ -55,11 +55,11 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
         }
 
         if (keyEvent.getKeyCode() == KeyEvent.VK_J) {
-            Game.getInstance().getNetworkManager().joinSession("localhost", 5555);
+            Game.getInstance().getNetworkManager().joinServer("localhost", 5555);
         }
 
         if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
-            Game.getInstance().getNetworkManager().startSession(5555);
+            Game.getInstance().getNetworkManager().startServer(5555);
         }
 
         if (keyEvent.getKeyCode() == KeyEvent.VK_B) {

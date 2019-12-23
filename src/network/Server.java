@@ -1,16 +1,9 @@
 package network;
 
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
-public class Server implements Runnable{
-    private int port;
-    private ServerSocket serverSocket;
-    private ExecutorService serverPool;
+public class Server extends Thread {
 
     public ServerThread getServerThread() {
         return serverThread;
@@ -18,27 +11,23 @@ public class Server implements Runnable{
 
     private ServerThread serverThread;
 
-    public Server(int port) {
-        this.port = port;
-
-        // only accept one thread
-        this.serverPool = Executors.newFixedThreadPool(1);
-    }
-
     @Override
     public void run() {
+        super.run();
+
         try {
-            this.serverSocket = new ServerSocket(this.port, 1);
-
-            InetAddress adresse = InetAddress.getLocalHost();
-            System.out.println("Server gestartet \n" + "Server auf IP:  " +  adresse.getHostAddress() + adresse.getHostName());
-
-            // waiting for connections
-            while (true){
-                this.serverPool.execute(new ServerThread(serverSocket.accept()));
+            ServerSocket server = new ServerSocket(5555);
+            int counter = 0;
+            System.out.println("Server Started ....");
+            while (true) {
+                counter++;
+                Socket serverClient = server.accept();  //server accept the client connection request
+                System.out.println(" >> " + "Client No:" + counter + " started!");
+                this.serverThread = new ServerThread(serverClient, counter); //send  the request to a separate thread
+                this.serverThread.start();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 }
