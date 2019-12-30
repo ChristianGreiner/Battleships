@@ -3,19 +3,19 @@ package core;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Renderer extends JPanel implements Drawable {
 
-    private Image doubleBufferImage = null;
+    private BufferedImage doubleBufferImage = null;
     private Graphics doubleBufferGraphics = null;
 
     public Renderer() {
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.BLACK);
     }
 
-    public Graphics begin() {
-
-        if (doubleBufferImage == null) {
+    public Graphics begin(Rectangle clearRect) {
+        if (this.doubleBufferImage == null) {
 
             int width = getWidth();
             int height = getHeight();
@@ -25,17 +25,20 @@ public class Renderer extends JPanel implements Drawable {
                 height = 1;
             }
 
-            doubleBufferImage = createImage(width, height);
-        }
-        if (doubleBufferImage.getGraphics() != null) {
-            doubleBufferGraphics = doubleBufferImage.getGraphics();
-
-            // clear image
-            doubleBufferGraphics.setColor(Color.black);
-            doubleBufferGraphics.clearRect(0, 0, getWidth(), getHeight());
+            this.doubleBufferImage = (BufferedImage)createImage(width, height);
         }
 
-        return doubleBufferGraphics;
+        this.doubleBufferGraphics = this.doubleBufferImage.getGraphics();
+
+        // clear image
+        this.doubleBufferGraphics.setColor(Color.black);
+        this.doubleBufferGraphics.clearRect(clearRect.x, clearRect.y, clearRect.width, clearRect.height);
+
+        return this.doubleBufferGraphics;
+    }
+
+    public Graphics begin() {
+        return this.begin(new Rectangle(0, 0, getWidth(), getHeight()));
     }
 
     public void end() {

@@ -218,23 +218,6 @@ public class SingePlayerSettingsPanel extends JPanel {
         gbc.gridy = 5;
         btnContainer.add(backBtn, gbc);
 
-
-        /*final JPanel btnContainer = new JPanel();
-        btnContainer.setBackground(new Color(0, 0, 0, 155));
-        btnContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 8;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        panel.add(btnContainer, gbc);
-
-        backBtn = UiBuilder.createButton("BACK", new Dimension(160, UiBuilder.BUTTON_HEIGHT));
-        btnContainer.add(backBtn);
-
-        newGameBtn = UiBuilder.createButton("CONTINUE", new Dimension(160, UiBuilder.BUTTON_HEIGHT));
-        btnContainer.add(newGameBtn);*/
-
         return panel;
     }
 

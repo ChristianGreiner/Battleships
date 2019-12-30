@@ -48,10 +48,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
         this.difficulty = difficulty;
 
-        /* this.playerMap = new Map(mapSize);
-        battleship = new Battleship(playerMap);
-        this.playerMap.insert(battleship, new Point(0, 0), false);*/
-
         MapGenerator generator = new MapGenerator();
 
         this.playerMap = generator.generate(mapSize);

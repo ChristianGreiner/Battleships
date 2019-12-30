@@ -32,6 +32,7 @@ public class SinglePlayerPanel extends JPanel {
         SinglePlayerPanel panel = this;
 
         panel.setLayout(new GridBagLayout());
+        panel.setVisible(true);
 
         mapsContainer = new JPanel();
         mapsContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));

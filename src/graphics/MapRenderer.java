@@ -50,7 +50,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.addMouseListener(this);
         this.addMouseWheelListener(this);
         this.addKeyListener(this);
-
     }
 
     public boolean isEditorMode() {
@@ -92,7 +91,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void draw() {
-        super.draw();
 
         if (this.map == null) {
             return;
@@ -101,6 +99,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if (this.explosionAnim != null) {
             this.explosionAnim.update();
         }
+
 
         Graphics g = this.begin();
 

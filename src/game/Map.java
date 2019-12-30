@@ -20,6 +20,7 @@ public class Map implements MapInterface, Serializable {
     private int numberOfShips;
     private int numberOfDestoryedShips;
     private ArrayList<Ship> ships = new ArrayList<>();
+
     public Map(int size) {
         this.size = size;
         this.tiles = new MapTile[size][size];
