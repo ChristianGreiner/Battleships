@@ -90,7 +90,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     }
 
 
-    public Graphics beginRenderingBegin() {
+    public Graphics beginRendering() {
         Graphics g = this.begin();
 
         this.tileSize = new Point(this.getWidth() / (this.map.getSize() + 1), this.getHeight() / (this.map.getSize() + 1));
@@ -146,7 +146,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             this.explosionAnim.update();
         }
 
-        this.beginRenderingBegin();
+        this.beginRendering();
         this.endRendering();
     }
 

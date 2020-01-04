@@ -14,7 +14,7 @@ public class MapBuilderRenderer extends MapRenderer {
 
     @Override
     public void draw() {
-        Graphics g = super.beginRenderingBegin();
+        Graphics g = super.beginRendering();
 
         g.setColor(Color.BLACK);
         g.fillRect(300, 20, 20, 20);
