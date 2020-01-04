@@ -26,7 +26,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     private boolean selected;
     private boolean rotated;
     private boolean pressed;
-    private boolean hovered;
+    private Point tempPoint;
     private ArrayList<MapRendererListener> listener = new ArrayList<>();
 
     public boolean isDisabled() {
@@ -107,7 +107,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
         this.drawShips(g, tileSize);
 
-        this.hovered = false;
 
         //draw grid
         this.drawGrid(g, tileSize);
@@ -118,6 +117,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     if (this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
                         if (this.editorMode) {
                             this.highlightShip(g);
+                            this.dragndropShip(g);
                         } else {
                             this.drawHighlightTile(g);
                         }
@@ -200,7 +200,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if (this.getMousePosition() == null || tileSize == null)
             return;
 
-        Point tempPoint = new Point((this.getMousePosition().x / tileSize.x) - 1, (this.getMousePosition().y / tileSize.y) - 1);
+         this.tempPoint = new Point((this.getMousePosition().x / tileSize.x) - 1, (this.getMousePosition().y / tileSize.y) - 1);
         // System.out.println(((this.getMousePosition().x / tileSize.x) - 1) + " " + ((this.getMousePosition().y / tileSize.y) - 1));
 
         this.hoveredMapTile = this.map.getTile(tempPoint);
@@ -208,7 +208,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             if (this.hoveredMapTile.hasShip() && !this.selected) {
 
                 this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
-                this.hovered = true;
                 if (!this.pressed) {
                     g.setColor(Color.RED);
                     if (this.selectedShipTiles.get(0).getShip().isRotated()) {
@@ -221,8 +220,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 this.drawHighlightTile(g);
             }
         }
+    }
 
-        //picking up ship
+    void dragndropShip(Graphics g) {
+         //picking up ship
         if (this.selected) {
             g.setColor(new Color(124, 252, 0, 200));
             // free floating ship
@@ -267,7 +268,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             }
         }
     }
-
     void drawHighlightTile(Graphics g) {
         Point highlightPoint = new Point(((this.getMousePosition().x / (tileSize.x)) * tileSize.x), ((this.getMousePosition().y / (tileSize.y)) * tileSize.y));
         g.setColor(Color.GREEN);
@@ -322,8 +322,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             if (this.hoveredMapTile.hasShip() && !this.selected) {
 
                 this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
-
-                this.hovered = true;
 
                 this.selected = true;
 
