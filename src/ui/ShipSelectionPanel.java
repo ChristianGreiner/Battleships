@@ -30,7 +30,7 @@ public class ShipSelectionPanel extends JPanel {
         panel.setVisible(true);
 
         JPanel mapContainer = new JPanel();
-        mapContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        mapContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -38,31 +38,35 @@ public class ShipSelectionPanel extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         panel.add(mapContainer, gbc);
 
+        JPanel playerMapContainer = new JPanel();
+        playerMapContainer.setLayout(new GridBagLayout());
+        mapContainer.add(playerMapContainer);
+
         final JLabel playerLabel = new JLabel();
         playerLabel.setHorizontalAlignment(0);
-        playerLabel.setText("BUILD SHIP LAYOUT");
+        playerLabel.setText("BUILD MAP");
         playerLabel.setFont(Assets.Fonts.DEFAULT_24);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel.add(playerLabel, gbc);
+        playerMapContainer.add(playerLabel, gbc);
 
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer1, gbc);
+        playerMapContainer.add(spacer1, gbc);
 
-        mapRenderer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        mapRenderer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         mapRenderer.setPreferredSize(mapsRendererSize);
-        mapRenderer.setVisible(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel.add(mapRenderer, gbc);
+        playerMapContainer.add(mapRenderer, gbc);
+
         return panel;
     }
 

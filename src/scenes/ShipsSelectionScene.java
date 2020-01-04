@@ -28,7 +28,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public ShipsSelectionScene() {
         super("ShipsSelectionScene");
 
-        this.buildRenderer = new MapBuilderRenderer(new Map(10));
+        this.buildRenderer = new MapBuilderRenderer(null);
     }
 
     @Override
@@ -40,18 +40,15 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
         this.mapSize = mapSize;
         this.difficulty = difficulty;
-
         this.playerMap = new Map(this.mapSize);
-        this.buildRenderer = new MapBuilderRenderer(this.playerMap);
-        ///this.uiPanel.getMapRenderer().setMap(this.playerMap);
-
+        this.buildRenderer.setMap(new Map(10));
     }
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         ShipSelectionPanel shipSelectionPanel = new ShipSelectionPanel(this.buildRenderer);
 
-        shipSelectionPanel.create(new Dimension(512, 512));
+        shipSelectionPanel.create(new Dimension(800, 512));
 
         this.uiPanel = shipSelectionPanel;
 
@@ -82,9 +79,8 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void draw() {
-        if (this.buildRenderer != null && this.buildRenderer.isDisplayable()) {
+        if (this.buildRenderer != null) {
             this.buildRenderer.draw();
-            System.out.println("DRAW BUILD MAP");
         }
     }
 }

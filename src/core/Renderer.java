@@ -11,7 +11,7 @@ public class Renderer extends JPanel implements Drawable {
     private Graphics doubleBufferGraphics = null;
 
     public Renderer() {
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.WHITE);
     }
 
     public Graphics begin(Rectangle clearRect) {
