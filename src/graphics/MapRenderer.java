@@ -144,11 +144,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     private void drawGrid(Graphics g, Point tileSize) {
         g.setColor(Color.BLACK);
-        for (int i = 0; i < map.getSize() + 1; i++) {
+        for (int i = 0; i <= map.getSize() + 1; i++) {
             //vertical
-            g.drawLine(i * tileSize.x, 0, i * tileSize.x, this.getHeight());
+            g.drawLine(i * tileSize.x, 0, i * tileSize.x, (map.getSize() + 1) * tileSize.y);
             //horizontal
-            g.drawLine(0, i * tileSize.y, this.getWidth(), i * tileSize.y);
+            g.drawLine(0, i * tileSize.y, (map.getSize() + 1) * tileSize.x, i * tileSize.y);
         }
     }
 
@@ -225,7 +225,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         //picking up ship
         if (this.selected) {
             g.setColor(new Color(124, 252, 0, 200));
+            // free floating ship
             // Point floatingShipPos = new Point( this.getMousePosition().x - this.mouseShipOffset.x, this.getMousePosition().y - this.mouseShipOffset.y);
+
+            //rasterized ship
             Point floatingShipPos = new Point((this.getMousePosition().x / tileSize.x * tileSize.x) - (this.mouseShipOffset.x / tileSize.x * tileSize.x), (this.getMousePosition().y / tileSize.y * tileSize.y) - (this.mouseShipOffset.y / tileSize.y * tileSize.y));
             boolean quickfix_rotate;
             if (this.selectedShipTiles.get(0).getShip().isRotated()) {
