@@ -3,6 +3,9 @@ package network;
 import game.HitType;
 
 public interface NetworkListener {
+
+    void OnPlayerConnected();
+
     void OnGameJoined(int mapSize, int[] ships);
 
     void OnHitReceived(HitType type);

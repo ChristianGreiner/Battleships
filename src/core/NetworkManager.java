@@ -8,6 +8,10 @@ import java.util.concurrent.Executors;
 
 public class NetworkManager{
 
+    public ArrayList<NetworkListener> getListeners() {
+        return listeners;
+    }
+
     private ArrayList<NetworkListener> listeners = new ArrayList<>();
     private ExecutorService pool;
     private boolean clientCreated = false;
@@ -25,7 +29,7 @@ public class NetworkManager{
 
     public void joinServer(String host, int port) {
         if(!clientCreated) {
-            this.client = new Client(host, port);
+            this.client = new Client(this, host, port);
             this.client.start();
             clientCreated = true;
         }
@@ -33,9 +37,17 @@ public class NetworkManager{
 
     public void startServer(int port) {
         if(!serverCreated) {
-            this.server = new Server();
+            this.server = new Server(this);
             this.server.start();
             serverCreated = true;
+        }
+    }
+
+    public void stopServer() {
+        if(serverCreated) {
+            this.server.stopThread();
+            this.server = null;
+            this.serverCreated = false;
         }
     }
 

@@ -1,5 +1,7 @@
 package network;
 
+import core.NetworkManager;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -12,8 +14,10 @@ public class Client extends Thread {
 
     private BlockingQueue<String> commands = new ArrayBlockingQueue<String>(1024);
     private Socket socket;
+    private NetworkManager manager;
 
-    public Client(String host, int port) {
+    public Client(NetworkManager manager, String host, int port) {
+        this.manager = manager;
         try {
             this.socket = new Socket(host, port);
         } catch (IOException e) {

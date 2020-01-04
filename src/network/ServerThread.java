@@ -7,6 +7,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class ServerThread extends Thread {
     private Socket serverClient;
+    private boolean running = true;
 
     private BlockingQueue<String> commands = new ArrayBlockingQueue<String>(1024);
 
@@ -18,6 +19,10 @@ public class ServerThread extends Thread {
         this.commands.add(message);
     }
 
+    public void stopThread() {
+        this.running = false;
+    }
+
     public void run() {
         try {
 
@@ -26,7 +31,7 @@ public class ServerThread extends Thread {
 
             String message = null;
 
-            while (true) {													//Programm loop
+            while (running) {													//Programm loop
 
                 while(true) {												//Idle Loop .. wartet auf Nachricht
                     message = in.readLine();								//liest socket aus

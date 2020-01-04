@@ -91,4 +91,10 @@ public class Helper {
     public static float limit(float value, float min, float max) {
         return (value > max) ? max : (value < min ? min : value);
     }
+
+    public static boolean validateIp(final String ip) {
+        String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
+
+        return ip.matches(PATTERN) || ip.equals("localhost");
+    }
 }
