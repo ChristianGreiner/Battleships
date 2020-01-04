@@ -14,7 +14,6 @@ public class CreditsRenderer extends Renderer {
     private Point startPos;
     private Point canvasSize;
     private int currentY;
-    private int alpha = 255;
 
     public CreditsRenderer(ArrayList<Credit> credits, Point canvasSize) {
         this.credits = credits;
@@ -32,8 +31,6 @@ public class CreditsRenderer extends Renderer {
         Graphics g = this.begin();
 
         g.drawImage(Assets.Images.BACKGROUND, 0, 0, canvasSize.x, canvasSize.y, this);
-        g.setColor(new Color(0, 0, 0, alpha));
-        g.fillRect(0, 0, canvasSize.x, canvasSize.y);
 
         g.setColor(Color.white);
 
@@ -42,9 +39,6 @@ public class CreditsRenderer extends Renderer {
             Rectangle rec = new Rectangle(0, currentY + (i * 48), canvasSize.x, c.getFont().getSize());
             Helper.drawCenteredString(g, c.getText(), rec, c.getFont());
         }
-
-        if (alpha > 0)
-            alpha -= 5;
 
         currentY -= 2;
 
