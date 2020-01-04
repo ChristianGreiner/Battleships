@@ -30,8 +30,7 @@ public class NetworkManager{
     public void joinServer(String host, int port) {
         if(!clientCreated) {
             this.client = new Client(this, host, port);
-            this.client.start();
-            clientCreated = true;
+            clientCreated = this.client.kickStart();
         }
     }
 

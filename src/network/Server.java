@@ -57,7 +57,7 @@ public class Server extends Thread {
                 this.serverThread.start();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            this.running = false;
         }
     }
 }
