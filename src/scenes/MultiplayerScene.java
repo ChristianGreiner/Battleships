@@ -3,18 +3,27 @@ package scenes;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
+import graphics.MapRenderer;
 import network.commands.ShotCommand;
+import ui.GamePanel;
 import ui.GuiScene;
 import ui.MultiplayerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyListener {
 
+    private MapRenderer playerMapRenderer;
+    private MapRenderer enemyMapRenderer;
+
     public MultiplayerScene() {
         super("MultiplayerScene");
+
+        this.playerMapRenderer = new MapRenderer(null);
+        this.enemyMapRenderer = new MapRenderer(null);
     }
 
     @Override
@@ -33,9 +42,11 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        MultiplayerPanel panel = new MultiplayerPanel();
+        GamePanel multiplayerPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
 
-        return panel.create();
+        multiplayerPanel = multiplayerPanel.create(new Dimension(512, 512));
+
+        return multiplayerPanel;
     }
 
     @Override

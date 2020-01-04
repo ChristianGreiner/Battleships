@@ -9,7 +9,7 @@ import game.ships.Ship;
 import graphics.MapRenderer;
 import graphics.MapRendererListener;
 import ui.GuiScene;
-import ui.SinglePlayerPanel;
+import ui.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private GameState gameState = GameState.Started;
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
-    private SinglePlayerPanel uiPanel;
+    private GamePanel uiPanel;
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private int counter;
@@ -122,7 +122,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer, this.enemyMapRenderer);
+        GamePanel singlePlayerPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
 
         singlePlayerPanel = singlePlayerPanel.create(new Dimension(512, 512));
 

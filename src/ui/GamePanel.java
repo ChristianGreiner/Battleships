@@ -6,7 +6,7 @@ import graphics.MapRenderer;
 import javax.swing.*;
 import java.awt.*;
 
-public class SinglePlayerPanel extends JPanel {
+public class GamePanel extends JPanel {
 
     private JPanel playerMapContainer;
     private JPanel enemyMapContainer;
@@ -14,7 +14,7 @@ public class SinglePlayerPanel extends JPanel {
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
 
-    public SinglePlayerPanel(MapRenderer playerMapRenderer, MapRenderer enemyMapRenderer) {
+    public GamePanel(MapRenderer playerMapRenderer, MapRenderer enemyMapRenderer) {
         this.playerMapRenderer = playerMapRenderer;
         this.enemyMapRenderer = enemyMapRenderer;
     }
@@ -28,8 +28,8 @@ public class SinglePlayerPanel extends JPanel {
         this.enemyMapRenderer.setPreferredSize(size);
     }
 
-    public SinglePlayerPanel create(Dimension mapsRendererSize) {
-        SinglePlayerPanel panel = this;
+    public GamePanel create(Dimension mapsRendererSize) {
+        GamePanel panel = this;
 
         panel.setLayout(new GridBagLayout());
         panel.setVisible(true);
@@ -49,7 +49,7 @@ public class SinglePlayerPanel extends JPanel {
 
         final JLabel playerLabel = new JLabel();
         playerLabel.setHorizontalAlignment(0);
-        playerLabel.setText("Player 1");
+        playerLabel.setText("YOU");
         playerLabel.setFont(Assets.Fonts.DEFAULT_24);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -73,7 +73,7 @@ public class SinglePlayerPanel extends JPanel {
         playerMapContainer.add(playerMapRenderer, gbc);
 
         final JPanel spacer = new JPanel();
-        spacer.setPreferredSize(new Dimension(40, 1));
+        spacer.setPreferredSize(new Dimension(10, 1));
         spacer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -88,7 +88,7 @@ public class SinglePlayerPanel extends JPanel {
         final JLabel enemyLabel = new JLabel();
         enemyLabel.setHorizontalAlignment(0);
         enemyLabel.setHorizontalTextPosition(0);
-        enemyLabel.setText("Player 2");
+        enemyLabel.setText("OPPONENT");
         enemyLabel.setFont(Assets.Fonts.DEFAULT_24);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;

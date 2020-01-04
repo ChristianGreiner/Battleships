@@ -7,10 +7,8 @@ import core.GameWindow;
 import game.Assets;
 import game.Map;
 import graphics.MapBuilderRenderer;
-import graphics.MapRenderer;
 import ui.GuiScene;
 import ui.ShipSelectionPanel;
-import ui.SinglePlayerPanel;
 
 import javax.swing.*;
 import java.awt.*;
