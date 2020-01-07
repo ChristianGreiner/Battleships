@@ -3,21 +3,20 @@ package scenes;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
-import graphics.MapRenderer;
+import game.HitType;
+import network.NetworkListener;
 import network.commands.ShotCommand;
-import ui.GamePanel;
 import ui.GuiScene;
-import ui.MultiplayerSettingsPanel;
+import ui.MultiplayerNetworkPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class MultiplayerSettingsScene extends Scene implements Updatable, GuiScene, KeyListener {
+public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScene, KeyListener, NetworkListener {
 
-    public MultiplayerSettingsScene() {
-        super("MultiplayerSettingsScene");
+    public MultiplayerNetworkScene() {
+        super("MultiplayerNetworkScene");
     }
 
     @Override
@@ -36,15 +35,15 @@ public class MultiplayerSettingsScene extends Scene implements Updatable, GuiSce
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        MultiplayerSettingsPanel multiplayerPanel = new MultiplayerSettingsPanel().create();
+        MultiplayerNetworkPanel multiplayerPanel = new MultiplayerNetworkPanel().create();
 
         multiplayerPanel.getJoinBtn().addActionListener((e) -> {
             Game.getInstance().getNetworkManager().joinServer(multiplayerPanel.getHostnameField().getText(), 5555);
         });
 
         multiplayerPanel.getHostBtn().addActionListener((e) -> {
-            Game.getInstance().getNetworkManager().startServer(5555);
-            Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
+            //Game.getInstance().getNetworkManager().startServer(5555);
+            Game.getInstance().getSceneManager().setActiveScene(MultiplayerHostSettingsScene.class);
         });
 
         multiplayerPanel.getBackBtn().addActionListener((e) -> {
@@ -83,12 +82,37 @@ public class MultiplayerSettingsScene extends Scene implements Updatable, GuiSce
         }
 
         if (keyEvent.getKeyCode() == KeyEvent.VK_N) {
-            Game.getInstance().getNetworkManager().sendServerMessage(new ShotCommand(1, 2));
+            Game.getInstance().getNetworkManager().sendServerMessage(new ShotCommand(2, 2));
         }
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void OnPlayerConnected() {
+
+    }
+
+    @Override
+    public void OnGameJoined(int mapSize, int[] ships) {
+
+    }
+
+    @Override
+    public void OnHitReceived(HitType type) {
+
+    }
+
+    @Override
+    public void OnGameSaved(int id) {
+
+    }
+
+    @Override
+    public void OnGameLoaded(int id) {
 
     }
 }

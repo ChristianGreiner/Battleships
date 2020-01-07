@@ -1,13 +1,10 @@
 package scenes;
 
-import core.Game;
 import core.GameWindow;
 import core.Updatable;
 import graphics.MapRenderer;
-import network.commands.ShotCommand;
 import ui.GamePanel;
 import ui.GuiScene;
-import ui.MultiplayerSettingsPanel;
 
 import javax.swing.*;
 import java.awt.*;

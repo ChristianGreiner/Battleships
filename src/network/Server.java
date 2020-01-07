@@ -1,6 +1,7 @@
 package network;
 
 import core.NetworkManager;
+import network.commands.SizeCommand;
 
 import java.io.IOException;
 import java.net.ServerSocket;

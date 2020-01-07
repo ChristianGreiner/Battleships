@@ -1,18 +1,12 @@
 package network;
 
-import core.Game;
 import core.NetworkManager;
-import scenes.MainMenuScene;
-import scenes.MultiplayerSettingsScene;
 
 import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client extends Thread {
 
@@ -25,6 +19,7 @@ public class Client extends Thread {
         this.manager = manager;
         try {
             this.socket = new Socket(host, port);
+
         } catch (IOException e) {
             this.running = false;
             JOptionPane.showMessageDialog(null, "Cannot connect to " + host);

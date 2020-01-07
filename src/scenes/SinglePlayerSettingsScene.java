@@ -6,7 +6,7 @@ import core.GameWindow;
 import game.Assets;
 import game.Savegame;
 import ui.GuiScene;
-import ui.SingePlayerSettingsPanel;
+import ui.GameSettingsPanel;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -25,22 +25,22 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        SingePlayerSettingsPanel mapSelection = new SingePlayerSettingsPanel().create();
+        GameSettingsPanel settings = new GameSettingsPanel().create(false);
 
-        mapSelection.getBackBtn().addActionListener((e) -> {
+        settings.getBackBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
-        mapSelection.getNewGameBtn().addActionListener((e) -> {
+        settings.getNewGameBtn().addActionListener((e) -> {
             ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
 
-            int size = (int) mapSelection.getSizeSpinner().getValue();
-            String difficulty = String.valueOf(mapSelection.getAiDifficultyCbox().getSelectedItem());
+            int size = (int) settings.getSizeSpinner().getValue();
+            String difficulty = String.valueOf(settings.getAiDifficultyCbox().getSelectedItem());
             difficulty = difficulty.replaceAll(" ", "");
             scene.initializeGame(size, AiDifficulty.valueOf(difficulty));
         });
 
-        mapSelection.getLoadGameBtn().addActionListener((e) -> {
+        settings.getLoadGameBtn().addActionListener((e) -> {
             Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
             if(savegame != null) {
                 SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
@@ -48,15 +48,15 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             }
         });
 
-        mapSelection.getSizeSpinner().addChangeListener(changeEvent -> {
+        settings.getSizeSpinner().addChangeListener(changeEvent -> {
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
         });
 
-        mapSelection.getAiDifficultyCbox().addActionListener(actionEvent -> {
+        settings.getAiDifficultyCbox().addActionListener(actionEvent -> {
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
         });
 
-        return mapSelection;
+        return settings;
     }
 
     @Override

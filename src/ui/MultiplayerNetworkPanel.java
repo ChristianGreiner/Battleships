@@ -7,9 +7,9 @@ import game.Assets;
 import javax.swing.*;
 import java.awt.*;
 
-public class MultiplayerSettingsPanel extends JPanel {
+public class MultiplayerNetworkPanel extends JPanel {
 
-    private static MultiplayerSettingsPanel instance;
+    private static MultiplayerNetworkPanel instance;
     private final int paddingSize = 12;
     private JButton joinBtn, hostBtn, backBtn;
     private JTextField hostnameField;
@@ -30,16 +30,16 @@ public class MultiplayerSettingsPanel extends JPanel {
         return backBtn;
     }
 
-    public MultiplayerSettingsPanel() {
+    public MultiplayerNetworkPanel() {
         instance = this;
     }
 
-    public static MultiplayerSettingsPanel getInstance() {
+    public static MultiplayerNetworkPanel getInstance() {
         return instance;
     }
 
-    public MultiplayerSettingsPanel create() {
-        MultiplayerSettingsPanel panel = this;
+    public MultiplayerNetworkPanel create() {
+        MultiplayerNetworkPanel panel = this;
 
         panel.setOpaque(true);
 
