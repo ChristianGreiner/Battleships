@@ -11,6 +11,12 @@ import java.util.Random;
 public class Helper {
     private static Random r = new Random();
 
+    /**
+     * Returns a random number between a range.
+     * @param min The min range.
+     * @param max The max range.
+     * @return The random number.
+     */
     public static int randomNumber(int min, int max) {
         return min + (int) (Math.random() * ((max - min) + 1));
     }
@@ -24,10 +30,18 @@ public class Helper {
         return r.nextInt((max - min) + 1) + min;
     }
 
+    /**
+     * Returns a random boolean.
+     * @return The random boolean.
+     */
     public static boolean randomBoolean() {
         return randomNumber(0, 1) == 1;
     }
 
+    /**
+     * Returns a random alignment.
+     * @return Ther random alignment.
+     */
     public static Alignment getRandomAlignment() {
         int alignNumber = randomNumber(0, 1);
 
@@ -37,6 +51,11 @@ public class Helper {
         return Alignment.Horizontal;
     }
 
+    /**
+     * Gets a random direction
+     * @param align The alignment.
+     * @return The random direction.
+     */
     public static Direction getRandomDirection(Alignment align) {
 
         int dirNumber = getRandomNumberInRange(0, 1);

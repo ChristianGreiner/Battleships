@@ -9,6 +9,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 
+/**
+ * The drawable game window.
+ */
 public class GameWindow extends JFrame implements Runnable {
 
     private static final int VIRTUAL_WIDTH = 1280;
@@ -68,6 +71,11 @@ public class GameWindow extends JFrame implements Runnable {
         return rootPanel;
     }
 
+    /**
+     * Adds a gui element to the game window.
+     * @param panel The gui panel.
+     * @param guiScene The gui scene.
+     */
     public void addGui(JPanel panel, GuiScene guiScene) {
         this.add(panel);
         this.rootPanel = panel;
@@ -77,6 +85,10 @@ public class GameWindow extends JFrame implements Runnable {
         this.setPreferredSize(this.lastWindowSize);
     }
 
+    /**
+     * Removes a gui element from the game window.
+     * @param panel The gui panel.
+     */
     public void removeGui(JPanel panel) {
         this.guiScene = null;
         panel.removeAll();
@@ -116,15 +128,26 @@ public class GameWindow extends JFrame implements Runnable {
         return new Dimension(w, h);
     }
 
+    /**
+     * Set the game window to fullscreen.
+     * @param state
+     */
     public void setFullscreen(boolean state) {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
         this.isFullscreen = state;
     }
 
+    /**
+     * Draws the game window.
+     */
     public void draw() {
     }
 
+    /**
+     * Paints the game window.
+     * @param graphics
+     */
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);

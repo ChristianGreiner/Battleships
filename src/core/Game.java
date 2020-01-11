@@ -10,6 +10,9 @@ import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
 
+/**
+ * The main game class with gameloop.
+ */
 public class Game implements Runnable {
 
     private static Game instance;
@@ -51,34 +54,65 @@ public class Game implements Runnable {
         this.networkManager = new NetworkManager();
     }
 
+    /**
+     * Gets the game instance.
+     * @return The game instance.
+     */
     public static Game getInstance() {
         return instance;
     }
 
+    /**
+     * Gets the network manager
+     * @return The network manager.
+     */
     public NetworkManager getNetworkManager() {
         return networkManager;
     }
 
+    /**
+     * Gets the scene manager.
+     * @return The scene manager.
+     */
     public SceneManager getSceneManager() {
         return sceneManager;
     }
 
+    /**
+     * Gets the game window container (JFrame) of swing.
+     * @return The game window
+     */
     public GameWindow getWindow() {
         return window;
     }
 
+    /**
+     * Gets the options of the game.
+     * @return The options.
+     */
     public Options getOptions() {
         return options;
     }
 
+    /**
+     * Gets the sound manager.
+     * @return The sound manager.
+     */
     public SoundManager getSoundManager() {
         return soundManager;
     }
 
+    /**
+     * Gets the file handler.
+     * @return The file handler.
+     */
     public FileHandler getFileHandler() {
         return fileHandler;
     }
 
+    /**
+     * Starts the game and the gameloop.
+     */
     public void start() {
 
         Instant start = Instant.now();
@@ -106,6 +140,9 @@ public class Game implements Runnable {
         this.run();
     }
 
+    /**
+     * Gets called by the start method. Used by the thread.
+     */
     @Override
     public void run() {
         long lastLoopTime = System.nanoTime();
@@ -132,11 +169,19 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Updates the game.
+     * @param deltaTime
+     */
     public void update(double deltaTime) {
         this.sceneManager.update(deltaTime);
     }
 
 
+    /**
+     * Updates the game lately. Gets called after the regular update method.
+     * @param deltaTime
+     */
     public void lateUpdate(double deltaTime) {
         this.sceneManager.lateUpdate(deltaTime);
     }

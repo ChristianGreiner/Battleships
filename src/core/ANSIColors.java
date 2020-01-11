@@ -1,5 +1,8 @@
 package core;
 
+/**
+ * Contains some ANSI color codes.
+ */
 public class ANSIColors {
     public static final String RESET = "\u001B[0m";
     public static final String BLACK = "\u001B[30m";
