@@ -2,7 +2,6 @@ package ui;
 
 import game.Assets;
 import graphics.MapBuilderRenderer;
-import graphics.MapRenderer;
 
 import javax.swing.*;
 import java.awt.*;
