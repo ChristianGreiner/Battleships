@@ -144,10 +144,16 @@ public class MapBuilderRenderer extends MapRenderer {
     {
         int drawnShipSize;
         Point drawingTileSize;
+        boolean drawDropPos = false;
+        Point floatingShipMarker;
 
-
-        if (this.getMousePosition().x <= super.tileSize.x * (map.getSize() + 1) && this.getMousePosition().y <= super.tileSize.y * (map.getSize() + 1))
+        if (this.getMousePosition().x <= super.tileSize.x * (map.getSize() + 1) && this.getMousePosition().y <= super.tileSize.y * (map.getSize() + 1)) {
             this.drawSizeChanged = true;
+            drawDropPos = true;
+            floatingShipMarker = new Point((this.getMousePosition().x / super.tileSize.x * super.tileSize.x), (this.getMousePosition().y / super.tileSize.y * super.tileSize.y));
+        }
+        else
+            floatingShipMarker = null;
 
         if(this.drawSizeChanged) {
             drawnShipSize = super.tileSize.x * shipSize;
@@ -158,12 +164,25 @@ public class MapBuilderRenderer extends MapRenderer {
             drawingTileSize = this.tileSize;
         }
 
-        if(this.rotated)
+        if(this.rotated) {
             g.fillRect(this.getMousePosition().x, this.getMousePosition().y, drawnShipSize, drawingTileSize.y);
-        else
+            if (drawDropPos && floatingShipMarker != null)
+                g.setColor(Color.GREEN);
+                g.drawRect(floatingShipMarker.x, floatingShipMarker.y, drawnShipSize, drawingTileSize.y);
+        }
+        else {
             g.fillRect(this.getMousePosition().x, this.getMousePosition().y, drawingTileSize.y, drawnShipSize);
+            if(drawDropPos && floatingShipMarker != null)
+                g.setColor(Color.GREEN);
+                g.drawRect(floatingShipMarker.x, floatingShipMarker.y, drawingTileSize.y, drawnShipSize);
+        }
     }
 
+    @Override
+    public void drawHighlightTile(Graphics g){
+        if(!this.carrierSelected && !this.battleshipSelected && !this.destroyerSelected && !this.submarineSelected)
+            super.drawHighlightTile(g);
+    }
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);

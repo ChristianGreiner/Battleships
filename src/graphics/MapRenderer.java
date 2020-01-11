@@ -105,7 +105,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
    private void setTileSize()
     {
-        this.tileSize = new Point(this.gridSize.x / (this.map.getSize() + 1), this.gridSize.y / (this.map.getSize() + 1));
+        if(this.gridSize != null)
+            this.tileSize = new Point(this.gridSize.x / (this.map.getSize() + 1), this.gridSize.y / (this.map.getSize() + 1));
     }
 
     public Graphics beginRendering() {
@@ -258,22 +259,27 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
              Point floatingShipPos = new Point( this.getMousePosition().x - this.mouseShipOffset.x, this.getMousePosition().y - this.mouseShipOffset.y);
 
             //rasterized ship
-            //Point floatingShipPos = new Point((this.getMousePosition().x / tileSize.x * tileSize.x) - (this.mouseShipOffset.x / tileSize.x * tileSize.x), (this.getMousePosition().y / tileSize.y * tileSize.y) - (this.mouseShipOffset.y / tileSize.y * tileSize.y));
+            Point floatingShipMarker = new Point((this.getMousePosition().x / tileSize.x * tileSize.x) - (this.mouseShipOffset.x / tileSize.x * tileSize.x), (this.getMousePosition().y / tileSize.y * tileSize.y) - (this.mouseShipOffset.y / tileSize.y * tileSize.y));
+
             boolean quickfix_rotate;
             if (this.selectedShipTiles.get(0).getShip().isRotated()) {
                 if (!this.rotated) {
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
                     quickfix_rotate = true;
                 } else {
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                     quickfix_rotate = false;
                 }
             } else {
                 if (!this.rotated) {
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                     quickfix_rotate = false;
                 } else {
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
                     quickfix_rotate = true;
                 }
             }
