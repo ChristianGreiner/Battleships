@@ -4,6 +4,9 @@ import game.ships.Ship;
 
 import java.awt.*;
 
+/**
+ * Container for storing data for hits.
+ */
 public class HitData {
 
     private Point position;

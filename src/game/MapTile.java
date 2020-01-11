@@ -5,6 +5,9 @@ import game.ships.Ship;
 import java.awt.*;
 import java.io.Serializable;
 
+/**
+ * A map tile that stores data about ships.
+ */
 public class MapTile implements Serializable {
 
     private Point pos;

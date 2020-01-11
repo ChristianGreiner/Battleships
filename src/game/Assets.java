@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+/**
+ * Static class for storing all assets of the game.
+ */
 public final class Assets {
 
     public static void init() {
@@ -41,12 +44,18 @@ public final class Assets {
         Files.MAPDATA = new File(Assets.class.getClassLoader().getResource(Paths.MAPDATA).getFile());
     }
 
+    /**
+     * Storing all images.
+     */
     public static class Images {
         public static Image BACKGROUND;
         public static Image TILESET;
         public static BufferedImage EXPLOSION;
     }
 
+    /**
+     * Storing all Sounds.
+     */
     public static class Sounds {
         public static Clip BACKGROUND_MUSIC;
         public static Clip PLAYING_MUSIC;
@@ -57,6 +66,9 @@ public final class Assets {
         public static Clip SHOT_WATER;
     }
 
+    /**
+     * Storing all Fonts.
+     */
     public static class Fonts {
         public static Font TITLE;
         public static Font TITLE_BIG;
@@ -70,6 +82,9 @@ public final class Assets {
         public static File MAPDATA;
     }
 
+    /**
+     * Storing all paths.
+     */
     public class Paths {
         public final static String OPTIONS = "options.txt";
         public final static String MAPDATA = "mapdata.json";

@@ -6,6 +6,9 @@ import game.ships.*;
 
 import java.util.HashMap;
 
+/**
+ * A map generator which places predefined random ships into the map.
+ */
 public class MapGenerator {
 
     private HashMap<Integer, MapData> configMap = new HashMap<>();
@@ -21,6 +24,11 @@ public class MapGenerator {
         }
     }
 
+    /**
+     * Generates the map.
+     * @param size The size of the map.
+     * @return The map.
+     */
     public Map generate(int size) {
 
         if (this.configMap == null)

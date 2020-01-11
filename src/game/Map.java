@@ -12,6 +12,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Map stores all data for the game.
+ */
 public class Map implements MapInterface, Serializable {
     private MapTile[][] tiles;
     private HashMap<Type, Integer> shipsCounter = new HashMap<>();
@@ -32,26 +35,51 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
+    /**
+     * Gets a hashmap that counts ships by its type.
+     * @return A hashmap of ships.
+     */
     public HashMap<Type, Integer> getShipsCounter() {
         return shipsCounter;
     }
 
+    /**
+     * Gets the number of ships.
+     * @return The number of ships,
+     */
     public int getNumberOfShips() {
         return numberOfShips;
     }
 
+    /**
+     * Gets the number of destroyed ships.
+     * @return The number of destroyed ship.s
+     */
     public int getNumberOfDestoryedShips() {
         return numberOfDestoryedShips;
     }
 
+    /**
+     * Gets the size of the map.
+     * @return The size.
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * Gets all ships as array.
+     * @return All ships as array.
+     */
     public ArrayList<Ship> getShips() {
         return ships;
     }
 
+    /**
+     * Gets a tile by its position.
+     * @param pos The position of the tile.
+     * @return The Map tile.
+     */
     public MapTile getTile(Point pos) {
         if (isInMap(pos)) {
             return this.tiles[pos.x][pos.y];
@@ -59,10 +87,18 @@ public class Map implements MapInterface, Serializable {
         return null;
     }
 
+    /**
+     * Whenever or not all ships are destroyed.
+     * @return Returns whenever or not all ships are destroyed.
+     */
     public boolean allShipsDestoryed() {
         return this.getNumberOfShips() == this.getNumberOfDestoryedShips();
     }
 
+    /**
+     * Gets a random free tile.
+     * @return A random tile.
+     */
     public MapTile getRandomFreeTile() {
         while (true) {
             int rndX = Helper.randomNumber(0, this.getSize() - 1);
@@ -74,6 +110,10 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
+    /**
+     * Gets a random free tile having a ship in it.
+     * @return A random tile.
+     */
     public MapTile getRandomFreeTileIgnoreShip() {
         while (true) {
             int rndX = Helper.randomNumber(0, this.getSize() - 1);
@@ -97,6 +137,13 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
+    /**
+     * Inserts a new ship into the map.
+     * @param ship The ship.
+     * @param position The position.
+     * @param rotated Whenever or not the ship is rotated.
+     * @return Returns boolean if the ship could be placed.
+     */
     public boolean insert(Ship ship, Point position, boolean rotated) {
 
         if (!canInsertShip(ship, position, rotated))

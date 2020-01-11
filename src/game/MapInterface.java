@@ -4,6 +4,9 @@ import game.ships.Ship;
 
 import java.awt.*;
 
+/**
+ * A interface for maps.
+ */
 public interface MapInterface {
 
     int getSize();
