@@ -3,19 +3,28 @@ package core;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
+/**
+ * A rendering panel used drawing stuff on it really fast.
+ * Has double buffer included.
+ */
 public class Renderer extends JPanel implements Drawable {
 
-    private Image doubleBufferImage = null;
+    private BufferedImage doubleBufferImage = null;
     private Graphics doubleBufferGraphics = null;
 
     public Renderer() {
         this.setBackground(Color.WHITE);
     }
 
-    public Graphics begin() {
-
-        if (doubleBufferImage == null) {
+    /**
+     * When rendering stuff, begin has called first, then drawing, then call end().
+     * @param clearRect The rectangle where the image should be cleard.
+     * @return The swing graphics element.
+     */
+    public Graphics begin(Rectangle clearRect) {
+        if (this.doubleBufferImage == null) {
 
             int width = getWidth();
             int height = getHeight();
@@ -25,23 +34,37 @@ public class Renderer extends JPanel implements Drawable {
                 height = 1;
             }
 
-            doubleBufferImage = createImage(width, height);
-        }
-        if (doubleBufferImage.getGraphics() != null) {
-            doubleBufferGraphics = doubleBufferImage.getGraphics();
-
-            // clear image
-            doubleBufferGraphics.setColor(Color.black);
-            doubleBufferGraphics.clearRect(0, 0, getWidth(), getHeight());
+            this.doubleBufferImage = (BufferedImage)createImage(width, height);
         }
 
-        return doubleBufferGraphics;
+        this.doubleBufferGraphics = this.doubleBufferImage.getGraphics();
+
+        // clear image
+        this.doubleBufferGraphics.setColor(Color.black);
+        this.doubleBufferGraphics.clearRect(clearRect.x, clearRect.y, clearRect.width, clearRect.height);
+
+        return this.doubleBufferGraphics;
     }
 
+    /**
+     *  When rendering stuff, begin has called first, then drawing, then call end().
+     * @return The swing graphics element.
+     */
+    public Graphics begin() {
+        return this.begin(new Rectangle(0, 0, getWidth(), getHeight()));
+    }
+
+    /**
+     * Has to be called after the begin() method. Repaints the image.
+     */
     public void end() {
         this.repaint();
     }
 
+    /**
+     * Paints the image.
+     * @param g The graphics element.
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);

@@ -9,7 +9,7 @@ import game.ships.Ship;
 import graphics.MapRenderer;
 import graphics.MapRendererListener;
 import ui.GuiScene;
-import ui.SinglePlayerPanel;
+import ui.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private GameState gameState = GameState.Started;
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
-    private SinglePlayerPanel uiPanel;
+    private GamePanel uiPanel;
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private int counter;
@@ -48,10 +48,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
         this.difficulty = difficulty;
 
-        /* this.playerMap = new Map(mapSize);
-        battleship = new Battleship(playerMap);
-        this.playerMap.insert(battleship, new Point(0, 0), false);*/
-
         MapGenerator generator = new MapGenerator();
 
         this.playerMap = generator.generate(mapSize);
@@ -67,6 +63,13 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
 
+        Dimension size = new Dimension(512, 512);
+
+        if(this.playerMap.getSize() > 10) {
+            size = new Dimension(620, 620);
+        }
+
+        this.uiPanel.updateMapSize(size);
         DrawMap();
     }
 
@@ -119,7 +122,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        SinglePlayerPanel singlePlayerPanel = new SinglePlayerPanel(this.playerMapRenderer, this.enemyMapRenderer);
+        GamePanel singlePlayerPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
+
         singlePlayerPanel = singlePlayerPanel.create(new Dimension(512, 512));
 
         this.uiPanel = singlePlayerPanel;

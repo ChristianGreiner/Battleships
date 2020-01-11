@@ -50,7 +50,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.addMouseListener(this);
         this.addMouseWheelListener(this);
         this.addKeyListener(this);
-
     }
 
     public boolean isEditorMode() {
@@ -90,18 +89,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.explosionAnim.start();
     }
 
-    @Override
-    public void draw() {
-        super.draw();
 
-        if (this.map == null) {
-            return;
-        }
-
-        if (this.explosionAnim != null) {
-            this.explosionAnim.update();
-        }
-
+    public Graphics beginRendering() {
         Graphics g = this.begin();
 
         this.tileSize = new Point(this.getWidth() / (this.map.getSize() + 1), this.getHeight() / (this.map.getSize() + 1));
@@ -139,8 +128,26 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             }
         }
 
-        this.end();
+        return g;
+    }
 
+    public void endRendering() {
+        this.end();
+    }
+
+    @Override
+    public void draw() {
+
+        if (this.map == null) {
+            return;
+        }
+
+        if (this.explosionAnim != null) {
+            this.explosionAnim.update();
+        }
+
+        this.beginRendering();
+        this.endRendering();
     }
 
     private void drawGrid(Graphics g, Point tileSize) {

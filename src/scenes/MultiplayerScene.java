@@ -1,19 +1,26 @@
 package scenes;
 
-import core.Game;
 import core.GameWindow;
 import core.Updatable;
+import graphics.MapRenderer;
+import ui.GamePanel;
 import ui.GuiScene;
-import ui.MultiplayerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyListener {
 
+    private MapRenderer playerMapRenderer;
+    private MapRenderer enemyMapRenderer;
+
     public MultiplayerScene() {
         super("MultiplayerScene");
+
+        this.playerMapRenderer = new MapRenderer(null);
+        this.enemyMapRenderer = new MapRenderer(null);
     }
 
     @Override
@@ -32,9 +39,11 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        MultiplayerPanel panel = new MultiplayerPanel();
+        GamePanel gamePanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
 
-        return panel.create();
+        gamePanel = gamePanel.create(new Dimension(512, 512));
+
+        return gamePanel;
     }
 
     @Override
@@ -48,10 +57,6 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Game.getInstance().getSoundManager().stopBackgroundMusic();
-            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
-        }
     }
 
     @Override
