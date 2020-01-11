@@ -180,8 +180,9 @@ public class MapBuilderRenderer extends MapRenderer {
 
     @Override
     public void drawHighlightTile(Graphics g){
-        if(!this.carrierSelected && !this.battleshipSelected && !this.destroyerSelected && !this.submarineSelected)
-            super.drawHighlightTile(g);
+        return;
+        //if(!this.carrierSelected && !this.battleshipSelected && !this.destroyerSelected && !this.submarineSelected)
+        //    super.drawHighlightTile(g);
     }
     @Override
     public void mousePressed(MouseEvent e) {
