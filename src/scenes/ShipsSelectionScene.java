@@ -4,10 +4,11 @@ import ai.AiDifficulty;
 import core.Drawable;
 import core.Game;
 import core.GameWindow;
-import game.Assets;
-import game.Map;
+import game.*;
+import game.ships.Ship;
 import graphics.MapBuilderRenderer;
 import graphics.MapRenderer;
+import graphics.MapRendererListener;
 import ui.GuiScene;
 import ui.ShipSelectionPanel;
 import ui.SinglePlayerPanel;
@@ -17,7 +18,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, KeyListener {
+public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, KeyListener, MapRendererListener {
 
     private int mapSize;
     private AiDifficulty difficulty;
@@ -29,19 +30,21 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         super("ShipsSelectionScene");
 
         this.buildRenderer = new MapBuilderRenderer(null);
+        this.buildRenderer.addMapRendererListener(this);
     }
 
     @Override
     public void onAdded() {
         super.onAdded();
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
+        this.buildRenderer.setEditorMode(true);
     }
 
     public void initializeGame(int mapSize, AiDifficulty difficulty) {
         this.mapSize = mapSize;
         this.difficulty = difficulty;
         this.playerMap = new Map(this.mapSize);
-        this.buildRenderer.setMap(new Map(10));
+        this.buildRenderer.setMap(new Map(30));
     }
 
     @Override
@@ -83,4 +86,22 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             this.buildRenderer.draw();
         }
     }
+
+    @Override
+    public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
+        ship.setRotated(rotated);
+        map.move(ship, pos);
+        System.out.println("DROPPED AT " + pos);
+    }
+
+    @Override
+    public void OnShotFired(Map map, Point pos) {
+        return;
+    }
+
+    @Override
+    public void OnRotated(Map map, Ship ship) {
+        map.rotate(ship);
+    }
+
 }
