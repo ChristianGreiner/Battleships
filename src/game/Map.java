@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class Map implements MapInterface, Serializable {
     private MapTile[][] tiles;
-    private HashMap<Type, Integer> shipsCounter = new HashMap<>();
+    private HashMap<Type, Integer> shipsCounter = new HashMap<Type, Integer>();
     private int size;
     private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
     private int numberOfShips;
@@ -196,7 +196,11 @@ public class Map implements MapInterface, Serializable {
             }
         }
 
-        this.computeShipCountAdd(ship);
+        // increase ship counter
+        int counter = this.shipsCounter.get(ship.getClass());
+        this.shipsCounter.put(ship.getClass(), counter + 1);
+
+        this.ships.add(ship);
 
         // trigger listener
         for (int i = 0; i < this.listeners.size(); i++) {
@@ -204,16 +208,6 @@ public class Map implements MapInterface, Serializable {
         }
 
         return true;
-    }
-
-    private void computeShipCountAdd(Ship ship) {
-        int counter = this.shipsCounter.get(ship.getClass());
-
-        // TODO: COUNTER ALWAYS RESETS TO 0 !!! FUCK
-
-        this.shipsCounter.replace(ship.getClass(), counter + 1);
-
-        this.ships.add(ship);
     }
 
     private void computeRemoveShip(Ship ship) {
