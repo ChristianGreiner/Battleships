@@ -42,6 +42,8 @@ public final class Assets {
         Sounds.SEATBELT_SFX = AssetsLoader.loadSound(Paths.SEATBELT_SFX);
 
         Files.MAPDATA = new File(Assets.class.getClassLoader().getResource(Paths.MAPDATA).getFile());
+
+        MapGenerator.init();
     }
 
     /**

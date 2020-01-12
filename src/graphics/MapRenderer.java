@@ -105,7 +105,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     private void setTileSize()
     {
-        if(this.gridSize != null)
+        if(this.gridSize != null && this.map != null)
             this.tileSize = new Point(this.gridSize.x / (this.map.getSize() + 1), this.gridSize.y / (this.map.getSize() + 1));
     }
 
@@ -406,7 +406,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             this.rotated = !this.rotated;
         //}
 
-        System.out.println("rotated");
     }
 
     @Override
@@ -418,15 +417,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
             this.rotated = !this.rotated;
 
-
-            System.out.println("rotated");
         }
-        System.out.println("rotated");
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("rotated");
     }
 
     @Override

@@ -5,8 +5,8 @@ import core.Game;
 import core.GameWindow;
 import game.Assets;
 import game.Savegame;
-import ui.GuiScene;
 import ui.GameSettingsPanel;
+import ui.GuiScene;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -43,7 +43,7 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         settings.getLoadGameBtn().addActionListener((e) -> {
             Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
             if(savegame != null) {
-                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+                SingePlayeScene scene = (SingePlayeScene) Game.getInstance().getSceneManager().setActiveScene(SingePlayeScene.class);
                 scene.initializeSavegame(savegame);
             }
         });

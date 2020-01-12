@@ -8,15 +8,15 @@ import game.ships.Battleship;
 import game.ships.Ship;
 import graphics.MapRenderer;
 import graphics.MapRendererListener;
-import ui.GuiScene;
 import ui.GamePanel;
+import ui.GuiScene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SinglePlayerScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene {
+public class SingePlayeScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene {
 
     private Map playerMap;
     private Map enemyMap;
@@ -30,7 +30,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private int counter;
     private Battleship battleship;
 
-    public SinglePlayerScene() {
+    public SingePlayeScene() {
         super("SinglePlayer");
 
         this.playerMapRenderer = new MapRenderer(null);
@@ -45,19 +45,19 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         super.onAdded();
     }
 
-    public void initializeGame(int mapSize, AiDifficulty difficulty) {
+    public void initializeGame(Map map, AiDifficulty difficulty) {
         this.difficulty = difficulty;
 
         MapGenerator generator = new MapGenerator();
 
-        this.playerMap = generator.generate(mapSize);
+        this.playerMap = map;
 
-        this.enemyMap = generator.generate(mapSize);
+        this.enemyMap = generator.generate(map.getSize());
 
         this.ai = new AI(this.playerMap, difficulty);
 
         this.playerMapRenderer.setMap(this.playerMap);
-        this.playerMapRenderer.setEditorMode(true);
+        this.playerMapRenderer.setEditorMode(false);
 
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.enemyMapRenderer.setEditorMode(false);
@@ -220,7 +220,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
         ship.setRotated(rotated);
         map.move(ship, pos);
-        System.out.println("DROPPED AT " + pos);
     }
 
     @Override

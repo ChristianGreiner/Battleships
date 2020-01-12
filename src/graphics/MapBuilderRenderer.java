@@ -129,7 +129,6 @@ public class MapBuilderRenderer extends MapRenderer {
 
             for (MapRendererListener mouseListener : listener) {
                 if (mouseListener != null) {
-                    System.out.println("DROPPED");
                     mouseListener.OnShipDropped(this.map, shipToDrop, tempPoint, this.rotated);
                 }
             }

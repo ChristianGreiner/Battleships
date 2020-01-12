@@ -11,9 +11,17 @@ import java.util.HashMap;
  */
 public class MapGenerator {
 
-    private HashMap<Integer, MapData> configMap = new HashMap<>();
+    public static HashMap<Integer, MapData> getConfigMap() {
+        return configMap;
+    }
+
+    private static HashMap<Integer, MapData> configMap = new HashMap<>();
 
     public MapGenerator() {
+
+    }
+
+    public static void init() {
         try {
             MapData[] dat = Game.getInstance().getFileHandler().readMapConfig(Assets.Files.MAPDATA.getAbsolutePath());
             for (int i = 0; i < dat.length; i++) {
@@ -31,10 +39,10 @@ public class MapGenerator {
      */
     public Map generate(int size) {
 
-        if (this.configMap == null)
+        if (configMap == null)
             return null;
 
-        MapData data = this.configMap.get(size);
+        MapData data = configMap.get(size);
         Map map = new Map(size);
 
         int countCarriers = 0;
