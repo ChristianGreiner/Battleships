@@ -6,6 +6,9 @@ import game.Map;
 import java.awt.*;
 import java.io.Serializable;
 
+/**
+ * In the AllMightyMode, the AI can hit directly a ship with a low probability, otherwise it will shoot after the HumanStrategy.
+ */
 public class AllMightyMode implements AiStrategy, Serializable {
 
     private HumanStrategy internstrategy = new HumanStrategy();
@@ -41,7 +44,6 @@ public class AllMightyMode implements AiStrategy, Serializable {
         }
         return this.internstrategy.process(map);
     }
-
 
     private boolean permitInfluencedHit() {
         int number = (int) (Math.random() * 10);
