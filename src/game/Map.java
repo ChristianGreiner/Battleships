@@ -198,7 +198,11 @@ public class Map implements MapInterface, Serializable {
 
         // increase ship counter
         int counter = this.shipsCounter.get(ship.getClass());
-        this.shipsCounter.put(ship.getClass(), counter + 1);
+        this.shipsCounter.put(ship.getClass(), counter + 1 );
+
+        this.shipsCounter.forEach((key, value) -> {
+            System.out.println("Key : " + key + " Value : " + value);
+        });
 
         this.ships.add(ship);
 
@@ -206,6 +210,9 @@ public class Map implements MapInterface, Serializable {
         for (int i = 0; i < this.listeners.size(); i++) {
             this.listeners.get(i).OnMapUpdated();
         }
+
+        System.out.println("[MAP] Ship insert" +  ship.getClass());
+        System.out.println("[MAP] Ship " + ship.getClass() + " Count: " +  this.shipsCounter.get(ship.getClass()));
 
         return true;
     }

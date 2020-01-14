@@ -46,6 +46,7 @@ public class ShipSelectionPanel extends JPanel {
         panel.setVisible(true);
 
         JPanel mapContainer = new JPanel();
+        mapContainer.setBackground(UiBuilder.TRANSPARENT);
         mapContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
@@ -55,20 +56,23 @@ public class ShipSelectionPanel extends JPanel {
         panel.add(mapContainer, gbc);
 
         JPanel playerMapContainer = new JPanel();
+        playerMapContainer.setBackground(UiBuilder.TRANSPARENT);
         playerMapContainer.setLayout(new GridBagLayout());
         mapContainer.add(playerMapContainer);
 
-        final JLabel playerLabel = new JLabel();
-        playerLabel.setHorizontalAlignment(0);
-        playerLabel.setText("BUILD MAP");
-        playerLabel.setFont(Assets.Fonts.DEFAULT_24);
+        final JLabel title = new JLabel();
+        title.setHorizontalAlignment(0);
+        title.setText("BUILD MAP");
+        title.setFont(Assets.Fonts.TITLE);
+        title.setForeground(Color.WHITE);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        playerMapContainer.add(playerLabel, gbc);
+        playerMapContainer.add(title, gbc);
 
         final JPanel spacer1 = new JPanel();
+        spacer1.setBackground(UiBuilder.TRANSPARENT);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -84,6 +88,7 @@ public class ShipSelectionPanel extends JPanel {
         playerMapContainer.add(mapRenderer, gbc);
 
         final JPanel spacer2 = new JPanel();
+        spacer2.setBackground(UiBuilder.TRANSPARENT);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -92,13 +97,13 @@ public class ShipSelectionPanel extends JPanel {
 
         JPanel btnContainer = new JPanel();
         btnContainer.setLayout(new BorderLayout(0, 0));
+        btnContainer.setBackground(UiBuilder.TRANSPARENT);
 
         JPanel randomBtnContainer = new JPanel();
         randomBtnContainer.setLayout(new GridBagLayout());
         btnContainer.add(randomBtnContainer, BorderLayout.WEST);
 
-        btnRandomMap = new JButton();
-        btnRandomMap.setText("RANDOM");
+        btnRandomMap = UiBuilder.createButton("RANDOM", new Dimension(120, 32));
         GridBagConstraints gbc2;
         gbc2 = new GridBagConstraints();
         gbc2.gridx = 0;
@@ -107,19 +112,18 @@ public class ShipSelectionPanel extends JPanel {
         randomBtnContainer.add(btnRandomMap, gbc2);
 
         JPanel btnStartContainer = new JPanel();
+        btnStartContainer.setBackground(UiBuilder.TRANSPARENT);
         btnStartContainer.setLayout(new GridBagLayout());
         btnContainer.add(btnStartContainer, BorderLayout.EAST);
 
-        btnCancel = new JButton();
-        btnCancel.setText("CANCEL");
+        btnCancel = UiBuilder.createButton("CANCEL", new Dimension(120, 32));
         gbc2 = new GridBagConstraints();
         gbc2.gridx = 0;
         gbc2.gridy = 0;
         gbc2.fill = GridBagConstraints.HORIZONTAL;
         btnStartContainer.add(btnCancel, gbc2);
 
-        btnStartGame = new JButton();
-        btnStartGame.setText("START GAME");
+        btnStartGame = UiBuilder.createButton("START", new Dimension(120, 32));
         btnStartGame.setEnabled(false);
         gbc2 = new GridBagConstraints();
         gbc2.gridx = 2;
@@ -128,6 +132,7 @@ public class ShipSelectionPanel extends JPanel {
         btnStartContainer.add(btnStartGame, gbc2);
 
         final JPanel spacerBtn = new JPanel();
+        spacerBtn.setBackground(UiBuilder.TRANSPARENT);
         gbc2 = new GridBagConstraints();
         gbc2.gridx = 1;
         gbc2.gridy = 0;
