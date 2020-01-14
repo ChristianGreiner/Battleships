@@ -22,6 +22,10 @@ public class Map implements MapInterface, Serializable {
     private ArrayList<Ship> ships = new ArrayList<>();
     private ArrayList<MapListener> listeners = new ArrayList();
 
+    /**
+     * The constructor of the map.
+     * @param size The size of the map.
+     */
     public Map(int size) {
         this.size = size;
         this.tiles = new MapTile[size][size];
@@ -147,6 +151,9 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
+    /**
+     * Uses by the ai for calculation the next hit.
+     */
     public void setOutOfShipLength() { //everytime ship gets destroyed, this method should be refreshed
         if (this.shipsCounter.get(Submarine.class) == 0) {
             outOfShipLength = 2;
@@ -588,6 +595,11 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
+    /**
+     * Whenever or not a field is visable or not. Mainly used by the ai.
+     * @param pos The pos of the field.
+     * @return If the field is visable.
+     */
     public boolean fieldIsViable(Point pos) {
 
         if (!(isInMap(pos)) || this.tiles[pos.x][pos.y].isHit() || !(this.tiles[pos.x][pos.y].getViable() || this.tiles[pos.x][pos.y].isBlocked())) {
@@ -809,7 +821,6 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Removes the ship from the map
-     *
      * @param ship The ship.
      */
     public void remove(Ship ship) {
@@ -862,10 +873,10 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
-    /***
+    /**
      * Checks if the point is in the map.
      * @param position The position
-     * @return
+     * @return Whenever or not the point is in the map.
      */
     public boolean isInMap(Point position) {
         if (position == null)

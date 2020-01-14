@@ -133,7 +133,7 @@ public class OptionsPanel extends JPanel {
 
         final JPanel btnContainer = new JPanel();
         btnContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        btnContainer.setBackground(new Color(0, 0, 0, 155));
+        btnContainer.setBackground(UiBuilder.BLACK_ALPHA);
         btnMainContainer.add(btnContainer, BorderLayout.CENTER);
 
         saveBtn = UiBuilder.createButton("SAVE", new Dimension(120, UiBuilder.BUTTON_HEIGHT));

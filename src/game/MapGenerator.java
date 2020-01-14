@@ -11,16 +11,19 @@ import java.util.HashMap;
  */
 public class MapGenerator {
 
+    /**
+     * A container for storing the mapdata (value) foreach map size. (Key)
+     * @return
+     */
     public static HashMap<Integer, MapData> getConfigMap() {
         return configMap;
     }
 
     private static HashMap<Integer, MapData> configMap = new HashMap<>();
 
-    public MapGenerator() {
-
-    }
-
+    /**
+     * Initialize the map generator and reads the map data. (Json file)
+     */
     public static void init() {
         try {
             MapData[] dat = Game.getInstance().getFileHandler().readMapConfig(Assets.Files.MAPDATA.getAbsolutePath());

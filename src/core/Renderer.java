@@ -39,6 +39,9 @@ public class Renderer extends JPanel implements Drawable {
 
         this.doubleBufferGraphics = this.doubleBufferImage.getGraphics();
 
+        if(this.doubleBufferGraphics == null)
+            System.out.println("GRAPHICS COULD NOT CREATE");
+
         // clear image
         this.doubleBufferGraphics.setColor(Color.black);
         this.doubleBufferGraphics.clearRect(clearRect.x, clearRect.y, clearRect.width, clearRect.height);

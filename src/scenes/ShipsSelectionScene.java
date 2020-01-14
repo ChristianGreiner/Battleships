@@ -102,17 +102,8 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void draw() {
-        try {
-            if (this.buildRenderer != null) {
-                this.buildRenderer.draw();
-            }
-        }
-        catch (Exception e) {
-            if(this.uiPanel != null) {
-
-                this.uiPanel.revalidate();
-                this.uiPanel.invalidate();
-            }
+        if (this.buildRenderer != null) {
+            this.buildRenderer.draw();
         }
     }
 
