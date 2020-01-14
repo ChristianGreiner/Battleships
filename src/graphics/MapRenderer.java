@@ -18,6 +18,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     private boolean editorMode = false;
     private boolean enemyMap = false;
+    private boolean shipsVisable = true;
     protected Map map;
     private Point gridSize;
     protected Point tileSize;
@@ -91,6 +92,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.explosionAnim.start();
     }
 
+    public boolean isShipsVisable() {
+        return shipsVisable;
+    }
+
+    public void setShipsVisable(boolean shipsVisable) {
+        this.shipsVisable = shipsVisable;
+    }
 
    /*public void setTileSize()
     {
@@ -205,6 +213,9 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                         g.setColor(Color.BLUE);
                     }
 
+                    if(!this.shipsVisable)
+                        g.setColor(Color.BLUE);
+
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
 
                     if (tile.isHit()) {
@@ -216,6 +227,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     g.setColor(Color.RED);
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
                 } else {
+                    // draw water
                     g.setColor(Color.BLUE);
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
                 }

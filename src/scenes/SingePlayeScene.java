@@ -62,6 +62,7 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
+        this.enemyMapRenderer.setShipsVisable(false);
 
         Dimension size = new Dimension(512, 512);
 
@@ -70,7 +71,6 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
         }
 
         this.uiPanel.updateMapSize(size);
-        DrawMap();
     }
 
     public void initializeSavegame(Savegame savegame) {
@@ -181,8 +181,6 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
 
         Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
 
-        //DrawMap();
-        //counter++;
         this.playerMapRenderer.playExplosion(hitData.getPosition());
 
         if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
@@ -190,30 +188,6 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
         } else if (hitData.getHitType() == HitType.Water) {
             this.playerTurn = PlayerType.Player;
         }
-    }
-
-    private void DrawMap() {
-        for (int y = 0; y < this.playerMap.getSize(); y++) {
-            for (int x = 0; x < this.playerMap.getSize(); x++) {
-                MapTile tile = this.playerMap.getTile(new Point(x, y));
-
-                if (tile.hasShip()) {
-                    if (tile.isHit()) {
-                        System.out.print(ANSIColors.RED + "X" + ANSIColors.RESET + "|");
-                    } else {
-                        System.out.print(ANSIColors.YELLOW + "X" + ANSIColors.RESET + "|");
-                    }
-                } else if (tile.isBlocked()) {
-                    System.out.print(ANSIColors.GREEN + "X" + ANSIColors.RESET + "|");
-                } else if (tile.isHit()) {
-                    System.out.print(ANSIColors.BLUE + "X" + ANSIColors.RESET + "|");
-                } else {
-                    System.out.print(ANSIColors.BLUE + " " + ANSIColors.RESET + "|");
-                }
-            }
-            System.out.print("\n" + ANSIColors.RESET);
-        }
-        System.out.println("-------------------------");
     }
 
     @Override
