@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SingePlayeScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene {
+public class SingePlayeScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
 
     private Map playerMap;
     private Map enemyMap;
@@ -45,14 +45,14 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
         super.onAdded();
     }
 
-    public void initializeGame(Map map, AiDifficulty difficulty) {
-        this.difficulty = difficulty;
+    public void initializeGameSession(GameSessionData data) {
+        this.difficulty = data.getAiDifficulty();
 
         MapGenerator generator = new MapGenerator();
 
-        this.playerMap = map;
+        this.playerMap = data.getMap();
 
-        this.enemyMap = generator.generate(map.getSize());
+        this.enemyMap = generator.generate(data.getMapSize());
 
         this.ai = new AI(this.playerMap, difficulty);
 

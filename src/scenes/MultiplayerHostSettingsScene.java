@@ -1,12 +1,10 @@
 package scenes;
 
-import ai.AiDifficulty;
 import core.Game;
 import core.GameWindow;
-import game.Assets;
-import game.Savegame;
-import ui.GuiScene;
+import game.GameSessionData;
 import ui.GameSettingsPanel;
+import ui.GuiScene;
 
 import javax.swing.*;
 
@@ -22,7 +20,10 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
 
         settings.getNewGameBtn().addActionListener((e) -> {
             Game.getInstance().getNetworkManager().startServer(5555);
-            Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
+            WaitingForPlayerScene scene = (WaitingForPlayerScene)Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
+
+            int size = (int) settings.getSizeSpinner().getValue();
+            scene.initializeGameSession(new GameSessionData(null, size, null));
         });
 
         settings.getLoadGameBtn().addActionListener((e) -> {

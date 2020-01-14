@@ -4,10 +4,7 @@ import ai.AiDifficulty;
 import core.Drawable;
 import core.Game;
 import core.GameWindow;
-import game.Assets;
-import game.Map;
-import game.MapGenerator;
-import game.MapListener;
+import game.*;
 import game.ships.Ship;
 import graphics.MapBuilderRenderer;
 import graphics.MapRendererListener;
@@ -19,7 +16,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, KeyListener, MapRendererListener, MapListener {
+public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, KeyListener, MapRendererListener, MapListener, GameSession {
 
     private int mapSize;
     private AiDifficulty aiDifficulty;
@@ -43,9 +40,10 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         this.buildRenderer.setEditorMode(true);
     }
 
-    public void initializeGame(int mapSize, AiDifficulty difficulty) {
-        this.mapSize = mapSize;
-        this.aiDifficulty = difficulty;
+    @Override
+    public void initializeGameSession(GameSessionData data) {
+        this.mapSize = data.getMapSize();
+        this.aiDifficulty = data.getAiDifficulty();
         this.playerMap = new Map(this.mapSize);
         this.buildRenderer.setMap(this.playerMap);
         this.playerMap.addListener(this);
@@ -55,7 +53,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public JPanel buildGui(GameWindow gameWindow) {
         ShipSelectionPanel shipSelectionPanel = new ShipSelectionPanel(this.buildRenderer);
 
-        shipSelectionPanel.create(new Dimension(800, 512));
+        shipSelectionPanel.create(new Dimension(800, 450));
 
         this.uiPanel = shipSelectionPanel;
 
@@ -72,8 +70,10 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
             SingePlayeScene scene = (SingePlayeScene) Game.getInstance().getSceneManager().setActiveScene(SingePlayeScene.class);
 
-            scene.initializeGame(this.playerMap, this.aiDifficulty);
+            scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), this.aiDifficulty));
         });
+
+        shipSelectionPanel.invalidate();
 
         return shipSelectionPanel;
     }
@@ -134,4 +134,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             this.uiPanel.getBtnStartGame().setEnabled(this.playerMap.isCorrectFilled());
         }
     }
+
+
 }

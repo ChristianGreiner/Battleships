@@ -4,6 +4,7 @@ import ai.AiDifficulty;
 import core.Game;
 import core.GameWindow;
 import game.Assets;
+import game.GameSessionData;
 import game.Savegame;
 import ui.GameSettingsPanel;
 import ui.GuiScene;
@@ -37,7 +38,7 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             int size = (int) settings.getSizeSpinner().getValue();
             String difficulty = String.valueOf(settings.getAiDifficultyCbox().getSelectedItem());
             difficulty = difficulty.replaceAll(" ", "");
-            scene.initializeGame(size, AiDifficulty.valueOf(difficulty));
+            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty)));
         });
 
         settings.getLoadGameBtn().addActionListener((e) -> {
