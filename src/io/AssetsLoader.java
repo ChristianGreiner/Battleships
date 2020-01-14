@@ -6,14 +6,27 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Loads different types of assets.
+ */
 public class AssetsLoader {
 
     private static int assetsLoaded = 0;
 
+    /**
+     * Static assets loader reference.
+     * @return The assets loader.
+     */
     public static int getAssetsLoaded() {
         return assetsLoaded;
     }
 
+    /**
+     * Loads a font.
+     * @param fontName The font name
+     * @param fontSize The font size.
+     * @return The font.
+     */
     public static Font loadFont(String fontName, float fontSize) {
         try {
             assetsLoaded++;
@@ -26,6 +39,11 @@ public class AssetsLoader {
         return null;
     }
 
+    /**
+     * Loads an image.
+     * @param imageName The image name.
+     * @return The image.
+     */
     public static Image loadImage(String imageName) {
         try {
             assetsLoaded++;
@@ -37,6 +55,11 @@ public class AssetsLoader {
         return null;
     }
 
+    /**
+     * Loads a buffered image.
+     * @param imageName The name of the image.
+     * @return The buffered image.
+     */
     public static BufferedImage loadBufferedImage(String imageName) {
         try {
             assetsLoaded++;
@@ -47,7 +70,11 @@ public class AssetsLoader {
         return null;
     }
 
-
+    /**
+     * Loads a clip (sound).
+     * @param soundName The sound name.
+     * @return The clip.
+     */
     public static Clip loadSound(String soundName) {
         AudioInputStream audioInputStream = null;
         try {
@@ -68,5 +95,4 @@ public class AssetsLoader {
 
         return null;
     }
-
 }

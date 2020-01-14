@@ -8,6 +8,9 @@ import game.Credit;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Renders the credit scene.
+ */
 public class CreditsRenderer extends Renderer {
 
     private ArrayList<Credit> credits;
@@ -15,6 +18,11 @@ public class CreditsRenderer extends Renderer {
     private Point canvasSize;
     private int currentY;
 
+    /**
+     * The constructor of the renderer.
+     * @param credits A list of credits.
+     * @param canvasSize The size of the canvas.
+     */
     public CreditsRenderer(ArrayList<Credit> credits, Point canvasSize) {
         this.credits = credits;
         this.startPos = new Point(canvasSize.x / 2, canvasSize.y);
