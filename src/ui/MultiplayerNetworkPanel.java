@@ -61,7 +61,7 @@ public class MultiplayerNetworkPanel extends JPanel {
         addSpace(panel, 2, null);
 
         // textbox
-        hostnameField = new JTextField();
+        hostnameField = new JTextField("localhost");
         hostnameField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         hostnameField.setFont(Assets.Fonts.DEFAULT);
         hostnameField.getDocument().addDocumentListener((TextFieldDocumentListener) e -> {

@@ -3,7 +3,9 @@ package scenes;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
+import game.GameSessionData;
 import game.HitType;
+import game.Map;
 import network.NetworkListener;
 import network.commands.ShotCommand;
 import ui.GuiScene;
@@ -22,6 +24,7 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     @Override
     public void onAdded() {
         super.onAdded();
+        Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
     @Override
@@ -99,6 +102,12 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     @Override
     public void OnGameJoined(int mapSize, int[] ships) {
 
+        System.out.println("Game joined");
+
+        Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
+        ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
+
+        scene.initializeGameSession(new GameSessionData(new Map(10), 10, null));
     }
 
     @Override

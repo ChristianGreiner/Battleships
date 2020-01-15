@@ -17,7 +17,7 @@ public class Game implements Runnable {
 
     private static Game instance;
 
-    public final int TARGET_FPS = 30;
+    public final int TARGET_FPS = 25;
     final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
 
     private SceneManager sceneManager;

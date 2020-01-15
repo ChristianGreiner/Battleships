@@ -175,8 +175,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             this.explosionAnim.update();
         }
 
-        this.beginRendering();
-        this.endRendering();
+        if(this.isVisible()) {
+            this.beginRendering();
+            this.endRendering();
+        }
     }
 
     private void drawGrid(Graphics g, Point tileSize) {

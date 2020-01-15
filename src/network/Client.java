@@ -19,7 +19,6 @@ public class Client extends Thread {
         this.manager = manager;
         try {
             this.socket = new Socket(host, port);
-
         } catch (IOException e) {
             this.running = false;
             JOptionPane.showMessageDialog(null, "Cannot connect to " + host);
@@ -41,6 +40,10 @@ public class Client extends Thread {
 
         if(this.socket == null)
             return;
+
+        for (NetworkListener listener : this.manager.getListeners()) {
+            listener.OnGameJoined(0, new int[3]);
+        }
 
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	//Socket Input
