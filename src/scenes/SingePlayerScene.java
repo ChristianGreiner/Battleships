@@ -2,9 +2,11 @@ package scenes;
 
 import ai.AI;
 import ai.AiDifficulty;
-import core.*;
+import core.Drawable;
+import core.Game;
+import core.GameWindow;
+import core.Updatable;
 import game.*;
-import game.ships.Battleship;
 import game.ships.Ship;
 import graphics.MapRenderer;
 import graphics.MapRendererListener;
@@ -16,7 +18,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SingePlayeScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
+public class SingePlayerScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
 
     private Map playerMap;
     private Map enemyMap;
@@ -27,10 +29,9 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
     private GamePanel uiPanel;
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
-    private int counter;
-    private Battleship battleship;
+    private boolean paused = false;
 
-    public SingePlayeScene() {
+    public SingePlayerScene() {
         super("SinglePlayer");
 
         this.playerMapRenderer = new MapRenderer(null);
@@ -70,7 +71,7 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
             size = new Dimension(620, 620);
         }
 
-        this.uiPanel.updateMapSize(size);
+        //this.uiPanel.updateMapSize(size);
     }
 
     public void initializeSavegame(Savegame savegame) {
@@ -78,6 +79,8 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
         this.enemyMap = savegame.getEnemyMap();
         this.ai = savegame.getAi();
         this.playerMapRenderer.setMap(this.playerMap);
+        this.enemyMapRenderer.setMap(this.enemyMap);
+        this.playerTurn = savegame.getCurrentTurn();
     }
 
     private float waitTimer = 0;
@@ -85,7 +88,7 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
     @Override
     public void update(double deltaTime) {
 
-        if (this.playerMap == null) return;
+        if (this.playerMap == null || this.paused) return;
 
         if (this.playerMap.allShipsDestoryed() || this.enemyMap.allShipsDestoryed()) {
             this.gameState = GameState.Finished;
@@ -126,6 +129,23 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
 
         singlePlayerPanel = singlePlayerPanel.create(new Dimension(512, 512));
 
+        singlePlayerPanel.getBtnExit().addActionListener((e) -> {
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+        });
+
+        singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
+            Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
+            if(savegame != null) {
+                SingePlayerScene scene = (SingePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SingePlayerScene.class);
+                scene.initializeSavegame(savegame);
+            }
+        });
+
+        singlePlayerPanel.getBtnSave().addActionListener((e) -> {
+            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
+            Game.getInstance().getFileHandler().saveSavegame(savegame);
+        });
+
         this.uiPanel = singlePlayerPanel;
 
         return singlePlayerPanel;
@@ -151,11 +171,6 @@ public class SingePlayeScene extends Scene implements KeyListener, MapRendererLi
         if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSoundManager().stopBackgroundMusic();
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
-        }
-
-        if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
-            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
-            Game.getInstance().getFileHandler().saveSavegame(savegame);
         }
     }
 

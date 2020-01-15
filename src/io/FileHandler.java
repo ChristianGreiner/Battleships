@@ -14,7 +14,7 @@ import java.io.*;
  */
 public class FileHandler {
 
-    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Battleship Savegame", "*.bsg", "bsg");
+    public final static FileNameExtensionFilter filter = new FileNameExtensionFilter("Battleship Savegame", "*.bsg", "bsg");
     private Gson gson = new Gson();
 
     /**
@@ -105,7 +105,7 @@ public class FileHandler {
      * Writes the savegame to a file.
      * @param savegame The savegame.
      */
-    public void saveSavegame(Savegame savegame) {
+    public JFileChooser saveSavegame(Savegame savegame) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
 
@@ -114,6 +114,8 @@ public class FileHandler {
 
             this.writeObject(savegame, file, "bsg");
         }
+
+        return fileChooser;
     }
 
     /**

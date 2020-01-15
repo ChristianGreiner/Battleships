@@ -54,7 +54,7 @@ public class OptionsPanel extends JPanel {
         sfxVolumeContainer.add(sfxVolumeSlider);
 
         final JLabel titleLbl = new JLabel("OPTIONS");
-        titleLbl.setFont(Assets.Fonts.TITLE);
+        titleLbl.setFont(Assets.Fonts.TITLE_36);
         titleLbl.setHorizontalAlignment(0);
         titleLbl.setHorizontalTextPosition(0);
         titleLbl.setVerticalAlignment(1);

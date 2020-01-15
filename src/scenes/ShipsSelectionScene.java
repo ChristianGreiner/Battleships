@@ -68,7 +68,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         });
 
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
-            SingePlayeScene scene = (SingePlayeScene) Game.getInstance().getSceneManager().setActiveScene(SingePlayeScene.class);
+            SingePlayerScene scene = (SingePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SingePlayerScene.class);
 
             scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), this.aiDifficulty));
         });
@@ -102,8 +102,10 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void draw() {
-        if (this.buildRenderer != null) {
-            this.buildRenderer.draw();
+        if(this.uiPanel != null && this.buildRenderer != null) {
+            if (this.uiPanel.isVisible() && this.uiPanel.isValid()) {
+                this.buildRenderer.draw();
+            }
         }
     }
 

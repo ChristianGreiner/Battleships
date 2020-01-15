@@ -24,6 +24,7 @@ public final class Assets {
         String FONT = Paths.ROBOTO_FONT;
 
         Fonts.TITLE = AssetsLoader.loadFont(Paths.PLAY_FONT, 48f);
+        Fonts.TITLE_36 = AssetsLoader.loadFont(Paths.PLAY_FONT, 36f);
         Fonts.TITLE_BIG = AssetsLoader.loadFont(Paths.PLAY_FONT, 64f);
         Fonts.DEFAULT = AssetsLoader.loadFont(FONT, 18f);
         Fonts.DEFAULT_BOLD = AssetsLoader.loadFont(Paths.ROBOTO_BOLD_FONT, 18f);
@@ -73,6 +74,7 @@ public final class Assets {
      */
     public static class Fonts {
         public static Font TITLE;
+        public static Font TITLE_36;
         public static Font TITLE_BIG;
         public static Font DEFAULT;
         public static Font DEFAULT_BOLD;

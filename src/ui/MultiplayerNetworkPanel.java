@@ -48,7 +48,7 @@ public class MultiplayerNetworkPanel extends JPanel {
         GridBagConstraints gbc;
 
         final JLabel title = new JLabel("MULTIPLAYER");
-        title.setFont(Assets.Fonts.TITLE);
+        title.setFont(Assets.Fonts.TITLE_36);
         title.setHorizontalAlignment(0);
         title.setHorizontalTextPosition(0);
         title.setForeground(Color.white);

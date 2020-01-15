@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ui.TmpGamePanel">
+  <grid id="27dc6" binding="mainContainer" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="768" height="578"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="95d4b" binding="gameFieldsContainer" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="c1309" binding="leftContainer" layout-manager="GridBagLayout">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="136ac" binding="playerLabelContainer" layout-manager="FlowLayout" hgap="0" vgap="5" flow-align="1">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="27716" class="javax.swing.JLabel" binding="playerLabel">
+                    <constraints/>
+                    <properties>
+                      <text value="PLAYER"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="8d912" layout-manager="GridBagLayout">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipadx="256" ipady="256"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </grid>
+          <grid id="d859e" binding="rightContainer" layout-manager="GridBagLayout">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="f4ef6" binding="enemyLabelContainer" layout-manager="FlowLayout" hgap="0" vgap="5" flow-align="1">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="5540e" class="javax.swing.JLabel" binding="enemyLabel">
+                    <constraints/>
+                    <properties>
+                      <text value="ENEMY"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="875ff" binding="enemyMapContainer" layout-manager="GridBagLayout">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipadx="256" ipady="256"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="a88ad" binding="btnContainer" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="41b42" binding="exitBtnContainer" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints border-constraint="West"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="6f78e" class="javax.swing.JButton" binding="btnExit">
+                <constraints/>
+                <properties>
+                  <text value="EXIT"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="a044d" binding="saveGameContainer" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="63d" class="javax.swing.JButton" binding="btnLoad">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <text value="LOAD"/>
+                </properties>
+              </component>
+              <component id="80850" class="javax.swing.JButton" binding="btnSave">
+                <constraints/>
+                <properties>
+                  <text value="SAVE"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

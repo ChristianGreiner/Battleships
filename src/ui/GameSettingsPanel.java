@@ -70,7 +70,7 @@ public class GameSettingsPanel extends JPanel {
         titleLbl.setHorizontalTextPosition(0);
         titleLbl.setText("GAME SETTINGS");
         titleLbl.setForeground(Color.WHITE);
-        titleLbl.setFont(Assets.Fonts.TITLE);
+        titleLbl.setFont(Assets.Fonts.TITLE_36);
 
         gbc = new GridBagConstraints();
         gbc.gridx = 0;

@@ -175,7 +175,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             this.explosionAnim.update();
         }
 
-        if(this.isVisible()) {
+        if(this.isVisible() && this.isValid()) {
             this.beginRendering();
             this.endRendering();
         }

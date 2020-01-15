@@ -63,7 +63,7 @@ public class ShipSelectionPanel extends JPanel {
         final JLabel title = new JLabel();
         title.setHorizontalAlignment(0);
         title.setText("BUILD MAP");
-        title.setFont(Assets.Fonts.TITLE);
+        title.setFont(Assets.Fonts.TITLE_36);
         title.setForeground(Color.WHITE);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
