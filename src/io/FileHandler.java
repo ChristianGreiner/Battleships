@@ -24,10 +24,14 @@ public class FileHandler {
      * @throws Exception Gets thrown when the map cant be find.
      */
     public MapData[] readMapConfig(String filename) throws Exception {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+
+        InputStream input = AssetsLoader.class.getClassLoader().getResourceAsStream(filename);
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
         MapData[] json = gson.fromJson(bufferedReader, MapData[].class);
         return json;
     }
+
 
     /**
      * Serialize an object to a file.

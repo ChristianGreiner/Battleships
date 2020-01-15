@@ -25,10 +25,11 @@ public class MapGenerator {
      * Initialize the map generator and reads the map data. (Json file)
      */
     public static void init() {
+        MapData[] data = null;
         try {
-            MapData[] dat = Game.getInstance().getFileHandler().readMapConfig(Assets.Files.MAPDATA.getAbsolutePath());
-            for (int i = 0; i < dat.length; i++) {
-                configMap.put(dat[i].MapSize, dat[i]);
+            data = Game.getInstance().getFileHandler().readMapConfig(Assets.Paths.MAPDATA);
+            for (int i = 0; i < data.length; i++) {
+                configMap.put(data[i].MapSize, data[i]);
             }
         } catch (Exception e) {
             e.printStackTrace();
