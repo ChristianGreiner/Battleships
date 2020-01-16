@@ -30,6 +30,8 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private boolean paused = false;
+    private final float startSize = 512;
+    private final Dimension windowStartSize;
 
     public SingePlayerScene() {
         super("SinglePlayer");
@@ -39,6 +41,8 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
 
         this.playerMapRenderer.addMapRendererListener(this);
         this.enemyMapRenderer.addMapRendererListener(this);
+
+        this.windowStartSize = Game.getInstance().getWindow().getSize();
     }
 
     @Override
@@ -130,6 +134,7 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
         singlePlayerPanel = singlePlayerPanel.create(new Dimension(512, 512));
 
         singlePlayerPanel.getBtnExit().addActionListener((e) -> {
+            Game.getInstance().getSoundManager().stopBackgroundMusic();
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
@@ -153,7 +158,22 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
 
     @Override
     public void sizeUpdated() {
-        //this.uiPanel.getPlayerMapRenderer().setPreferredSize(new Dimension(64, 64));
+        Dimension currentSize = Game.getInstance().getWindow().getSize();
+
+        float pixelPerSacel = 10;
+
+        float w = (float)(this.windowStartSize.getWidth() / currentSize.getWidth());
+        float h = (float)(this.windowStartSize.getHeight() / currentSize.getHeight());
+
+        System.out.println("W: " + w + " H: " + h);
+
+        Dimension currentMapSize = this.uiPanel.getPlayerMapRenderer().getSize();
+        Dimension newMapSize = new Dimension((int)(512 + w * 100), (int)(512  + h * 100));
+
+        System.out.println(newMapSize);
+
+        this.uiPanel.updateMapSize(newMapSize);
+
     }
 
     @Override

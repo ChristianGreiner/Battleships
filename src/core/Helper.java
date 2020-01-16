@@ -97,10 +97,22 @@ public class Helper {
         g.drawString(text, rect.x + a, rect.y + b);
     }
 
+    /**
+     * Limits a float value between min and max.
+     * @param value The value.
+     * @param min The min value.
+     * @param max The max value.
+     * @return The limitted value.
+     */
     public static float limit(float value, float min, float max) {
         return (value > max) ? max : (value < min ? min : value);
     }
 
+    /**
+     * Check regex for a ip adress.
+     * @param ip The ip adress.
+     * @return The validation.
+     */
     public static boolean validateIp(final String ip) {
         String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
 

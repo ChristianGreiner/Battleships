@@ -35,20 +35,7 @@ public class Game implements Runnable {
         this.gameSize = size;
         this.title = title;
 
-        // Initialize all Scenes
         this.sceneManager = new SceneManager(this);
-        this.sceneManager.addScene(new SplashScene());
-        this.sceneManager.addScene(new MainMenuScene());
-        this.sceneManager.addScene(new CreditsScene());
-        this.sceneManager.addScene(new OptionsScene());
-        this.sceneManager.addScene(new SinglePlayerSettingsScene());
-        this.sceneManager.addScene(new ShipsSelectionScene());
-        this.sceneManager.addScene(new SingePlayerScene());
-        this.sceneManager.addScene(new MultiplayerNetworkScene());
-        this.sceneManager.addScene(new MultiplayerHostSettingsScene());
-        this.sceneManager.addScene(new WaitingForPlayerScene());
-        this.sceneManager.addScene(new MultiplayerScene());
-
         this.soundManager = new SoundManager();
         this.networkManager = new NetworkManager();
     }
@@ -109,6 +96,23 @@ public class Game implements Runnable {
         return fileHandler;
     }
 
+    private void initializeScenes() {
+
+        // Initialize all Scenes
+        this.sceneManager.addScene(new SplashScene());
+        this.sceneManager.addScene(new MainMenuScene());
+        this.sceneManager.addScene(new CreditsScene());
+        this.sceneManager.addScene(new OptionsScene());
+        this.sceneManager.addScene(new SinglePlayerSettingsScene());
+        this.sceneManager.addScene(new ShipsSelectionScene());
+        this.sceneManager.addScene(new SingePlayerScene());
+        this.sceneManager.addScene(new MultiplayerNetworkScene());
+        this.sceneManager.addScene(new MultiplayerHostSettingsScene());
+        this.sceneManager.addScene(new WaitingForPlayerScene());
+        this.sceneManager.addScene(new MultiplayerScene());
+
+    }
+
     /**
      * Starts the game and the gameloop.
      */
@@ -131,6 +135,8 @@ public class Game implements Runnable {
         System.out.println(AssetsLoader.getAssetsLoaded() + " Assets loaded in " + timeElapsed + " ms");
 
         SwingUtilities.invokeLater(this.window = new GameWindow(this.title, this.gameSize));
+
+        initializeScenes();
 
         this.sceneManager.setActiveScene(MainMenuScene.class);
 

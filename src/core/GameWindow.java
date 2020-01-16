@@ -21,6 +21,7 @@ public class GameWindow extends JFrame implements Runnable {
     private JPanel rootPanel;
     private GuiScene guiScene;
     private Dimension lastWindowSize;
+    private boolean isMaximized;
 
     public GameWindow(String title, Point size) {
 
@@ -41,11 +42,10 @@ public class GameWindow extends JFrame implements Runnable {
 
         this.getRootPane().addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                lastWindowSize = getSize();
-                Dimension size = getSize();//calcAspectRatio();
+                lastWindowSize = calcAspectRatio();
 
                 if (rootPanel != null) {
-                    rootPanel.setSize(size);
+                    rootPanel.setSize(lastWindowSize);
                     rootPanel.repaint();
 
                     if (guiScene instanceof GuiScene)
@@ -55,9 +55,18 @@ public class GameWindow extends JFrame implements Runnable {
         });
 
         this.addWindowStateListener(new WindowStateListener() {
-            public void windowStateChanged(WindowEvent e) {
-                //Dimension size = calcAspectRatio();
-                lastWindowSize = getSize();
+            public void windowStateChanged(WindowEvent event) {
+                lastWindowSize = calcAspectRatio();
+
+                isMaximized = isMaximized(event.getNewState());
+                boolean wasMaximized = isMaximized(event.getOldState());
+
+                if (isMaximized && !wasMaximized) {
+                    System.out.println("User maximized window.");
+
+                } else if (wasMaximized && !isMaximized) {
+                    System.out.println("User unmaximized window.");
+                }
 
                 if (rootPanel != null) {
                     rootPanel.setSize(lastWindowSize);
@@ -65,8 +74,24 @@ public class GameWindow extends JFrame implements Runnable {
                 }
             }
         });
+
+        this.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                Dimension size = calcAspectRatio();
+                setSize(size);
+            }
+        });
     }
 
+    private static boolean isMaximized(int state) {
+        return (state & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
+    }
+
+
+    /**
+     * Gets the root panel of the window.
+     * @return The root panel.
+     */
     public JPanel getRootPanel() {
         return rootPanel;
     }
@@ -102,9 +127,9 @@ public class GameWindow extends JFrame implements Runnable {
         this.setVisible(true);
     }
 
-    private Dimension calcAspectRatio() {
+    public Dimension calcAspectRatio() {
 
-        if (isFullscreen) {
+        if (this.isFullscreen) {
             return getSize();
         }
 

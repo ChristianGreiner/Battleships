@@ -7,8 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
-
-    private MapRenderer playerMapRenderer;
+        private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
     private JButton btnExit;
     private JButton btnLoad;
@@ -24,6 +23,14 @@ public class GamePanel extends JPanel {
 
     public JButton getBtnSave() {
         return btnSave;
+    }
+
+    public MapRenderer getPlayerMapRenderer() {
+        return playerMapRenderer;
+    }
+
+    public MapRenderer getEnemyMapRenderer() {
+        return enemyMapRenderer;
     }
 
     public GamePanel(MapRenderer playerMapRenderer, MapRenderer enemyMapRenderer) {
@@ -133,6 +140,14 @@ public class GamePanel extends JPanel {
         saveGameContainer.add(btnSave);
 
         return mainContainer;
+    }
+
+    public void updateMapSize(Dimension size) {
+        this.playerMapRenderer.setPreferredSize(size);
+        this.enemyMapRenderer.setPreferredSize(size);
+
+        this.invalidate();
+        this.repaint();
     }
 
     @Override
