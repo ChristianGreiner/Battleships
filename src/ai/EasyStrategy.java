@@ -7,6 +7,11 @@ import game.Map;
 import java.awt.*;
 import java.io.Serializable;
 
+/**
+ * In this strategy, the AI will shoot at random, even if it locates a ship.
+ * Only with a low probability, it will try to sink the ship.
+ */
+
 public class EasyStrategy implements AiStrategy, Serializable {
 
     //private boolean shipFocused;

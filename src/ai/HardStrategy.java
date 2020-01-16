@@ -8,6 +8,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * In this Strategy, the AI will shoot after a certain grid, so that it can exclude even more
+ * disadvantageous fields.
+ */
+
 public class HardStrategy implements AiStrategy, Serializable {
 
     private boolean raster = true;
@@ -51,6 +56,15 @@ public class HardStrategy implements AiStrategy, Serializable {
         return trypoint;
     }
 
+    /**
+     * proves, if the selected rows and columns of the point have too many hits.
+     * If they have, they will be excluded and a new point will be selected
+     * by setNewRasterLocation to keep the grid.
+     *
+     * @param checkpoint selected point of process
+     * @param map        the current map of the player in the game.
+     * @return the selected point or a new point
+     */
     private Point rastercheck(Point checkpoint, Map map) {
 
         //System.out.println("Vorher"+this.columncounter.keySet());
@@ -64,8 +78,8 @@ public class HardStrategy implements AiStrategy, Serializable {
             if (this.columncounter.get(checkpoint.x) < this.maxshotperline && this.rowcounter.get(checkpoint.y) < this.maxshotperline) {
                 this.columncounter.replace(checkpoint.x, this.columncounter.get(checkpoint.x) + 1);
                 this.rowcounter.replace(checkpoint.y, this.rowcounter.get(checkpoint.y) + 1);
-            } else setNewRasterLocation(checkpoint, map);
-        } else setNewRasterLocation(checkpoint, map);
+            } else checkpoint = setNewRasterLocation(checkpoint, map);
+        } else checkpoint = setNewRasterLocation(checkpoint, map);
 
 
         for (int i = 0; i < map.getSize(); i++) {
@@ -92,6 +106,13 @@ public class HardStrategy implements AiStrategy, Serializable {
 
         return checkpoint;
     }
+
+    /**
+     * choose a new point in the grid or a new random point.
+     * @param checkpoint selected point from process
+     * @param map current map of player in the game.
+     * @return the new point
+     */
 
     private Point setNewRasterLocation(Point checkpoint, Map map) {
         boolean searching = true;

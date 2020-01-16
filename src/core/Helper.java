@@ -1,7 +1,5 @@
 package core;
 
-import ai.Trolls;
-
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
@@ -70,14 +68,6 @@ public class Helper {
             return Direction.Down;
         }
 
-    }
-
-    public static Trolls getRandomTrollStrategy() {
-        int randomStrategy = randomNumber(0, Trolls.values().length - 1);
-        if (randomStrategy == 0) {
-            return Trolls.NoMercyHit;
-        }
-        return Trolls.NoMercyHit;
     }
 
     public static Point getRandomFreeIndex(ArrayList map) {
