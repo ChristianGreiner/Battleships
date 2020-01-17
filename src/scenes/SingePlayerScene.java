@@ -32,6 +32,7 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
     private boolean paused = false;
     private final float startSize = 512;
     private final Dimension windowStartSize;
+    private PlayerType winner;
 
     public SingePlayerScene() {
         super("SinglePlayer");
@@ -43,6 +44,14 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
         this.enemyMapRenderer.addMapRendererListener(this);
 
         this.windowStartSize = Game.getInstance().getWindow().getSize();
+
+        this.playerMapRenderer.setDisabled(false);
+        this.enemyMapRenderer.setDisabled(false);
+        this.setUpdatePaused(false);
+    }
+
+    public void reset() {
+
     }
 
     @Override
@@ -67,7 +76,7 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
-        this.enemyMapRenderer.setShipsVisable(false);
+        this.enemyMapRenderer.setShipsVisable(true);
 
         Dimension size = new Dimension(512, 512);
 
@@ -95,6 +104,13 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
         if (this.playerMap == null || this.paused) return;
 
         if (this.playerMap.allShipsDestoryed() || this.enemyMap.allShipsDestoryed()) {
+
+            if(this.playerMap.allShipsDestoryed())
+                this.winner = PlayerType.AI;
+
+            if(this.enemyMap.allShipsDestoryed())
+                this.winner = PlayerType.Player;
+
             this.gameState = GameState.Finished;
         }
         else {
@@ -112,10 +128,13 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
     public void lateUpdate(double deltaTime) {
 
         if (this.gameState == GameState.Finished) {
-            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game Ended!");
-            this.playerMapRenderer.setDisabled(true);
-            this.enemyMapRenderer.setDisabled(true);
-            this.setUpdatePaused(true);
+            //this.playerMapRenderer.setDisabled(true);
+            //this.enemyMapRenderer.setDisabled(true);
+            //this.setUpdatePaused(true);
+            GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
+            gameOverScene.setWinner(this.winner);
+
+            this.gameState = GameState.Started;
         }
     }
 

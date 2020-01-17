@@ -152,7 +152,6 @@ public class GameSettingsPanel extends JPanel {
             aiComboboxModel.addElement("Medium");
             aiComboboxModel.addElement("Hard");
             aiComboboxModel.addElement("Extreme");
-            aiComboboxModel.addElement("Troll");
             aiDifficultyCbox.setModel(aiComboboxModel);
             aiSelectionContainer.add(aiDifficultyCbox);
             aiDifficultyCbox.setSelectedItem("Medium");

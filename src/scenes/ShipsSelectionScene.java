@@ -58,7 +58,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         this.uiPanel = shipSelectionPanel;
 
         shipSelectionPanel.getBtnCancel().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+            Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
         });
 
         shipSelectionPanel.getBtnRandomMap().addActionListener((e) -> {
