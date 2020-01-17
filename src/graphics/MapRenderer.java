@@ -252,7 +252,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
                 this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
                 if (!this.pressed) {
-                    g.setColor(Color.RED);
+                    g.setColor(new Color(124, 252, 0, 200));
                     if (this.selectedShipTiles.get(0).getShip().isRotated()) {
                         g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
                     } else {

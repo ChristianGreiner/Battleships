@@ -796,7 +796,7 @@ public class Map implements MapInterface, Serializable {
      * @param rotated  Whether or not the ship is rotated.
      * @return Returns boolean if the should could be insert sucessfully
      */
-    private boolean canInsertShip(Ship ship, Point position, boolean rotated) {
+    public boolean canInsertShip(Ship ship, Point position, boolean rotated) {
 
         if(!checkShipInsert(ship))
             return false;
