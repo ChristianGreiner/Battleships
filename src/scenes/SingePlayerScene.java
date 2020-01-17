@@ -76,7 +76,7 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
-        this.enemyMapRenderer.setShipsVisable(true);
+        this.enemyMapRenderer.setShipsVisable(false);
 
         Dimension size = new Dimension(512, 512);
 
@@ -133,7 +133,7 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
             //this.setUpdatePaused(true);
             GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
             gameOverScene.setWinner(this.winner);
-
+            this.setUpdatePaused(true);
             this.gameState = GameState.Started;
         }
     }

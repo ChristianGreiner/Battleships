@@ -118,7 +118,7 @@ public class Map implements MapInterface, Serializable {
      * @return Returns whenever or not all ships are destroyed.
      */
     public boolean allShipsDestroyed() {
-        if(this.ships.size() != 0)
+        if(this.ships.size() > 0)
             return this.getNumberOfShips() == this.getNumberOfDestoryedShips();
 
         return false;
