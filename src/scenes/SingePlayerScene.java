@@ -44,14 +44,14 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
         this.enemyMapRenderer.addMapRendererListener(this);
 
         this.windowStartSize = Game.getInstance().getWindow().getSize();
-
-        this.playerMapRenderer.setDisabled(false);
-        this.enemyMapRenderer.setDisabled(false);
-        this.setUpdatePaused(false);
     }
 
     public void reset() {
-
+        this.winner = null;
+        this.gameState = GameState.Started;
+        this.playerMapRenderer.setDisabled(false);
+        this.enemyMapRenderer.setDisabled(false);
+        this.setUpdatePaused(false);
     }
 
     @Override
@@ -103,12 +103,12 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
 
         if (this.playerMap == null || this.paused) return;
 
-        if (this.playerMap.allShipsDestoryed() || this.enemyMap.allShipsDestoryed()) {
+        if (this.playerMap.allShipsDestroyed() || this.enemyMap.allShipsDestroyed()) {
 
-            if(this.playerMap.allShipsDestoryed())
+            if(this.playerMap.allShipsDestroyed())
                 this.winner = PlayerType.AI;
 
-            if(this.enemyMap.allShipsDestoryed())
+            if(this.enemyMap.allShipsDestroyed())
                 this.winner = PlayerType.Player;
 
             this.gameState = GameState.Finished;
