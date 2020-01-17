@@ -38,7 +38,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         this.mapGenerator = new MapGenerator();
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
         this.buildRenderer.setEditorMode(true);
-        this.uiPanel.getBtnStartGame().setEnabled(true);
+        this.uiPanel.getBtnStartGame().setEnabled(false);
     }
 
     @Override
@@ -118,7 +118,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         }
         else {
             // ship already insert
-            map.rotate(ship);
+            if(rotated)
+                map.rotate(ship);
+
             map.move(ship, pos);
         }
     }
@@ -136,8 +138,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     @Override
     public void OnMapUpdated() {
         if(this.playerMap != null) {
-            //this.uiPanel.getBtnStartGame().setEnabled(this.playerMap.isCorrectFilled());
-           this.uiPanel.getBtnStartGame().setEnabled(true);
+            this.uiPanel.getBtnStartGame().setEnabled(this.playerMap.isCorrectFilled());
         }
     }
 

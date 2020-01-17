@@ -246,8 +246,6 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
 
     @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
-        ship.setRotated(rotated);
-        map.move(ship, pos);
     }
 
     @Override
