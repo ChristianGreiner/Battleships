@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+/**
+ * Static class for storing all assets of the game.
+ */
 public final class Assets {
 
     public static void init() {
@@ -21,6 +24,7 @@ public final class Assets {
         String FONT = Paths.ROBOTO_FONT;
 
         Fonts.TITLE = AssetsLoader.loadFont(Paths.PLAY_FONT, 48f);
+        Fonts.TITLE_36 = AssetsLoader.loadFont(Paths.PLAY_FONT, 36f);
         Fonts.TITLE_BIG = AssetsLoader.loadFont(Paths.PLAY_FONT, 64f);
         Fonts.DEFAULT = AssetsLoader.loadFont(FONT, 18f);
         Fonts.DEFAULT_BOLD = AssetsLoader.loadFont(Paths.ROBOTO_BOLD_FONT, 18f);
@@ -39,14 +43,22 @@ public final class Assets {
         Sounds.SEATBELT_SFX = AssetsLoader.loadSound(Paths.SEATBELT_SFX);
 
         Files.MAPDATA = new File(Assets.class.getClassLoader().getResource(Paths.MAPDATA).getFile());
+
+        MapGenerator.init();
     }
 
+    /**
+     * Storing all images.
+     */
     public static class Images {
         public static Image BACKGROUND;
         public static Image TILESET;
         public static BufferedImage EXPLOSION;
     }
 
+    /**
+     * Storing all Sounds.
+     */
     public static class Sounds {
         public static Clip BACKGROUND_MUSIC;
         public static Clip PLAYING_MUSIC;
@@ -57,8 +69,12 @@ public final class Assets {
         public static Clip SHOT_WATER;
     }
 
+    /**
+     * Storing all Fonts.
+     */
     public static class Fonts {
         public static Font TITLE;
+        public static Font TITLE_36;
         public static Font TITLE_BIG;
         public static Font DEFAULT;
         public static Font DEFAULT_BOLD;
@@ -70,6 +86,9 @@ public final class Assets {
         public static File MAPDATA;
     }
 
+    /**
+     * Storing all paths.
+     */
     public class Paths {
         public final static String OPTIONS = "options.txt";
         public final static String MAPDATA = "mapdata.json";

@@ -39,7 +39,7 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
         });
 
         menu.getMultiplayerBtn().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+            Game.getInstance().getSceneManager().setActiveScene(MultiplayerNetworkScene.class);
         });
 
         menu.getOptionsBtn().addActionListener((e) -> {

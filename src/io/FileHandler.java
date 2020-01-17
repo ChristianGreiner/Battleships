@@ -9,19 +9,35 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
+/**
+ * Handles different file types like reading map config.
+ */
 public class FileHandler {
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("Battleship Savegame", "*.bsg", "bsg");
+
+    public final static FileNameExtensionFilter filter = new FileNameExtensionFilter("Battleship Savegame", "*.bsg", "bsg");
     private Gson gson = new Gson();
 
-    public FileHandler() {
-    }
-
+    /**
+     * Reads the map config.
+     * @param filename The name of the config file.
+     * @return The map config.
+     * @throws Exception Gets thrown when the map cant be find.
+     */
     public MapData[] readMapConfig(String filename) throws Exception {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+
+        InputStream input = AssetsLoader.class.getClassLoader().getResourceAsStream(filename);
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
         MapData[] json = gson.fromJson(bufferedReader, MapData[].class);
         return json;
     }
 
+
+    /**
+     * Serialize an object to a file.
+     * @param object The object.
+     * @param fileName The file.
+     */
     public void writeObject(Object object, String fileName) {
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
@@ -35,10 +51,21 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Serialize an object to a file.
+     * @param object The object.
+     * @param file The file.
+     * @param extension The extension of the file.
+     */
     public void writeObject(Object object, File file, String extension) {
         this.writeObject(object, file.getAbsoluteFile() + "." + extension);
     }
 
+    /**
+     * Deserialize an object from a file.
+     * @param fileName The file name.
+     * @return The object.
+     */
     public Object loadObject(String fileName) {
         FileInputStream fis = null;
         ObjectInputStream in = null;
@@ -54,6 +81,11 @@ public class FileHandler {
         return object;
     }
 
+    /**
+     * Deserialize an object from a file.
+     * @param file The file.
+     * @return The object.
+     */
     public Object loadObject(File file) {
         FileInputStream fis = null;
         ObjectInputStream in = null;
@@ -69,7 +101,11 @@ public class FileHandler {
         return object;
     }
 
-    public void saveSavegame(Savegame savegame) {
+    /**
+     * Writes the savegame to a file.
+     * @param savegame The savegame.
+     */
+    public JFileChooser saveSavegame(Savegame savegame) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
 
@@ -78,8 +114,14 @@ public class FileHandler {
 
             this.writeObject(savegame, file, "bsg");
         }
+
+        return fileChooser;
     }
 
+    /**
+     * Loads the save game.
+     * @return The save game.
+     */
     public Savegame loadSavegame() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);

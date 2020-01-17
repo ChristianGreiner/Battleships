@@ -7,53 +7,73 @@ import core.GameWindow;
 import game.*;
 import game.ships.Ship;
 import graphics.MapBuilderRenderer;
-import graphics.MapRenderer;
 import graphics.MapRendererListener;
 import ui.GuiScene;
 import ui.ShipSelectionPanel;
-import ui.SinglePlayerPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, KeyListener, MapRendererListener {
+public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, KeyListener, MapRendererListener, MapListener, GameSession {
 
     private int mapSize;
-    private AiDifficulty difficulty;
+    private AiDifficulty aiDifficulty;
     private MapBuilderRenderer buildRenderer;
     private Map playerMap;
     private ShipSelectionPanel uiPanel;
+    private MapGenerator mapGenerator;
 
     public ShipsSelectionScene() {
         super("ShipsSelectionScene");
 
-        this.buildRenderer = new MapBuilderRenderer(null);
+        this.buildRenderer = new MapBuilderRenderer(new Map(10));
         this.buildRenderer.addMapRendererListener(this);
     }
 
     @Override
     public void onAdded() {
         super.onAdded();
+        this.mapGenerator = new MapGenerator();
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
         this.buildRenderer.setEditorMode(true);
     }
 
-    public void initializeGame(int mapSize, AiDifficulty difficulty) {
-        this.mapSize = mapSize;
-        this.difficulty = difficulty;
+    @Override
+    public void initializeGameSession(GameSessionData data) {
+        this.mapSize = data.getMapSize();
+        this.aiDifficulty = data.getAiDifficulty();
         this.playerMap = new Map(this.mapSize);
-        this.buildRenderer.setMap(new Map(30));
+        this.buildRenderer.setMap(this.playerMap);
+        this.playerMap.addListener(this);
     }
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         ShipSelectionPanel shipSelectionPanel = new ShipSelectionPanel(this.buildRenderer);
 
-        shipSelectionPanel.create(new Dimension(800, 512));
+        shipSelectionPanel.create(new Dimension(800, 450));
 
         this.uiPanel = shipSelectionPanel;
+
+        shipSelectionPanel.getBtnCancel().addActionListener((e) -> {
+            Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
+        });
+
+        shipSelectionPanel.getBtnRandomMap().addActionListener((e) -> {
+            this.playerMap = this.mapGenerator.generate(this.mapSize);
+            this.buildRenderer.setMap(this.playerMap);
+            this.OnMapUpdated();
+        });
+
+        shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
+            SingePlayerScene scene = (SingePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SingePlayerScene.class);
+
+            scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), this.aiDifficulty));
+        });
+
+        shipSelectionPanel.invalidate();
 
         return shipSelectionPanel;
     }
@@ -82,8 +102,10 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void draw() {
-        if (this.buildRenderer != null) {
-            this.buildRenderer.draw();
+        if(this.uiPanel != null && this.buildRenderer != null) {
+            if (this.uiPanel.isVisible() && this.uiPanel.isValid()) {
+                this.buildRenderer.draw();
+            }
         }
     }
 
@@ -91,7 +113,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
         ship.setRotated(rotated);
         map.move(ship, pos);
-        System.out.println("DROPPED AT " + pos);
     }
 
     @Override
@@ -103,5 +124,13 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public void OnRotated(Map map, Ship ship) {
         map.rotate(ship);
     }
+
+    @Override
+    public void OnMapUpdated() {
+        if(this.playerMap != null) {
+            this.uiPanel.getBtnStartGame().setEnabled(this.playerMap.isCorrectFilled());
+        }
+    }
+
 
 }

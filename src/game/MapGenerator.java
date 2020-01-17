@@ -6,27 +6,47 @@ import game.ships.*;
 
 import java.util.HashMap;
 
+/**
+ * A map generator which places predefined random ships into the map.
+ */
 public class MapGenerator {
 
-    private HashMap<Integer, MapData> configMap = new HashMap<>();
+    /**
+     * A container for storing the mapdata (value) foreach map size. (Key)
+     * @return
+     */
+    public static HashMap<Integer, MapData> getConfigMap() {
+        return configMap;
+    }
 
-    public MapGenerator() {
+    private static HashMap<Integer, MapData> configMap = new HashMap<>();
+
+    /**
+     * Initialize the map generator and reads the map data. (Json file)
+     */
+    public static void init() {
+        MapData[] data = null;
         try {
-            MapData[] dat = Game.getInstance().getFileHandler().readMapConfig(Assets.Files.MAPDATA.getAbsolutePath());
-            for (int i = 0; i < dat.length; i++) {
-                configMap.put(dat[i].MapSize, dat[i]);
+            data = Game.getInstance().getFileHandler().readMapConfig(Assets.Paths.MAPDATA);
+            for (int i = 0; i < data.length; i++) {
+                configMap.put(data[i].MapSize, data[i]);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Generates the map.
+     * @param size The size of the map.
+     * @return The map.
+     */
     public Map generate(int size) {
 
-        if (this.configMap == null)
+        if (configMap == null)
             return null;
 
-        MapData data = this.configMap.get(size);
+        MapData data = configMap.get(size);
         Map map = new Map(size);
 
         int countCarriers = 0;

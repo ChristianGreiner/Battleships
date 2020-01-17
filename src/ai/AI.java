@@ -29,16 +29,23 @@ public class AI extends AbstractAi implements Serializable {
         if (this.difficulty == AiDifficulty.Extreme) {
             this.strategy = new AllMightyMode();
         }
-        if (this.difficulty == AiDifficulty.Troll) {
-            this.strategy = new TrollMode(map);
-        }
     }
 
+    /**
+     * calls the process function of the certain strategy
+     *
+     * @return the choosen point of the startegy
+     */
     @Override
     public Point shot() {
         return this.lastShotPos = this.strategy.process(this.map);
     }
 
+    /**
+     * calls the prepare function of the certain startegy
+     *
+     * @param hitType the answer to the hitten point
+     */
     @Override
     public void receiveAnswer(HitType hitType) {
         this.strategy.prepare(hitType, this.lastShotPos);

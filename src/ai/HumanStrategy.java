@@ -10,6 +10,11 @@ import game.MapTile;
 import java.awt.*;
 import java.io.Serializable;
 
+/**
+ * In this Strategy, the AI will play mostly like human does by excluding
+ * disadvantageous fields, sinking a detected ship.
+ */
+
 public class HumanStrategy implements AiStrategy, Serializable {
 
     private Alignment shipAlignment = null;

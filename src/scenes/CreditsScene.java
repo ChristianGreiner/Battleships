@@ -44,7 +44,6 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
         credits.add(new Credit("JUSUF DER ECHTE", Assets.Fonts.DEFAULT));
         credits.add(new Credit("GREINER DER WEBDESIGNER", Assets.Fonts.DEFAULT));
         credits.add(new Credit("SHADY DER INDER", Assets.Fonts.DEFAULT));
-        credits.add(new Credit("FREDY DER BUSBAUER", Assets.Fonts.DEFAULT));
 
         this.creditsRenderer = new CreditsRenderer(credits, new Point(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight()));
         this.creditsRenderer.setBackground(Color.WHITE);

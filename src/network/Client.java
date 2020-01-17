@@ -1,24 +1,33 @@
 package network;
 
+import core.NetworkManager;
+
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client extends Thread {
 
     private BlockingQueue<String> commands = new ArrayBlockingQueue<String>(1024);
     private Socket socket;
+    private NetworkManager manager;
+    private boolean running = true;
 
-    public Client(String host, int port) {
+    public Client(NetworkManager manager, String host, int port) {
+        this.manager = manager;
         try {
             this.socket = new Socket(host, port);
         } catch (IOException e) {
-            e.printStackTrace();
+            this.running = false;
+            JOptionPane.showMessageDialog(null, "Cannot connect to " + host);
         }
+    }
+
+    public boolean kickStart() {
+        this.start();
+        return this.running;
     }
 
     public void sendMessage(String message) {
@@ -29,13 +38,20 @@ public class Client extends Thread {
     public void run() {
         super.run();
 
+        if(this.socket == null)
+            return;
+
+        for (NetworkListener listener : this.manager.getListeners()) {
+            listener.OnGameJoined(0, new int[3]);
+        }
+
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	//Socket Input
             Writer out = new OutputStreamWriter(socket.getOutputStream());
 
             String message = null;
 
-            while (true) {													//Programm loop
+            while (running) {													//Programm loop
 
                 while(true) {												//Idle Loop .. warten auf User Input
                     String command = this.commands.take();
@@ -56,7 +72,6 @@ public class Client extends Thread {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
         }
     }
 }

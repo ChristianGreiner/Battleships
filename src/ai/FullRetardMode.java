@@ -8,6 +8,10 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * In the FullRetardMode the Ai will choose only water fields.
+ */
+
 public class FullRetardMode implements AiStrategy, Serializable {
 
     private HumanStrategy internstrategy = new HumanStrategy();
