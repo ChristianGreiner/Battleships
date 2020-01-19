@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
  */
 public class Renderer extends JPanel implements Drawable {
 
+    private boolean isDirty = false;
     private BufferedImage doubleBufferImage = null;
     private Graphics doubleBufferGraphics = null;
 
@@ -24,6 +25,7 @@ public class Renderer extends JPanel implements Drawable {
      * @return The swing graphics element.
      */
     public Graphics begin(Rectangle clearRect) {
+        isDirty = true;
         if (this.doubleBufferImage == null) {
 
             int width = getWidth();
@@ -39,12 +41,11 @@ public class Renderer extends JPanel implements Drawable {
 
         this.doubleBufferGraphics = this.doubleBufferImage.getGraphics();
 
-        if(this.doubleBufferGraphics == null)
-            System.out.println("GRAPHICS COULD NOT CREATE");
-
         // clear image
         this.doubleBufferGraphics.setColor(Color.black);
         this.doubleBufferGraphics.clearRect(clearRect.x, clearRect.y, clearRect.width, clearRect.height);
+
+        isDirty = false;
 
         return this.doubleBufferGraphics;
     }
@@ -77,8 +78,10 @@ public class Renderer extends JPanel implements Drawable {
     }
 
     public void invalidateBuffer() {
-        this.doubleBufferImage = null;
-        this.doubleBufferGraphics = null;
+        if(!isDirty) {
+            this.doubleBufferImage = null;
+            this.doubleBufferGraphics = null;
+        }
     }
 
     @Override
