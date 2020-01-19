@@ -76,7 +76,6 @@ public class FileHandler {
             object = in.readObject();
             in.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
         return object;
     }

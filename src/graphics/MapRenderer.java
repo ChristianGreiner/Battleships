@@ -183,13 +183,18 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             return;
         }
 
-        if (this.explosionAnim != null) {
-            this.explosionAnim.update();
-        }
-
         if(this.isVisible() && this.isValid()) {
             this.beginRendering();
             this.endRendering();
+        }
+    }
+
+    @Override
+    public void update(double deltaTime) {
+        super.update(deltaTime);
+
+        if (this.explosionAnim != null) {
+            this.explosionAnim.update();
         }
     }
 

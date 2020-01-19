@@ -111,12 +111,17 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
         else {
             if(this.playerTurn == PlayerType.AI) {
-                if(this.waitTimer >= Game.getInstance().TARGET_FPS) {
+                if(this.waitTimer >= Game.getInstance().getTargetFps()) {
                     handleAiShot();
                     this.waitTimer = 0;
                 }
                 this.waitTimer += deltaTime;
             }
+        }
+
+        if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
+            this.playerMapRenderer.update(deltaTime);
+            this.enemyMapRenderer.update(deltaTime);
         }
     }
 

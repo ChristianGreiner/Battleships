@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * A rendering panel used drawing stuff on it really fast.
  * Has double buffer included.
  */
-public class Renderer extends JPanel implements Drawable {
+public class Renderer extends JPanel implements Drawable, Updatable {
 
     private boolean isDirty = false;
     private BufferedImage doubleBufferImage = null;
@@ -86,5 +86,15 @@ public class Renderer extends JPanel implements Drawable {
 
     @Override
     public void draw() {
+    }
+
+    @Override
+    public void update(double deltaTime) {
+
+    }
+
+    @Override
+    public void lateUpdate(double deltaTime) {
+
     }
 }

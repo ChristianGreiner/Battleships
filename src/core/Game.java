@@ -17,9 +17,8 @@ public class Game implements Runnable {
 
     private static Game instance;
 
-    public final int TARGET_FPS = 25;
-    final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
-
+    private int targetFps = 60;
+    private long optimalTime = 1000000000 / targetFps;
     private SceneManager sceneManager;
     private SoundManager soundManager;
     private NetworkManager networkManager;
@@ -29,6 +28,15 @@ public class Game implements Runnable {
     private boolean isRunning;
     private String title;
     private Point gameSize;
+
+    public int getTargetFps() {
+        return targetFps;
+    }
+
+    public void setTargetFps(int targetFps) {
+        this.targetFps = targetFps;
+        this.optimalTime =  1000000000 / targetFps;
+    }
 
     public Game(String title, Point size) {
         instance = this;
@@ -126,6 +134,9 @@ public class Game implements Runnable {
 
         // load config
         this.options = (Options) this.fileHandler.loadObject(Assets.Paths.OPTIONS);
+        if(this.options == null) {
+            Game.getInstance().getFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
+        }
 
         if (this.options == null)
             this.options = new Options();
@@ -147,7 +158,7 @@ public class Game implements Runnable {
     }
 
     /**
-     * Gets called by the start method. Used by the thread.
+     * The main game loop. Updates and draws the game.
      */
     @Override
     public void run() {
@@ -157,7 +168,7 @@ public class Game implements Runnable {
             long now = System.nanoTime();
             long updateLength = now - lastLoopTime;
             lastLoopTime = now;
-            double deltaTime = updateLength / ((double) OPTIMAL_TIME);
+            double deltaTime = updateLength / ((double) this.optimalTime);
 
             this.update(deltaTime);
 
@@ -167,7 +178,7 @@ public class Game implements Runnable {
             this.lateUpdate(deltaTime);
 
             try {
-                long timeout = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;
+                long timeout = (lastLoopTime - System.nanoTime() + this.optimalTime) / 1000000;
                 Thread.sleep(timeout >= 0 ? timeout : 1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
