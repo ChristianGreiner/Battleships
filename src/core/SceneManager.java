@@ -96,6 +96,8 @@ public class SceneManager {
 
         this.activeScene.onAdded();
 
+        Game.getInstance().getWindow().revalidate();
+
         return this.activeScene;
     }
 

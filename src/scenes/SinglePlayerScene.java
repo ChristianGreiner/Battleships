@@ -80,13 +80,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.enemyMapRenderer.setEnemyMap(true);
         this.enemyMapRenderer.setShipsVisable(true);
 
-        Dimension size = new Dimension(512, 512);
-
-        if(this.playerMap.getSize() > 10) {
-            size = new Dimension(620, 620);
-        }
-
-        //this.uiPanel.updateMapSize(size);
+        sizeUpdated();
     }
 
     public void initializeSavegame(Savegame savegame) {
@@ -184,14 +178,14 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         float w = (float)(this.windowStartSize.getWidth() / currentSize.getWidth());
         float h = (float)(this.windowStartSize.getHeight() / currentSize.getHeight());
 
-        System.out.println("W: " + w + " H: " + h);
 
         Dimension currentMapSize = this.uiPanel.getPlayerMapRenderer().getSize();
-        Dimension newMapSize = new Dimension((int)(512 + w * 100), (int)(512  + h * 100));
+        Dimension newMapSize = new Dimension((int)(512 + w), (int)(512  + h));
 
         System.out.println(newMapSize);
 
         this.uiPanel.updateMapSize(newMapSize);
+        Game.getInstance().getWindow().revalidate();
 
     }
 

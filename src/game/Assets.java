@@ -18,6 +18,12 @@ public final class Assets {
         Images.BACKGROUND = AssetsLoader.loadImage(Assets.Paths.BACKGROUND);
         Images.TILESET = AssetsLoader.loadImage(Assets.Paths.TILESET);
         Images.EXPLOSION = AssetsLoader.loadBufferedImage(Assets.Paths.EXPLOSION);
+        Images.WATER = AssetsLoader.loadBufferedImage(Assets.Paths.WATER);
+        Images.WATER_DARK = AssetsLoader.loadBufferedImage(Assets.Paths.WATER_DARK);
+        Images.SAND_LEFT = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_LEFT);
+        Images.SAND_TOP = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_TOP);
+        Images.SAND_TOP_LEFT = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_TOP_LEFT);
+        Images.CROSSAIR = AssetsLoader.loadBufferedImage(Assets.Paths.CROSSAIR);
 
         // load fonts
 
@@ -54,6 +60,12 @@ public final class Assets {
         public static Image BACKGROUND;
         public static Image TILESET;
         public static BufferedImage EXPLOSION;
+        public static Image WATER;
+        public static Image WATER_DARK;
+        public static Image SAND_LEFT;
+        public static Image SAND_TOP;
+        public static Image SAND_TOP_LEFT;
+        public static Image CROSSAIR;
     }
 
     /**
@@ -96,6 +108,12 @@ public final class Assets {
         public final static String BACKGROUND = "images/MainMenuBackground.jpg";
         public final static String TILESET = "images/tileset.png";
         public final static String EXPLOSION = "images/Explosion.png";
+        public final static String WATER = "images/tiles/water.png";
+        public final static String WATER_DARK = "images/tiles/water_dark.png";
+        public final static String SAND_LEFT = "images/tiles/sand_left.png";
+        public final static String SAND_TOP = "images/tiles/sand_top.png";
+        public final static String SAND_TOP_LEFT = "images/tiles/sand_top_left.png";
+        public final static String CROSSAIR = "images/ui/crossair_black.png";
 
         public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
         public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
