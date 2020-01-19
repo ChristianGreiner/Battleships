@@ -21,11 +21,10 @@ public class GameOverPanel extends JPanel {
     public GameOverPanel create(String message) {
         GameOverPanel mainContainer = this;
         mainContainer.setLayout(new GridBagLayout());
-        mainContainer.setBackground(UiBuilder.TRANSPARENT);
 
         JPanel btnContainer = new JPanel();
         btnContainer.setLayout(new GridBagLayout());
-        btnContainer.setBackground(UiBuilder.TRANSPARENT);
+        btnContainer.setBackground(UiBuilder.BLACK_ALPHA);
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -58,7 +57,7 @@ public class GameOverPanel extends JPanel {
 
         JPanel titleContainer = new JPanel();
         titleContainer.setLayout(new GridBagLayout());
-        titleContainer.setBackground(UiBuilder.TRANSPARENT);
+        //titleContainer.setBackground(UiBuilder.TRANSPARENT);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

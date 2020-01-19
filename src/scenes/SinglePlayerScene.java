@@ -18,7 +18,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SingePlayerScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
+public class SinglePlayerScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
 
     private Map playerMap;
     private Map enemyMap;
@@ -34,7 +34,7 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
     private final Dimension windowStartSize;
     private PlayerType winner;
 
-    public SingePlayerScene() {
+    public SinglePlayerScene() {
         super("SinglePlayer");
 
         this.playerMapRenderer = new MapRenderer(null);
@@ -76,7 +76,7 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
-        this.enemyMapRenderer.setShipsVisable(false);
+        this.enemyMapRenderer.setShipsVisable(true);
 
         Dimension size = new Dimension(512, 512);
 
@@ -160,7 +160,7 @@ public class SingePlayerScene extends Scene implements KeyListener, MapRendererL
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
             Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
             if(savegame != null) {
-                SingePlayerScene scene = (SingePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SingePlayerScene.class);
+                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                 scene.initializeSavegame(savegame);
             }
         });

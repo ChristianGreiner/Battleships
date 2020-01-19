@@ -43,9 +43,6 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
-        panel.invalidate();
-        panel.repaint();
-
         return panel;
     }
 

@@ -100,11 +100,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.shipsVisable = shipsVisable;
     }
 
-   /*public void setTileSize()
-    {
-        this.tileSize = new Point(this.getWidth() / (this.map.getSize() + 1), this.getHeight() / (this.map.getSize() + 1));
-    }*/
-
     protected void setGridSize(Point size)
     {
         if(size != null && size.x > 0 && size.y > 0)
@@ -136,7 +131,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     if (this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
                         if (this.editorMode) {
                             this.highlightShip(g);
-                            this.dragndropShip(g);
+                            this.dragAndDropShip(g);
                         } else {
                             this.drawHighlightTile(g);
                         }
@@ -152,8 +147,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
         if (this.explosionAnim != null && this.explosionAnimPos != null) {
             if (!this.explosionAnim.isStopped()) {
-                Point explPos = new Point(this.explosionAnimPos.x * tileSize.x + this.explosionSprite.getTileSize(), this.explosionAnimPos.y * tileSize.y + this.explosionSprite.getTileSize());
-                this.explosionAnim.draw(g, explPos, tileSize);
+                Point explosionPos = new Point(this.explosionAnimPos.x * tileSize.x + tileSize.x, this.explosionAnimPos.y * tileSize.y + tileSize.y);
+                this.explosionAnim.draw(g, explosionPos, tileSize);
             }
         }
 
@@ -265,7 +260,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    protected void dragndropShip(Graphics g) {
+    protected void dragAndDropShip(Graphics g) {
         //picking up ship
         if (this.selected) {
             g.setColor(new Color(124, 252, 0, 200));
@@ -428,13 +423,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void keyTyped(KeyEvent e) {
+
         if (!this.editorMode)
             return;
 
         if (e.getKeyCode() == KeyEvent.VK_R) {
-
-            this.rotated = !this.rotated;
-
+            if (this.selected)
+                this.rotated = !this.rotated;
         }
     }
 
