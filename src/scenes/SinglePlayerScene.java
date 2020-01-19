@@ -97,7 +97,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     @Override
     public void update(double deltaTime) {
 
-        if (this.playerMap == null || this.paused) return;
+        if (this.playerMap == null || this.enemyMap == null || this.paused) return;
 
         if (this.playerMap.allShipsDestroyed() || this.enemyMap.allShipsDestroyed()) {
 
@@ -111,7 +111,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
         else {
             if(this.playerTurn == PlayerType.AI) {
-                if(this.waitTimer >= Game.getInstance().getTargetFps()) {
+                if(this.waitTimer >= Game.getInstance().getTargetFps() * 2) {
                     handleAiShot();
                     this.waitTimer = 0;
                 }
@@ -223,16 +223,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         if (lastHitType != null)
             this.ai.receiveAnswer(lastHitType);
 
+        this.handleSoundFx(hitData.getHitType());
 
         System.out.println(lastHitType);
-
-        if (lastHitType == HitType.Water) {
-            //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_WATER);
-        } else if (lastHitType == HitType.Ship) {
-            //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
-        }
-
-        Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
 
         this.playerMapRenderer.playExplosion(hitData.getPosition());
 
@@ -252,8 +245,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         if(this.playerTurn == PlayerType.Player) {
             HitData hitData = map.shot(pos);
             this.enemyMapRenderer.playExplosion(hitData.getPosition());
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
-            System.out.println("Fired at" + pos);
 
             // set playerturn
             if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
@@ -262,6 +253,20 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
                 this.playerTurn = PlayerType.AI;
                 //this.handleAiShot();
             }
+
+            this.handleSoundFx(hitData.getHitType());
+        }
+    }
+
+    private void handleSoundFx(HitType lastHitType) {
+        //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
+
+        if (lastHitType == HitType.Water) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.WATER_HIT);
+        } else if (lastHitType == HitType.Ship) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHIP_HIT);
+        } else if (lastHitType == HitType.ShipDestroyed) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHIP_EXPLOSION);
         }
     }
 

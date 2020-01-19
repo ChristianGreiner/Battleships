@@ -41,7 +41,9 @@ public final class Assets {
         Sounds.BUTTON_HOVER = AssetsLoader.loadSound(Paths.Button.HOVER_SFX);
         Sounds.BUTTON_CLICK = AssetsLoader.loadSound(Paths.Button.CLICK_SFX);
         Sounds.SHOT_SFX = AssetsLoader.loadSound(Paths.SHOT_SFX);
-        Sounds.SHOT_WATER = AssetsLoader.loadSound(Paths.SHOT_WATER);
+        Sounds.WATER_HIT = AssetsLoader.loadSound(Paths.WATER_HIT);
+        Sounds.SHIP_HIT = AssetsLoader.loadSound(Paths.SHIP_HIT);
+        Sounds.SHIP_EXPLOSION = AssetsLoader.loadSound(Paths.SHIP_EXPLOSION);
 
         // load music
         Sounds.MAINMENU_MUSIC = AssetsLoader.loadSound(Paths.MAINMENU_MUSIC);
@@ -78,7 +80,9 @@ public final class Assets {
         public static Clip BUTTON_CLICK;
         public static Clip SEATBELT_SFX;
         public static Clip SHOT_SFX;
-        public static Clip SHOT_WATER;
+        public static Clip WATER_HIT;
+        public static Clip SHIP_HIT;
+        public static Clip SHIP_EXPLOSION;
     }
 
     /**
@@ -123,7 +127,9 @@ public final class Assets {
         public final static String PLAY_FONT = "fonts/Play-Regular.ttf";
         public final static String SEATBELT_SFX = "sfx/seatbelt.wav";
         public final static String SHOT_SFX = "sfx/shot.wav";
-        public final static String SHOT_WATER = "sfx/shot_water.wav";
+        public final static String WATER_HIT = "sfx/water_hit.wav";
+        public final static String SHIP_HIT = "sfx/ship_hit.wav";
+        public final static String SHIP_EXPLOSION = "sfx/ship_explosion.wav";
 
         public final class Button {
             public final static String HOVER_SFX = "sfx/button-hover.wav";

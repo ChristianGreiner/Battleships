@@ -198,23 +198,28 @@ public class MapBuilderRenderer extends MapRenderer {
 
         this.pressed = true;
         //select carrier
-        if(this.getMousePosition().x >= this.carrierPos.x && this.getMousePosition().x <= this.carrierPos.x + this.ShipSizes.get("Carrier") * this.tileSize.x
-                && this.getMousePosition().y >= this.carrierPos.y + 30 && this.getMousePosition().y <= this.carrierPos.y + 30 + this.tileSize.y)
-            this.carrierSelected = true;
 
-            //select battleship
-        else if(this.getMousePosition().x >= this.battleshipPos.x && this.getMousePosition().x <= this.battleshipPos.x + this.ShipSizes.get("Battleship") * this.tileSize.x
-                && this.getMousePosition().y >= this.battleshipPos.y + 30 && this.getMousePosition().y <= this.battleshipPos.y + 30 + this.tileSize.y)
-            this.battleshipSelected = true;
+        try {
+            if(this.getMousePosition().x >= this.carrierPos.x && this.getMousePosition().x <= this.carrierPos.x + this.ShipSizes.get("Carrier") * this.tileSize.x
+                    && this.getMousePosition().y >= this.carrierPos.y + 30 && this.getMousePosition().y <= this.carrierPos.y + 30 + this.tileSize.y)
+                this.carrierSelected = true;
 
-        else if(this.getMousePosition().x >= this.destroyerPos.x && this.getMousePosition().x <= this.destroyerPos.x + this.ShipSizes.get("Destroyer") * this.tileSize.x
-                && this.getMousePosition().y >= this.destroyerPos.y + 30 && this.getMousePosition().y <= this.destroyerPos.y + 30 + this.tileSize.y)
-            this.destroyerSelected = true;
+                //select battleship
+            else if(this.getMousePosition().x >= this.battleshipPos.x && this.getMousePosition().x <= this.battleshipPos.x + this.ShipSizes.get("Battleship") * this.tileSize.x
+                    && this.getMousePosition().y >= this.battleshipPos.y + 30 && this.getMousePosition().y <= this.battleshipPos.y + 30 + this.tileSize.y)
+                this.battleshipSelected = true;
 
-        else if(this.getMousePosition().x >= this.submarinePos.x && this.getMousePosition().x <= this.submarinePos.x + this.ShipSizes.get("Submarine") * this.tileSize.x
-                && this.getMousePosition().y >= this.submarinePos.y + 30 && this.getMousePosition().y <= this.submarinePos.y + 30 + this.tileSize.y)
-            this.submarineSelected = true;
+            else if(this.getMousePosition().x >= this.destroyerPos.x && this.getMousePosition().x <= this.destroyerPos.x + this.ShipSizes.get("Destroyer") * this.tileSize.x
+                    && this.getMousePosition().y >= this.destroyerPos.y + 30 && this.getMousePosition().y <= this.destroyerPos.y + 30 + this.tileSize.y)
+                this.destroyerSelected = true;
 
+            else if(this.getMousePosition().x >= this.submarinePos.x && this.getMousePosition().x <= this.submarinePos.x + this.ShipSizes.get("Submarine") * this.tileSize.x
+                    && this.getMousePosition().y >= this.submarinePos.y + 30 && this.getMousePosition().y <= this.submarinePos.y + 30 + this.tileSize.y)
+                this.submarineSelected = true;
+
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override
