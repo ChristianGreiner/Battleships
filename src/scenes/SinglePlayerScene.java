@@ -33,6 +33,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private final float startSize = 512;
     private final Dimension windowStartSize;
     private PlayerType winner;
+    private GameSessionData gameSessionData;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -60,6 +61,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     }
 
     public void initializeGameSession(GameSessionData data) {
+        this.gameSessionData = data;
         this.difficulty = data.getAiDifficulty();
 
         MapGenerator generator = new MapGenerator();
@@ -128,11 +130,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     public void lateUpdate(double deltaTime) {
 
         if (this.gameState == GameState.Finished) {
-            //this.playerMapRenderer.setDisabled(true);
-            //this.enemyMapRenderer.setDisabled(true);
-            //this.setUpdatePaused(true);
-            GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
+             GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
             gameOverScene.setWinner(this.winner);
+            gameOverScene.initializeGameSession(this.gameSessionData);
             this.setUpdatePaused(true);
             this.gameState = GameState.Started;
         }
