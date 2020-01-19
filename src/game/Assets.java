@@ -44,7 +44,7 @@ public final class Assets {
         Sounds.SHOT_WATER = AssetsLoader.loadSound(Paths.SHOT_WATER);
 
         // load music
-        Sounds.BACKGROUND_MUSIC = AssetsLoader.loadSound(Paths.BACKGROUND_2_MUSIC);
+        Sounds.MAINMENU_MUSIC = AssetsLoader.loadSound(Paths.MAINMENU_MUSIC);
         Sounds.PLAYING_MUSIC = AssetsLoader.loadSound(Paths.PLAYING_MUSIC);
         Sounds.SEATBELT_SFX = AssetsLoader.loadSound(Paths.SEATBELT_SFX);
 
@@ -72,7 +72,7 @@ public final class Assets {
      * Storing all Sounds.
      */
     public static class Sounds {
-        public static Clip BACKGROUND_MUSIC;
+        public static Clip MAINMENU_MUSIC;
         public static Clip PLAYING_MUSIC;
         public static Clip BUTTON_HOVER;
         public static Clip BUTTON_CLICK;
@@ -115,8 +115,7 @@ public final class Assets {
         public final static String SAND_TOP_LEFT = "images/tiles/sand_top_left.png";
         public final static String CROSSAIR = "images/ui/crossair_black.png";
 
-        public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
-        public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
+        public final static String MAINMENU_MUSIC = "music/mainmenu.wav";
         public final static String PLAYING_MUSIC = "music/undiscovered.wav";
 
         public final static String ROBOTO_FONT = "fonts/Roboto-Regular.ttf";

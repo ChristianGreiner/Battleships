@@ -47,6 +47,7 @@ public class GameWindow extends JFrame implements Runnable {
                 if (rootPanel != null) {
                     rootPanel.setSize(lastWindowSize);
                     rootPanel.repaint();
+                    revalidate();
 
                     if (guiScene instanceof GuiScene)
                         guiScene.sizeUpdated();
@@ -108,6 +109,7 @@ public class GameWindow extends JFrame implements Runnable {
         this.rootPanel.setSize(getSize());
         this.rootPanel.repaint();
         this.setPreferredSize(this.lastWindowSize);
+        this.revalidate();
     }
 
     /**
@@ -120,6 +122,7 @@ public class GameWindow extends JFrame implements Runnable {
         this.rootPanel.removeAll();
         this.remove(rootPanel);
         this.repaint();
+        this.revalidate();
     }
 
     @Override

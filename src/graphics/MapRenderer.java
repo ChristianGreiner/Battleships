@@ -115,7 +115,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     public void resizeMapSize() {
         setGridSize(new Point(this.getWidth(), this.getHeight()));
-        this.invalidBuffer();
+        this.invalidateBuffer();
         Game.getInstance().getWindow().revalidate();
     }
 

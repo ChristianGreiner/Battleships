@@ -76,7 +76,7 @@ public class Renderer extends JPanel implements Drawable {
         }
     }
 
-    public void invalidBuffer() {
+    public void invalidateBuffer() {
         this.doubleBufferImage = null;
         this.doubleBufferGraphics = null;
     }
