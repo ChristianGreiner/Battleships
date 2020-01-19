@@ -4,6 +4,7 @@ import ai.AiDifficulty;
 import core.Game;
 import core.GameWindow;
 import game.Assets;
+import game.GameSession;
 import game.GameSessionData;
 import game.Savegame;
 import ui.GameSettingsPanel;
@@ -13,7 +14,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener {
+public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener, GameSession {
 
     public SinglePlayerSettingsScene() {
         super("SinglePlayerSettingsScene");
@@ -24,9 +25,15 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         super.onAdded();
     }
 
+    private GameSessionData gameSessionData;
+
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         GameSettingsPanel settings = new GameSettingsPanel().create(false);
+
+        if(this.gameSessionData != null) {
+
+        }
 
         settings.getBackBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
@@ -80,5 +87,10 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
+    }
+
+    @Override
+    public void initializeGameSession(GameSessionData data) {
+        this.gameSessionData = data;
     }
 }

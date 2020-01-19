@@ -36,7 +36,7 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
         GameOverPanel panel = new GameOverPanel().create(message);
 
         panel.getBtnRestart().addActionListener((e) -> {
-            Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
+            SinglePlayerSettingsScene settingsScene = (SinglePlayerSettingsScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
         });
 
         panel.getBtnExit().addActionListener((e) -> {
