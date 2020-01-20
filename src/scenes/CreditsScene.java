@@ -6,19 +6,21 @@ import core.GameWindow;
 import game.Assets;
 import game.Credit;
 import graphics.CreditsRenderer;
+import ui.CreditsPanel;
 import ui.GuiScene;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawable {
+public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawable, MouseListener {
 
     private CreditsRenderer creditsRenderer;
     private GameWindow gameWindow;
-    private JPanel rootPanel;
+    private CreditsPanel rootPanel;
 
     public CreditsScene() {
         super("CreditsScene");
@@ -33,24 +35,20 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     public JPanel buildGui(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
 
-        this.rootPanel = new JPanel();
-        this.rootPanel.setBackground(Color.RED);
-        this.rootPanel.setLayout(new BorderLayout());
-
         ArrayList<Credit> credits = new ArrayList<>();
         credits.add(new Credit("BATTLESHIPS", Assets.Fonts.TITLE_BIG));
         credits.add(new Credit("", Assets.Fonts.TITLE_BIG));
         credits.add(new Credit("CREDITS", Assets.Fonts.DEFAULT_BOLD_24));
-        credits.add(new Credit("JUSUF DER ECHTE", Assets.Fonts.DEFAULT));
-        credits.add(new Credit("GREINER DER WEBDESIGNER", Assets.Fonts.DEFAULT));
-        credits.add(new Credit("SHADY DER INDER", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("Jospeh Rieger (User Interface)", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("Christian Greiner (Game Engine)", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("Shadrach Patrick (Artificial Intelligence)", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("", Assets.Fonts.TITLE_BIG));
+        credits.add(new Credit("ASSETS", Assets.Fonts.DEFAULT_BOLD_24));
+        credits.add(new Credit("Tiles by Kenny Assets (kenney.nl", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("Music by FootageCrate (footagecrate.com)", Assets.Fonts.DEFAULT));
 
-        this.creditsRenderer = new CreditsRenderer(credits, new Point(Game.getInstance().getWindow().getWidth(), Game.getInstance().getWindow().getHeight()));
-        this.creditsRenderer.setBackground(Color.WHITE);
-        this.creditsRenderer.setLocation(0, 0);
-        this.creditsRenderer.setSize(gameWindow.getSize());
-        this.rootPanel.add(this.creditsRenderer, BorderLayout.CENTER);
-
+        this.rootPanel = new CreditsPanel().create(credits);
+        this.creditsRenderer = this.rootPanel.getCreditsRenderer();
 
         return this.rootPanel;
     }
@@ -58,7 +56,9 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     @Override
     public void sizeUpdated() {
         this.rootPanel.setPreferredSize(Game.getInstance().getWindow().getSize());
-        this.creditsRenderer.setSize(Game.getInstance().getWindow().getSize());
+        this.rootPanel.getCreditsRenderer().setPreferredSize(Game.getInstance().getWindow().getSize());
+        this.rootPanel.getCreditsRenderer().invalidateBuffer();
+        this.gameWindow.revalidate();
     }
 
     @Override
@@ -80,11 +80,34 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
 
     @Override
     public void draw() {
-        if (this.creditsRenderer != null) {
-            this.rootPanel.setPreferredSize(Game.getInstance().getWindow().getSize());
-            this.creditsRenderer.setSize(this.gameWindow.getSize());
+        if (this.creditsRenderer != null ) {
             this.creditsRenderer.draw();
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
     }
 }
 

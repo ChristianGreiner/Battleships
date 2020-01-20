@@ -38,9 +38,8 @@ public class CreditsRenderer extends Renderer {
 
         Graphics g = this.begin();
 
-        g.drawImage(Assets.Images.BACKGROUND, 0, 0, canvasSize.x, canvasSize.y, this);
-
         g.setColor(Color.white);
+        g.drawImage(Assets.Images.BACKGROUND, 0, 0, canvasSize.x, canvasSize.y, this);
 
         for (int i = 0; i < this.credits.size(); i++) {
             Credit c = this.credits.get(i);
@@ -48,7 +47,7 @@ public class CreditsRenderer extends Renderer {
             Helper.drawCenteredString(g, c.getText(), rec, c.getFont());
         }
 
-        currentY -= 2;
+        currentY -= 3;
 
         this.end();
     }

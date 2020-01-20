@@ -18,6 +18,12 @@ public final class Assets {
         Images.BACKGROUND = AssetsLoader.loadImage(Assets.Paths.BACKGROUND);
         Images.TILESET = AssetsLoader.loadImage(Assets.Paths.TILESET);
         Images.EXPLOSION = AssetsLoader.loadBufferedImage(Assets.Paths.EXPLOSION);
+        Images.WATER = AssetsLoader.loadBufferedImage(Assets.Paths.WATER);
+        Images.WATER_DARK = AssetsLoader.loadBufferedImage(Assets.Paths.WATER_DARK);
+        Images.SAND_LEFT = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_LEFT);
+        Images.SAND_TOP = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_TOP);
+        Images.SAND_TOP_LEFT = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_TOP_LEFT);
+        Images.CROSSAIR = AssetsLoader.loadBufferedImage(Assets.Paths.CROSSAIR);
 
         // load fonts
 
@@ -35,10 +41,12 @@ public final class Assets {
         Sounds.BUTTON_HOVER = AssetsLoader.loadSound(Paths.Button.HOVER_SFX);
         Sounds.BUTTON_CLICK = AssetsLoader.loadSound(Paths.Button.CLICK_SFX);
         Sounds.SHOT_SFX = AssetsLoader.loadSound(Paths.SHOT_SFX);
-        Sounds.SHOT_WATER = AssetsLoader.loadSound(Paths.SHOT_WATER);
+        Sounds.WATER_HIT = AssetsLoader.loadSound(Paths.WATER_HIT);
+        Sounds.SHIP_HIT = AssetsLoader.loadSound(Paths.SHIP_HIT);
+        Sounds.SHIP_EXPLOSION = AssetsLoader.loadSound(Paths.SHIP_EXPLOSION);
 
         // load music
-        Sounds.BACKGROUND_MUSIC = AssetsLoader.loadSound(Paths.BACKGROUND_2_MUSIC);
+        Sounds.MAINMENU_MUSIC = AssetsLoader.loadSound(Paths.MAINMENU_MUSIC);
         Sounds.PLAYING_MUSIC = AssetsLoader.loadSound(Paths.PLAYING_MUSIC);
         Sounds.SEATBELT_SFX = AssetsLoader.loadSound(Paths.SEATBELT_SFX);
 
@@ -54,19 +62,27 @@ public final class Assets {
         public static Image BACKGROUND;
         public static Image TILESET;
         public static BufferedImage EXPLOSION;
+        public static Image WATER;
+        public static Image WATER_DARK;
+        public static Image SAND_LEFT;
+        public static Image SAND_TOP;
+        public static Image SAND_TOP_LEFT;
+        public static Image CROSSAIR;
     }
 
     /**
      * Storing all Sounds.
      */
     public static class Sounds {
-        public static Clip BACKGROUND_MUSIC;
+        public static Clip MAINMENU_MUSIC;
         public static Clip PLAYING_MUSIC;
         public static Clip BUTTON_HOVER;
         public static Clip BUTTON_CLICK;
         public static Clip SEATBELT_SFX;
         public static Clip SHOT_SFX;
-        public static Clip SHOT_WATER;
+        public static Clip WATER_HIT;
+        public static Clip SHIP_HIT;
+        public static Clip SHIP_EXPLOSION;
     }
 
     /**
@@ -96,9 +112,14 @@ public final class Assets {
         public final static String BACKGROUND = "images/MainMenuBackground.jpg";
         public final static String TILESET = "images/tileset.png";
         public final static String EXPLOSION = "images/Explosion.png";
+        public final static String WATER = "images/tiles/water.png";
+        public final static String WATER_DARK = "images/tiles/water_dark.png";
+        public final static String SAND_LEFT = "images/tiles/sand_left.png";
+        public final static String SAND_TOP = "images/tiles/sand_top.png";
+        public final static String SAND_TOP_LEFT = "images/tiles/sand_top_left.png";
+        public final static String CROSSAIR = "images/ui/crossair_black.png";
 
-        public final static String BACKGROUND_1_MUSIC = "music/we-will-win-sc1.wav";
-        public final static String BACKGROUND_2_MUSIC = "music/redemption-sc1.wav";
+        public final static String MAINMENU_MUSIC = "music/mainmenu.wav";
         public final static String PLAYING_MUSIC = "music/undiscovered.wav";
 
         public final static String ROBOTO_FONT = "fonts/Roboto-Regular.ttf";
@@ -106,7 +127,9 @@ public final class Assets {
         public final static String PLAY_FONT = "fonts/Play-Regular.ttf";
         public final static String SEATBELT_SFX = "sfx/seatbelt.wav";
         public final static String SHOT_SFX = "sfx/shot.wav";
-        public final static String SHOT_WATER = "sfx/shot_water.wav";
+        public final static String WATER_HIT = "sfx/water_hit.wav";
+        public final static String SHIP_HIT = "sfx/ship_hit.wav";
+        public final static String SHIP_EXPLOSION = "sfx/ship_explosion.wav";
 
         public final class Button {
             public final static String HOVER_SFX = "sfx/button-hover.wav";

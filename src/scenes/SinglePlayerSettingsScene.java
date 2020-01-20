@@ -4,6 +4,7 @@ import ai.AiDifficulty;
 import core.Game;
 import core.GameWindow;
 import game.Assets;
+import game.GameSession;
 import game.GameSessionData;
 import game.Savegame;
 import ui.GameSettingsPanel;
@@ -13,7 +14,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener {
+public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener, GameSession {
 
     public SinglePlayerSettingsScene() {
         super("SinglePlayerSettingsScene");
@@ -24,40 +25,55 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         super.onAdded();
     }
 
+    private GameSessionData gameSessionData;
+    private GameSettingsPanel settingsPanel;
+
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        GameSettingsPanel settings = new GameSettingsPanel().create(false);
+        settingsPanel = new GameSettingsPanel().create(false);
 
-        settings.getBackBtn().addActionListener((e) -> {
+        settingsPanel.getBackBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
-        settings.getNewGameBtn().addActionListener((e) -> {
+        settingsPanel.getNewGameBtn().addActionListener((e) -> {
             ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
 
-            int size = (int) settings.getSizeSpinner().getValue();
-            String difficulty = String.valueOf(settings.getAiDifficultyCbox().getSelectedItem());
+            int size = (int) settingsPanel.getSizeSpinner().getValue();
+            String difficulty = String.valueOf(settingsPanel.getAiDifficultyCbox().getSelectedItem());
             difficulty = difficulty.replaceAll(" ", "");
+
             scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty)));
         });
 
-        settings.getLoadGameBtn().addActionListener((e) -> {
+        settingsPanel.getLoadGameBtn().addActionListener((e) -> {
             Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
             if(savegame != null) {
-                SingePlayerScene scene = (SingePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SingePlayerScene.class);
+                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                 scene.initializeSavegame(savegame);
             }
         });
 
-        settings.getSizeSpinner().addChangeListener(changeEvent -> {
+        settingsPanel.getSizeSpinner().addChangeListener(changeEvent -> {
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
         });
 
-        settings.getAiDifficultyCbox().addActionListener(actionEvent -> {
+        settingsPanel.getAiDifficultyCbox().addActionListener(actionEvent -> {
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
         });
 
-        return settings;
+        return settingsPanel;
+    }
+
+    private void updateUi() {
+        if(this.settingsPanel != null && this.gameSessionData != null) {
+            this.settingsPanel.getSizeSpinner().setValue(this.gameSessionData.getMapSize());
+            this.settingsPanel.getAiDifficultyCbox().setSelectedItem(this.gameSessionData.getAiDifficulty().toString().toUpperCase());
+
+            AiDifficulty difficulty = this.gameSessionData.getAiDifficulty();
+
+            this.settingsPanel.getAiDifficultyCbox().setSelectedIndex(difficulty.ordinal());
+        }
     }
 
     @Override
@@ -80,5 +96,11 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
+    }
+
+    @Override
+    public void initializeGameSession(GameSessionData data) {
+        this.gameSessionData = data;
+        updateUi();
     }
 }

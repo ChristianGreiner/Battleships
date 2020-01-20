@@ -104,19 +104,14 @@ public class GameSettingsPanel extends JPanel {
         SpinnerModel spinnerModel = new SpinnerNumberModel(10, 5, 30, 1);
         sizeSpn = new JSpinner(spinnerModel);
         sizeSpn.setFont(Assets.Fonts.DEFAULT);
-        sizeSpn.setPreferredSize(new Dimension(128, 32));
+        sizeSpn.setPreferredSize(new Dimension(64, 32));
         spinnerContainer.add(sizeSpn);
 
-        final JLabel crossLbl = new JLabel();
-        crossLbl.setText("x");
+        /*final JLabel crossLbl = new JLabel();
+        crossLbl.setText("Tiles");
         crossLbl.setForeground(Color.WHITE);
-        crossLbl.setFont(Assets.Fonts.DEFAULT_24);
-        spinnerContainer.add(crossLbl);
-
-        final JSpinner sizeCopySpn = new JSpinner(spinnerModel);
-        sizeCopySpn.setPreferredSize(new Dimension(128, 28));
-        sizeCopySpn.setFont(Assets.Fonts.DEFAULT);
-        spinnerContainer.add(sizeCopySpn);
+        crossLbl.setFont(Assets.Fonts.DEFAULT);
+        spinnerContainer.add(crossLbl);*/
 
         final JPanel aiDifficultLblContainer = new JPanel();
         aiDifficultLblContainer.setBackground(new Color(0, 0, 0, 155));
@@ -144,7 +139,7 @@ public class GameSettingsPanel extends JPanel {
             panel.add(aiSelectionContainer, gbc);
 
             aiDifficultyCbox = new JComboBox();
-            aiDifficultyCbox.setPreferredSize(new Dimension(220, 28));
+            aiDifficultyCbox.setPreferredSize(new Dimension(128, 32));
             aiDifficultyCbox.setFont(Assets.Fonts.DEFAULT);
             final DefaultComboBoxModel aiComboboxModel = new DefaultComboBoxModel();
             aiComboboxModel.addElement("Full Retard");
@@ -158,7 +153,7 @@ public class GameSettingsPanel extends JPanel {
 
             final JPanel spacer = new JPanel();
             spacer.setBackground(new Color(0, 0, 0, 155));
-            spacer.setPreferredSize(new Dimension(360, 10));
+            spacer.setPreferredSize(new Dimension(256, 10));
             spacer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
             gbc = new GridBagConstraints();
             gbc.gridx = 1;
@@ -184,7 +179,7 @@ public class GameSettingsPanel extends JPanel {
         gbc.fill = GridBagConstraints.VERTICAL;
         btnContainer.add(spacer3, gbc);
 
-        newGameBtn = UiBuilder.createButton("NEW GAME", new Dimension(360, UiBuilder.BUTTON_HEIGHT));
+        newGameBtn = UiBuilder.createButton("NEW GAME", new Dimension(266, UiBuilder.BUTTON_HEIGHT));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -198,7 +193,7 @@ public class GameSettingsPanel extends JPanel {
         gbc.fill = GridBagConstraints.VERTICAL;
         btnContainer.add(spacer5, gbc);
 
-        loadGameBtn = UiBuilder.createButton("LOAD GAME", new Dimension(360, UiBuilder.BUTTON_HEIGHT));
+        loadGameBtn = UiBuilder.createButton("LOAD GAME", new Dimension(266, UiBuilder.BUTTON_HEIGHT));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -213,7 +208,7 @@ public class GameSettingsPanel extends JPanel {
         gbc.fill = GridBagConstraints.VERTICAL;
         btnContainer.add(spacer6, gbc);
 
-        backBtn = UiBuilder.createButton("BACK", new Dimension(360, UiBuilder.BUTTON_HEIGHT));
+        backBtn = UiBuilder.createButton("BACK", new Dimension(266, UiBuilder.BUTTON_HEIGHT));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;

@@ -40,20 +40,6 @@ public class GameWindow extends JFrame implements Runnable {
         this.pack();
         this.setLocationRelativeTo(null);
 
-        this.getRootPane().addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                lastWindowSize = calcAspectRatio();
-
-                if (rootPanel != null) {
-                    rootPanel.setSize(lastWindowSize);
-                    rootPanel.repaint();
-
-                    if (guiScene instanceof GuiScene)
-                        guiScene.sizeUpdated();
-                }
-            }
-        });
-
         this.addWindowStateListener(new WindowStateListener() {
             public void windowStateChanged(WindowEvent event) {
                 lastWindowSize = calcAspectRatio();
@@ -62,10 +48,10 @@ public class GameWindow extends JFrame implements Runnable {
                 boolean wasMaximized = isMaximized(event.getOldState());
 
                 if (isMaximized && !wasMaximized) {
-                    System.out.println("User maximized window.");
+                    isFullscreen = true;
 
                 } else if (wasMaximized && !isMaximized) {
-                    System.out.println("User unmaximized window.");
+                    isFullscreen = false;
                 }
 
                 if (rootPanel != null) {
@@ -77,8 +63,18 @@ public class GameWindow extends JFrame implements Runnable {
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
-                Dimension size = calcAspectRatio();
-                setSize(size);
+                lastWindowSize = calcAspectRatio();
+
+                if (rootPanel != null) {
+                    rootPanel.setSize(lastWindowSize);
+                    rootPanel.repaint();
+                    revalidate();
+
+                    if (guiScene instanceof GuiScene)
+                        guiScene.sizeUpdated();
+                }
+
+                setSize(lastWindowSize);
             }
         });
     }
@@ -108,6 +104,7 @@ public class GameWindow extends JFrame implements Runnable {
         this.rootPanel.setSize(getSize());
         this.rootPanel.repaint();
         this.setPreferredSize(this.lastWindowSize);
+        this.revalidate();
     }
 
     /**
@@ -120,6 +117,7 @@ public class GameWindow extends JFrame implements Runnable {
         this.rootPanel.removeAll();
         this.remove(rootPanel);
         this.repaint();
+        this.revalidate();
     }
 
     @Override

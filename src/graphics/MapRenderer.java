@@ -1,5 +1,6 @@
 package graphics;
 
+import core.Game;
 import core.Helper;
 import core.Renderer;
 import game.Assets;
@@ -100,11 +101,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.shipsVisable = shipsVisable;
     }
 
-   /*public void setTileSize()
-    {
-        this.tileSize = new Point(this.getWidth() / (this.map.getSize() + 1), this.getHeight() / (this.map.getSize() + 1));
-    }*/
-
     protected void setGridSize(Point size)
     {
         if(size != null && size.x > 0 && size.y > 0)
@@ -117,11 +113,17 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             this.tileSize = new Point(this.gridSize.x / (this.map.getSize() + 1), this.gridSize.y / (this.map.getSize() + 1));
     }
 
+    public void resizeMapSize() {
+        setGridSize(new Point(this.getWidth(), this.getHeight()));
+        this.invalidateBuffer();
+        Game.getInstance().getWindow().revalidate();
+    }
+
     public Graphics beginRendering() {
         Graphics g = this.begin();
 
         if(this.gridSize == null)
-            gridSize = new Point(this.getWidth(), this.getHeight());
+            setGridSize(new Point(this.getWidth(), this.getHeight()));
 
         setTileSize();
 
@@ -136,7 +138,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     if (this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
                         if (this.editorMode) {
                             this.highlightShip(g);
-                            this.dragndropShip(g);
+                            this.dragAndDropShip(g);
                         } else {
                             this.drawHighlightTile(g);
                         }
@@ -144,7 +146,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 }
             }
         } catch (Exception ex) {
-
         }
 
         this.drawNumbers(g, tileSize);
@@ -152,9 +153,20 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
         if (this.explosionAnim != null && this.explosionAnimPos != null) {
             if (!this.explosionAnim.isStopped()) {
-                Point explPos = new Point(this.explosionAnimPos.x * tileSize.x + this.explosionSprite.getTileSize(), this.explosionAnimPos.y * tileSize.y + this.explosionSprite.getTileSize());
-                this.explosionAnim.draw(g, explPos, tileSize);
+                Point explosionPos = new Point(this.explosionAnimPos.x * tileSize.x + tileSize.x, this.explosionAnimPos.y * tileSize.y + tileSize.y);
+                this.explosionAnim.draw(g, explosionPos, tileSize);
             }
+        }
+
+        try {
+            if (this.getMousePosition() != null  && isEnemyMap()) {
+                if (this.tileSize != null) {
+                    if (this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
+                        drawCrossair(g, this.getMousePosition());
+                    }
+                }
+            }
+        } catch (Exception ex) {
         }
 
         return g;
@@ -171,18 +183,27 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             return;
         }
 
-        if (this.explosionAnim != null) {
-            this.explosionAnim.update();
-        }
-
         if(this.isVisible() && this.isValid()) {
             this.beginRendering();
             this.endRendering();
         }
     }
 
+    @Override
+    public void update(double deltaTime) {
+        super.update(deltaTime);
+
+        if (this.explosionAnim != null) {
+            this.explosionAnim.update();
+        }
+    }
+
+    private void drawCrossair(Graphics g, Point pos){
+        g.drawImage(Assets.Images.CROSSAIR, pos.x - 16, pos.y - 16, 32, 32, null);
+    }
+
     private void drawGrid(Graphics g, Point tileSize) {
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(0, 0, 0, 122));
         for (int i = 0; i <= map.getSize() + 1; i++) {
             //vertical
             g.drawLine(i * tileSize.x, 0, i * tileSize.x, (map.getSize() + 1) * tileSize.y);
@@ -191,14 +212,21 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    private void drawImageTile(Graphics g, Image image, Rectangle rect) {
+        g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
+    }
+
     protected void drawShips(Graphics g, Point tileSize) {
         for (int y = 0; y < this.map.getSize(); y++) {
             for (int x = 0; x < this.map.getSize(); x++) {
                 MapTile tile = this.map.getTile(new Point(x, y));
 
+                Rectangle tilePos = new Rectangle(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+
                 if (tile.isBlocked()) {
                     g.setColor(Color.YELLOW);
-                    g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    //g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    drawImageTile(g, Assets.Images.WATER_DARK, tilePos);
                 } else if (tile.hasShip()) {
 
                     if (tile.getShip() instanceof Battleship) {
@@ -231,7 +259,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 } else {
                     // draw water
                     g.setColor(Color.BLUE);
-                    g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    //g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    drawImageTile(g, Assets.Images.WATER, tilePos);
                 }
             }
         }
@@ -265,7 +294,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    protected void dragndropShip(Graphics g) {
+    protected void dragAndDropShip(Graphics g) {
         //picking up ship
         if (this.selected) {
             g.setColor(new Color(124, 252, 0, 200));
@@ -311,8 +340,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     }
                 }
                 this.rotated = false;
-                //System.out.println("DROPPED " + floatingShipPos.x + " " + floatingShipPos.y);
-                //System.out.println(tempPoint);
             }
         }
     }
@@ -331,16 +358,29 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         // draw letters next to board
         int asciiCode = 65;
         for (int num = 1; num <= map.getSize(); num++) {
+
+            // draw sand left side
+            drawImageTile(g, Assets.Images.SAND_LEFT,  new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y));
+
             Helper.drawCenteredString(g, Character.toString((char) asciiCode), new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
             asciiCode++;
+
         }
     }
 
     protected void drawNumbers(Graphics g, Point tileSize) {
         g.setColor(Color.BLACK);
         g.setFont(Assets.Fonts.DEFAULT);
+
+        // draw sand top left corner
+        drawImageTile(g, Assets.Images.SAND_TOP_LEFT,  new Rectangle(0, 0, tileSize.x, tileSize.y));
+
         // draw numbers above board
         for (Integer num = 1; num <= map.getSize(); num++) {
+
+            // draw sand top coner
+            drawImageTile(g, Assets.Images.SAND_TOP,  new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y));
+
             Helper.drawCenteredString(g, num.toString(), new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
         }
     }
@@ -428,13 +468,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void keyTyped(KeyEvent e) {
+
         if (!this.editorMode)
             return;
 
         if (e.getKeyCode() == KeyEvent.VK_R) {
-
-            this.rotated = !this.rotated;
-
+            if (this.selected)
+                this.rotated = !this.rotated;
         }
     }
 

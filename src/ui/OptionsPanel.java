@@ -8,139 +8,155 @@ import java.awt.*;
 
 public class OptionsPanel extends JPanel {
 
-    private JSlider sfxVolumeSlider;
-    private JSlider musicVolumeSlider;
-    private JButton saveBtn;
+    private JSlider sfxSlider;
+    private JSlider musicSlider;
+    private JButton btnSave;
+    private JComboBox fpsCBox;
 
     public OptionsPanel() {
     }
 
     public JSlider getSfxVolumeSlider() {
-        return sfxVolumeSlider;
+        return sfxSlider;
     }
 
     public JSlider getMusicVolumeSlider() {
-        return musicVolumeSlider;
+        return musicSlider;
     }
 
     public JButton getSaveBtn() {
-        return saveBtn;
+        return btnSave;
+    }
+
+    public JComboBox getFpsCBox() {
+        return fpsCBox;
     }
 
     public OptionsPanel create() {
 
-        OptionsPanel panel = this;
+        OptionsPanel mainContainer = this;
+        mainContainer.setBackground(UiBuilder.TRANSPARENT);
+        mainContainer.setLayout(new GridBagLayout());
 
-        panel.setLayout(new GridBagLayout());
-        final JPanel sfxVolumeContainer = new JPanel();
-        sfxVolumeContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-        sfxVolumeContainer.setBackground(new Color(0, 0, 0, 155));
-        GridBagConstraints gbc;
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel.add(sfxVolumeContainer, gbc);
-
-        final JLabel sfxVolumeLbl = new JLabel("Sfx Volume:");
-        sfxVolumeLbl.setPreferredSize(new Dimension(128, 24));
-        sfxVolumeLbl.setFont(Assets.Fonts.DEFAULT);
-        sfxVolumeLbl.setForeground(Color.WHITE);
-        sfxVolumeContainer.add(sfxVolumeLbl);
-
-        sfxVolumeSlider = new JSlider();
-        sfxVolumeSlider.setValue((int) (Game.getInstance().getOptions().getSfxVolume() * 100f));
-        sfxVolumeSlider.setPreferredSize(new Dimension(160, 18));
-        sfxVolumeContainer.add(sfxVolumeSlider);
-
-        final JLabel titleLbl = new JLabel("OPTIONS");
+        JLabel titleLbl = new JLabel();
+        titleLbl.setHorizontalAlignment(0);
+        titleLbl.setText("OPTIONS");
         titleLbl.setFont(Assets.Fonts.TITLE_36);
         titleLbl.setHorizontalAlignment(0);
         titleLbl.setHorizontalTextPosition(0);
         titleLbl.setVerticalAlignment(1);
         titleLbl.setVerticalTextPosition(1);
         titleLbl.setForeground(Color.WHITE);
+        GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.insets = new Insets(0, 0, 20, 0);
-        panel.add(titleLbl, gbc);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5, 5, 10, 5);
+        mainContainer.add(titleLbl, gbc);
 
-        final JPanel musicVolumeContainer = new JPanel();
-        musicVolumeContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-        musicVolumeContainer.setBackground(new Color(0, 0, 0, 155));
+        JPanel optionsContainer = new JPanel();
+        optionsContainer.setLayout(new GridBagLayout());
+        optionsContainer.setBackground(UiBuilder.BLACK_ALPHA);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        mainContainer.add(optionsContainer, gbc);
+
+        JPanel sfxContainer = new JPanel();
+        sfxContainer.setBackground(UiBuilder.TRANSPARENT);
+        sfxContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        optionsContainer.add(sfxContainer, gbc);
+
+        JLabel sfxLbl = new JLabel();
+        sfxLbl.setText("Effects Volume:");
+        sfxLbl.setBackground(UiBuilder.TRANSPARENT);
+        sfxLbl.setPreferredSize(new Dimension(136, 24));
+        sfxLbl.setFont(Assets.Fonts.DEFAULT);
+        sfxLbl.setForeground(Color.WHITE);
+        sfxContainer.add(sfxLbl);
+
+        this.sfxSlider = new JSlider();
+        this.sfxSlider.setValue((int) (Game.getInstance().getOptions().getSfxVolume() * 100f));
+        this.sfxSlider.setPreferredSize(new Dimension(180, 18));
+        sfxContainer.add(this.sfxSlider);
+
+        JPanel musicContainer = new JPanel();
+        musicContainer.setBackground(UiBuilder.TRANSPARENT);
+        musicContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        optionsContainer.add(musicContainer, gbc);
+
+        JLabel musicLbl = new JLabel();
+        musicLbl.setBackground(UiBuilder.TRANSPARENT);
+        musicLbl.setText("Music Volume:");
+        musicLbl.setPreferredSize(new Dimension(136, 24));
+        musicLbl.setFont(Assets.Fonts.DEFAULT);
+        musicLbl.setForeground(Color.WHITE);
+        musicContainer.add(musicLbl);
+
+        this.musicSlider = new JSlider();
+        this.musicSlider.setValue((int) (Game.getInstance().getOptions().getMusicVolume() * 100f));
+        this.musicSlider.setPreferredSize(new Dimension(180, 18));
+        musicContainer.add(this.musicSlider);
+
+        JPanel fpsContainer = new JPanel();
+        fpsContainer.setBackground(UiBuilder.TRANSPARENT);
+        fpsContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel.add(musicVolumeContainer, gbc);
+        optionsContainer.add(fpsContainer, gbc);
 
-        final JLabel musicVolumeLbl = new JLabel("Music Volume:");
-        musicVolumeLbl.setPreferredSize(new Dimension(128, 24));
-        musicVolumeLbl.setForeground(Color.WHITE);
-        musicVolumeLbl.setFont(Assets.Fonts.DEFAULT);
-        musicVolumeContainer.add(musicVolumeLbl);
+        JLabel fpsLbl = new JLabel();
+        fpsLbl.setBackground(UiBuilder.TRANSPARENT);
+        fpsLbl.setText("FPS:");
+        fpsLbl.setPreferredSize(new Dimension(136, 24));
+        fpsLbl.setFont(Assets.Fonts.DEFAULT);
+        fpsLbl.setForeground(Color.WHITE);
+        fpsContainer.add(fpsLbl);
 
-        musicVolumeSlider = new JSlider();
-        musicVolumeSlider.setPreferredSize(new Dimension(160, 18));
-        musicVolumeSlider.setValue((int) (Game.getInstance().getOptions().getMusicVolume() * 100f));
-        musicVolumeContainer.add(musicVolumeSlider);
+        this.fpsCBox = new JComboBox();
+        this.fpsCBox.setPreferredSize(new Dimension(180, 24));
+        this.fpsCBox.setFont(Assets.Fonts.DEFAULT);
 
-        /*final JPanel panel2 = new JPanel();
-        panel2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        final DefaultComboBoxModel aiComboboxModel = new DefaultComboBoxModel();
+        aiComboboxModel.addElement("30");
+        aiComboboxModel.addElement("60");
+        fpsCBox.setModel(aiComboboxModel);
+
+        this.fpsCBox.setSelectedItem(Integer.toString(Game.getInstance().getOptions().getFps()));
+
+        fpsContainer.add(this.fpsCBox);
+
+        JPanel btnContainer = new JPanel();
+        btnContainer.setBackground(UiBuilder.TRANSPARENT);
+        btnContainer.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel.add(panel2, gbc);
+        mainContainer.add(btnContainer, gbc);
 
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        this.btnSave = UiBuilder.createButton("SAVE", new Dimension(180, 32));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel.add(panel3, gbc);
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        btnContainer.add(this.btnSave, gbc);
 
-        final JPanel panel4 = new JPanel();
-        panel4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel.add(panel4, gbc);
-        */
-
-        final JPanel spacer = new JPanel();
-        spacer.setBackground(new Color(0, 0, 0, 155));
-        spacer.setPreferredSize(new Dimension(120, 10));
-        spacer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel.add(spacer, gbc);
-
-        final JPanel btnMainContainer = new JPanel();
-        btnMainContainer.setLayout(new BorderLayout(0, 0));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        panel.add(btnMainContainer, gbc);
-
-        final JPanel btnContainer = new JPanel();
-        btnContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        btnContainer.setBackground(UiBuilder.BLACK_ALPHA);
-        btnMainContainer.add(btnContainer, BorderLayout.CENTER);
-
-        saveBtn = UiBuilder.createButton("SAVE", new Dimension(120, UiBuilder.BUTTON_HEIGHT));
-
-        btnContainer.add(saveBtn);
-
-        return panel;
+        return mainContainer;
     }
 
     @Override

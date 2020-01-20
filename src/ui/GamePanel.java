@@ -1,5 +1,6 @@
 package ui;
 
+import core.Game;
 import game.Assets;
 import graphics.MapRenderer;
 
@@ -144,10 +145,10 @@ public class GamePanel extends JPanel {
 
     public void updateMapSize(Dimension size) {
         this.playerMapRenderer.setPreferredSize(size);
+        this.playerMapRenderer.resizeMapSize();
         this.enemyMapRenderer.setPreferredSize(size);
-
-        this.invalidate();
-        this.repaint();
+        this.enemyMapRenderer.resizeMapSize();
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override

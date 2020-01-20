@@ -1,5 +1,7 @@
 package graphics;
 
+import core.Game;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -32,10 +34,14 @@ public class Animation {
         }
 
         this.frameCount = 0;
-        this.frameDelay = frameDelay;
         this.currentFrame = 0;
         this.animationDirection = 1;
         this.totalFrames = this.frames.size();
+
+        this.frameDelay = frameDelay;
+
+        if(Game.getInstance().getTargetFps() == 60)
+            this.frameDelay *= 2;
 
     }
 
@@ -135,20 +141,28 @@ public class Animation {
         if (!stopped) {
             frameCount++;
 
+            if(!looped) {
+                if (currentFrame > totalFrames - 1) {
+                    currentFrame = 0;
+                    stop();
+                    return;
+                }
+            }
+
             if (frameCount > frameDelay) {
                 frameCount = 0;
                 currentFrame += animationDirection;
 
                 if (currentFrame > totalFrames - 1) {
                     currentFrame = 0;
-                    if (!looped)
+                    if (!looped) {
                         stop();
+                    }
                 } else if (currentFrame < 0) {
                     currentFrame = totalFrames - 1;
                 }
             }
         }
-
     }
 
     /**

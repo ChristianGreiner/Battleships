@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Options implements Serializable {
     private float sfxVolume = .5f;
     private float musicVolume = .5f;
+    private int fps = 60;
 
     /**
      * Gets the sfx volume.
@@ -41,4 +42,19 @@ public class Options implements Serializable {
         this.musicVolume = Helper.limit(musicVolume, 0, 1);
     }
 
+    /**
+     * Gets the target fps of the game.
+     * @return The fps.
+     */
+    public int getFps() {
+        return fps;
+    }
+
+    /**
+     * Sets the target fps of the game.
+     * @param fps The fps.
+     */
+    public void setFps(int fps) {
+        this.fps = fps;
+    }
 }

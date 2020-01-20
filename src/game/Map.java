@@ -118,8 +118,10 @@ public class Map implements MapInterface, Serializable {
      * @return Returns whenever or not all ships are destroyed.
      */
     public boolean allShipsDestroyed() {
-        if(this.ships.size() != 0)
+        if(this.ships.size() > 0) {
             return this.getNumberOfShips() == this.getNumberOfDestoryedShips();
+        }
+
 
         return false;
     }
@@ -221,9 +223,6 @@ public class Map implements MapInterface, Serializable {
             this.listeners.get(i).OnMapUpdated();
         }
 
-        System.out.println("[MAP] Ship insert" +  ship.getClass());
-        System.out.println("[MAP] Ship " + ship.getClass() + " Count: " +  this.shipsCounter.get(ship.getClass()));
-
         return true;
     }
 
@@ -234,7 +233,7 @@ public class Map implements MapInterface, Serializable {
 
         counter--;
         this.shipsCounter.put(ship.getClass(), counter);
-        this.ships.remove(ship);
+        //this.ships.remove(ship);
     }
 
     private ArrayList<MapTile> getNeighborTiles(Ship ship) {
