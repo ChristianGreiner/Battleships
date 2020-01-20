@@ -304,26 +304,44 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             //rasterized ship
             Point floatingShipMarker = new Point((this.getMousePosition().x / tileSize.x * tileSize.x) - (this.mouseShipOffset.x / tileSize.x * tileSize.x), (this.getMousePosition().y / tileSize.y * tileSize.y) - (this.mouseShipOffset.y / tileSize.y * tileSize.y));
 
+            Point dropPos = new Point(tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1, tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1);
+
             boolean quickfix_rotate;
             if (this.selectedShipTiles.get(0).getShip().isRotated()) {
                 if (!this.rotated) {
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
-                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
                     quickfix_rotate = true;
+                    if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                        g.setColor(Color.RED);
+                    }
+                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                        g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+
                 } else {
+                    quickfix_rotate = false;
+                    if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                        g.setColor(Color.RED);
+                    }
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
-                    quickfix_rotate = false;
+
                 }
             } else {
+                quickfix_rotate = false;
                 if (!this.rotated) {
+                    if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                        g.setColor(Color.RED);
+                    }
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
-                    quickfix_rotate = false;
+
                 } else {
+                    quickfix_rotate = true;
+                    if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate )) {
+                        g.setColor(Color.RED);
+                    }
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
-                    quickfix_rotate = true;
+
                 }
             }
 
@@ -331,12 +349,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             if (!this.pressed) {
                 this.selected = false;
 
-                floatingShipPos.x = tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1;
-                floatingShipPos.y = tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1;
-
+                //dropPos.x = tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1;
+                //dropPos.y = tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1;
                 for (MapRendererListener mouseListener : listener) {
                     if (mouseListener != null) {
-                        mouseListener.OnShipDropped(this.map, this.selectedShipTiles.get(0).getShip(), floatingShipPos, quickfix_rotate);
+                        mouseListener.OnShipDropped(this.map, this.selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate);
                     }
                 }
                 this.rotated = false;

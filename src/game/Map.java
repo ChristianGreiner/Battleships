@@ -821,6 +821,23 @@ public class Map implements MapInterface, Serializable {
         return hasFreeNeighborTiles(position, ship.getSpace(), rotated);
     }
 
+    public boolean canMoveShip(Ship ship, Point newPosition, boolean rotated) {
+
+        Point oldPos = ship.getPosition();
+
+        this.remove(ship);
+
+        if (canInsertShip(ship, newPosition, rotated)) {
+            this.insert(ship, oldPos, rotated);
+            return true;
+        } else {
+            this.insert(ship, oldPos, rotated);
+            return false;
+        }
+
+    }
+
+
     /**
      * Removes the ship from the map
      * @param ship The ship.

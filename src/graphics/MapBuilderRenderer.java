@@ -129,7 +129,7 @@ public class MapBuilderRenderer extends MapRenderer {
             this.drawSizeChanged = false;
 
             //this.tempPoint = new Point((this.getMousePosition().x / super.tileSize.x) - 1, (this.getMousePosition().y / super.tileSize.y) - 1);
-
+            System.out.println(rotated);
             for (MapRendererListener mouseListener : listener) {
                 if (mouseListener != null) {
                     mouseListener.OnShipDropped(this.map, shipToDrop, tempPoint, this.rotated);
@@ -217,9 +217,7 @@ public class MapBuilderRenderer extends MapRenderer {
                     && this.getMousePosition().y >= this.submarinePos.y + 30 && this.getMousePosition().y <= this.submarinePos.y + 30 + this.tileSize.y)
                 this.submarineSelected = true;
 
-        } catch (Exception ex) {
-
-        }
+        } catch (Exception ex) {}
     }
 
     @Override
