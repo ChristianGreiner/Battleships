@@ -112,13 +112,13 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
-        // ship not insert yet
+        // ship not inserted yet
         if(ship.getPosition() == null){
             map.insert(ship, pos, rotated);
         }
         else {
-            // ship already insert
-            if(rotated)
+            // ship already inserted
+            if(ship.isRotated() && !rotated || !ship.isRotated() && rotated)
                 map.rotate(ship);
 
             map.move(ship, pos);
