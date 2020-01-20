@@ -8,6 +8,8 @@ import game.*;
 import game.ships.Ship;
 import graphics.MapBuilderRenderer;
 import graphics.MapRendererListener;
+import network.NetworkMessage;
+import network.NetworkType;
 import ui.GuiScene;
 import ui.ShipSelectionPanel;
 
@@ -24,6 +26,15 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     private Map playerMap;
     private ShipSelectionPanel uiPanel;
     private MapGenerator mapGenerator;
+    private boolean networkGame = false;
+
+    public boolean isNetworkGame() {
+        return networkGame;
+    }
+
+    public void setNetworkGame(boolean networkGame) {
+        this.networkGame = networkGame;
+    }
 
     public ShipsSelectionScene() {
         super("ShipsSelectionScene");
@@ -69,9 +80,24 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         });
 
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
-            SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-            scene.reset();
-            scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), this.aiDifficulty));
+            if(this.isNetworkGame()) {
+                MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+                scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), null));
+
+                // send message to server that the client is ready
+                NetworkMessage confirmedMessage = new NetworkMessage();
+                confirmedMessage.text = "confirmed";
+                if(Game.getInstance().getNetworkManager().getNetworkType() == NetworkType.Client) {
+                    Game.getInstance().getNetworkManager().sendMessageToServer(confirmedMessage);
+                } else {
+                    Game.getInstance().getNetworkManager().sendMessageToServer(confirmedMessage);
+                }
+
+            } else {
+                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+                scene.reset();
+                scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), this.aiDifficulty));
+            }
         });
 
         shipSelectionPanel.invalidate();
@@ -99,6 +125,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
+
     }
 
     @Override

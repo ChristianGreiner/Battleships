@@ -32,6 +32,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     protected Point tempPoint;
     protected Point highlightPoint;
     protected ArrayList<MapRendererListener> listener = new ArrayList<>();
+    private BufferedImage background;
 
     public boolean isDisabled() {
         return disabled;
@@ -127,6 +128,20 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
         setTileSize();
 
+        if(this.background == null) {
+            this.background = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics bGr = this.background.createGraphics();
+            for (int y = 0; y < this.map.getSize(); y++) {
+                for (int x = 0; x < this.map.getSize(); x++) {
+                    Rectangle tilePos = new Rectangle(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    drawImageTile(bGr, Assets.Images.WATER, tilePos);
+                }
+            }
+            bGr.dispose();
+        }
+
+        g.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), null);
+
         this.drawShips(g, tileSize);
 
         //draw grid
@@ -217,6 +232,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     }
 
     protected void drawShips(Graphics g, Point tileSize) {
+
         for (int y = 0; y < this.map.getSize(); y++) {
             for (int x = 0; x < this.map.getSize(); x++) {
                 MapTile tile = this.map.getTile(new Point(x, y));
@@ -260,7 +276,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     // draw water
                     g.setColor(Color.BLUE);
                     //g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                    drawImageTile(g, Assets.Images.WATER, tilePos);
+                    //drawImageTile(g, Assets.Images.WATER, tilePos);
                 }
             }
         }

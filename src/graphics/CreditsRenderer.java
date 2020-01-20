@@ -1,5 +1,6 @@
 package graphics;
 
+import core.Game;
 import core.Helper;
 import core.Renderer;
 import game.Assets;
@@ -47,7 +48,10 @@ public class CreditsRenderer extends Renderer {
             Helper.drawCenteredString(g, c.getText(), rec, c.getFont());
         }
 
-        currentY -= 3;
+        if(Game.getInstance().getTargetFps() == 60)
+            currentY -= 1;
+        else
+            currentY -= 3;
 
         this.end();
     }

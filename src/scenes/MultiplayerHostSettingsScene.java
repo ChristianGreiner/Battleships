@@ -19,7 +19,8 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
         GameSettingsPanel settings = new GameSettingsPanel().create(true);
 
         settings.getNewGameBtn().addActionListener((e) -> {
-            Game.getInstance().getNetworkManager().startServer(5555);
+            Game.getInstance().getNetworkManager().startServer();
+
             WaitingForPlayerScene scene = (WaitingForPlayerScene)Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
 
             int size = (int) settings.getSizeSpinner().getValue();
@@ -33,14 +34,6 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
         settings.getBackBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MultiplayerNetworkScene.class);
         });
-
-        /*settings.getSizeSpinner().addChangeListener(changeEvent -> {
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
-        });
-
-        settings.getAiDifficultyCbox().addActionListener(actionEvent -> {
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.BUTTON_HOVER);
-        });*/
 
         return settings;
     }

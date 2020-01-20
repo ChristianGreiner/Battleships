@@ -212,11 +212,7 @@ public class Map implements MapInterface, Serializable {
         int counter = this.shipsCounter.get(ship.getClass());
         this.shipsCounter.put(ship.getClass(), counter + 1 );
 
-        this.shipsCounter.forEach((key, value) -> {
-            System.out.println("Key : " + key + " Value : " + value);
-        });
-
-        this.ships.add(ship);
+           this.ships.add(ship);
 
         // trigger listener
         for (int i = 0; i < this.listeners.size(); i++) {
