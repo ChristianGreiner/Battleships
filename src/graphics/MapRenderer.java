@@ -32,6 +32,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     protected Point tempPoint;
     protected Point highlightPoint;
     protected ArrayList<MapRendererListener> listener = new ArrayList<>();
+    private BufferedImage background;
 
     public boolean isDisabled() {
         return disabled;
@@ -127,6 +128,19 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
         setTileSize();
 
+        if(this.background == null) {
+            this.background = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics bGr = this.background.createGraphics();
+            for (int y = 0; y < this.map.getSize(); y++) {
+                for (int x = 0; x < this.map.getSize(); x++) {
+                    Rectangle tilePos = new Rectangle(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+                    drawImageTile(bGr, Assets.Images.WATER, tilePos);
+                }
+            }
+            bGr.dispose();
+        }
+
+        g.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), null);
         this.drawShips(g, tileSize);
 
         //draw grid
@@ -226,7 +240,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 if (tile.isBlocked()) {
                     g.setColor(Color.YELLOW);
                     //g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                    drawImageTile(g, Assets.Images.WATER_DARK, tilePos);
+                    //drawImageTile(g, Assets.Images.WATER_DARK, tilePos);
                 } else if (tile.hasShip()) {
 
                     if (tile.getShip() instanceof Battleship) {
@@ -260,7 +274,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     // draw water
                     g.setColor(Color.BLUE);
                     //g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                    drawImageTile(g, Assets.Images.WATER, tilePos);
+                    //drawImageTile(g, Assets.Images.WATER, tilePos);
                 }
             }
         }
@@ -310,17 +324,17 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             if (this.selectedShipTiles.get(0).getShip().isRotated()) {
                 if (!this.rotated) {
                     quickfix_rotate = true;
-                    if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                    /*if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
                         g.setColor(Color.RED);
-                    }
+                    }*/
                         g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
                         g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
 
                 } else {
                     quickfix_rotate = false;
-                    if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                    /*if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
                         g.setColor(Color.RED);
-                    }
+                    }*/
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
 
@@ -328,17 +342,17 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             } else {
                 quickfix_rotate = false;
                 if (!this.rotated) {
-                    if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                    /*if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
                         g.setColor(Color.RED);
-                    }
+                    }*/
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
 
                 } else {
                     quickfix_rotate = true;
-                    if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate )) {
+                    /*if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate )) {
                         g.setColor(Color.RED);
-                    }
+                    }*/
                     g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
 

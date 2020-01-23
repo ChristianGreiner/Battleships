@@ -838,6 +838,7 @@ public class Map implements MapInterface, Serializable {
     }
 
 
+
     /**
      * Removes the ship from the map
      * @param ship The ship.
