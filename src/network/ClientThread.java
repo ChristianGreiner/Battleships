@@ -63,18 +63,22 @@ public class ClientThread extends Thread {
            boolean serverConfirmed = false;
            boolean playerConfirmed = false;
 
-           // 2. WAIT FOR CONFIRM
-           while(!(playerConfirmed && serverConfirmed)) {
-               String confirmMessage = this.messageSocket.recv_msg();								//liest socket aus
+
+           while (true) {
+               System.out.println("LOL");
+               String confirmMessage = this.messageSocket.recvSanitizedMsg();								//liest socket aus
                if (confirmMessage != null) {                            //Message leer? neuer versuch!
                    if (confirmMessage.contains("CONFIRMED")) {
-                       for (NetworkListener listener : Game.getInstance().getNetworkManager().getListeners()) {
-                           listener.OnOpponentConfirmed();
-                       }
                        System.out.println("SERVER CONFIRMED");
                        serverConfirmed = true;
+                       break;
                    }
                }
+           }
+
+           // 2. WAIT FOR CONFIRM
+           while(!(playerConfirmed && serverConfirmed)) {
+
 
                while (!readyToPlay) {
                    this.messageSocket.send_msg("CONFIRMED");
