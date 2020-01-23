@@ -282,7 +282,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 if (tile.isBlocked()) {
                     drawImage(g, Assets.Images.WATER_DARK, tilePos);
                 } else if (tile.isHit() && !tile.isBlocked() && !tile.hasShip()) {
-                    g.setColor(new Color(255, 255, 255, 255));
+                    g.setColor(new Color(255, 255, 255,  100));
                     if(tile.hasShip())
                         if(tile.getShip().isDestroyed())
                             g.setColor(new Color(255, 255, 255, 5));
