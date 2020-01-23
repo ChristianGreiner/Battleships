@@ -313,6 +313,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 //this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
                 this.selectedShip = this.hoveredMapTile.getShip();
                 if (!this.pressed && this.selectedShip != null) {
+                    //System.out.println(this.selectedShip.isRotated());
                     g.setColor(new Color(124, 252, 0, 200));
                     if (this.selectedShip.isRotated()) {
                         g.drawRect(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
@@ -338,6 +339,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
             Point dropPos = new Point(tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1, tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1);
 
+            map.remove(this.selectedShip);
+
             boolean quickfix_rotate;
             if (this.selectedShip.isRotated()) {
                 if (!this.rotated) {
@@ -358,8 +361,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
                 }
             } else {
-                quickfix_rotate = false;
                 if (!this.rotated) {
+                    quickfix_rotate = false;
                     if(!map.canInsertShip(this.selectedShip, dropPos, false)) {
                         g.setColor(Color.RED);
                     }
@@ -384,6 +387,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 for (MapRendererListener mouseListener : listener) {
                     if (mouseListener != null) {
                         mouseListener.OnShipDropped(this.map, this.selectedShip, dropPos, quickfix_rotate);
+
+                        System.out.println("##block##");
+                        System.out.println(dropPos);
+                        System.out.println(this.selectedShip.isRotated());
+                        System.out.println(quickfix_rotate);
                     }
                 }
                 this.rotated = false;
