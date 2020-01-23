@@ -51,12 +51,15 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
         scene.initializeGameSession(this.sessionData);
         NetworkMessage message = new NetworkMessage();
         message.text = "size " + sessionData.getMapSize();
-        Game.getInstance().getNetworkManager().sendMessageToClient(message);
     }
 
     @Override
     public void OnGameJoined(int mapSize) {
         // nothing to do
+    }
+
+    @Override
+    public void OnOpponentConfirmed() {
     }
 
     @Override
@@ -67,5 +70,7 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
     @Override
     public void initializeGameSession(GameSessionData data) {
         this.sessionData = data;
+
+        Game.getInstance().getNetworkManager().startServer(data.getMapSize());
     }
 }

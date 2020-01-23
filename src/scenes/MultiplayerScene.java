@@ -1,6 +1,5 @@
 package scenes;
 
-import core.Game;
 import core.GameWindow;
 import core.Updatable;
 import game.GameSession;
@@ -36,15 +35,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
 
     @Override
     public void update(double deltaTime) {
-        if(Game.getInstance().getNetworkManager().isClientConfirmed() && Game.getInstance().getNetworkManager().isServerConfirmed()) {
-            this.playerMapRenderer = new MapRenderer(new Map(gameSessionData.getMapSize()));
-            this.enemyMapRenderer = new MapRenderer(new Map(gameSessionData.getMapSize()));
-        }
     }
 
     @Override
     public void lateUpdate(double deltaTime) {
-
     }
 
     @Override
@@ -77,5 +71,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, KeyL
     @Override
     public void initializeGameSession(GameSessionData data) {
         this.gameSessionData = data;
+
+        this.playerMapRenderer.setMap(data.getMap());
+        this.enemyMapRenderer.setMap(new Map(data.getMapSize()));
     }
 }

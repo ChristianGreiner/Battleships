@@ -6,5 +6,7 @@ public interface NetworkListener {
 
     void OnGameJoined(int mapSize);
 
+    void OnOpponentConfirmed();
+
     void OnServerStarted();
 }

@@ -77,7 +77,6 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     @Override
     public void OnPlayerConnected() {
-
     }
 
     @Override
@@ -85,6 +84,10 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
         ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
         scene.setNetworkGame(true);
         scene.initializeGameSession(new GameSessionData(new Map(mapSize), mapSize, null));
+    }
+
+    @Override
+    public void OnOpponentConfirmed() {
     }
 
     @Override
