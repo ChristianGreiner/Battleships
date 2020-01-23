@@ -25,8 +25,13 @@ public final class Assets {
         Images.SAND_TOP_LEFT = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_TOP_LEFT);
         Images.CROSSAIR = AssetsLoader.loadBufferedImage(Assets.Paths.CROSSAIR);
 
-        // load fonts
+        // load ships
+        Images.SHIP_BATTLESHIP = AssetsLoader.loadBufferedImage(Assets.Paths.SHIP_BATTLESHIP);
+        Images.SHIP_CARRIER = AssetsLoader.loadBufferedImage(Assets.Paths.SHIP_CARRIER);
+        Images.SHIP_DESTROYER = AssetsLoader.loadBufferedImage(Assets.Paths.SHIP_DESTROYER);
+        Images.SHIP_SUBMARINE = AssetsLoader.loadBufferedImage(Assets.Paths.SHIP_SUBMARINE);
 
+        // load fonts
         String FONT = Paths.ROBOTO_FONT;
 
         Fonts.TITLE = AssetsLoader.loadFont(Paths.PLAY_FONT, 48f);
@@ -68,6 +73,10 @@ public final class Assets {
         public static Image SAND_TOP;
         public static Image SAND_TOP_LEFT;
         public static Image CROSSAIR;
+        public static Image SHIP_BATTLESHIP;
+        public static Image SHIP_CARRIER;
+        public static Image SHIP_DESTROYER;
+        public static Image SHIP_SUBMARINE;
     }
 
     /**
@@ -118,6 +127,10 @@ public final class Assets {
         public final static String SAND_TOP = "images/tiles/sand_top.png";
         public final static String SAND_TOP_LEFT = "images/tiles/sand_top_left.png";
         public final static String CROSSAIR = "images/ui/crossair_black.png";
+        public final static String SHIP_BATTLESHIP = "images/ships/battleship.png";
+        public final static String SHIP_CARRIER = "images/ships/carrier.png";
+        public final static String SHIP_DESTROYER = "images/ships/destroyer.png";
+        public final static String SHIP_SUBMARINE = "images/ships/submarine.png";
 
         public final static String MAINMENU_MUSIC = "music/mainmenu.wav";
         public final static String PLAYING_MUSIC = "music/undiscovered.wav";

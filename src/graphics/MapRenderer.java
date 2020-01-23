@@ -9,9 +9,11 @@ import game.MapTile;
 import game.ships.Battleship;
 import game.ships.Carrier;
 import game.ships.Destroyer;
+import game.ships.Ship;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -23,7 +25,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     protected Map map;
     private Point gridSize;
     protected Point tileSize;
-    protected ArrayList<MapTile> selectedShipTiles;
+    private Ship selectedShip;
     protected MapTile hoveredMapTile;
     protected Point mouseShipOffset;
     protected boolean selected;
@@ -32,7 +34,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     protected Point tempPoint;
     protected Point highlightPoint;
     protected ArrayList<MapRendererListener> listener = new ArrayList<>();
-    private BufferedImage background;
+    private BufferedImage backgroundBackground;
 
     public boolean isDisabled() {
         return disabled;
@@ -120,27 +122,29 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         Game.getInstance().getWindow().revalidate();
     }
 
-    public Graphics beginRendering() {
-        Graphics g = this.begin();
+    public Graphics2D beginRendering() {
+        Graphics2D g = this.begin();
 
         if(this.gridSize == null)
             setGridSize(new Point(this.getWidth(), this.getHeight()));
 
         setTileSize();
 
-        if(this.background == null) {
-            this.background = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics bGr = this.background.createGraphics();
-            for (int y = 0; y < this.map.getSize(); y++) {
-                for (int x = 0; x < this.map.getSize(); x++) {
-                    Rectangle tilePos = new Rectangle(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                    drawImageTile(bGr, Assets.Images.WATER, tilePos);
+        if(this.backgroundBackground == null) {
+            this.backgroundBackground = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D bGr = this.backgroundBackground.createGraphics();
+            for (int y = 0; y < this.map.getSize() + 1; y++) {
+                for (int x = 0; x < this.map.getSize() + 1; x++) {
+                    Rectangle tilePos = new Rectangle(x * tileSize.x, y * tileSize.y, tileSize.x, tileSize.y);
+                    drawImage(bGr, Assets.Images.WATER, tilePos);
                 }
             }
             bGr.dispose();
         }
 
-        g.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), null);
+        // draw map background
+        g.drawImage(this.backgroundBackground, 0, 0, this.getWidth(), this.getHeight(), null);
+
         this.drawShips(g, tileSize);
 
         //draw grid
@@ -212,12 +216,12 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    private void drawCrossair(Graphics g, Point pos){
+    private void drawCrossair(Graphics2D g, Point pos){
         g.drawImage(Assets.Images.CROSSAIR, pos.x - 16, pos.y - 16, 32, 32, null);
     }
 
-    private void drawGrid(Graphics g, Point tileSize) {
-        g.setColor(new Color(0, 0, 0, 122));
+    private void drawGrid(Graphics2D g, Point tileSize) {
+        g.setColor(new Color(0, 0, 0, 50));
         for (int i = 0; i <= map.getSize() + 1; i++) {
             //vertical
             g.drawLine(i * tileSize.x, 0, i * tileSize.x, (map.getSize() + 1) * tileSize.y);
@@ -226,11 +230,49 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    private void drawImageTile(Graphics g, Image image, Rectangle rect) {
+    private void drawImage(Graphics2D g, Image image, Rectangle rect) {
         g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
     }
 
-    protected void drawShips(Graphics g, Point tileSize) {
+    private void drawImageShip(Graphics2D g, Ship ship, Image image, Rectangle rect, boolean rotated) {
+        if(rotated) {
+            AffineTransform backup = g.getTransform();
+            AffineTransform a = AffineTransform.getRotateInstance(Math.toRadians (90), rect.x, rect.y);
+            g.setTransform(a);
+            g.drawImage(image, rect.x, rect.y - tileSize.y * ship.getSpace(), rect.height, rect.width, null);
+            g.setTransform(backup);
+        }
+        else
+            drawImage(g, image, rect);
+    }
+
+    protected void drawShips(Graphics2D g, Point tileSize) {
+
+        for (int i = 0; i < this.map.getShips().size(); i++) {
+            Ship ship = this.map.getShips().get(i);
+
+            Rectangle shipPos = null;
+
+            if(ship.isRotated())
+                shipPos = new Rectangle(ship.getPosition().x * tileSize.x + tileSize.x, ship.getPosition().y * tileSize.y + tileSize.y, ship.getSpace() * tileSize.x, tileSize.y);
+            else
+                shipPos = new Rectangle(ship.getPosition().x * tileSize.x + tileSize.x, ship.getPosition().y * tileSize.y + tileSize.y, tileSize.x, ship.getSpace() * tileSize.y);
+
+            Image shipImage = null;
+
+            if (ship instanceof Battleship) {
+                shipImage = Assets.Images.SHIP_BATTLESHIP;
+            } else if (ship instanceof Carrier) {
+                shipImage = Assets.Images.SHIP_CARRIER;
+            } else if (ship instanceof Destroyer) {
+                shipImage = Assets.Images.SHIP_DESTROYER;
+            } else {
+                shipImage = Assets.Images.SHIP_SUBMARINE;
+            }
+
+            if(ship.isDestroyed() || this.shipsVisable)
+                drawImageShip(g, ship, shipImage, shipPos, ship.isRotated());
+        }
         for (int y = 0; y < this.map.getSize(); y++) {
             for (int x = 0; x < this.map.getSize(); x++) {
                 MapTile tile = this.map.getTile(new Point(x, y));
@@ -238,49 +280,24 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 Rectangle tilePos = new Rectangle(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
 
                 if (tile.isBlocked()) {
-                    g.setColor(Color.YELLOW);
-                    //g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                    //drawImageTile(g, Assets.Images.WATER_DARK, tilePos);
-                } else if (tile.hasShip()) {
-
-                    if (tile.getShip() instanceof Battleship) {
-                        g.setColor(Color.DARK_GRAY);
-                    } else if (tile.getShip() instanceof Carrier) {
-                        g.setColor(Color.LIGHT_GRAY);
-                    } else if (tile.getShip() instanceof Destroyer) {
-                        g.setColor(Color.GRAY);
-                    } else {
-                        g.setColor(Color.WHITE);
-                    }
-
-                    if (selectedShipTiles != null && selectedShipTiles.contains(tile) && selected) {
-                        g.setColor(Color.BLUE);
-                    }
-
-                    if(!this.shipsVisable)
-                        g.setColor(Color.BLUE);
+                    drawImage(g, Assets.Images.WATER_DARK, tilePos);
+                } else if (tile.isHit() && !tile.isBlocked() && !tile.hasShip()) {
+                    g.setColor(new Color(255, 255, 255,  100));
+                    if(tile.hasShip())
+                        if(tile.getShip().isDestroyed())
+                            g.setColor(new Color(255, 255, 255, 5));
 
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-
-                    if (tile.isHit()) {
-                        g.setColor(Color.ORANGE);
-                        g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                    }
-
-                } else if (tile.isHit() && !tile.isBlocked()) {
-                    g.setColor(Color.RED);
+                }
+                else if (tile.isHit() && !tile.isBlocked() && tile.hasShip()) {
+                    g.setColor(new Color(255, 0, 0, 30));
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                } else {
-                    // draw water
-                    g.setColor(Color.BLUE);
-                    //g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
-                    //drawImageTile(g, Assets.Images.WATER, tilePos);
                 }
             }
         }
     }
 
-    protected void highlightShip(Graphics g) {
+    protected void highlightShip(Graphics2D g) {
         //ship selection using mouse
 
         if (this.getMousePosition() == null || tileSize == null)
@@ -293,13 +310,14 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if (this.hoveredMapTile != null) {
             if (this.hoveredMapTile.hasShip() && !this.selected) {
 
-                this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
-                if (!this.pressed) {
+                //this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
+                this.selectedShip = this.hoveredMapTile.getShip();
+                if (!this.pressed && this.selectedShip != null) {
                     g.setColor(new Color(124, 252, 0, 200));
-                    if (this.selectedShipTiles.get(0).getShip().isRotated()) {
-                        g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    if (this.selectedShip.isRotated()) {
+                        g.drawRect(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
                     } else {
-                        g.drawRect(this.selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, this.selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                        g.drawRect(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
                     }
                 }
             } else if (!this.selected) {
@@ -308,9 +326,9 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    protected void dragAndDropShip(Graphics g) {
+    protected void dragAndDropShip(Graphics2D g) {
         //picking up ship
-        if (this.selected) {
+        if (this.selected && this.selectedShip != null) {
             g.setColor(new Color(124, 252, 0, 200));
             // free floating ship
             Point floatingShipPos = new Point( this.getMousePosition().x - this.mouseShipOffset.x, this.getMousePosition().y - this.mouseShipOffset.y);
@@ -321,40 +339,40 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             Point dropPos = new Point(tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1, tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1);
 
             boolean quickfix_rotate;
-            if (this.selectedShipTiles.get(0).getShip().isRotated()) {
+            if (this.selectedShip.isRotated()) {
                 if (!this.rotated) {
                     quickfix_rotate = true;
-                    /*if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                    if(!map.canInsertShip(this.selectedShip, dropPos, true)) {
                         g.setColor(Color.RED);
-                    }*/
-                        g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
-                        g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    }
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
+                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
 
                 } else {
                     quickfix_rotate = false;
-                    /*if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                    if(!map.canInsertShip(this.selectedShip, dropPos, false)) {
                         g.setColor(Color.RED);
-                    }*/
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
-                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    }
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
+                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
 
                 }
             } else {
                 quickfix_rotate = false;
                 if (!this.rotated) {
-                    /*if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate)) {
+                    if(!map.canInsertShip(this.selectedShip, dropPos, false)) {
                         g.setColor(Color.RED);
-                    }*/
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
-                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * selectedShipTiles.get(0).getShip().getSpace());
+                    }
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
+                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
 
                 } else {
                     quickfix_rotate = true;
-                    /*if(!map.canMoveShip(selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate )) {
+                    if(!map.canInsertShip(this.selectedShip, dropPos, true )) {
                         g.setColor(Color.RED);
-                    }*/
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
-                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * selectedShipTiles.get(0).getShip().getSpace(), tileSize.y);
+                    }
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
+                    g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
 
                 }
             }
@@ -363,18 +381,16 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             if (!this.pressed) {
                 this.selected = false;
 
-                //dropPos.x = tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1;
-                //dropPos.y = tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1;
                 for (MapRendererListener mouseListener : listener) {
                     if (mouseListener != null) {
-                        mouseListener.OnShipDropped(this.map, this.selectedShipTiles.get(0).getShip(), dropPos, quickfix_rotate);
+                        mouseListener.OnShipDropped(this.map, this.selectedShip, dropPos, quickfix_rotate);
                     }
                 }
                 this.rotated = false;
             }
         }
     }
-    protected void drawHighlightTile(Graphics g) {
+    protected void drawHighlightTile(Graphics2D g) {
         Point mousePos = new Point(this.getMousePosition().x, this.getMousePosition().y);
 
         if(mousePos.x < gridSize.x && mousePos.y < gridSize.y) {
@@ -385,13 +401,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    protected void drawLetters(Graphics g, Point tileSize) {
+    protected void drawLetters(Graphics2D g, Point tileSize) {
         // draw letters next to board
         int asciiCode = 65;
         for (int num = 1; num <= map.getSize(); num++) {
 
             // draw sand left side
-            drawImageTile(g, Assets.Images.SAND_LEFT,  new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y));
+            drawImage(g, Assets.Images.SAND_LEFT,  new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y));
 
             Helper.drawCenteredString(g, Character.toString((char) asciiCode), new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
             asciiCode++;
@@ -399,18 +415,18 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    protected void drawNumbers(Graphics g, Point tileSize) {
+    protected void drawNumbers(Graphics2D g, Point tileSize) {
         g.setColor(Color.BLACK);
         g.setFont(Assets.Fonts.DEFAULT);
 
         // draw sand top left corner
-        drawImageTile(g, Assets.Images.SAND_TOP_LEFT,  new Rectangle(0, 0, tileSize.x, tileSize.y));
+        drawImage(g, Assets.Images.SAND_TOP_LEFT,  new Rectangle(0, 0, tileSize.x, tileSize.y));
 
         // draw numbers above board
         for (Integer num = 1; num <= map.getSize(); num++) {
 
             // draw sand top coner
-            drawImageTile(g, Assets.Images.SAND_TOP,  new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y));
+            drawImage(g, Assets.Images.SAND_TOP,  new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y));
 
             Helper.drawCenteredString(g, num.toString(), new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
         }
@@ -449,11 +465,9 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
             if (this.hoveredMapTile.hasShip() && !this.selected) {
 
-                this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
-
                 this.selected = true;
 
-                Point shipTopPos = new Point(selectedShipTiles.get(0).getPos().x * tileSize.x + tileSize.x, selectedShipTiles.get(0).getPos().y * tileSize.y + tileSize.y);
+                Point shipTopPos = new Point(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y);
                 Point mousePos = new Point(this.getMousePosition().x, this.getMousePosition().y);
 
                 this.mouseShipOffset = new Point(mousePos.x - shipTopPos.x, mousePos.y - shipTopPos.y);
@@ -482,31 +496,12 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if (!this.editorMode)
             return;
 
-       /* if(this.hoveredMapTile != null) {
-            if(this.hoveredMapTile.hasShip()) {
-                for (MapRendererListener mouseListener : listener) {
-                    if (mouseListener != null) {
-                        mouseListener.OnRotated(this.map, this.hoveredMapTile.getShip());
-                    }
-                }
-            }
-        } else {*/
         if (this.selected)
             this.rotated = !this.rotated;
-        //}
-
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
-        if (!this.editorMode)
-            return;
-
-        if (e.getKeyCode() == KeyEvent.VK_R) {
-            if (this.selected)
-                this.rotated = !this.rotated;
-        }
     }
 
     @Override

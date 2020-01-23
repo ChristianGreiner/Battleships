@@ -1,16 +1,10 @@
 package network;
 
-import game.HitType;
-
 public interface NetworkListener {
 
     void OnPlayerConnected();
 
-    void OnGameJoined(int mapSize, int[] ships);
+    void OnGameJoined(int mapSize);
 
-    void OnHitReceived(HitType type);
-
-    void OnGameSaved(int id);
-
-    void OnGameLoaded(int id);
+    void OnServerStarted();
 }

@@ -44,7 +44,7 @@ public class MapBuilderRenderer extends MapRenderer {
         this.destroyerPos = new Point((this.getWidth() / 3) * 2, 30 + (this.getHeight() / 5) * 2);
         this.submarinePos = new Point((this.getWidth() / 3) * 2, 30 + (this.getHeight() / 5) * 3);
 
-        Graphics g = super.beginRendering();
+        Graphics2D g = super.beginRendering();
 
         Helper.drawCenteredString(g, "Carrier " + shipCnt[0] + "x", new Rectangle(this.carrierPos.x, this.carrierPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
         Helper.drawCenteredString(g, "Battleship " + shipCnt[0] + "x", new Rectangle(this.battleshipPos.x, this.battleshipPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
@@ -81,7 +81,7 @@ public class MapBuilderRenderer extends MapRenderer {
         super.endRendering();
     }
 
-    void moveShip(Graphics g) {
+    void moveShip(Graphics2D g) {
 
         Point shipPos;
         int shipSize;
@@ -141,7 +141,7 @@ public class MapBuilderRenderer extends MapRenderer {
 
     }
 
-    private void drawShip(Graphics g, int shipSize, Ship shipToDrop)
+    private void drawShip(Graphics2D g, int shipSize, Ship shipToDrop)
     {
         int drawnShipSize;
         Point drawingTileSize;
@@ -189,9 +189,10 @@ public class MapBuilderRenderer extends MapRenderer {
     }
 
     @Override
-    public void drawHighlightTile(Graphics g){
+    public void drawHighlightTile(Graphics2D g){
         return;
     }
+
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);

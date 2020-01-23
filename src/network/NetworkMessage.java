@@ -1,5 +1,5 @@
 package network;
 
-public interface NetworkMessage {
-    String create();
+public class NetworkMessage {
+    public String text;
 }
