@@ -4,12 +4,14 @@ import core.Game;
 import core.GameWindow;
 import core.Updatable;
 import game.GameSessionData;
+import game.HitType;
 import game.Map;
 import network.NetworkListener;
 import ui.GuiScene;
 import ui.MultiplayerNetworkPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -92,6 +94,20 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     @Override
     public void OnServerStarted() {
+    }
+
+    @Override
+    public void OnGameStarted() {
+
+    }
+
+    @Override
+    public void OnReceiveShot(Point pos) {
+
+    }
+
+    @Override
+    public void OnReceiveAnswer(HitType type) {
     }
 
 }

@@ -4,12 +4,13 @@ import core.Game;
 import core.GameWindow;
 import game.GameSession;
 import game.GameSessionData;
+import game.HitType;
 import network.NetworkListener;
-import network.NetworkMessage;
 import ui.GuiScene;
 import ui.WaitingForPlayerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkListener, GameSession {
 
@@ -49,8 +50,6 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
         ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
         scene.setNetworkGame(true);
         scene.initializeGameSession(this.sessionData);
-        NetworkMessage message = new NetworkMessage();
-        message.text = "size " + sessionData.getMapSize();
     }
 
     @Override
@@ -64,7 +63,19 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void OnServerStarted() {
-        // nothing to do
+    }
+
+    @Override
+    public void OnGameStarted() {
+    }
+
+    @Override
+    public void OnReceiveShot(Point pos) {
+
+    }
+
+    @Override
+    public void OnReceiveAnswer(HitType type) {
     }
 
     @Override

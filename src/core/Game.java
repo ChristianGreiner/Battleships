@@ -119,7 +119,6 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new WaitingForPlayerScene());
         this.sceneManager.addScene(new MultiplayerScene());
         this.sceneManager.addScene(new GameOverScene());
-
     }
 
     /**
