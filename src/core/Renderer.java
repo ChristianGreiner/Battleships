@@ -13,7 +13,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
 
     private boolean isDirty = false;
     private BufferedImage doubleBufferImage = null;
-    private Graphics doubleBufferGraphics = null;
+    private Graphics2D doubleBufferGraphics = null;
 
     public Renderer() {
         this.setBackground(Color.WHITE);
@@ -24,7 +24,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
      * @param clearRect The rectangle where the image should be cleard.
      * @return The swing graphics element.
      */
-    public Graphics begin(Rectangle clearRect) {
+    public Graphics2D begin(Rectangle clearRect) {
         isDirty = true;
         if (this.doubleBufferImage == null) {
 
@@ -39,7 +39,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
             this.doubleBufferImage = (BufferedImage)createImage(width, height);
         }
 
-        this.doubleBufferGraphics = this.doubleBufferImage.getGraphics();
+        this.doubleBufferGraphics = this.doubleBufferImage.createGraphics();
 
         // clear image
         this.doubleBufferGraphics.setColor(Color.black);
@@ -54,7 +54,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
      *  When rendering stuff, begin has called first, then drawing, then call end().
      * @return The swing graphics element.
      */
-    public Graphics begin() {
+    public Graphics2D begin() {
         return this.begin(new Rectangle(0, 0, getWidth(), getHeight()));
     }
 

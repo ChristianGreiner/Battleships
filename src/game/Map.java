@@ -679,6 +679,28 @@ public class Map implements MapInterface, Serializable {
     }
 
     /**
+     * Tests if a ship can moved to a specific position
+     * @param ship The ship.
+     * @param newPosition The new position.
+     * @param rotated If the ship is rotated.
+     * @return If the ship can be moved.
+     */
+    public boolean canMoveShip(Ship ship, Point newPosition, boolean rotated) {
+
+        Point oldPos = ship.getPosition();
+
+        this.remove(ship);
+
+        if (canInsertShip(ship, newPosition, rotated)) {
+            this.insert(ship, oldPos, rotated);
+            return true;
+        } else {
+            this.insert(ship, oldPos, rotated);
+            return false;
+        }
+    }
+
+    /**
      * Gets a ship by given position.
      *
      * @param position
