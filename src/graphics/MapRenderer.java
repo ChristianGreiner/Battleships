@@ -467,18 +467,24 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     @Override
     public void mousePressed(MouseEvent e) {
 
+        System.out.println(e.getButton());
         this.pressed = true;
 
         if (this.hoveredMapTile != null && !disabled) {
 
-            if (this.hoveredMapTile.hasShip() && !this.selected) {
+            if (this.hoveredMapTile.hasShip()) {
 
-                this.selected = true;
+                if(e.getButton() == MouseEvent.BUTTON3)
+                    map.remove(this.hoveredMapTile.getShip());
 
-                Point shipTopPos = new Point(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y);
-                Point mousePos = new Point(this.getMousePosition().x, this.getMousePosition().y);
+                if(!this.selected && e.getButton() == MouseEvent.BUTTON1) {
+                    this.selected = true;
 
-                this.mouseShipOffset = new Point(mousePos.x - shipTopPos.x, mousePos.y - shipTopPos.y);
+                    Point shipTopPos = new Point(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y);
+                    Point mousePos = new Point(this.getMousePosition().x, this.getMousePosition().y);
+
+                    this.mouseShipOffset = new Point(mousePos.x - shipTopPos.x, mousePos.y - shipTopPos.y);
+                }
             }
         }
     }

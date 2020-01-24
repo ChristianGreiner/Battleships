@@ -860,6 +860,8 @@ public class Map implements MapInterface, Serializable {
         //ship.setPosition(null);
 
         this.numberOfShips--;
+        //ok?
+        this.ships.remove(ship);
 
         // trigger listener
         for (int i = 0; i < this.listeners.size(); i++) {
@@ -898,7 +900,7 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
-    public boolean testRotate(Ship ship, Point pos){
+    public boolean moveAndRotate(Ship ship, Point pos){
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
         this.remove(ship);
