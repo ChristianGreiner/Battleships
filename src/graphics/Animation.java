@@ -145,6 +145,7 @@ public class Animation {
                 if (currentFrame > totalFrames - 1) {
                     currentFrame = 0;
                     stop();
+                    System.out.println("FRAMES END");
                     return;
                 }
             }

@@ -30,7 +30,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private boolean paused = false;
-    private final float startSize = 512;
     private final Dimension windowStartSize;
     private PlayerType winner;
     private GameSessionData gameSessionData;
@@ -177,22 +176,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void sizeUpdated() {
-        Dimension currentSize = Game.getInstance().getWindow().getSize();
-
-        float pixelPerSacel = 10;
-
-        float w = (float)(this.windowStartSize.getWidth() / currentSize.getWidth());
-        float h = (float)(this.windowStartSize.getHeight() / currentSize.getHeight());
-
-
-        Dimension currentMapSize = this.uiPanel.getPlayerMapRenderer().getSize();
-        Dimension newMapSize = new Dimension((int)(512 + w), (int)(512  + h));
-
-        System.out.println(newMapSize);
-
-        this.uiPanel.updateMapSize(newMapSize);
+        this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
         Game.getInstance().getWindow().revalidate();
-
     }
 
     @Override

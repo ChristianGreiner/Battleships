@@ -1,6 +1,5 @@
 package graphics;
 
-import core.Game;
 import core.Helper;
 import core.Renderer;
 import game.Assets;
@@ -119,7 +118,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     public void resizeMapSize() {
         setGridSize(new Point(this.getWidth(), this.getHeight()));
         this.invalidateBuffer();
-        Game.getInstance().getWindow().revalidate();
     }
 
     public Graphics2D beginRendering() {
@@ -230,16 +228,28 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    private void drawImage(Graphics2D g, Image image, Rectangle rect) {
+    protected void drawImage(Graphics2D g, Image image, Rectangle rect) {
         g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
     }
 
-    private void drawImageShip(Graphics2D g, Ship ship, Image image, Rectangle rect, boolean rotated) {
+    protected void drawImageShip(Graphics2D g, Ship ship, Image image, Rectangle rect, boolean rotated) {
         if(rotated) {
             AffineTransform backup = g.getTransform();
             AffineTransform a = AffineTransform.getRotateInstance(Math.toRadians (90), rect.x, rect.y);
             g.setTransform(a);
             g.drawImage(image, rect.x, rect.y - tileSize.y * ship.getSpace(), rect.height, rect.width, null);
+            g.setTransform(backup);
+        }
+        else
+            drawImage(g, image, rect);
+    }
+
+    protected void drawImageShip(Graphics2D g, int space, Image image, Rectangle rect, boolean rotated) {
+        if(rotated) {
+            AffineTransform backup = g.getTransform();
+            AffineTransform a = AffineTransform.getRotateInstance(Math.toRadians (90), rect.x, rect.y);
+            g.setTransform(a);
+            g.drawImage(image, rect.x, rect.y - tileSize.y * space, rect.height, rect.width, null);
             g.setTransform(backup);
         }
         else
@@ -463,21 +473,28 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+
     @Override
     public void mousePressed(MouseEvent e) {
 
+        System.out.println(e.getButton());
         this.pressed = true;
 
         if (this.hoveredMapTile != null && !disabled) {
 
-            if (this.hoveredMapTile.hasShip() && !this.selected) {
+            if (this.hoveredMapTile.hasShip()) {
 
-                this.selected = true;
+                if(e.getButton() == MouseEvent.BUTTON3)
+                    map.remove(this.hoveredMapTile.getShip());
 
-                Point shipTopPos = new Point(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y);
-                Point mousePos = new Point(this.getMousePosition().x, this.getMousePosition().y);
+                if(!this.selected && e.getButton() == MouseEvent.BUTTON1) {
+                    this.selected = true;
 
-                this.mouseShipOffset = new Point(mousePos.x - shipTopPos.x, mousePos.y - shipTopPos.y);
+                    Point shipTopPos = new Point(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y);
+                    Point mousePos = new Point(this.getMousePosition().x, this.getMousePosition().y);
+
+                    this.mouseShipOffset = new Point(mousePos.x - shipTopPos.x, mousePos.y - shipTopPos.y);
+                }
             }
         }
     }

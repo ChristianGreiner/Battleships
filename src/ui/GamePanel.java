@@ -5,6 +5,9 @@ import game.Assets;
 import graphics.MapRenderer;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
@@ -69,10 +72,14 @@ public class GamePanel extends JPanel {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
         leftContainer.add(playerLabelContainer, gbc);
+
         JLabel playerLabel = new JLabel();
         playerLabel.setText("YOU");
         playerLabel.setForeground(Color.WHITE);
-        playerLabel.setFont(Assets.Fonts.DEFAULT);
+        playerLabel.setFont(Assets.Fonts.DEFAULT_24);
+        Border border = playerLabel.getBorder();
+        Border margin = new EmptyBorder(0,10,10,10);
+        playerLabel.setBorder(new CompoundBorder(border, margin));
         playerLabelContainer.add(playerLabel);
 
         playerMapRenderer.setLayout(new GridBagLayout());
@@ -99,8 +106,11 @@ public class GamePanel extends JPanel {
 
         JLabel enemyLabel = new JLabel();
         enemyLabel.setText("OPPONENT");
+        border = enemyLabel.getBorder();
+        margin = new EmptyBorder(0,10,10,10);
+        enemyLabel.setBorder(new CompoundBorder(border, margin));
         enemyLabel.setForeground(Color.WHITE);
-        enemyLabel.setFont(Assets.Fonts.DEFAULT);
+        enemyLabel.setFont(Assets.Fonts.DEFAULT_24);
         enemyLabelContainer.add(enemyLabel);
 
         enemyMapRenderer.setLayout(new GridBagLayout());
@@ -145,9 +155,15 @@ public class GamePanel extends JPanel {
 
     public void updateMapSize(Dimension size) {
         this.playerMapRenderer.setPreferredSize(size);
+        this.playerMapRenderer.setSize(size);
         this.playerMapRenderer.resizeMapSize();
+        this.playerMapRenderer.invalidate();
+
         this.enemyMapRenderer.setPreferredSize(size);
+        this.enemyMapRenderer.setSize(size);
         this.enemyMapRenderer.resizeMapSize();
+        this.enemyMapRenderer.invalidate();
+
         Game.getInstance().getWindow().revalidate();
     }
 

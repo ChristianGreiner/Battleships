@@ -24,6 +24,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
 
+    private GamePanel uiPanel;
+
     private NetworkType playerTurn = NetworkType.Client;
     private GameSessionData gameSessionData;
 
@@ -46,11 +48,11 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        GamePanel gamePanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
+        this.uiPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
 
-        gamePanel = gamePanel.create(new Dimension(512, 512));
+        uiPanel = uiPanel.create(new Dimension(512, 512));
 
-        return gamePanel;
+        return uiPanel;
     }
 
     @Override
@@ -74,6 +76,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void sizeUpdated() {
+        this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override

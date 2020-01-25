@@ -98,7 +98,12 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void sizeUpdated() {
+        Dimension currentSize = Game.getInstance().getWindow().getSize();
 
+        float startRatio = 66.666664f;
+
+        this.uiPanel.updateMapSize(new Dimension(this.uiPanel.getHeight(), this.uiPanel.getHeight()));
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override
@@ -143,7 +148,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             if((ship.isRotated() && !rotated) || (!ship.isRotated() && rotated)){
                 map.rotate(ship);	                //map.move(ship, pos);
 
-                map.testRotate(ship, pos);
+                map.moveAndRotate(ship, pos);
                 map.move(ship, pos);
             }
             else
