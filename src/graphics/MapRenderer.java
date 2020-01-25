@@ -234,7 +234,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
     }
 
-    protected void drawImageShip(Graphics2D g, int space, Image image, Rectangle rect, boolean rotated) {
+    protected void drawImageShip(Graphics2D g, int space, Image image, Rectangle rect, Point tileSize, boolean rotated) {
         if(rotated) {
             AffineTransform backup = g.getTransform();
             AffineTransform a = AffineTransform.getRotateInstance(Math.toRadians (90), rect.x, rect.y);
@@ -271,7 +271,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             }
 
             if(ship.isDestroyed() || this.shipsVisable)
-                drawImageShip(g, ship.getSpace(), shipImage, shipPos, ship.isRotated());
+                drawImageShip(g, ship.getSpace(), shipImage, shipPos, this.tileSize, ship.isRotated());
         }
         for (int y = 0; y < this.map.getSize(); y++) {
             for (int x = 0; x < this.map.getSize(); x++) {
