@@ -127,7 +127,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         }
 
         if (e.getKeyCode() == KeyEvent.VK_R) {
-
+                buildRenderer.rotate();
         }
 
     }

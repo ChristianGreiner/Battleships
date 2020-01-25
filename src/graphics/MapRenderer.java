@@ -440,6 +440,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    public void rotate(){
+        this.rotated = !this.rotated;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         try {

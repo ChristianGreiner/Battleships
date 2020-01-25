@@ -226,6 +226,12 @@ public class MapBuilderRenderer extends MapRenderer {
     }
 
     @Override
+    public void rotate(){
+        super.rotate();
+        this.rotated = !this.rotated;
+    }
+
+    @Override
     public void drawHighlightTile(Graphics2D g){
         return;
     }
