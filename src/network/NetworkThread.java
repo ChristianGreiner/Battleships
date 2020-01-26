@@ -163,6 +163,31 @@ public class NetworkThread extends Thread {
                 }
 
                 // do ping pong stuff
+                if(this.networkType == NetworkType.Host) {
+                    while (true) {
+                        String message = in.readLine();
+                        if (message == null) continue;
+                        System.out.println(message);
+                        break;
+                    }
+                }
+
+                while (true) {
+                    while (true) {
+                        String message = "PONG";
+                        if (message == null) continue;
+                        out.write(String.format("%s%n", message));
+                        out.flush();
+                        break;
+                    }
+
+                    while (true) {
+                        String message = in.readLine();
+                        if (message == null) continue;
+                        System.out.println(message);
+                        break;
+                    }
+                }
 
             }
         } catch (Exception ex)  {
