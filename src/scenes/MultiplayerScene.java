@@ -9,6 +9,7 @@ import game.ships.Ship;
 import graphics.MapRenderer;
 import graphics.MapRendererListener;
 import network.NetworkListener;
+import network.NetworkType;
 import ui.GamePanel;
 import ui.GuiScene;
 
@@ -27,6 +28,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     private GameSessionData gameSessionData;
     private boolean gameStarted = false;
     private Point lastShot = null;
+    private NetworkType playerTurn = NetworkType.Client;
+    private NetworkType networkType = NetworkType.Client;
 
     public MultiplayerScene() {
         super("MultiplayerScene");
@@ -115,6 +118,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     @Override
     public void OnGameStarted() {
         this.gameStarted = true;
+        this.networkType = Game.getInstance().getNetworkManager().getNetworkType();
     }
 
     @Override
@@ -122,18 +126,45 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         if(this.playerMap.isInMap(pos)) {
             Game.getInstance().getLogger().info("GETTING SHOT AT " + pos.toString());
             HitData hitData = this.playerMap.shot(pos);
+
+            if(hitData.getHitType() == HitType.Water)
+                setOtherTurn();
+
             Game.getInstance().getNetworkManager().sendAnswer(hitData.getHitType());
         }
     }
 
+    private boolean isMyTurn() {
+        return this.playerTurn == this.networkType;
+    }
+
+    public void setOtherTurn() {
+
+        if(this.networkType == NetworkType.Host) {
+            if(this.playerTurn == NetworkType.Host)
+                this.playerTurn = NetworkType.Client;
+            else
+                this.playerTurn = NetworkType.Host;
+        } else {
+            if(this.playerTurn == NetworkType.Client)
+                this.playerTurn = NetworkType.Host;
+            else
+                this.playerTurn = NetworkType.Host;
+        }
+
+        Game.getInstance().getLogger().info("NEW PLAYERTURN: " + this.playerTurn);
+    }
 
     @Override
     public void OnReceiveAnswer(HitType type) {
         if(this.lastShot != null) {
+            Game.getInstance().getLogger().info("Receive Answer" + type.toString());
             this.enemyMap.markTile(this.lastShot, type);
 
-            if(type == HitType.Water)
+            if(type == HitType.Water) {
                 Game.getInstance().getNetworkManager().sendPass();
+                setOtherTurn();
+            }
 
             this.lastShot = null;
         }
