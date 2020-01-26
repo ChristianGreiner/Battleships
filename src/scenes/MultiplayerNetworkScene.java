@@ -61,7 +61,6 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-
     }
 
     @Override
@@ -74,7 +73,6 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-
     }
 
     @Override
@@ -93,17 +91,11 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     }
 
     @Override
-    public void OnServerStarted() {
-    }
-
-    @Override
     public void OnGameStarted() {
-
     }
 
     @Override
     public void OnReceiveShot(Point pos) {
-
     }
 
     @Override

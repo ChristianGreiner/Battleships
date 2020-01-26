@@ -4,7 +4,10 @@ import core.Drawable;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
-import game.*;
+import game.GameSession;
+import game.GameSessionData;
+import game.HitType;
+import game.Map;
 import game.ships.Ship;
 import graphics.MapRenderer;
 import graphics.MapRendererListener;
@@ -44,6 +47,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     @Override
     public void onAdded() {
         super.onAdded();
+        Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
     @Override
@@ -57,9 +61,6 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void update(double deltaTime) {
-        if(this.enemyMapRenderer != null) {
-            this.enemyMapRenderer.setEnemyMap(Game.getInstance().getNetworkManager().isGameStarted());
-        }
     }
 
     @Override
@@ -106,34 +107,23 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void OnPlayerConnected() {
-
     }
 
     @Override
     public void OnGameJoined(int mapSize) {
-
     }
 
     @Override
     public void OnOpponentConfirmed() {
-
-    }
-
-    @Override
-    public void OnServerStarted() {
-
     }
 
     @Override
     public void OnGameStarted() {
+        System.out.println("Game Started");
     }
 
     @Override
     public void OnReceiveShot(Point pos) {
-        if(this.playerMap.isInMap(pos)) {
-            HitData hitData = this.playerMap.shot(pos);
-            Game.getInstance().getNetworkManager().sendAnswerMessage(hitData.getHitType());
-        }
     }
 
 
@@ -143,13 +133,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
-
     }
 
     @Override
     public void OnShotFired(Map map, Point pos) {
-        if(map.isInMap(pos))
-            Game.getInstance().getNetworkManager().sendShotMessage(pos);
     }
 
     @Override

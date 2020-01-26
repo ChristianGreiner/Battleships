@@ -12,8 +12,6 @@ public interface NetworkListener {
 
     void OnOpponentConfirmed();
 
-    void OnServerStarted();
-
     void OnGameStarted();
 
     void OnReceiveShot(Point pos);

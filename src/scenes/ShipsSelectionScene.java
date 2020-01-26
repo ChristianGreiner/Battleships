@@ -82,7 +82,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
                 MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
                 scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), null));
 
-                Game.getInstance().getNetworkManager().sendConfirmMessage();
+                Game.getInstance().getNetworkManager().confirmSession();
 
             } else {
                 SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
@@ -98,10 +98,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void sizeUpdated() {
-        Dimension currentSize = Game.getInstance().getWindow().getSize();
-
-        float startRatio = 66.666664f;
-
         this.uiPanel.updateMapSize(new Dimension(this.uiPanel.getHeight(), this.uiPanel.getHeight()));
         Game.getInstance().getWindow().revalidate();
     }

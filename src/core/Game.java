@@ -3,6 +3,7 @@ package core;
 import game.Assets;
 import io.AssetsLoader;
 import io.FileHandler;
+import network.NetworkManager;
 import scenes.*;
 
 import javax.swing.*;

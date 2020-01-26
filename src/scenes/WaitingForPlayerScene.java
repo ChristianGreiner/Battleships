@@ -54,15 +54,10 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void OnGameJoined(int mapSize) {
-        // nothing to do
     }
 
     @Override
     public void OnOpponentConfirmed() {
-    }
-
-    @Override
-    public void OnServerStarted() {
     }
 
     @Override
