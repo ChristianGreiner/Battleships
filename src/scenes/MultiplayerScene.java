@@ -4,10 +4,7 @@ import core.Drawable;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
-import game.GameSession;
-import game.GameSessionData;
-import game.HitType;
-import game.Map;
+import game.*;
 import game.ships.Ship;
 import graphics.MapRenderer;
 import graphics.MapRendererListener;
@@ -24,6 +21,7 @@ import java.awt.event.KeyListener;
 public class MultiplayerScene extends Scene implements Updatable, GuiScene, Drawable, KeyListener, GameSession, NetworkListener, MapRendererListener {
 
     private Map playerMap;
+    private Map enemyMap;
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
 
@@ -31,6 +29,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     private NetworkType playerTurn = NetworkType.Client;
     private GameSessionData gameSessionData;
+    private boolean gameStarted = false;
+    private Point lastShot = null;
 
     public MultiplayerScene() {
         super("MultiplayerScene");
@@ -61,6 +61,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void update(double deltaTime) {
+        this.enemyMapRenderer.setDisabled(!gameStarted);
     }
 
     @Override
@@ -100,7 +101,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         this.gameSessionData = data;
 
         this.playerMapRenderer.setMap(data.getMap());
-        this.enemyMapRenderer.setMap(new Map(data.getMapSize()));
+        this.enemyMap = new Map(data.getMapSize());
+
+        this.enemyMapRenderer.setMap(this.enemyMap);
+
 
         this.playerMap = data.getMap();
     }
@@ -114,21 +118,31 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     }
 
     @Override
-    public void OnOpponentConfirmed() {
-    }
-
-    @Override
     public void OnGameStarted() {
-        System.out.println("Game Started");
+        this.gameStarted = true;
     }
 
     @Override
     public void OnReceiveShot(Point pos) {
+        if(this.playerMap.isInMap(pos)) {
+            HitData hitData = this.playerMap.shot(pos);
+            Game.getInstance().getNetworkManager().sendAnswer(hitData.getHitType());
+        }
     }
 
 
     @Override
     public void OnReceiveAnswer(HitType type) {
+        if(this.lastShot != null) {
+            this.enemyMap.markTile(this.lastShot, type);
+            if(type == HitType.Ship || type == HitType.ShipDestroyed)
+                Game.getInstance().getNetworkManager().sendPass();
+        }
+    }
+
+    @Override
+    public void OnReceivePass() {
+        System.out.println("Getting pass");
     }
 
     @Override
@@ -137,6 +151,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void OnShotFired(Map map, Point pos) {
+        if(map.isInMap(pos)) {
+            Game.getInstance().getNetworkManager().sendShot(pos);
+            this.lastShot = pos;
+        }
     }
 
     @Override

@@ -101,6 +101,18 @@ public class Map implements MapInterface, Serializable {
                 mapData.Submarines == this.shipsCounter.get(Submarine.class);
     }
 
+    public void markTile(Point pos, HitType type) {
+        if(isInMap(pos)) {
+            if(type == HitType.Water) {
+                this.tiles[pos.x][pos.y].setHit(true);
+            }
+            else if(type == HitType.Ship || type == HitType.ShipDestroyed) {
+                this.tiles[pos.x][pos.y].setShip(new DummyShip(this));
+                this.tiles[pos.x][pos.y].setHit(true);
+            }
+        }
+    }
+
     /**
      * Gets a tile by its position.
      * @param pos The position of the tile.

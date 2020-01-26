@@ -1,6 +1,8 @@
 package network;
 
 
+import game.HitType;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,6 +10,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class NetworkThread extends Thread {
 
@@ -18,6 +22,8 @@ public class NetworkThread extends Thread {
     private int mapSize;
     private volatile boolean confirmed = false;
     private volatile boolean opponentConfirmed = false;
+    private BlockingQueue<String> messageQueue = new ArrayBlockingQueue(1024);
+    private NetworkType playerTurn = NetworkType.Client;
 
     public synchronized boolean isOpponentConfirmed() {
         return opponentConfirmed;
@@ -29,6 +35,10 @@ public class NetworkThread extends Thread {
 
     public synchronized void setConfirmed() {
         this.confirmed = true;
+    }
+
+    public synchronized void addMessage(String message) {
+        this.messageQueue.add(message);
     }
 
     public NetworkThread(NetworkManager networkManager, ServerSocket serverSocket, int mapSize) {
@@ -68,6 +78,28 @@ public class NetworkThread extends Thread {
             }
         }
         return 0;
+    }
+
+    private HitType parseAnswerMessage(String message) {
+        String[] messageArray = message.split(" ");
+        if(messageArray.length > 0) {
+            if(messageArray[1] != null) {
+                if(!messageArray[1].isEmpty()) {
+                    HitType hitType = HitType.Water;
+                    String value = messageArray[1];
+                    if(value.equals("1")) {
+                        hitType = HitType.Water;
+                    } else if(value.equals("1")) {
+                        hitType = HitType.Ship;
+                    } else if(value.equals("1")) {
+                        hitType = HitType.ShipDestroyed;
+                    }
+
+                    return hitType;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -153,7 +185,6 @@ public class NetworkThread extends Thread {
                         if (message == null) continue;
                         if(message.contains("CONFIRMED")) {
                             System.out.println("Server confirmed");
-
                             for (NetworkListener listener : this.networkManager.getListeners()) {
                                 listener.OnGameStarted();
                             }
@@ -162,19 +193,33 @@ public class NetworkThread extends Thread {
                     }
                 }
 
-                // do ping pong stuff
+                // wait for first incoming shot from the client
+                this.playerTurn = NetworkType.Client;
                 if(this.networkType == NetworkType.Host) {
                     while (true) {
-                        String message = in.readLine();
-                        if (message == null) continue;
-                        System.out.println(message);
-                        break;
+
+                        while (true) {
+                            String message = in.readLine();
+                            if (message == null) continue;
+                            System.out.println(this.networkType.toString()+ ": " + message);
+                            handlingMessage(message);
+                            break;
+                        }
+
+                        while (true) {
+                            String message = this.messageQueue.take();
+                            if (message == null) continue;
+                            System.out.println(this.networkType.toString()+ ": " + message);
+                            handlingMessage(message);
+                            break;
+                        }
                     }
                 }
 
+                // do ping pong stuff
                 while (true) {
                     while (true) {
-                        String message = "PONG";
+                        String message = this.messageQueue.take();
                         if (message == null) continue;
                         out.write(String.format("%s%n", message));
                         out.flush();
@@ -184,7 +229,8 @@ public class NetworkThread extends Thread {
                     while (true) {
                         String message = in.readLine();
                         if (message == null) continue;
-                        System.out.println(message);
+                        System.out.println(this.networkType.toString()+ ": " + message);
+                        handlingMessage(message);
                         break;
                     }
                 }
@@ -192,6 +238,27 @@ public class NetworkThread extends Thread {
             }
         } catch (Exception ex)  {
             ex.printStackTrace();
+        }
+    }
+
+    private void handlingMessage(String message) {
+        if(!message.isEmpty()) {
+            if(message.contains("SHOT")) {
+                Point location = parseShotMessage(message);
+                System.out.println("Shot at " + location);
+                for (NetworkListener listener : this.networkManager.getListeners()) {
+                    listener.OnReceiveShot(location);
+                }
+            } else if(message.contains("ANSWER")) {
+                HitType hitType = parseAnswerMessage(message);
+                for (NetworkListener listener : this.networkManager.getListeners()) {
+                    listener.OnReceiveAnswer(hitType);
+                }
+            } else if(message.contains("PASS")) {
+                for (NetworkListener listener : this.networkManager.getListeners()) {
+                    listener.OnReceivePass();
+                }
+            }
         }
     }
 }

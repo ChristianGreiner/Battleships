@@ -396,11 +396,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 for (MapRendererListener mouseListener : listener) {
                     if (mouseListener != null) {
                         mouseListener.OnShipDropped(this.map, this.selectedShip, dropPos, quickfix_rotate);
-
-                        System.out.println("##block##");
-                        System.out.println(dropPos);
-                        System.out.println(this.selectedShip.isRotated());
-                        System.out.println(quickfix_rotate);
                     }
                 }
                 this.rotated = false;
@@ -464,12 +459,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                                 }
                             }
                         }
-                        System.out.println("FIRED");
                     }
                 }
             }
         } catch (Exception ex) {
-
         }
     }
 

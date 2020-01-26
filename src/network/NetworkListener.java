@@ -10,11 +10,11 @@ public interface NetworkListener {
 
     void OnGameJoined(int mapSize);
 
-    void OnOpponentConfirmed();
-
     void OnGameStarted();
 
     void OnReceiveShot(Point pos);
 
     void OnReceiveAnswer(HitType type);
+
+    void OnReceivePass();
 }

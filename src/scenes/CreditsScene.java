@@ -49,6 +49,7 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
 
         this.rootPanel = new CreditsPanel().create(credits);
         this.creditsRenderer = this.rootPanel.getCreditsRenderer();
+        this.creditsRenderer.addMouseListener(this);
 
         return this.rootPanel;
     }
@@ -87,12 +88,12 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+        Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
     }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
-
     }
 
     @Override

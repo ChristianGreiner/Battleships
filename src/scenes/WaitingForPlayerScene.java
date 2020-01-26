@@ -57,10 +57,6 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
     }
 
     @Override
-    public void OnOpponentConfirmed() {
-    }
-
-    @Override
     public void OnGameStarted() {
     }
 
@@ -71,6 +67,10 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void OnReceiveAnswer(HitType type) {
+    }
+
+    @Override
+    public void OnReceivePass() {
     }
 
     @Override

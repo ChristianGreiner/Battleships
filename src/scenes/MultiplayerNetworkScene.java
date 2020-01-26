@@ -87,10 +87,6 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     }
 
     @Override
-    public void OnOpponentConfirmed() {
-    }
-
-    @Override
     public void OnGameStarted() {
     }
 
@@ -100,6 +96,10 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     @Override
     public void OnReceiveAnswer(HitType type) {
+    }
+
+    @Override
+    public void OnReceivePass() {
     }
 
 }

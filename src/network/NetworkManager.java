@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class NetworkManager implements NetworkListener{
+public class NetworkManager{
 
     public ArrayList<NetworkListener> getListeners() {
         return listeners;
@@ -20,7 +20,6 @@ public class NetworkManager implements NetworkListener{
     private NetworkThread networkThread;
 
     public NetworkManager() {
-        this.listeners.add(this);
     }
 
     public void addNetworkListener(NetworkListener listener) {
@@ -66,31 +65,31 @@ public class NetworkManager implements NetworkListener{
         this.networkThread.setConfirmed();
     }
 
+    public synchronized void sendShot(Point location) {
+        this.networkThread.addMessage("SHOT " + location.x + " " + location.y);
+    }
+
+    public synchronized void sendPass() {
+        this.networkThread.addMessage("PASS");
+    }
+
+    public synchronized void sendAnswer(HitType hitType) {
+
+        int value = 0;
+        if(hitType == HitType.Water)
+            value = 0;
+        else if(hitType == HitType.Ship)
+            value = 1;
+        else if(hitType == HitType.ShipDestroyed)
+            value = 2;
+
+        if(value == 1 && value == 2)
+            this.networkThread.addMessage("PASS");
+        else
+            this.networkThread.addMessage("ANSWER " + value);
+    }
+
     public void stopServer() {
 
-    }
-
-    @Override
-    public void OnPlayerConnected() {
-    }
-
-    @Override
-    public void OnGameJoined(int mapSize) {
-    }
-
-    @Override
-    public void OnOpponentConfirmed() {
-    }
-
-    @Override
-    public void OnGameStarted() {
-    }
-
-    @Override
-    public void OnReceiveShot(Point pos) {
-    }
-
-    @Override
-    public void OnReceiveAnswer(HitType type) {
     }
 }
