@@ -331,6 +331,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         //picking up ship
         if (this.selected && this.selectedShip != null) {
             g.setColor(new Color(124, 252, 0, 200));
+
             // free floating ship
             Point floatingShipPos = new Point( this.getMousePosition().x - this.mouseShipOffset.x, this.getMousePosition().y - this.mouseShipOffset.y);
 
@@ -342,6 +343,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             map.remove(this.selectedShip);
 
             boolean quickfix_rotate;
+            g.setStroke(new BasicStroke(3));
             if (this.selectedShip.isRotated()) {
                 if (!this.rotated) {
                     quickfix_rotate = true;
@@ -353,10 +355,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
                 } else {
                     quickfix_rotate = false;
+                    dropPos.x = tempPoint.x;
+                    floatingShipMarker.x = this.getMousePosition().x / tileSize.x * tileSize.x;
+                    //System.out.println(dropPos);
                     if(!map.canInsertShip(this.selectedShip, dropPos, false)) {
                         g.setColor(Color.RED);
                     }
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
+                    g.fillRect(floatingShipPos.x + this.mouseShipOffset.x - this.mouseShipOffset.y, floatingShipPos.y , tileSize.x, tileSize.x * this.selectedShip.getSpace());
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
 
                 }
@@ -366,20 +371,24 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     if(!map.canInsertShip(this.selectedShip, dropPos, false)) {
                         g.setColor(Color.RED);
                     }
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y , tileSize.x, tileSize.x * this.selectedShip.getSpace());
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
 
                 } else {
                     quickfix_rotate = true;
+                    floatingShipMarker.y =  this.getMousePosition().y / tileSize.y * tileSize.y;
+                    dropPos.y = tempPoint.y;
+                    //System.out.println("1 " + dropPos);
                     if(!map.canInsertShip(this.selectedShip, dropPos, true )) {
                         g.setColor(Color.RED);
                     }
-                    g.fillRect(floatingShipPos.x, floatingShipPos.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
+                    g.fillRect(floatingShipPos.x, floatingShipPos.y + this.mouseShipOffset.y - this.mouseShipOffset.x, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
+
 
                 }
             }
-
+            g.setStroke(new BasicStroke());
             //dropped
             if (!this.pressed) {
                 this.selected = false;
