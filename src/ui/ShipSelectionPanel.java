@@ -106,6 +106,7 @@ public class ShipSelectionPanel extends JPanel {
         btnContainer.setBackground(UiBuilder.TRANSPARENT);
 
         JPanel randomBtnContainer = new JPanel();
+        randomBtnContainer.setBackground(UiBuilder.TRANSPARENT);
         randomBtnContainer.setLayout(new GridBagLayout());
         btnContainer.add(randomBtnContainer, BorderLayout.WEST);
 

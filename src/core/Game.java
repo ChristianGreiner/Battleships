@@ -2,14 +2,18 @@ package core;
 
 import game.Assets;
 import io.AssetsLoader;
-import io.FileHandler;
+import io.GameFileHandler;
 import network.NetworkManager;
 import scenes.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * The main game class with gameloop.
@@ -24,11 +28,13 @@ public class Game implements Runnable {
     private SoundManager soundManager;
     private NetworkManager networkManager;
     private Options options = new Options();
-    private FileHandler fileHandler = new FileHandler();
+    private GameFileHandler gameFileHandler = new GameFileHandler();
     private GameWindow window;
     private boolean isRunning;
     private String title;
     private Point gameSize;
+    private Logger logger = Logger.getLogger("MyLog");
+    private FileHandler fh;
 
     public int getTargetFps() {
         return targetFps;
@@ -39,6 +45,10 @@ public class Game implements Runnable {
         this.optimalTime =  1000000000 / targetFps;
     }
 
+    public Logger getLogger() {
+        return logger;
+    }
+
     public Game(String title, Point size) {
         instance = this;
         this.gameSize = size;
@@ -47,6 +57,23 @@ public class Game implements Runnable {
         this.sceneManager = new SceneManager(this);
         this.soundManager = new SoundManager();
         this.networkManager = new NetworkManager();
+
+        try {
+
+            // This block configure the logger with handler and formatter
+            this.fh = new FileHandler(System.getProperty("user.dir") + "/logs.txt");
+            this.logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            this.fh.setFormatter(formatter);
+
+            // the following statement is used to log any messages
+            logger.info("Start Game");
+
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -101,8 +128,8 @@ public class Game implements Runnable {
      * Gets the file handler.
      * @return The file handler.
      */
-    public FileHandler getFileHandler() {
-        return fileHandler;
+    public GameFileHandler getGameFileHandler() {
+        return gameFileHandler;
     }
 
     private void initializeScenes() {
@@ -133,9 +160,9 @@ public class Game implements Runnable {
         Assets.init();
 
         // load config
-        this.options = (Options) this.fileHandler.loadObject(Assets.Paths.OPTIONS);
+        this.options = (Options) this.gameFileHandler.loadObject(Assets.Paths.OPTIONS);
         if(this.options == null) {
-            Game.getInstance().getFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
+            Game.getInstance().getGameFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
         }
 
         if (this.options == null)

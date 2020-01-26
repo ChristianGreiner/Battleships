@@ -45,7 +45,7 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
 
         options.getSaveBtn().addActionListener((e) -> {
             Game.getInstance().getOptions().setFps(Integer.parseInt(options.getFpsCBox().getSelectedItem().toString()));
-            Game.getInstance().getFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
+            Game.getInstance().getGameFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
             Game.getInstance().setTargetFps(Game.getInstance().getOptions().getFps());
         });
@@ -71,7 +71,7 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Game.getInstance().getFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
+            Game.getInstance().getGameFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
     }

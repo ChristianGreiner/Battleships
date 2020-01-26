@@ -47,7 +47,7 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         });
 
         settingsPanel.getLoadGameBtn().addActionListener((e) -> {
-            Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
+            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
             if(savegame != null) {
                 SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                 scene.initializeSavegame(savegame);

@@ -157,7 +157,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         });
 
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
-            Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
+            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
             if(savegame != null) {
                 SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                 scene.initializeSavegame(savegame);
@@ -166,7 +166,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         singlePlayerPanel.getBtnSave().addActionListener((e) -> {
             Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
-            Game.getInstance().getFileHandler().saveSavegame(savegame);
+            Game.getInstance().getGameFileHandler().saveSavegame(savegame);
         });
 
         this.uiPanel = singlePlayerPanel;

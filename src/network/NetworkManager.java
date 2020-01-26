@@ -19,6 +19,11 @@ public class NetworkManager{
     private NetworkType networkType;
     private NetworkThread networkThread;
 
+    public NetworkType getNetworkType() {
+        return networkType;
+    }
+
+
     public NetworkManager() {
     }
 
@@ -83,10 +88,7 @@ public class NetworkManager{
         else if(hitType == HitType.ShipDestroyed)
             value = 2;
 
-        if(value == 1 && value == 2)
-            this.networkThread.addMessage("PASS");
-        else
-            this.networkThread.addMessage("ANSWER " + value);
+        this.networkThread.addMessage("ANSWER " + value);
     }
 
     public void stopServer() {

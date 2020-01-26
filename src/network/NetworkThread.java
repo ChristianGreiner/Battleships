@@ -1,6 +1,7 @@
 package network;
 
 
+import core.Game;
 import game.HitType;
 
 import java.awt.*;
@@ -21,24 +22,15 @@ public class NetworkThread extends Thread {
     private NetworkManager networkManager;
     private int mapSize;
     private volatile boolean confirmed = false;
-    private volatile boolean opponentConfirmed = false;
-    private BlockingQueue<String> messageQueue = new ArrayBlockingQueue(1024);
-    private NetworkType playerTurn = NetworkType.Client;
-
-    public synchronized boolean isOpponentConfirmed() {
-        return opponentConfirmed;
-    }
-
-    public synchronized boolean isConfirmed() {
-        return confirmed;
-    }
+    private BlockingQueue<String> messageQueue = new ArrayBlockingQueue<String>(1);
 
     public synchronized void setConfirmed() {
         this.confirmed = true;
     }
 
     public synchronized void addMessage(String message) {
-        this.messageQueue.add(message);
+        if(this.messageQueue.isEmpty())
+            this.messageQueue.add(message);
     }
 
     public NetworkThread(NetworkManager networkManager, ServerSocket serverSocket, int mapSize) {
@@ -111,10 +103,13 @@ public class NetworkThread extends Thread {
                 BufferedReader in = null;
                 Writer out =  null;
 
+                // HOST STUFF
                 if(this.networkType == NetworkType.Host) {
 
                     // Wait for client connects to the game session
                     Socket socket = this.serverSocket.accept();
+
+                    Game.getInstance().getLogger().info("Player connected");
 
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     out = new OutputStreamWriter(socket.getOutputStream());
@@ -151,6 +146,15 @@ public class NetworkThread extends Thread {
                         break;
                     }
 
+                    // wait for first incoming shot from the client
+                    while (true) {
+                        String message = in.readLine();
+                        if (message == null) continue;
+                        handlingMessage(message);
+                        break;
+                    }
+
+                // CLIENT STUFF
                 } else {
                     in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
                     out = new OutputStreamWriter(this.clientSocket.getOutputStream());
@@ -193,29 +197,6 @@ public class NetworkThread extends Thread {
                     }
                 }
 
-                // wait for first incoming shot from the client
-                this.playerTurn = NetworkType.Client;
-                if(this.networkType == NetworkType.Host) {
-                    while (true) {
-
-                        while (true) {
-                            String message = in.readLine();
-                            if (message == null) continue;
-                            System.out.println(this.networkType.toString()+ ": " + message);
-                            handlingMessage(message);
-                            break;
-                        }
-
-                        while (true) {
-                            String message = this.messageQueue.take();
-                            if (message == null) continue;
-                            System.out.println(this.networkType.toString()+ ": " + message);
-                            handlingMessage(message);
-                            break;
-                        }
-                    }
-                }
-
                 // do ping pong stuff
                 while (true) {
                     while (true) {
@@ -229,7 +210,6 @@ public class NetworkThread extends Thread {
                     while (true) {
                         String message = in.readLine();
                         if (message == null) continue;
-                        System.out.println(this.networkType.toString()+ ": " + message);
                         handlingMessage(message);
                         break;
                     }
@@ -245,7 +225,6 @@ public class NetworkThread extends Thread {
         if(!message.isEmpty()) {
             if(message.contains("SHOT")) {
                 Point location = parseShotMessage(message);
-                System.out.println("Shot at " + location);
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveShot(location);
                 }

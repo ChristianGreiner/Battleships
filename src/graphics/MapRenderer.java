@@ -470,7 +470,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     @Override
     public void mousePressed(MouseEvent e) {
 
-        System.out.println(e.getButton());
         this.pressed = true;
 
         if (this.hoveredMapTile != null && !disabled) {

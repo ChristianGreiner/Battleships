@@ -12,7 +12,7 @@ import java.io.*;
 /**
  * Handles different file types like reading map config.
  */
-public class FileHandler {
+public class GameFileHandler {
 
     public final static FileNameExtensionFilter filter = new FileNameExtensionFilter("Battleship Savegame", "*.bsg", "bsg");
     private Gson gson = new Gson();
