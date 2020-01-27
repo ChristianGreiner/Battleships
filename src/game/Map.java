@@ -840,6 +840,10 @@ public class Map implements MapInterface, Serializable {
         return hasFreeNeighborTiles(position, ship.getSpace(), rotated);
     }
 
+
+
+
+
     /**
      * Tests if a ship can move to a specific position
      * @param ship The ship
@@ -872,8 +876,11 @@ public class Map implements MapInterface, Serializable {
 
         ship.getTiles().clear();
         ship.getNeighborTiles().clear();
+        //ship.setPosition(null);
 
         this.numberOfShips--;
+        //ok?
+        this.ships.remove(ship);
 
         computeRemoveShip(ship);
 
@@ -884,26 +891,6 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
-    public boolean moveAndRotate(Ship ship, Point pos){
-        boolean oldRotation = ship.isRotated();
-        boolean nextRotation = !ship.isRotated();
-
-        //this.remove(ship);
-
-        if (canMoveShip(ship, pos, nextRotation)) {
-            this.insert(ship, pos, nextRotation );
-        } else {
-            // fallback
-            this.insert(ship, ship.getPosition(), oldRotation);
-        }
-
-        // trigger listener
-        for (int i = 0; i < this.listeners.size(); i++) {
-            this.listeners.get(i).OnMapUpdated();
-        }
-
-        return true;
-    }
 
     /***
      * Rotates a ship in the map, if its possible.
@@ -917,6 +904,26 @@ public class Map implements MapInterface, Serializable {
 
         if (canInsertShip(ship, ship.getPosition(), nextRotation)) {
             this.insert(ship, ship.getPosition(), nextRotation);
+        } else {
+            // fallback
+            this.insert(ship, ship.getPosition(), oldRotation);
+        }
+
+        // trigger listener
+        for (int i = 0; i < this.listeners.size(); i++) {
+            this.listeners.get(i).OnMapUpdated();
+        }
+
+        return true;
+    }
+
+    public boolean moveAndRotate(Ship ship, Point pos){
+        boolean oldRotation = ship.isRotated();
+        boolean nextRotation = !ship.isRotated();
+        this.remove(ship);
+
+        if (canInsertShip(ship, pos, nextRotation)) {
+            this.insert(ship, pos, nextRotation );
         } else {
             // fallback
             this.insert(ship, ship.getPosition(), oldRotation);
