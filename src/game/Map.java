@@ -887,10 +887,9 @@ public class Map implements MapInterface, Serializable {
     public boolean moveAndRotate(Ship ship, Point pos){
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
+        this.remove(ship);
 
-        //this.remove(ship);
-
-        if (canMoveShip(ship, pos, nextRotation)) {
+        if (canInsertShip(ship, pos, nextRotation)) {
             this.insert(ship, pos, nextRotation );
         } else {
             // fallback
