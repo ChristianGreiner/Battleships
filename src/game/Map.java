@@ -24,6 +24,7 @@ public class Map implements MapInterface, Serializable {
     private ArrayList<MapListener> listeners = new ArrayList();
     private MapData mapData;
 
+    // dirty fix
     public MapData getMapData() {
         return mapData;
     }
@@ -183,7 +184,7 @@ public class Map implements MapInterface, Serializable {
     /**
      * Uses by the ai for calculation the next hit.
      */
-    public void setOutOfShipLength() { //everytime ship gets destroyed, this method should be refreshed
+    public void setOutOfShipLength() {
         if (this.shipsCounter.get(Submarine.class) == 0) {
             outOfShipLength = 2;
             if (this.shipsCounter.get(Destroyer.class) == 0) {
@@ -204,9 +205,8 @@ public class Map implements MapInterface, Serializable {
      */
     public boolean insert(Ship ship, Point position, boolean rotated) {
 
-        System.out.println("============");
-        this.shipsCounter.forEach((k,v) -> System.out.println("Type: "+ k +" Counter:" + v));
-        System.out.println("============");
+        if(!checkShipCountAmount(ship))
+            return false;
 
         if (!canInsertShip(ship, position, rotated))
             return false;
@@ -237,12 +237,11 @@ public class Map implements MapInterface, Serializable {
         }
 
         // increase ship counter
-        int counter = this.shipsCounter.get(ship.getClass());
-        if(counter < this.availableCounter.get(ship.getClass())) {
-            counter++;
-            this.shipsCounter.put(ship.getClass(), counter);
-            this.ships.add(ship);
-        }
+       int counter = this.shipsCounter.get(ship.getClass());
+        if(counter < this.availableCounter.get(ship.getClass()))
+            this.shipsCounter.put(ship.getClass(), counter + 1);
+
+        this.ships.add(ship);
 
         // trigger listener
         for (int i = 0; i < this.listeners.size(); i++) {
@@ -254,10 +253,9 @@ public class Map implements MapInterface, Serializable {
 
     private void computeRemoveShip(Ship ship) {
         int counter = this.shipsCounter.get(ship.getClass());
-        if(counter > 0) {
-            counter--;
-            this.shipsCounter.put(ship.getClass(), counter);
-        }
+        if(counter > 0)
+            this.shipsCounter.put(ship.getClass(), counter - 1);
+
         this.ships.remove(ship);
     }
 
@@ -708,28 +706,6 @@ public class Map implements MapInterface, Serializable {
     }
 
     /**
-     * Tests if a ship can moved to a specific position
-     * @param ship The ship.
-     * @param newPosition The new position.
-     * @param rotated If the ship is rotated.
-     * @return If the ship can be moved.
-     */
-    /*public boolean canMoveShip(Ship ship, Point newPosition, boolean rotated) {
-
-        Point oldPos = ship.getPosition();
-
-        this.remove(ship);
-
-        if (canInsertShip(ship, newPosition, rotated)) {
-            this.insert(ship, oldPos, rotated);
-            return true;
-        } else {
-            this.insert(ship, oldPos, rotated);
-            return false;
-        }
-    }*/
-
-    /**
      * Gets a ship by given position.
      *
      * @param position
@@ -822,7 +798,6 @@ public class Map implements MapInterface, Serializable {
     private boolean checkShipCountAmount(Ship ship) {
         MapData mapData = MapGenerator.getConfigMap().get(this.size);
 
-
         if(ship.getClass().equals(Carrier.class))
             return this.shipsCounter.get(Carrier.class) < mapData.Carriers;
         else if(ship.getClass().equals(Battleship.class))
@@ -866,6 +841,17 @@ public class Map implements MapInterface, Serializable {
         return hasFreeNeighborTiles(position, ship.getSpace(), rotated);
     }
 
+    public boolean canMoveShip(Ship ship, Point position, boolean rotated) {
+
+        this.remove(ship);
+
+        boolean canMove = canInsertShip(ship, position, rotated);
+
+        this.insert(ship, ship.getPosition(), ship.isRotated());
+
+        return canMove;
+    }
+
     /**
      * Removes the ship from the map
      * @param ship The ship.
@@ -894,7 +880,6 @@ public class Map implements MapInterface, Serializable {
     public boolean moveAndRotate(Ship ship, Point pos){
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
-        this.remove(ship);
 
         if (canInsertShip(ship, pos, nextRotation)) {
             this.insert(ship, pos, nextRotation );
