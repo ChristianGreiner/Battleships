@@ -142,7 +142,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         else {
             // ship already inserted
             if((ship.isRotated() && !rotated) || (!ship.isRotated() && rotated)){
-                map.rotate(ship);	                //map.move(ship, pos);
+                map.rotate(ship);
 
                 map.moveAndRotate(ship, pos);
                 map.move(ship, pos);
