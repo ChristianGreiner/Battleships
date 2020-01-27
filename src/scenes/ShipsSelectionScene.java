@@ -99,8 +99,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void sizeUpdated() {
-        this.uiPanel.updateMapSize(new Dimension(this.uiPanel.getHeight(), this.uiPanel.getHeight()));
-        Game.getInstance().getWindow().revalidate();
     }
 
     @Override
@@ -110,7 +108,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-
     }
 
     @Override
@@ -118,11 +115,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
-
         if (e.getKeyCode() == KeyEvent.VK_R) {
-
+            this.buildRenderer.rotate();
         }
-
     }
 
     @Override

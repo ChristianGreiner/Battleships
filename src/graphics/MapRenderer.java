@@ -180,7 +180,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             if (this.getMousePosition() != null  && isEnemyMap()) {
                 if (this.tileSize != null) {
                     if (this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
-                        drawCrossair(g, this.getMousePosition());
+                        drawCrosshair(g, this.getMousePosition());
                     }
                 }
             }
@@ -216,8 +216,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
-    private void drawCrossair(Graphics2D g, Point pos){
-        g.drawImage(Assets.Images.CROSSAIR, pos.x - 16, pos.y - 16, 32, 32, null);
+    private void drawCrosshair(Graphics2D g, Point pos){
+        g.drawImage(Assets.Images.CROSSHAIR, pos.x - 16, pos.y - 16, 32, 32, null);
     }
 
     private void drawGrid(Graphics2D g, Point tileSize) {
