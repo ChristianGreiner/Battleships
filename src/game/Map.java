@@ -1,5 +1,6 @@
 package game;
 
+import core.Game;
 import core.Helper;
 import game.ships.*;
 
@@ -735,6 +736,8 @@ public class Map implements MapInterface, Serializable {
                 return new HitData(null, null, HitType.NotPossible);
             }
 
+
+            Game.getInstance().getLogger().info("MAP: set hit at: " + pos);
             this.tiles[pos.x][pos.y].setHit(true);
 
             // Water

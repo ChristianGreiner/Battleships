@@ -152,6 +152,7 @@ public class GameWindow extends JFrame implements Runnable {
     }
 
     public Dimension getMapRenderPanelSize() {
+
         Dimension currentSize = Game.getInstance().getWindow().getSize();
         float startRatio = 66.666664f;
 

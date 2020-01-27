@@ -75,6 +75,27 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         }
     }
 
+    public void setOtherTurn() {
+
+        if(this.networkType == NetworkType.Host) {
+            if(this.playerTurn == NetworkType.Host)
+                this.playerTurn = NetworkType.Client;
+            else
+                this.playerTurn = NetworkType.Host;
+        } else {
+            if(this.playerTurn == NetworkType.Client)
+                this.playerTurn = NetworkType.Host;
+            else
+                this.playerTurn = NetworkType.Client;
+        }
+
+        Game.getInstance().getLogger().info("NEW PLAYERTURN: " + this.playerTurn);
+    }
+
+    private boolean isMyTurn() {
+        return this.playerTurn == this.networkType;
+    }
+
     @Override
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
@@ -88,6 +109,9 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
+        if(keyEvent.getKeyCode()  == KeyEvent.VK_E) {
+            this.setOtherTurn();
+        }
     }
 
     @Override
@@ -124,46 +148,20 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     @Override
     public void OnReceiveShot(Point pos) {
         if(this.playerMap.isInMap(pos)) {
-            Game.getInstance().getLogger().info("GETTING SHOT AT " + pos.toString());
             HitData hitData = this.playerMap.shot(pos);
-
             if(hitData.getHitType() == HitType.Water)
                 setOtherTurn();
-
             Game.getInstance().getNetworkManager().sendAnswer(hitData.getHitType());
         }
-    }
-
-    private boolean isMyTurn() {
-        return this.playerTurn == this.networkType;
-    }
-
-    public void setOtherTurn() {
-
-        if(this.networkType == NetworkType.Host) {
-            if(this.playerTurn == NetworkType.Host)
-                this.playerTurn = NetworkType.Client;
-            else
-                this.playerTurn = NetworkType.Host;
-        } else {
-            if(this.playerTurn == NetworkType.Client)
-                this.playerTurn = NetworkType.Host;
-            else
-                this.playerTurn = NetworkType.Host;
-        }
-
-        Game.getInstance().getLogger().info("NEW PLAYERTURN: " + this.playerTurn);
     }
 
     @Override
     public void OnReceiveAnswer(HitType type) {
         if(this.lastShot != null) {
-            Game.getInstance().getLogger().info("Receive Answer" + type.toString());
             this.enemyMap.markTile(this.lastShot, type);
-
             if(type == HitType.Water) {
-                Game.getInstance().getNetworkManager().sendPass();
                 setOtherTurn();
+                Game.getInstance().getNetworkManager().sendPass();
             }
 
             this.lastShot = null;
@@ -180,10 +178,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void OnShotFired(Map map, Point pos) {
-        if(map.isInMap(pos)) {
-            Game.getInstance().getLogger().info("SENDS SHOT AT" + pos.toString());
+        if(map.isInMap(pos) && isMyTurn()) {
             Game.getInstance().getNetworkManager().sendShot(pos);
-            this.lastShot = pos;
+            if(this.lastShot == null)
+                this.lastShot = pos;
         }
     }
 
