@@ -841,6 +841,13 @@ public class Map implements MapInterface, Serializable {
         return hasFreeNeighborTiles(position, ship.getSpace(), rotated);
     }
 
+    /**
+     * Tests if a ship can move to a specific position
+     * @param ship The ship
+     * @param position The new position.
+     * @param rotated If the ships is rotated or not.
+     * @return If the ship can be moved.
+     */
     public boolean canMoveShip(Ship ship, Point position, boolean rotated) {
 
         this.remove(ship);
@@ -848,6 +855,11 @@ public class Map implements MapInterface, Serializable {
         boolean canMove = canInsertShip(ship, position, rotated);
 
         this.insert(ship, ship.getPosition(), ship.isRotated());
+
+        // trigger listener
+        for (int i = 0; i < this.listeners.size(); i++) {
+            this.listeners.get(i).OnMapUpdated();
+        }
 
         return canMove;
     }
@@ -881,7 +893,9 @@ public class Map implements MapInterface, Serializable {
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
 
-        if (canInsertShip(ship, pos, nextRotation)) {
+        //this.remove(ship);
+
+        if (canMoveShip(ship, pos, nextRotation)) {
             this.insert(ship, pos, nextRotation );
         } else {
             // fallback
