@@ -19,8 +19,6 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
         GameSettingsPanel settings = new GameSettingsPanel().create(true);
 
         settings.getNewGameBtn().addActionListener((e) -> {
-            Game.getInstance().getNetworkManager().startServer();
-
             WaitingForPlayerScene scene = (WaitingForPlayerScene)Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
 
             int size = (int) settings.getSizeSpinner().getValue();

@@ -62,7 +62,6 @@ public class SplashScene extends Scene implements GuiScene, Updatable {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
 
-        System.out.println(timeCounter);
         this.timeCounter++;
     }
 

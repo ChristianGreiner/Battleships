@@ -16,9 +16,11 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
 
     public void setWinner(PlayerType winner) {
         this.winner = winner;
+        this.panel.updateWinner(winner);
     }
 
     private PlayerType winner;
+    private GameOverPanel panel;
 
     public GameOverScene() {
         super("GameOverScene");
@@ -26,14 +28,9 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        String message;
 
-        if(this.winner == PlayerType.Player)
-            message = "YOU WIN";
-        else
-            message = "YOU LOSE";
 
-        GameOverPanel panel = new GameOverPanel().create(message);
+        panel = new GameOverPanel().create();
 
         panel.getBtnRestart().addActionListener((e) -> {
             SinglePlayerSettingsScene settingsScene = (SinglePlayerSettingsScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);

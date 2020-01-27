@@ -30,7 +30,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private AI ai;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private boolean paused = false;
-    private final float startSize = 512;
     private final Dimension windowStartSize;
     private PlayerType winner;
     private GameSessionData gameSessionData;
@@ -78,7 +77,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
-        this.enemyMapRenderer.setShipsVisable(false);
+        this.enemyMapRenderer.setShipsVisable(true);
 
         sizeUpdated();
     }
@@ -99,29 +98,30 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         if (this.playerMap == null || this.enemyMap == null || this.paused) return;
 
+        if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
+            this.playerMapRenderer.update(deltaTime);
+            this.enemyMapRenderer.update(deltaTime);
+        }
+
         if (this.playerMap.allShipsDestroyed() || this.enemyMap.allShipsDestroyed()) {
 
-            if(this.playerMap.allShipsDestroyed())
+            if(this.playerMap.allShipsDestroyed()) {
                 this.winner = PlayerType.AI;
-
-            if(this.enemyMap.allShipsDestroyed())
+            }
+            else if(this.enemyMap.allShipsDestroyed()) {
                 this.winner = PlayerType.Player;
+            }
 
             this.gameState = GameState.Finished;
         }
         else {
             if(this.playerTurn == PlayerType.AI) {
-                if(this.waitTimer >= Game.getInstance().getTargetFps() * 2) {
+                if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.5) {
                     handleAiShot();
                     this.waitTimer = 0;
                 }
                 this.waitTimer += deltaTime;
             }
-        }
-
-        if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
-            this.playerMapRenderer.update(deltaTime);
-            this.enemyMapRenderer.update(deltaTime);
         }
     }
 
@@ -129,11 +129,11 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     public void lateUpdate(double deltaTime) {
 
         if (this.gameState == GameState.Finished) {
-             GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
+            GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
             gameOverScene.setWinner(this.winner);
             gameOverScene.initializeGameSession(this.gameSessionData);
             this.setUpdatePaused(true);
-            this.gameState = GameState.Started;
+            this.reset();
         }
     }
 
@@ -157,7 +157,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         });
 
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
-            Savegame savegame = Game.getInstance().getFileHandler().loadSavegame();
+            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
             if(savegame != null) {
                 SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                 scene.initializeSavegame(savegame);
@@ -166,7 +166,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         singlePlayerPanel.getBtnSave().addActionListener((e) -> {
             Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
-            Game.getInstance().getFileHandler().saveSavegame(savegame);
+            Game.getInstance().getGameFileHandler().saveSavegame(savegame);
         });
 
         this.uiPanel = singlePlayerPanel;
@@ -176,22 +176,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void sizeUpdated() {
-        Dimension currentSize = Game.getInstance().getWindow().getSize();
-
-        float pixelPerSacel = 10;
-
-        float w = (float)(this.windowStartSize.getWidth() / currentSize.getWidth());
-        float h = (float)(this.windowStartSize.getHeight() / currentSize.getHeight());
-
-
-        Dimension currentMapSize = this.uiPanel.getPlayerMapRenderer().getSize();
-        Dimension newMapSize = new Dimension((int)(512 + w), (int)(512  + h));
-
-        System.out.println(newMapSize);
-
-        this.uiPanel.updateMapSize(newMapSize);
+        this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
         Game.getInstance().getWindow().revalidate();
-
     }
 
     @Override
@@ -242,6 +228,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void OnShotFired(Map map, Point pos) {
+
         if(this.playerTurn == PlayerType.Player) {
             HitData hitData = map.shot(pos);
             this.enemyMapRenderer.playExplosion(hitData.getPosition());
@@ -251,7 +238,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
                 this.playerTurn = PlayerType.Player;
             } else if (hitData.getHitType() == HitType.Water) {
                 this.playerTurn = PlayerType.AI;
-                //this.handleAiShot();
             }
 
             this.handleSoundFx(hitData.getHitType());
@@ -259,8 +245,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     }
 
     private void handleSoundFx(HitType lastHitType) {
-        //Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHOT_SFX);
-
         if (lastHitType == HitType.Water) {
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.WATER_HIT);
         } else if (lastHitType == HitType.Ship) {

@@ -10,13 +10,13 @@ import game.ships.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.HashMap;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 
 public class MapBuilderRenderer extends MapRenderer {
     private int[] shipsLeftCnt = new int[4];
     private Point gridSize;
-    private Point tileSize;// = new Point( this.getWidth() / 20, this.getHeight() / 20);
+    private Point tileSize;
     HashMap<String, Integer> ShipSizes = new HashMap<String, Integer>();
     private boolean battleshipSelected;
     private boolean carrierSelected;
@@ -28,11 +28,9 @@ public class MapBuilderRenderer extends MapRenderer {
     private Point submarinePos;
     private boolean rotated = true;
     private boolean drawSizeChanged;
-    private HashMap<Integer, MapData> shipNumberLimit;
     private HashMap<Type, Integer> shipsCounter;
-    private int mapSize = map.getSize();
-
-    private Ship[] dummyShips = new Ship[4];
+    private MapData mapData;
+    private boolean isInit = false;
 
     public MapBuilderRenderer(Map map) {
         super(map);
@@ -40,19 +38,19 @@ public class MapBuilderRenderer extends MapRenderer {
         this.ShipSizes.put("Battleship", 4);
         this.ShipSizes.put("Destroyer", 3);
         this.ShipSizes.put("Submarine", 2);
+    }
 
-        dummyShips[0] = new Submarine(map);
-        dummyShips[1] = new Destroyer(map);
-        dummyShips[2] = new Battleship(map);
-        dummyShips[3] = new Carrier(map);
-
-        this.shipNumberLimit = MapGenerator.getConfigMap();
-
-
+    public void init(Map map) {
+        this.mapData = MapGenerator.getConfigMap().get(map.getSize());
+        this.map = map;
+        isInit = true;
     }
 
     @Override
     public void draw() {
+        if(!isInit)
+            return;
+
         this.gridSize = new Point(this.getWidth() / 2, this.getWidth() / 2);
         this.setGridSize(this.gridSize);
         this.tileSize = new Point( this.getWidth() / 20, this.getWidth() / 20);
@@ -63,10 +61,10 @@ public class MapBuilderRenderer extends MapRenderer {
 
         this.shipsCounter = map.getShipsCounter();
 
-        shipsLeftCnt[0] = this.shipNumberLimit.get(map.getSize()).Submarines - this.shipsCounter.get(dummyShips[0].getClass());
-        shipsLeftCnt[1] = this.shipNumberLimit.get(map.getSize()).Destroyers - this.shipsCounter.get(dummyShips[1].getClass());
-        shipsLeftCnt[2] = this.shipNumberLimit.get(map.getSize()).Battleships - this.shipsCounter.get(dummyShips[2].getClass());
-        shipsLeftCnt[3] = this.shipNumberLimit.get(map.getSize()).Carriers - this.shipsCounter.get(dummyShips[3].getClass());
+        shipsLeftCnt[0] = this.mapData.Submarines - this.shipsCounter.get(Submarine.class);
+        shipsLeftCnt[1] = this.mapData.Destroyers - this.shipsCounter.get(Destroyer.class);
+        shipsLeftCnt[2] = this.mapData.Battleships - this.shipsCounter.get(Battleship.class);
+        shipsLeftCnt[3] = this.mapData.Carriers - this.shipsCounter.get(Carrier.class);
 
         Graphics2D g = super.beginRendering();
 
@@ -80,7 +78,6 @@ public class MapBuilderRenderer extends MapRenderer {
         if(shipsLeftCnt[3] > 0) {
             //draw carrier
             drawImageShip(g, this.ShipSizes.get("Carrier"), Assets.Images.SHIP_CARRIER, new Rectangle(this.carrierPos.x, this.carrierPos.y + 30, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
-            //g.fillRect(this.carrierPos.x, this.carrierPos.y + 30, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y);
             //draw carrier outline
             g.drawRect(this.carrierPos.x, this.carrierPos.y + 30, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y);
         }
@@ -90,13 +87,11 @@ public class MapBuilderRenderer extends MapRenderer {
             drawImageShip(g, this.ShipSizes.get("Battleship"), Assets.Images.SHIP_BATTLESHIP, new Rectangle(this.battleshipPos.x, this.battleshipPos.y + 30, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
             //draw battleship outline
             g.drawRect(this.battleshipPos.x, this.battleshipPos.y + 30, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y);
-            //g.fillRect(this.battleshipPos.x, this.battleshipPos.y + 30, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y);
         }
 
         if(shipsLeftCnt[1] > 0) {
             //draw destroyer
             drawImageShip(g, this.ShipSizes.get("Destroyer"), Assets.Images.SHIP_DESTROYER, new Rectangle(this.destroyerPos.x, this.destroyerPos.y + 30, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
-            //g.fillRect(this.destroyerPos.x, this.destroyerPos.y + 30, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y);
             //draw destroyer outline
             g.drawRect(this.destroyerPos.x, this.destroyerPos.y + 30, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y);
         }
@@ -104,7 +99,6 @@ public class MapBuilderRenderer extends MapRenderer {
         if(shipsLeftCnt[0] > 0) {
             //draw submarine
             drawImageShip(g, this.ShipSizes.get("Submarine"), Assets.Images.SHIP_SUBMARINE, new Rectangle(this.submarinePos.x, this.submarinePos.y + 30, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
-            //g.fillRect(this.submarinePos.x, this.submarinePos.y + 30, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y);
             //draw battleship outline
             g.drawRect(this.submarinePos.x, this.submarinePos.y + 30, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y);
         }

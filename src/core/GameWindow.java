@@ -14,8 +14,8 @@ import java.awt.event.WindowStateListener;
  */
 public class GameWindow extends JFrame implements Runnable {
 
-    private static final int VIRTUAL_WIDTH = 1280;
-    private static final int VIRTUAL_HEIGHT = 720;
+    public static final int VIRTUAL_WIDTH = 1280;
+    public static final int VIRTUAL_HEIGHT = 720;
     private static final float ASPECT_RATIO = (float) VIRTUAL_WIDTH / (float) VIRTUAL_HEIGHT;
     private boolean isFullscreen = false;
     private JPanel rootPanel;
@@ -149,6 +149,35 @@ public class GameWindow extends JFrame implements Runnable {
         int h = (int) ((float) VIRTUAL_HEIGHT * scale);
 
         return new Dimension(w, h);
+    }
+
+    public Dimension getMapRenderPanelSize() {
+        Dimension currentSize = Game.getInstance().getWindow().getSize();
+        float startRatio = 66.666664f;
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        float ratio = (100 / ((float)screenSize.getWidth())) * ((float)currentSize.getWidth());
+        Dimension newMapSize = new Dimension(512, 512);
+
+        if(ratio >= startRatio && ratio <= 70)
+            newMapSize = new Dimension(512, 512);
+        else if(ratio > 70 && ratio <= 75)
+            newMapSize = new Dimension(562, 562); // + 50
+        else if(ratio > 75 && ratio <= 80)
+            newMapSize = new Dimension(612, 612); // + 50
+        else if(ratio > 80 && ratio <= 85)
+            newMapSize = new Dimension(662, 662);
+        else if(ratio > 85 && ratio <= 90)
+            newMapSize = new Dimension(712, 712);
+        else if(ratio > 90 && ratio < 95)
+            newMapSize = new Dimension(762, 762);
+        else if(ratio > 95 && ratio < 100)
+            newMapSize = new Dimension(812, 812);
+        else if(ratio >= 100)
+            newMapSize = new Dimension((int)((currentSize.getWidth() / 2) - 200), (int)((currentSize.getWidth() / 2) - 200));
+
+        return newMapSize;
     }
 
     /**

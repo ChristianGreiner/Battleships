@@ -8,8 +8,6 @@ import game.*;
 import game.ships.Ship;
 import graphics.MapBuilderRenderer;
 import graphics.MapRendererListener;
-import network.NetworkMessage;
-import network.NetworkType;
 import ui.GuiScene;
 import ui.ShipSelectionPanel;
 
@@ -39,7 +37,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public ShipsSelectionScene() {
         super("ShipsSelectionScene");
 
-        this.buildRenderer = new MapBuilderRenderer(new Map(10));
+        this.buildRenderer = new MapBuilderRenderer(null);
         this.buildRenderer.addMapRendererListener(this);
     }
 
@@ -57,6 +55,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         this.mapSize = data.getMapSize();
         this.aiDifficulty = data.getAiDifficulty();
         this.playerMap = new Map(this.mapSize);
+        this.buildRenderer.init(this.playerMap);
         this.buildRenderer.setMap(this.playerMap);
         this.playerMap.addListener(this);
     }
@@ -84,14 +83,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
                 MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
                 scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), null));
 
-                // send message to server that the client is ready
-                NetworkMessage confirmedMessage = new NetworkMessage();
-                confirmedMessage.text = "confirmed";
-                if(Game.getInstance().getNetworkManager().getNetworkType() == NetworkType.Client) {
-                    Game.getInstance().getNetworkManager().sendMessageToServer(confirmedMessage);
-                } else {
-                    Game.getInstance().getNetworkManager().sendMessageToServer(confirmedMessage);
-                }
+                Game.getInstance().getNetworkManager().confirmSession();
 
             } else {
                 SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
@@ -107,7 +99,8 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void sizeUpdated() {
-
+        this.uiPanel.updateMapSize(new Dimension(this.uiPanel.getHeight(), this.uiPanel.getHeight()));
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override
@@ -127,7 +120,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         }
 
         if (e.getKeyCode() == KeyEvent.VK_R) {
-                buildRenderer.rotate();
+
         }
 
     }
@@ -150,8 +143,10 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         else {
             // ship already inserted
             if((ship.isRotated() && !rotated) || (!ship.isRotated() && rotated)){
-                //map.move(ship, pos);
+                map.rotate(ship);
+
                 map.moveAndRotate(ship, pos);
+                map.move(ship, pos);
             }
             else
                 map.move(ship, pos);

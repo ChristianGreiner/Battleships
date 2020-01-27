@@ -1,6 +1,7 @@
 package ui;
 
 import game.Assets;
+import game.PlayerType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ public class GameOverPanel extends JPanel {
 
     private JButton btnRestart;
     private JButton btnExit;
+    private JLabel gameStatusLabel;
 
     public JButton getBtnRestart() {
         return btnRestart;
@@ -18,13 +20,25 @@ public class GameOverPanel extends JPanel {
         return btnExit;
     }
 
-    public GameOverPanel create(String message) {
+    public void updateWinner(PlayerType winner) {
+        String message;
+
+        if(winner == PlayerType.Player)
+            message = "YOU WIN";
+        else
+            message = "YOU LOSE";
+
+        this.gameStatusLabel.setText(message);
+    }
+
+    public GameOverPanel create() {
         GameOverPanel mainContainer = this;
         mainContainer.setLayout(new GridBagLayout());
+        mainContainer.setBackground(Color.BLACK);
 
         JPanel btnContainer = new JPanel();
         btnContainer.setLayout(new GridBagLayout());
-        btnContainer.setBackground(UiBuilder.BLACK_ALPHA);
+        btnContainer.setBackground(UiBuilder.TRANSPARENT);
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -57,7 +71,7 @@ public class GameOverPanel extends JPanel {
 
         JPanel titleContainer = new JPanel();
         titleContainer.setLayout(new GridBagLayout());
-        //titleContainer.setBackground(UiBuilder.TRANSPARENT);
+        titleContainer.setBackground(UiBuilder.TRANSPARENT);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -76,12 +90,12 @@ public class GameOverPanel extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         titleContainer.add(gameOverLabel, gbc);
 
-        JLabel gameStatusLabel = new JLabel();
-        gameStatusLabel.setHorizontalAlignment(0);
-        gameStatusLabel.setHorizontalTextPosition(0);
-        gameStatusLabel.setText(message);
-        gameStatusLabel.setForeground(Color.WHITE);
-        gameStatusLabel.setFont(Assets.Fonts.TITLE_36);
+        this.gameStatusLabel = new JLabel();
+        this.gameStatusLabel.setHorizontalAlignment(0);
+        this.gameStatusLabel.setHorizontalTextPosition(0);
+        //gameStatusLabel.setText(message);
+        this.gameStatusLabel.setForeground(Color.WHITE);
+        this.gameStatusLabel.setFont(Assets.Fonts.TITLE_36);
 
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -90,11 +104,5 @@ public class GameOverPanel extends JPanel {
         titleContainer.add(gameStatusLabel, gbc);
 
         return mainContainer;
-    }
-
-    @Override
-    public void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
-        graphics.drawImage(Assets.Images.BACKGROUND, 0, 0, getWidth(), getHeight(), this);
     }
 }

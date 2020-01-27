@@ -27,7 +27,7 @@ public class MapGenerator {
     public static void init() {
         MapData[] data = null;
         try {
-            data = Game.getInstance().getFileHandler().readMapConfig(Assets.Paths.MAPDATA);
+            data = Game.getInstance().getGameFileHandler().readMapConfig(Assets.Paths.MAPDATA);
             for (int i = 0; i < data.length; i++) {
                 configMap.put(data[i].MapSize, data[i]);
             }

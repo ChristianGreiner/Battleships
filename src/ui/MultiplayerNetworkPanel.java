@@ -1,7 +1,6 @@
 package ui;
 
 import core.Game;
-import core.Helper;
 import game.Assets;
 
 import javax.swing.*;
@@ -64,7 +63,7 @@ public class MultiplayerNetworkPanel extends JPanel {
         hostnameField = new JTextField("localhost");
         hostnameField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         hostnameField.setFont(Assets.Fonts.DEFAULT);
-        hostnameField.getDocument().addDocumentListener((TextFieldDocumentListener) e -> {
+        /*hostnameField.getDocument().addDocumentListener((TextFieldDocumentListener) e -> {
             if(e.getDocument().getLength() <= 0) {
                 this.joinBtn.setEnabled(false);
             } else {
@@ -74,7 +73,7 @@ public class MultiplayerNetworkPanel extends JPanel {
                     this.joinBtn.setEnabled(false);
                 }
             }
-        });
+        });*/
 
         gbc.gridx = 1;
         gbc.gridy = 3;
@@ -92,7 +91,7 @@ public class MultiplayerNetworkPanel extends JPanel {
         this.backBtn = addButton("BACK", panel, 8);
 
         // set joinBtn disabled by default
-        this.joinBtn.setEnabled(false);
+        this.joinBtn.setEnabled(true);
 
         return panel;
     }
