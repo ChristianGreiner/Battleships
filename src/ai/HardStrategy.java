@@ -50,7 +50,6 @@ public class HardStrategy implements AiStrategy, Serializable {
     public Point process(Map map) {
         Point trypoint = this.internstrategy.process(map);
         if (this.raster && !this.shipFocused) {
-            //System.out.println("Nächster Punkt: "+trypoint);
             trypoint = rastercheck(trypoint, map);
         }
         return trypoint;
@@ -66,15 +65,7 @@ public class HardStrategy implements AiStrategy, Serializable {
      * @return the selected point or a new point
      */
     private Point rastercheck(Point checkpoint, Map map) {
-
-        //System.out.println("Vorher"+this.columncounter.keySet());
-        //System.out.println("Vorher"+this.columncounter.values());
-        //System.out.println("Vorher"+this.rowcounter.keySet());
-        //System.out.println("Vorher"+this.rowcounter.values());
-
         if (this.columncounter.get(checkpoint.x) != null && this.rowcounter.get(checkpoint.y) != null) {
-            //System.out.println("Werte columncounter "+this.columncounter.get(checkpoint.x));
-            //System.out.println("Werte rowcounter "+this.rowcounter.get(checkpoint.x));
             if (this.columncounter.get(checkpoint.x) < this.maxshotperline && this.rowcounter.get(checkpoint.y) < this.maxshotperline) {
                 this.columncounter.replace(checkpoint.x, this.columncounter.get(checkpoint.x) + 1);
                 this.rowcounter.replace(checkpoint.y, this.rowcounter.get(checkpoint.y) + 1);
@@ -98,12 +89,6 @@ public class HardStrategy implements AiStrategy, Serializable {
             }
         }
 
-        //System.out.println("Raster ist: "+raster);
-        //System.out.println("Nachher"+this.columncounter.keySet());
-        //System.out.println("Nachher"+this.columncounter.values());
-        //System.out.println("Nachher"+this.rowcounter.keySet());
-        //System.out.println("Nachher"+this.rowcounter.values());
-
         return checkpoint;
     }
 
@@ -125,23 +110,18 @@ public class HardStrategy implements AiStrategy, Serializable {
 
             if (this.columncounter.get(checkpoint.x) == null) {
                 int indexc = new Random().nextInt(columncounterkey.length);
-                //System.out.println("indexc: "+indexc);
                 trymarkx = (int) columncounterkey[indexc];
             }
 
             if (this.rowcounter.get(checkpoint.y) == null) {
                 int indexr = new Random().nextInt(rowcounterkey.length);
-                //System.out.println("indexr: "+indexr);
                 trymarky = (int) rowcounterkey[indexr];
             }
 
             Point newcheckpoint = new Point(trymarkx, trymarky);
-            //System.out.println("new setted point for raster: "+newcheckpoint);
 
             if (map.fieldIsViable(newcheckpoint)) {
                 searching = false;
-                //System.out.println("key: "+newcheckpoint.x+"\nvalue: "+this.columncounter.get(newcheckpoint.x) + 1);
-                //System.out.println("key: "+newcheckpoint.y+"\nvalue: "+this.rowcounter.get(newcheckpoint.y) + 1);
                 this.columncounter.replace(newcheckpoint.x, this.columncounter.get(newcheckpoint.x) + 1);
                 this.rowcounter.replace(newcheckpoint.y, this.rowcounter.get(newcheckpoint.y) + 1);
                 return newcheckpoint;

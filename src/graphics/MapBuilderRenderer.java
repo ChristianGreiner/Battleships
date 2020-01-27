@@ -157,13 +157,9 @@ public class MapBuilderRenderer extends MapRenderer {
             this.submarineSelected = false;
             this.drawSizeChanged = false;
 
-            //this.tempPoint = new Point((this.getMousePosition().x / super.tileSize.x) - 1, (this.getMousePosition().y / super.tileSize.y) - 1);
-            System.out.println("**builder**");
-            System.out.println(rotated);
             for (MapRendererListener mouseListener : listener) {
                 if (mouseListener != null) {
                     mouseListener.OnShipDropped(this.map, shipToDrop, tempPoint, this.rotated);
-                    System.out.println(shipToDrop.isRotated());
                 }
             }
 

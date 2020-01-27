@@ -32,9 +32,6 @@ public class EasyStrategy implements AiStrategy, Serializable {
     public void prepare(HitType type, Point lastHit) {
         if (!focusable) {
             if (type == HitType.Ship) { //ship
-                //System.out.println("SCHIFF GETROFFEN!");
-                //shipFocused = true;
-                //this.hitPoint = lastHit;
                 setFocusable(true);
                 if (focusable)
                     this.internstrategy.prepare(type, lastHit);
@@ -53,7 +50,6 @@ public class EasyStrategy implements AiStrategy, Serializable {
 
         //if (this.shipFocused){
         if (this.focusable) {
-            System.out.println("entered focusable");
             this.internstrategy.setShipFocused(focusable);
             return this.internstrategy.process(map);
         }

@@ -20,8 +20,8 @@ public class Map implements MapInterface, Serializable {
     private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
     private int numberOfShips;
     private int numberOfDestoryedShips;
-    private ArrayList<Ship> ships = new ArrayList<>();
-    private ArrayList<MapListener> listeners = new ArrayList();
+    private ArrayList<Ship> ships;
+    private ArrayList<MapListener> listeners;
     private MapData mapData;
 
     // dirty fix
@@ -41,6 +41,8 @@ public class Map implements MapInterface, Serializable {
         this.size = size;
         this.tiles = new MapTile[size][size];
         this.mapData = MapGenerator.getConfigMap().get(this.size);
+        this.listeners = new ArrayList<MapListener>();
+        this.ships =  new ArrayList<Ship>();
 
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
@@ -145,10 +147,7 @@ public class Map implements MapInterface, Serializable {
      * @return Returns whenever or not all ships are destroyed.
      */
     public boolean allShipsDestroyed() {
-        if(this.ships.size() > 0) {
-            return this.getNumberOfShips() == this.getNumberOfDestoryedShips();
-        }
-        return false;
+        return this.getNumberOfShips() == this.getNumberOfDestoryedShips();
     }
 
     /**
@@ -856,11 +855,6 @@ public class Map implements MapInterface, Serializable {
 
         this.insert(ship, ship.getPosition(), ship.isRotated());
 
-        // trigger listener
-        for (int i = 0; i < this.listeners.size(); i++) {
-            this.listeners.get(i).OnMapUpdated();
-        }
-
         return canMove;
     }
 
@@ -884,6 +878,7 @@ public class Map implements MapInterface, Serializable {
         computeRemoveShip(ship);
 
         // trigger listener
+        System.out.println("UPDATE");
         for (int i = 0; i < this.listeners.size(); i++) {
             this.listeners.get(i).OnMapUpdated();
         }

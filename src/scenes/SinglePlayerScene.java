@@ -116,7 +116,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
         else {
             if(this.playerTurn == PlayerType.AI) {
-                if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.5) {
+                if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
                     handleAiShot();
                     this.waitTimer = 0;
                 }
@@ -200,7 +200,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     private void handleAiShot() {
         Point point = this.ai.shot();
-        System.out.println(point);
 
         HitData hitData = this.playerMap.shot(point);
 
@@ -210,8 +209,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
             this.ai.receiveAnswer(lastHitType);
 
         this.handleSoundFx(hitData.getHitType());
-
-        System.out.println(lastHitType);
 
         this.playerMapRenderer.playExplosion(hitData.getPosition());
 

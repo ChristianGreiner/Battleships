@@ -304,7 +304,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             return;
 
         this.tempPoint = new Point((this.getMousePosition().x / tileSize.x) - 1, (this.getMousePosition().y / tileSize.y) - 1);
-        // System.out.println(((this.getMousePosition().x / tileSize.x) - 1) + " " + ((this.getMousePosition().y / tileSize.y) - 1));
 
         this.hoveredMapTile = this.map.getTile(tempPoint);
         if (this.hoveredMapTile != null) {
@@ -313,7 +312,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 //this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
                 this.selectedShip = this.hoveredMapTile.getShip();
                 if (!this.pressed && this.selectedShip != null) {
-                    //System.out.println(this.selectedShip.isRotated());
                     g.setColor(new Color(124, 252, 0, 200));
                     if (this.selectedShip.isRotated()) {
                         g.drawRect(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
@@ -357,7 +355,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     quickfix_rotate = false;
                     dropPos.x = tempPoint.x;
                     floatingShipMarker.x = this.getMousePosition().x / tileSize.x * tileSize.x;
-                    //System.out.println(dropPos);
                     if(!map.canMoveShip(this.selectedShip, dropPos, false)) {
                         g.setColor(Color.RED);
                     }
@@ -461,7 +458,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                                 }
                             }
                         }
-                        System.out.println("FIRED");
                     }
                 }
             }
@@ -473,15 +469,15 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     @Override
     public void mousePressed(MouseEvent e) {
 
-        System.out.println(e.getButton());
         this.pressed = true;
 
         if (this.hoveredMapTile != null && !disabled) {
 
             if (this.hoveredMapTile.hasShip()) {
 
-                if(e.getButton() == MouseEvent.BUTTON3)
-                    map.remove(this.hoveredMapTile.getShip());
+                if(e.getButton() == MouseEvent.BUTTON3) {
+                    this.map.remove(this.hoveredMapTile.getShip());
+                }
 
                 if(!this.selected && e.getButton() == MouseEvent.BUTTON1) {
                     this.selected = true;
