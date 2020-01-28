@@ -192,11 +192,13 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void OnReceiveShot(Point pos) {
-        if(this.playerMap.isInMap(pos)) {
-            HitData hitData = this.playerMap.shot(pos);
-            if(hitData.getHitType() == HitType.Water)
-                setOtherTurn();
-            Game.getInstance().getNetworkManager().sendAnswer(hitData.getHitType());
+        if(this.playerMap != null) {
+            if(this.playerMap.isInMap(pos)) {
+                HitData hitData = this.playerMap.shot(pos);
+                if(hitData.getHitType() == HitType.Water)
+                    setOtherTurn();
+                Game.getInstance().getNetworkManager().sendAnswer(hitData.getHitType());
+            }
         }
     }
 
@@ -204,7 +206,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     public void OnReceiveAnswer(HitType type) {
         if(this.lastShot != null) {
             this.enemyMap.markTile(this.lastShot, type);
-            if(type == HitType.Water) {
+            if(type == HitType.Water || type == HitType.NotPossible) {
                 setOtherTurn();
                 Game.getInstance().getNetworkManager().sendPass();
             }
