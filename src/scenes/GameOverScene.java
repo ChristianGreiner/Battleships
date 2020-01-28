@@ -5,6 +5,7 @@ import core.GameWindow;
 import game.GameSession;
 import game.GameSessionData;
 import game.PlayerType;
+import network.NetworkType;
 import ui.GameOverPanel;
 import ui.GuiScene;
 
@@ -15,6 +16,10 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
     private GameSessionData gameSessionData;
 
     public void setWinner(PlayerType winner) {
+        this.panel.updateWinner(winner);
+    }
+
+    public void setWinner(NetworkType winner) {
         this.panel.updateWinner(winner);
     }
 
@@ -31,8 +36,12 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
         panel = new GameOverPanel().create();
 
         panel.getBtnRestart().addActionListener((e) -> {
-            SinglePlayerSettingsScene settingsScene = (SinglePlayerSettingsScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
-            settingsScene.initializeGameSession(this.gameSessionData);
+            if(this.gameSessionData != null) {
+                SinglePlayerSettingsScene settingsScene = (SinglePlayerSettingsScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
+                settingsScene.initializeGameSession(this.gameSessionData);
+            }
+            else Game.getInstance().getSceneManager().setActiveScene(MultiplayerNetworkScene.class);
+
         });
 
         panel.getBtnExit().addActionListener((e) -> {

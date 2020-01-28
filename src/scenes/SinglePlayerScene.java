@@ -182,8 +182,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void sizeUpdated() {
-        this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
-        Game.getInstance().getWindow().revalidate();
     }
 
     @Override

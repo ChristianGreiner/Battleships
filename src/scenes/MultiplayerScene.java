@@ -102,7 +102,11 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     public void lateUpdate(double deltaTime) {
         if(this.gameState == GameState.Finished) {
             this.winner = this.playerTurn;
-            JOptionPane.showMessageDialog(Game.getInstance().getWindow(),this.winner.toString() + " WON","Game Finished", JOptionPane.INFORMATION_MESSAGE);
+           // JOptionPane.showMessageDialog(Game.getInstance().getWindow(),this.winner.toString() + " WON","Game Finished", JOptionPane.INFORMATION_MESSAGE);
+            GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
+            gameOverScene.setWinner(this.winner);
+            gameOverScene.initializeGameSession(null);
+
             this.setUpdatePaused(true);
             reset();
         }

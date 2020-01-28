@@ -97,8 +97,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             }
         });
 
-        shipSelectionPanel.invalidate();
-
         return shipSelectionPanel;
     }
 

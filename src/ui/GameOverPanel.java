@@ -2,6 +2,7 @@ package ui;
 
 import game.Assets;
 import game.PlayerType;
+import network.NetworkType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +29,11 @@ public class GameOverPanel extends JPanel {
         else
             message = "YOU LOSE";
 
+        this.gameStatusLabel.setText(message);
+    }
+
+    public void updateWinner(NetworkType winner) {
+        String message = winner.toString() + " WON!";
         this.gameStatusLabel.setText(message);
     }
 
