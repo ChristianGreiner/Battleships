@@ -51,7 +51,7 @@ public class MapBuilderRenderer extends MapRenderer {
         if(!isInit)
             return;
 
-        this.gridSize = new Point(this.getWidth() / 2, this.getWidth() / 2);
+        this.gridSize = new Point(this.getHeight(), this.getHeight());
         this.setGridSize(this.gridSize);
         this.tileSize = new Point( this.getWidth() / 20, this.getWidth() / 20);
         this.carrierPos = new Point((this.getWidth() / 3) * 2, 30);

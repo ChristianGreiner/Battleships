@@ -164,6 +164,9 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     @Override
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
+
+        Game.getInstance().getWindow().repaint();
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override

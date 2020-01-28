@@ -48,6 +48,8 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
         this.buildRenderer.setEditorMode(true);
         this.uiPanel.getBtnStartGame().setEnabled(false);
+
+        this.sizeUpdated();
     }
 
     @Override
@@ -68,7 +70,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public JPanel buildGui(GameWindow gameWindow) {
         ShipSelectionPanel shipSelectionPanel = new ShipSelectionPanel(this.buildRenderer);
 
-        shipSelectionPanel.create(new Dimension(800, 450));
+        shipSelectionPanel.create(new Dimension(1024, 512));
 
         this.uiPanel = shipSelectionPanel;
 
@@ -102,6 +104,10 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void sizeUpdated() {
+        this.uiPanel.updateMapSize(Game.getInstance().getWindow().getBuildMapRenderPanelSize());
+
+        Game.getInstance().getWindow().repaint();
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override
