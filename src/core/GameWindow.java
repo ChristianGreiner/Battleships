@@ -70,8 +70,11 @@ public class GameWindow extends JFrame implements Runnable {
                     rootPanel.repaint();
                     revalidate();
 
-                    if (guiScene instanceof GuiScene)
+                    if (guiScene instanceof GuiScene) {
                         guiScene.sizeUpdated();
+                        Game.getInstance().getWindow().repaint();
+                        Game.getInstance().getWindow().revalidate();
+                    }
                 }
 
                 setSize(lastWindowSize);

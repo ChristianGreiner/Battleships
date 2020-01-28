@@ -107,12 +107,6 @@ public class GameSettingsPanel extends JPanel {
         sizeSpn.setPreferredSize(new Dimension(64, 32));
         spinnerContainer.add(sizeSpn);
 
-        /*final JLabel crossLbl = new JLabel();
-        crossLbl.setText("Tiles");
-        crossLbl.setForeground(Color.WHITE);
-        crossLbl.setFont(Assets.Fonts.DEFAULT);
-        spinnerContainer.add(crossLbl);*/
-
         final JPanel aiDifficultLblContainer = new JPanel();
         aiDifficultLblContainer.setBackground(new Color(0, 0, 0, 155));
         aiDifficultLblContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));

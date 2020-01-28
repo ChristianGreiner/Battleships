@@ -58,6 +58,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         this.buildRenderer.init(this.playerMap);
         this.buildRenderer.setMap(this.playerMap);
         this.playerMap.addListener(this);
+
+        Game.getInstance().getWindow().repaint();
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override
@@ -126,6 +129,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             if (this.uiPanel.isVisible() && this.uiPanel.isValid()) {
                 this.buildRenderer.draw();
             }
+
+            if(this.playerMap != null)
+                this.uiPanel.getBtnStartGame().setEnabled(this.playerMap.isCorrectFilled());
         }
     }
 
@@ -143,6 +149,8 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             else
                 map.move(ship, pos);
         }
+
+        this.OnMapUpdated();
     }
 
     @Override
@@ -157,9 +165,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void OnMapUpdated() {
-        if(this.playerMap != null) {
-            this.uiPanel.getBtnStartGame().setEnabled(this.playerMap.isCorrectFilled());
-        }
     }
 
 

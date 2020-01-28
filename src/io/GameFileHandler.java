@@ -14,7 +14,7 @@ import java.io.*;
  */
 public class GameFileHandler {
 
-    public final static FileNameExtensionFilter filter = new FileNameExtensionFilter("Battleship Savegame", "*.bsg", "bsg");
+    public final static FileNameExtensionFilter FILE_EXTENSION = new FileNameExtensionFilter("Battleship Savegame", "*.bsg", "bsg");
     private Gson gson = new Gson();
 
     /**
@@ -104,17 +104,18 @@ public class GameFileHandler {
      * Writes the savegame to a file.
      * @param savegame The savegame.
      */
-    public JFileChooser saveSavegame(Savegame savegame) {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(filter);
+    public void saveSavegame(Savegame savegame) {
+        String PATH = System.getProperty("user.dir") + "/";
+        String directoryName = PATH.concat("savegames");
+        String fileName = String.valueOf(savegame.getId());
 
-        if (fileChooser.showSaveDialog(Game.getInstance().getWindow()) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-
-            this.writeObject(savegame, file, "bsg");
+        File directory = new File(directoryName);
+        if (! directory.exists()){
+            directory.mkdir();
         }
 
-        return fileChooser;
+        File file = new File(directoryName + "/" + fileName);
+        this.writeObject(savegame, file, "bsg");
     }
 
     /**
@@ -123,7 +124,9 @@ public class GameFileHandler {
      */
     public Savegame loadSavegame() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(filter);
+        fileChooser.setFileFilter(FILE_EXTENSION);
+        fileChooser.setCurrentDirectory(new java.io.File("./savegames"));
+        fileChooser.setDialogTitle("Load Savegame");
 
         if (fileChooser.showOpenDialog(Game.getInstance().getWindow()) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
@@ -132,6 +135,22 @@ public class GameFileHandler {
             return savegame;
         }
 
+        return null;
+    }
+
+    public Savegame loadSavegame(String id) {
+        System.out.println("LOADING " + id);
+        try {
+            String PATH = System.getProperty("user.dir") + "/";
+            String directoryName = PATH.concat("savegames");
+            String fileName = id + ".bsg";
+
+            File file = new File(directoryName + "/" + fileName);
+            return (Savegame) this.loadObject(file);
+        }
+        catch (Exception ex) {
+
+        }
         return null;
     }
 }

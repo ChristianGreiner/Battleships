@@ -6,6 +6,7 @@ import core.Updatable;
 import game.GameSessionData;
 import game.HitType;
 import game.Map;
+import game.Savegame;
 import network.NetworkListener;
 import ui.GuiScene;
 import ui.MultiplayerNetworkPanel;
@@ -99,7 +100,18 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     }
 
     @Override
-    public void OnReceivePass() {
+    public void OnReceiveSave(String id) {
+
     }
 
+    @Override
+    public void OnReceiveLoad(String id) {
+        Savegame savegame =  Game.getInstance().getGameFileHandler().loadSavegame(id);
+
+        if(savegame != null) {
+            MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+            scene.initializeSavegame(savegame);
+        } else
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(),"Cant find a Savegame with the id: " + id,"Savegame loading...", JOptionPane.ERROR_MESSAGE);
+    }
 }

@@ -9,6 +9,15 @@ public class GameSessionData {
     private int mapSize;
     private Map map;
     private AiDifficulty aiDifficulty;
+    private Savegame savegame;
+
+    /**
+     * Gets the savegame.
+     * @return
+     */
+    public Savegame getSavegame() {
+        return savegame;
+    }
 
     /**
      * Gets the map.
@@ -44,5 +53,9 @@ public class GameSessionData {
         this.map = map;
         this.mapSize = mapSize;
         this.aiDifficulty = aiDifficulty;
+    }
+
+    public GameSessionData(Savegame savegame) {
+        this.savegame = savegame;
     }
 }

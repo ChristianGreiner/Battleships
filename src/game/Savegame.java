@@ -2,25 +2,22 @@ package game;
 
 import ai.AI;
 import ai.AiDifficulty;
+import network.NetworkType;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 /**
  * Stores all data for the save game.
  */
 public class Savegame implements Serializable {
 
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private Date date = new Date();
-
-    private String timestamp = null;
+    private String id;
     private Map playerMap = null;
     private Map enemyMap = null;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private PlayerType currentTurn = null;
+    private NetworkType currentNetworkTurn = null;
     private AI ai = null;
 
     /**
@@ -32,12 +29,19 @@ public class Savegame implements Serializable {
      * @param ai THe current ai.
      */
     public Savegame(Map playerMap, Map enemyMap, PlayerType currentTurn, AiDifficulty difficulty, AI ai) {
-        this.timestamp = this.dateFormat.format(date);
+        this.id = String.valueOf(System.currentTimeMillis());
         this.playerMap = playerMap;
         this.enemyMap = enemyMap;
         this.currentTurn = currentTurn;
         this.difficulty = difficulty;
         this.ai = ai;
+    }
+
+    public Savegame(Map playerMap, Map enemyMap, NetworkType currentNetworkTurn, String id) {
+        this.id = id;
+        this.playerMap = playerMap;
+        this.enemyMap = enemyMap;
+        this.currentNetworkTurn = currentNetworkTurn;
     }
 
     /**
@@ -52,8 +56,8 @@ public class Savegame implements Serializable {
      * Gets the timestamp of the savegame.
      * @return The timestamp.
      */
-    public String getTimestamp() {
-        return timestamp;
+    public String getId() {
+        return id;
     }
 
     /**

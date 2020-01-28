@@ -5,6 +5,7 @@ import core.GameWindow;
 import game.GameSession;
 import game.GameSessionData;
 import game.HitType;
+import game.Savegame;
 import network.NetworkListener;
 import ui.GuiScene;
 import ui.WaitingForPlayerPanel;
@@ -19,6 +20,7 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
     }
 
     private GameSessionData sessionData;
+    private Savegame savegame;
 
     @Override
     public void onAdded() {
@@ -47,9 +49,17 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void OnPlayerConnected() {
-        ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
-        scene.setNetworkGame(true);
-        scene.initializeGameSession(this.sessionData);
+        if(this.savegame == null) {
+            ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
+            scene.setNetworkGame(true);
+            scene.initializeGameSession(this.sessionData);
+        } else {
+            MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+            scene.initializeSavegame(this.sessionData.getSavegame());
+            Game.getInstance().getNetworkManager().stopServer();
+        }
+
+        Game.getInstance().getNetworkManager().confirmSession();
     }
 
     @Override
@@ -70,13 +80,25 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
     }
 
     @Override
-    public void OnReceivePass() {
+    public void OnReceiveSave(String id) {
+    }
+
+    @Override
+    public void OnReceiveLoad(String id) {
     }
 
     @Override
     public void initializeGameSession(GameSessionData data) {
         this.sessionData = data;
+        this.savegame = data.getSavegame();
 
-        Game.getInstance().getNetworkManager().startServer(data.getMapSize());
+        if(data.getSavegame() != null) {
+            System.out.println("START WITH " + data.getSavegame().getId());
+            Game.getInstance().getNetworkManager().startServer(data.getSavegame().getId());
+            Game.getInstance().getNetworkManager().confirmSession();
+        }
+        else {
+            Game.getInstance().getNetworkManager().startServer(data.getMapSize());
+        }
     }
 }

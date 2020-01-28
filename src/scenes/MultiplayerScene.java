@@ -30,6 +30,9 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     private Point lastShot = null;
     private NetworkType playerTurn = NetworkType.Client;
     private NetworkType networkType = NetworkType.Client;
+    private NetworkType winner = NetworkType.Client;
+    private int enemyShipsDestroyed = 0;
+    private MapData mapData;
 
     public MultiplayerScene() {
         super("MultiplayerScene");
@@ -41,12 +44,12 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
         this.enemyMapRenderer.addMapRendererListener(this);
+        Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
     @Override
     public void onAdded() {
         super.onAdded();
-        Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
     @Override
@@ -55,12 +58,39 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
         uiPanel = uiPanel.create(new Dimension(512, 512));
 
+        this.uiPanel.getBtnLoad().addActionListener((e) -> {
+            //Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
+            //Game.getInstance().getNetworkManager().sendLoad(savegame.getId());
+        });
+
+        this.uiPanel.getBtnLoad().setEnabled(false);
+
+        this.uiPanel.getBtnSave().addActionListener((e) -> {
+            long id = System.currentTimeMillis();
+            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, String.valueOf(id));
+            Game.getInstance().getGameFileHandler().saveSavegame(savegame);
+            Game.getInstance().getNetworkManager().sendSave(id);
+        });
+
+        this.uiPanel.getBtnExit().addActionListener((e) -> {
+            Game.getInstance().getNetworkManager().stopServer();
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+        });
+
         return uiPanel;
     }
 
     @Override
     public void update(double deltaTime) {
         this.enemyMapRenderer.setDisabled(!gameStarted);
+
+        if(gameStarted && this.mapData != null) {
+            if (this.playerMap.allShipsDestroyed() || this.enemyShipsDestroyed == this.mapData.ShipsCount) {
+                this.winner = this.playerTurn;
+                JOptionPane.showMessageDialog(Game.getInstance().getWindow(),this.winner.toString() + " WON","Game Finished", JOptionPane.INFORMATION_MESSAGE);
+                this.setUpdatePaused(true);
+            }
+        }
     }
 
     @Override
@@ -88,8 +118,6 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
             else
                 this.playerTurn = NetworkType.Client;
         }
-
-        Game.getInstance().getLogger().info("NEW PLAYERTURN: " + this.playerTurn);
     }
 
     private boolean isMyTurn() {
@@ -99,7 +127,6 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     @Override
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
-        Game.getInstance().getWindow().revalidate();
     }
 
     @Override
@@ -125,10 +152,28 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
         this.playerMapRenderer.setMap(data.getMap());
         this.playerMap = data.getMap();
+        this.mapData = data.getMap().getMapData();
 
         this.enemyMap = new Map(data.getMapSize());
         this.enemyMapRenderer.setMap(this.enemyMap);
 
+        Game.getInstance().getWindow().repaint();
+        Game.getInstance().getWindow().revalidate();
+    }
+
+    public void initializeSavegame(Savegame savegame) {
+        this.playerMap = savegame.getPlayerMap();
+        this.enemyMap = savegame.getEnemyMap();
+        this.playerMapRenderer.setMap(this.playerMap);
+        this.enemyMapRenderer.setMap(this.enemyMap);
+
+        if(this.networkType == NetworkType.Client) {
+            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Initialized Savgame");
+            Game.getInstance().getNetworkManager().confirmSession();
+        }
+
+        Game.getInstance().getWindow().repaint();
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override
@@ -164,12 +209,22 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
                 Game.getInstance().getNetworkManager().sendPass();
             }
 
+            if(type == HitType.ShipDestroyed)
+                this.enemyShipsDestroyed++;
+
             this.lastShot = null;
         }
     }
 
     @Override
-    public void OnReceivePass() {
+    public void OnReceiveSave(String id) {
+        Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, id);
+        Game.getInstance().getGameFileHandler().saveSavegame(savegame);
+        Game.getInstance().getNetworkManager().sendPass();
+    }
+
+    @Override
+    public void OnReceiveLoad(String id) {
     }
 
     @Override

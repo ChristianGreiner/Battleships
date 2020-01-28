@@ -16,7 +16,6 @@ public final class Assets {
 
         // load images
         Images.BACKGROUND = AssetsLoader.loadImage(Assets.Paths.BACKGROUND);
-        Images.TILESET = AssetsLoader.loadImage(Assets.Paths.TILESET);
         Images.EXPLOSION = AssetsLoader.loadBufferedImage(Assets.Paths.EXPLOSION);
         Images.WATER = AssetsLoader.loadBufferedImage(Assets.Paths.WATER);
         Images.WATER_DARK = AssetsLoader.loadBufferedImage(Assets.Paths.WATER_DARK);
@@ -53,7 +52,6 @@ public final class Assets {
         // load music
         Sounds.MAINMENU_MUSIC = AssetsLoader.loadSound(Paths.MAINMENU_MUSIC);
         Sounds.PLAYING_MUSIC = AssetsLoader.loadSound(Paths.PLAYING_MUSIC);
-        Sounds.SEATBELT_SFX = AssetsLoader.loadSound(Paths.SEATBELT_SFX);
 
         Files.MAPDATA = new File(Assets.class.getClassLoader().getResource(Paths.MAPDATA).getFile());
 
@@ -65,7 +63,6 @@ public final class Assets {
      */
     public static class Images {
         public static Image BACKGROUND;
-        public static Image TILESET;
         public static BufferedImage EXPLOSION;
         public static Image WATER;
         public static Image WATER_DARK;
@@ -87,7 +84,6 @@ public final class Assets {
         public static Clip PLAYING_MUSIC;
         public static Clip BUTTON_HOVER;
         public static Clip BUTTON_CLICK;
-        public static Clip SEATBELT_SFX;
         public static Clip SHOT_SFX;
         public static Clip WATER_HIT;
         public static Clip SHIP_HIT;
@@ -119,7 +115,6 @@ public final class Assets {
         public final static String MAPDATA = "mapdata.json";
 
         public final static String BACKGROUND = "images/MainMenuBackground.jpg";
-        public final static String TILESET = "images/tileset.png";
         public final static String EXPLOSION = "images/Explosion.png";
         public final static String WATER = "images/tiles/water.png";
         public final static String WATER_DARK = "images/tiles/water_dark.png";
@@ -138,7 +133,6 @@ public final class Assets {
         public final static String ROBOTO_FONT = "fonts/Roboto-Regular.ttf";
         public final static String ROBOTO_BOLD_FONT = "fonts/Roboto-Bold.ttf";
         public final static String PLAY_FONT = "fonts/Play-Regular.ttf";
-        public final static String SEATBELT_SFX = "sfx/seatbelt.wav";
         public final static String SHOT_SFX = "sfx/shot.wav";
         public final static String WATER_HIT = "sfx/water_hit.wav";
         public final static String SHIP_HIT = "sfx/ship_hit.wav";

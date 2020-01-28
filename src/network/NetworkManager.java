@@ -3,19 +3,20 @@ package network;
 import core.Game;
 import game.HitType;
 
+import javax.swing.*;
 import java.awt.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class NetworkManager{
+public class NetworkManager {
 
     public ArrayList<NetworkListener> getListeners() {
         return listeners;
     }
 
     public final static int TCP_PORT = 50000;
-    private ArrayList<NetworkListener> listeners = new ArrayList<>();
+    private ArrayList<NetworkListener> listeners;
     private NetworkType networkType;
     private NetworkThread networkThread;
 
@@ -23,8 +24,8 @@ public class NetworkManager{
         return networkType;
     }
 
-
     public NetworkManager() {
+        this.listeners = new ArrayList<>();
     }
 
     public void addNetworkListener(NetworkListener listener) {
@@ -35,7 +36,7 @@ public class NetworkManager{
         try {
 
             // start socket
-            Socket clientSocket = new Socket("localhost", TCP_PORT);
+            Socket clientSocket = new Socket(host, TCP_PORT);
             System.out.println("[CLIENT] Client connected to Server!");
             this.networkThread = new NetworkThread(this, clientSocket);
             this.networkThread.start();
@@ -45,7 +46,8 @@ public class NetworkManager{
             this.networkType = NetworkType.Client;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(),"Can`t connect to server " + host,"Connection refused", JOptionPane.ERROR_MESSAGE);
+            System.out.println("NO CONNECTION");
         }
     }
 
@@ -60,6 +62,22 @@ public class NetworkManager{
 
             this.networkType = NetworkType.Host;
 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startServer(String id) {
+        try {
+
+            ServerSocket serverSocket = new ServerSocket(TCP_PORT);
+            this.networkThread = new NetworkThread(this, serverSocket, id);
+            this.networkThread.start();
+
+            Game.getInstance().getWindow().setTitle("SERVER");
+
+            this.networkType = NetworkType.Host;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,7 +109,11 @@ public class NetworkManager{
         this.networkThread.addMessage("ANSWER " + value);
     }
 
-    public void stopServer() {
+    public synchronized void sendSave(long id) {
+        this.networkThread.addMessage("SAVE " + id);
+    }
 
+    public void stopServer() {
+        this.networkThread.stopNetwork();
     }
 }

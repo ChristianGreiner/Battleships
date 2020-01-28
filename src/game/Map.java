@@ -253,8 +253,10 @@ public class Map implements MapInterface, Serializable {
 
     private void computeRemoveShip(Ship ship) {
         int counter = this.shipsCounter.get(ship.getClass());
-        if(counter > 0)
-            this.shipsCounter.put(ship.getClass(), counter - 1);
+        if(counter > 0) {
+            counter--;
+            this.shipsCounter.put(ship.getClass(), counter);
+        }
 
         this.ships.remove(ship);
     }
