@@ -3,6 +3,7 @@ package scenes;
 import core.Game;
 import core.GameWindow;
 import game.GameSessionData;
+import game.Savegame;
 import ui.GameSettingsPanel;
 import ui.GuiScene;
 
@@ -26,7 +27,11 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
         });
 
         settings.getLoadGameBtn().addActionListener((e) -> {
-
+            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
+            if(savegame != null) {
+                WaitingForPlayerScene scene = (WaitingForPlayerScene)Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
+                scene.initializeGameSession(new GameSessionData(savegame));
+            }
         });
 
         settings.getBackBtn().addActionListener((e) -> {

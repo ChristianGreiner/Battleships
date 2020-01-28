@@ -16,5 +16,7 @@ public interface NetworkListener {
 
     void OnReceiveAnswer(HitType type);
 
-    void OnReceivePass();
+    void OnReceiveSave(String id);
+
+    void OnReceiveLoad(String id);
 }

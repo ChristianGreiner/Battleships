@@ -15,11 +15,9 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
     private GameSessionData gameSessionData;
 
     public void setWinner(PlayerType winner) {
-        this.winner = winner;
         this.panel.updateWinner(winner);
     }
 
-    private PlayerType winner;
     private GameOverPanel panel;
 
     public GameOverScene() {

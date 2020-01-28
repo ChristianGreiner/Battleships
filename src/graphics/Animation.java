@@ -17,7 +17,6 @@ public class Animation {
     private int animationDirection;         // animation direction (i.e counting forward or backward)
     private int totalFrames;                // total amount of frames for your animation
     private boolean stopped;                // has animations stopped
-    private boolean looped = false;
     private List<SpriteFrame> frames = new ArrayList<SpriteFrame>();    // Arraylist of frames
 
     /**
@@ -51,14 +50,6 @@ public class Animation {
      */
     public boolean isStopped() {
         return stopped;
-    }
-
-    /**
-     * Whenever or not the animation is looped.
-     * @return If the animation is looped.
-     */
-    public boolean isLooped() {
-        return looped;
     }
 
     /**
@@ -140,12 +131,10 @@ public class Animation {
         if (!stopped) {
             frameCount++;
 
-            if(!looped) {
-                if (currentFrame > totalFrames - 1) {
-                    currentFrame = 0;
-                    stop();
-                    return;
-                }
+            if (currentFrame > totalFrames - 1) {
+                currentFrame = 0;
+                stop();
+                return;
             }
 
             if (frameCount > frameDelay) {
@@ -154,9 +143,6 @@ public class Animation {
 
                 if (currentFrame > totalFrames - 1) {
                     currentFrame = 0;
-                    if (!looped) {
-                        stop();
-                    }
                 } else if (currentFrame < 0) {
                     currentFrame = totalFrames - 1;
                 }

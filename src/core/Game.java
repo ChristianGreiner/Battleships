@@ -135,7 +135,6 @@ public class Game implements Runnable {
     private void initializeScenes() {
 
         // Initialize all Scenes
-        this.sceneManager.addScene(new SplashScene());
         this.sceneManager.addScene(new MainMenuScene());
         this.sceneManager.addScene(new CreditsScene());
         this.sceneManager.addScene(new OptionsScene());

@@ -58,6 +58,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         this.buildRenderer.init(this.playerMap);
         this.buildRenderer.setMap(this.playerMap);
         this.playerMap.addListener(this);
+
+        Game.getInstance().getWindow().repaint();
+        Game.getInstance().getWindow().revalidate();
     }
 
     @Override
