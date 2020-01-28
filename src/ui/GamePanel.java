@@ -11,11 +11,31 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
-        private MapRenderer playerMapRenderer;
+    private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
     private JButton btnExit;
     private JButton btnLoad;
     private JButton btnSave;
+    private JPanel playerLabelContainer;
+    private JPanel enemyLabelContainer;
+    private JLabel playerLabel;
+    private JLabel opponentLabel;
+
+    public JPanel getPlayerLabelContainer() {
+        return playerLabelContainer;
+    }
+
+    public JPanel getEnemyLabelContainer() {
+        return enemyLabelContainer;
+    }
+
+    public JLabel getPlayerLabel() {
+        return playerLabel;
+    }
+
+    public JLabel getOpponentLabel() {
+        return opponentLabel;
+    }
 
     public JButton getBtnExit() {
         return btnExit;
@@ -64,7 +84,7 @@ public class GamePanel extends JPanel {
         leftContainer.setBackground(UiBuilder.TRANSPARENT);
         gameFieldsContainer.add(leftContainer);
 
-        JPanel playerLabelContainer = new JPanel();
+        playerLabelContainer = new JPanel();
         playerLabelContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
         playerLabelContainer.setBackground(UiBuilder.TRANSPARENT);
         gbc = new GridBagConstraints();
@@ -73,12 +93,13 @@ public class GamePanel extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         leftContainer.add(playerLabelContainer, gbc);
 
-        JLabel playerLabel = new JLabel();
+        playerLabel = new JLabel();
         playerLabel.setText("YOU");
+        playerLabel.setBackground(UiBuilder.TRANSPARENT);
         playerLabel.setForeground(Color.WHITE);
         playerLabel.setFont(Assets.Fonts.DEFAULT_24);
         Border border = playerLabel.getBorder();
-        Border margin = new EmptyBorder(0,10,10,10);
+        Border margin = new EmptyBorder(0,10,0,10);
         playerLabel.setBorder(new CompoundBorder(border, margin));
         playerLabelContainer.add(playerLabel);
 
@@ -95,23 +116,24 @@ public class GamePanel extends JPanel {
         rightContainer.setBackground(UiBuilder.TRANSPARENT);
         gameFieldsContainer.add(rightContainer);
 
-        JPanel enemyLabelContainer = new JPanel();
+        enemyLabelContainer = new JPanel();
         enemyLabelContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-        enemyLabelContainer.setBackground(UiBuilder.TRANSPARENT);
+        enemyLabelContainer.setBackground(Color.BLACK);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
         rightContainer.add(enemyLabelContainer, gbc);
 
-        JLabel enemyLabel = new JLabel();
-        enemyLabel.setText("OPPONENT");
-        border = enemyLabel.getBorder();
-        margin = new EmptyBorder(0,10,10,10);
-        enemyLabel.setBorder(new CompoundBorder(border, margin));
-        enemyLabel.setForeground(Color.WHITE);
-        enemyLabel.setFont(Assets.Fonts.DEFAULT_24);
-        enemyLabelContainer.add(enemyLabel);
+        opponentLabel = new JLabel();
+        opponentLabel.setText("OPPONENT");
+        border = opponentLabel.getBorder();
+        margin = new EmptyBorder(0,10,0,10);
+        opponentLabel.setBorder(new CompoundBorder(border, margin));
+        opponentLabel.setForeground(Color.WHITE);
+        opponentLabel.setFont(Assets.Fonts.DEFAULT_24);
+        opponentLabel.setBackground(Color.BLACK);
+        enemyLabelContainer.add(opponentLabel);
 
         enemyMapRenderer.setLayout(new GridBagLayout());
         enemyMapRenderer.setPreferredSize(mapsRendererSize);

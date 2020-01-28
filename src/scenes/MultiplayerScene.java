@@ -12,6 +12,7 @@ import network.NetworkListener;
 import network.NetworkType;
 import ui.GamePanel;
 import ui.GuiScene;
+import ui.UiBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -108,16 +109,34 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     public void setOtherTurn() {
 
         if(this.networkType == NetworkType.Host) {
-            if(this.playerTurn == NetworkType.Host)
+            if(this.playerTurn == NetworkType.Host) {
                 this.playerTurn = NetworkType.Client;
-            else
+            }
+            else  {
                 this.playerTurn = NetworkType.Host;
+            }
         } else {
-            if(this.playerTurn == NetworkType.Client)
+            if(this.playerTurn == NetworkType.Client){
                 this.playerTurn = NetworkType.Host;
-            else
+            }
+            else  {
                 this.playerTurn = NetworkType.Client;
+            }
         }
+
+        final Color turnGreen = new Color(46, 204, 113);
+        final Color noTurnGreen = new Color(35, 156, 86);
+
+        if(isMyTurn()) {
+            this.uiPanel.getPlayerLabelContainer().setBackground(turnGreen);
+            this.uiPanel.getEnemyLabelContainer().setBackground(noTurnGreen);
+        } else {
+            this.uiPanel.getPlayerLabelContainer().setBackground(noTurnGreen);
+            this.uiPanel.getEnemyLabelContainer().setBackground(turnGreen); // green
+        }
+
+        this.uiPanel.invalidate();
+        this.uiPanel.revalidate();
     }
 
     private boolean isMyTurn() {
