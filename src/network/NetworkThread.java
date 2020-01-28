@@ -273,7 +273,7 @@ public class NetworkThread extends Thread {
                 }
             }
         } catch (Exception ex)  {
-            ex.printStackTrace();
+
         }
     }
 
