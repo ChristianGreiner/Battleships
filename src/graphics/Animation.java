@@ -129,7 +129,6 @@ public class Animation {
      */
     public void update() {
         if (!stopped) {
-
             frameCount++;
 
             if (frameCount > frameDelay) {
@@ -141,6 +140,7 @@ public class Animation {
                     stopped = true;
                 } else if (currentFrame < 0) {
                     currentFrame = totalFrames - 1;
+                    stopped = true;
                 }
             }
         }
