@@ -159,6 +159,7 @@ public class NetworkThread extends Thread {
                     while (true) {
                         String message = in.readLine();
                         if (message == null) continue;
+                        message = message.toUpperCase();
                         if(message.contains("CONFIRMED")) {
                             Game.getInstance().getLogger().info(this.networkType.toString() +  ": Gets message: CONFIRMED");
                             System.out.println("[Server] Client CONFIRMED");
@@ -184,6 +185,7 @@ public class NetworkThread extends Thread {
                         while (true) {
                             String message = in.readLine();
                             if (message == null) continue;
+                            message = message.toUpperCase();
                             Game.getInstance().getLogger().info(this.networkType.toString() +  ": Get message: " + message);
                             handlingMessage(message);
                             break;
@@ -192,6 +194,7 @@ public class NetworkThread extends Thread {
                         while (true) {
                             String message = this.messageQueue.take();
                             if (message == null) continue;
+                            message = message.toUpperCase();
                             Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: " + message);
                             out.write(String.format("%s%n", message));
                             out.flush();
@@ -208,6 +211,7 @@ public class NetworkThread extends Thread {
                     while(true) {
                         String message = in.readLine();
                         if (message == null) continue;
+                        message = message.toUpperCase();
                         if(message.contains("SIZE")) {
                             Game.getInstance().getLogger().info(this.networkType.toString() +  ": Gets message: " + message);
                             int mapSize = parseSizeMessage(message);
@@ -240,6 +244,7 @@ public class NetworkThread extends Thread {
                     while (true) {
                         String message = in.readLine();
                         if (message == null) continue;
+                        message = message.toUpperCase();
                         if(message.contains("CONFIRMED")) {
                             Game.getInstance().getLogger().info(this.networkType.toString() +  ": Gets message: " + message);
                             System.out.println("Server confirmed");
@@ -256,6 +261,7 @@ public class NetworkThread extends Thread {
                         while (true) {
                             String message = this.messageQueue.take();
                             if (message == null) continue;
+                            message = message.toUpperCase();
                             Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: " + message);
                             out.write(String.format("%s%n", message));
                             out.flush();
@@ -265,6 +271,7 @@ public class NetworkThread extends Thread {
                         while (true) {
                             String message = in.readLine();
                             if (message == null) continue;
+                            message = message.toUpperCase();
                             Game.getInstance().getLogger().info(this.networkType.toString() +  ": Get message: " + message);
                             handlingMessage(message);
                             break;
@@ -278,6 +285,7 @@ public class NetworkThread extends Thread {
     }
 
     private void handlingMessage(String message) {
+        message = message.toUpperCase();
         if(!message.isEmpty()) {
             if(message.contains("SHOT")) {
                 Point location = parseShotMessage(message);
