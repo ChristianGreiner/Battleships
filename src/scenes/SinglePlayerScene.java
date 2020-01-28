@@ -121,6 +121,12 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
                     this.waitTimer = 0;
                 }
                 this.waitTimer += deltaTime;
+
+                this.uiPanel.getPlayerLabelContainer().setBackground(noTurnGreen);
+                this.uiPanel.getEnemyLabelContainer().setBackground(turnGreen);
+            } else {
+                this.uiPanel.getPlayerLabelContainer().setBackground(turnGreen);
+                this.uiPanel.getEnemyLabelContainer().setBackground(noTurnGreen);
             }
         }
     }
@@ -222,6 +228,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
     }
+
+    final Color turnGreen = new Color(46, 204, 113);
+    final Color noTurnGreen = new Color(35, 156, 86);
 
     @Override
     public void OnShotFired(Map map, Point pos) {

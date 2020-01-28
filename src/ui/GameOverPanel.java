@@ -78,31 +78,37 @@ public class GameOverPanel extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         mainContainer.add(titleContainer, gbc);
 
-        JLabel gameOverLabel = new JLabel();
-        gameOverLabel.setHorizontalAlignment(0);
-        gameOverLabel.setHorizontalTextPosition(0);
-        gameOverLabel.setText("GAME OVER");
-        gameOverLabel.setForeground(Color.WHITE);
-        gameOverLabel.setFont(Assets.Fonts.TITLE);
+        gameStatusLabel = new JLabel();
+        gameStatusLabel.setHorizontalAlignment(0);
+        gameStatusLabel.setHorizontalTextPosition(0);
+        gameStatusLabel.setText("GAME OVER");
+        gameStatusLabel.setForeground(Color.WHITE);
+        gameStatusLabel.setFont(Assets.Fonts.TITLE);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
-        titleContainer.add(gameOverLabel, gbc);
+        titleContainer.add(gameStatusLabel, gbc);
 
-        this.gameStatusLabel = new JLabel();
-        this.gameStatusLabel.setHorizontalAlignment(0);
-        this.gameStatusLabel.setHorizontalTextPosition(0);
-        //gameStatusLabel.setText(message);
-        this.gameStatusLabel.setForeground(Color.WHITE);
-        this.gameStatusLabel.setFont(Assets.Fonts.TITLE_36);
+        JLabel gameOverLabel = new JLabel();
+        gameOverLabel.setText("GAME OVER");
+        gameOverLabel.setHorizontalAlignment(0);
+        gameOverLabel.setHorizontalTextPosition(0);
+        gameOverLabel.setForeground(Color.WHITE);
+        gameOverLabel.setFont(Assets.Fonts.TITLE_36);
 
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 10, 30, 10);
-        titleContainer.add(gameStatusLabel, gbc);
+        titleContainer.add(gameOverLabel, gbc);
 
         return mainContainer;
+    }
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        graphics.drawImage(Assets.Images.BACKGROUND, 0, 0, getWidth(), getHeight(), this);
     }
 }

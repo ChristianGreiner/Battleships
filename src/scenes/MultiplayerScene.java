@@ -34,6 +34,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     private NetworkType winner = NetworkType.Client;
     private int enemyShipsDestroyed = 0;
     private MapData mapData;
+    private GameState gameState = null;
 
     public MultiplayerScene() {
         super("MultiplayerScene");
@@ -48,6 +49,13 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
+    public void reset() {
+        this.winner = null;
+        this.playerMapRenderer.setDisabled(false);
+        this.enemyMapRenderer.setDisabled(false);
+        this.setUpdatePaused(false);
+    }
+
     @Override
     public void onAdded() {
         super.onAdded();
@@ -58,11 +66,6 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         this.uiPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
 
         uiPanel = uiPanel.create(new Dimension(512, 512));
-
-        this.uiPanel.getBtnLoad().addActionListener((e) -> {
-            //Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            //Game.getInstance().getNetworkManager().sendLoad(savegame.getId());
-        });
 
         this.uiPanel.getBtnLoad().setEnabled(false);
 
@@ -78,6 +81,9 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
+
+        changeTurnColors();
+
         return uiPanel;
     }
 
@@ -87,15 +93,19 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
         if(gameStarted && this.mapData != null) {
             if (this.playerMap.allShipsDestroyed() || this.enemyShipsDestroyed == this.mapData.ShipsCount) {
-                this.winner = this.playerTurn;
-                JOptionPane.showMessageDialog(Game.getInstance().getWindow(),this.winner.toString() + " WON","Game Finished", JOptionPane.INFORMATION_MESSAGE);
-                this.setUpdatePaused(true);
+                this.gameState = GameState.Finished;
             }
         }
     }
 
     @Override
     public void lateUpdate(double deltaTime) {
+        if(this.gameState == GameState.Finished) {
+            this.winner = this.playerTurn;
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(),this.winner.toString() + " WON","Game Finished", JOptionPane.INFORMATION_MESSAGE);
+            this.setUpdatePaused(true);
+            reset();
+        }
     }
 
     @Override
@@ -124,6 +134,13 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
             }
         }
 
+        changeTurnColors();
+
+        this.uiPanel.invalidate();
+        this.uiPanel.revalidate();
+    }
+
+    private void changeTurnColors() {
         final Color turnGreen = new Color(46, 204, 113);
         final Color noTurnGreen = new Color(35, 156, 86);
 
@@ -134,9 +151,6 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
             this.uiPanel.getPlayerLabelContainer().setBackground(noTurnGreen);
             this.uiPanel.getEnemyLabelContainer().setBackground(turnGreen); // green
         }
-
-        this.uiPanel.invalidate();
-        this.uiPanel.revalidate();
     }
 
     private boolean isMyTurn() {
@@ -207,6 +221,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     public void OnGameStarted() {
         this.gameStarted = true;
         this.networkType = Game.getInstance().getNetworkManager().getNetworkType();
+        this.gameState = GameState.Running;
     }
 
     @Override
