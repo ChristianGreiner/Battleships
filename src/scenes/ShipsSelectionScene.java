@@ -57,6 +57,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         this.playerMap = new Map(this.mapSize);
         this.buildRenderer.init(this.playerMap);
         this.buildRenderer.setMap(this.playerMap);
+        this.buildRenderer.addKeyListener(this);
         this.playerMap.addListener(this);
 
         Game.getInstance().getWindow().repaint();
@@ -79,6 +80,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             this.playerMap = this.mapGenerator.generate(this.mapSize);
             this.buildRenderer.setMap(this.playerMap);
             this.OnMapUpdated();
+            this.buildRenderer.requestFocus();
         });
 
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
@@ -119,6 +121,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
         if (e.getKeyCode() == KeyEvent.VK_R) {
+            System.out.println("R Pressed");
             this.buildRenderer.rotate();
         }
     }
