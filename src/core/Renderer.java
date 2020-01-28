@@ -42,7 +42,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
         this.doubleBufferGraphics = this.doubleBufferImage.createGraphics();
 
         // clear image
-        this.doubleBufferGraphics.setColor(Color.black);
+        this.doubleBufferGraphics.setColor(Color.WHITE);
         this.doubleBufferGraphics.clearRect(clearRect.x, clearRect.y, clearRect.width, clearRect.height);
 
         isDirty = false;

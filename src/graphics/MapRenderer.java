@@ -1,5 +1,6 @@
 package graphics;
 
+import com.sun.xml.internal.bind.WhiteSpaceProcessor;
 import core.Game;
 import core.Helper;
 import core.Renderer;
@@ -57,6 +58,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.addMouseListener(this);
         this.addMouseWheelListener(this);
         this.addKeyListener(this);
+        setBackground(new Color(147, 200, 218));
     }
 
     public boolean isEditorMode() {
@@ -129,6 +131,9 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             setGridSize(new Point(this.getWidth(), this.getHeight()));
 
         setTileSize();
+        g.setColor(new Color(147, 200, 218));
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.WHITE);
 
         if(this.backgroundBackground == null) {
             this.backgroundBackground = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
