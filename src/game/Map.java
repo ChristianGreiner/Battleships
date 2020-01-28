@@ -1,5 +1,6 @@
 package game;
 
+import core.Game;
 import core.Helper;
 import game.ships.*;
 
@@ -735,6 +736,8 @@ public class Map implements MapInterface, Serializable {
                 return new HitData(null, null, HitType.NotPossible);
             }
 
+
+            Game.getInstance().getLogger().info("MAP: set hit at: " + pos);
             this.tiles[pos.x][pos.y].setHit(true);
 
             // Water
@@ -840,10 +843,6 @@ public class Map implements MapInterface, Serializable {
         return hasFreeNeighborTiles(position, ship.getSpace(), rotated);
     }
 
-
-
-
-
     /**
      * Tests if a ship can move to a specific position
      * @param ship The ship
@@ -876,11 +875,8 @@ public class Map implements MapInterface, Serializable {
 
         ship.getTiles().clear();
         ship.getNeighborTiles().clear();
-        //ship.setPosition(null);
 
         this.numberOfShips--;
-        //ok?
-        this.ships.remove(ship);
 
         computeRemoveShip(ship);
 
@@ -891,19 +887,13 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
-
-    /***
-     * Rotates a ship in the map, if its possible.
-     * @param ship The ship.
-     * @return Returns true if it could be rotated.
-     */
-    public boolean rotate(Ship ship) {
+    public boolean moveAndRotate(Ship ship, Point pos){
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
         this.remove(ship);
 
-        if (canInsertShip(ship, ship.getPosition(), nextRotation)) {
-            this.insert(ship, ship.getPosition(), nextRotation);
+        if (canInsertShip(ship, pos, nextRotation)) {
+            this.insert(ship, pos, nextRotation );
         } else {
             // fallback
             this.insert(ship, ship.getPosition(), oldRotation);
@@ -917,13 +907,18 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
-    public boolean moveAndRotate(Ship ship, Point pos){
+    /***
+     * Rotates a ship in the map, if its possible.
+     * @param ship The ship.
+     * @return Returns true if it could be rotated.
+     */
+    public boolean rotate(Ship ship) {
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
         this.remove(ship);
 
-        if (canInsertShip(ship, pos, nextRotation)) {
-            this.insert(ship, pos, nextRotation );
+        if (canInsertShip(ship, ship.getPosition(), nextRotation)) {
+            this.insert(ship, ship.getPosition(), nextRotation);
         } else {
             // fallback
             this.insert(ship, ship.getPosition(), oldRotation);

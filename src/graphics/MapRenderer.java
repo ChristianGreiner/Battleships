@@ -270,8 +270,9 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 shipImage = Assets.Images.SHIP_SUBMARINE;
             }
 
-            if(ship.isDestroyed() || this.shipsVisable)
+            if(this.shipsVisable || ship.isDestroyed())
                 drawImageShip(g, ship.getSpace(), shipImage, shipPos, this.tileSize, ship.isRotated());
+
         }
         for (int y = 0; y < this.map.getSize(); y++) {
             for (int x = 0; x < this.map.getSize(); x++) {

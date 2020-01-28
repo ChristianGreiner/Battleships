@@ -29,8 +29,9 @@ public class NetworkThread extends Thread {
     }
 
     public synchronized void addMessage(String message) {
-        if(this.messageQueue.isEmpty())
+        if(this.messageQueue.isEmpty()) {
             this.messageQueue.add(message);
+        }
     }
 
     public NetworkThread(NetworkManager networkManager, ServerSocket serverSocket, int mapSize) {
@@ -79,11 +80,11 @@ public class NetworkThread extends Thread {
                 if(!messageArray[1].isEmpty()) {
                     HitType hitType = HitType.Water;
                     String value = messageArray[1];
-                    if(value.equals("1")) {
+                    if(value.equals("0")) {
                         hitType = HitType.Water;
                     } else if(value.equals("1")) {
                         hitType = HitType.Ship;
-                    } else if(value.equals("1")) {
+                    } else if(value.equals("2")) {
                         hitType = HitType.ShipDestroyed;
                     }
 
@@ -146,12 +147,23 @@ public class NetworkThread extends Thread {
                         break;
                     }
 
-                    // wait for first incoming shot from the client
                     while (true) {
-                        String message = in.readLine();
-                        if (message == null) continue;
-                        handlingMessage(message);
-                        break;
+                        while (true) {
+                            String message = in.readLine();
+                            if (message == null) continue;
+                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Get message: " + message);
+                            handlingMessage(message);
+                            break;
+                        }
+
+                        while (true) {
+                            String message = this.messageQueue.take();
+                            if (message == null) continue;
+                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: " + message);
+                            out.write(String.format("%s%n", message));
+                            out.flush();
+                            break;
+                        }
                     }
 
                 // CLIENT STUFF
@@ -195,26 +207,26 @@ public class NetworkThread extends Thread {
                         }
                         break;
                     }
-                }
-
-                // do ping pong stuff
-                while (true) {
-                    while (true) {
-                        String message = this.messageQueue.take();
-                        if (message == null) continue;
-                        out.write(String.format("%s%n", message));
-                        out.flush();
-                        break;
-                    }
 
                     while (true) {
-                        String message = in.readLine();
-                        if (message == null) continue;
-                        handlingMessage(message);
-                        break;
+                        while (true) {
+                            String message = this.messageQueue.take();
+                            if (message == null) continue;
+                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: " + message);
+                            out.write(String.format("%s%n", message));
+                            out.flush();
+                            break;
+                        }
+
+                        while (true) {
+                            String message = in.readLine();
+                            if (message == null) continue;
+                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Get message: " + message);
+                            handlingMessage(message);
+                            break;
+                        }
                     }
                 }
-
             }
         } catch (Exception ex)  {
             ex.printStackTrace();
