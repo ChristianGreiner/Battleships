@@ -244,6 +244,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
                     hitType = HitType.Water;
 
                 Game.getInstance().getNetworkManager().sendAnswer(hitType);
+
+                Game.getInstance().getSoundManager().handleHitSoundFx(hitData.getHitType());
             }
         }
     }
@@ -261,6 +263,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
                 this.enemyShipsDestroyed++;
 
             this.lastShot = null;
+
+            Game.getInstance().getSoundManager().handleHitSoundFx(type);
         }
     }
 

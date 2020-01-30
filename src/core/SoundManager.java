@@ -1,5 +1,8 @@
 package core;
 
+import game.Assets;
+import game.HitType;
+
 import javax.sound.sampled.Clip;
 
 /**
@@ -60,4 +63,13 @@ public class SoundManager {
         soundPlayer.play(volume);
     }
 
+    public void handleHitSoundFx(HitType lastHitType) {
+        if (lastHitType == HitType.Water) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.WATER_HIT);
+        } else if (lastHitType == HitType.Ship) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHIP_HIT);
+        } else if (lastHitType == HitType.ShipDestroyed) {
+            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHIP_EXPLOSION);
+        }
+    }
 }

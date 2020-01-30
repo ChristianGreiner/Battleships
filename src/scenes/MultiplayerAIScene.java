@@ -249,6 +249,8 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
                     hitType = HitType.Water;
 
                 Game.getInstance().getNetworkManager().sendAnswer(hitType);
+
+                Game.getInstance().getSoundManager().handleHitSoundFx(hitType);
             }
         }
     }
@@ -269,6 +271,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
                 this.enemyShipsDestroyed++;
 
             this.lastShot = null;
+
+
+            Game.getInstance().getSoundManager().handleHitSoundFx(type);
         }
     }
 
