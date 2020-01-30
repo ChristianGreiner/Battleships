@@ -84,7 +84,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
             if(this.isNetworkGame()) {
-
                 // Multiplayer with AI
                 if(this.gameSessionData.isAiGame()) {
                     MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);

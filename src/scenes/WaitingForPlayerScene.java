@@ -63,8 +63,6 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
             }
             //Game.getInstance().getNetworkManager().stopServer();
         }
-
-        Game.getInstance().getNetworkManager().confirmSession();
     }
 
     @Override

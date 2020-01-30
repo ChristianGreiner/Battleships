@@ -10,7 +10,10 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     private static MultiplayerNetworkPanel instance;
     private final int paddingSize = 12;
-    private JButton joinBtn, hostBtn, backBtn;
+    private JButton joinBtn;
+    private JButton hostBtn;
+    private JButton backBtn;
+    private JButton joinAiBtn;
     private JTextField hostnameField;
 
     public JTextField getHostnameField() {
@@ -27,6 +30,10 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     public JButton getBackBtn() {
         return backBtn;
+    }
+
+    public JButton getJoinAiBtn() {
+        return joinAiBtn;
     }
 
     public MultiplayerNetworkPanel() {
@@ -63,17 +70,6 @@ public class MultiplayerNetworkPanel extends JPanel {
         hostnameField = new JTextField("localhost");
         hostnameField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         hostnameField.setFont(Assets.Fonts.DEFAULT);
-        /*hostnameField.getDocument().addDocumentListener((TextFieldDocumentListener) e -> {
-            if(e.getDocument().getLength() <= 0) {
-                this.joinBtn.setEnabled(false);
-            } else {
-                if(Helper.validateIp(hostnameField.getText())) {
-                    this.joinBtn.setEnabled(true);
-                } else {
-                    this.joinBtn.setEnabled(false);
-                }
-            }
-        });*/
 
         gbc.gridx = 1;
         gbc.gridy = 3;
@@ -84,11 +80,15 @@ public class MultiplayerNetworkPanel extends JPanel {
 
         addSpace(panel, 5, null);
 
-        this.hostBtn = addButton("HOST GAME", panel, 6);
+        this.joinAiBtn = addButton("JOIN GAME AS AI", panel, 6);
 
         addSpace(panel, 7, null);
 
-        this.backBtn = addButton("BACK", panel, 8);
+        this.hostBtn = addButton("HOST GAME", panel, 8);
+
+        addSpace(panel, 9, null);
+
+        this.backBtn = addButton("BACK", panel, 10);
 
         // set joinBtn disabled by default
         this.joinBtn.setEnabled(true);

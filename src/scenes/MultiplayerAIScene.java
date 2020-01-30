@@ -88,6 +88,8 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         return uiPanel;
     }
 
+    private float waitTimer = 0;
+
     @Override
     public void update(double deltaTime) {
         this.enemyMapRenderer.setDisabled(!gameStarted);
@@ -96,6 +98,13 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
             if (this.playerMap.allShipsDestroyed() || this.enemyShipsDestroyed == this.mapData.ShipsCount) {
                 this.gameState = GameState.Finished;
             }
+
+            if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+                sendAiShot();
+                this.waitTimer = 0;
+            }
+
+            this.waitTimer += deltaTime;
         }
     }
 
@@ -232,10 +241,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
             if(this.playerMap.isInMap(pos)) {
                 HitData hitData = this.playerMap.shot(pos);
                 HitType hitType = hitData.getHitType();
-                if(hitType == HitType.Water || hitType == HitType.NotPossible) {
+                if(hitType == HitType.Water || hitType == HitType.NotPossible)
                     setOtherTurn();
-                }
 
+                // fallback
                 if(hitType == HitType.NotPossible)
                     hitType = HitType.Water;
 
@@ -246,24 +255,20 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
 
     @Override
     public void OnReceiveAnswer(HitType type) {
+        Game.getInstance().getLogger().info(this.networkType.toString() +  ": Ai getting answer: " + type);
+
         if(this.lastShot != null) {
-
-            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Ai getting answer: " + type);
             this.playerAi.receiveAnswer(type);
-
             this.enemyMap.markTile(this.lastShot, type);
-            this.lastShot = null;
-
             if(type == HitType.Water) {
-                setOtherTurn();
                 Game.getInstance().getNetworkManager().sendPass();
-            } else {
-                sendAiShot();
+                setOtherTurn();
             }
 
             if(type == HitType.ShipDestroyed)
                 this.enemyShipsDestroyed++;
 
+            this.lastShot = null;
         }
     }
 
@@ -292,12 +297,15 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     }
 
     public void sendAiShot() {
-        if(this.lastShot == null && isMyTurn()) {
+        if(isMyTurn() && gameStarted) {
             Point pos = this.playerAi.shot();
-            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Ai shots at: " + pos);
-            Game.getInstance().getNetworkManager().sendShot(pos);
-            if(this.lastShot == null)
-                this.lastShot = pos;
+            if(this.enemyMap.isInMap(pos)) {
+                if(this.enemyMap.getTile(pos).isFree()) {
+                    Game.getInstance().getNetworkManager().sendShot(pos);
+                    if(this.lastShot == null)
+                        this.lastShot = pos;
+                }
+            }
         }
     }
 

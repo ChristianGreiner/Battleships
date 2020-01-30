@@ -277,7 +277,6 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void OnReceivePass() {
-        System.out.println("GETTING PASSs");
     }
 
     @Override
@@ -286,7 +285,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void OnShotFired(Map map, Point pos) {
-        if(map.isInMap(pos) && isMyTurn()) {
+        if(map.isInMap(pos) && isMyTurn() && gameStarted) {
             if(map.getTile(pos).isFree()) {
                 Game.getInstance().getNetworkManager().sendShot(pos);
                 if(this.lastShot == null)

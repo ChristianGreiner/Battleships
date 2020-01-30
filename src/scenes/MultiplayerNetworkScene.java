@@ -1,5 +1,6 @@
 package scenes;
 
+import ai.AiDifficulty;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
@@ -22,10 +23,13 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
         super("MultiplayerNetworkScene");
     }
 
+    private boolean aiGame = false;
+
     @Override
     public void onAdded() {
         super.onAdded();
         Game.getInstance().getNetworkManager().addNetworkListener(this);
+        aiGame = false;
     }
 
     @Override
@@ -43,14 +47,22 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
         multiplayerPanel.getJoinBtn().addActionListener((e) -> {
             Game.getInstance().getNetworkManager().joinServer(multiplayerPanel.getHostnameField().getText());
+            aiGame = false;
+        });
+
+        multiplayerPanel.getJoinAiBtn().addActionListener((e) -> {
+            Game.getInstance().getNetworkManager().joinServer(multiplayerPanel.getHostnameField().getText());
+            aiGame = true;
         });
 
         multiplayerPanel.getHostBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MultiplayerHostSettingsScene.class);
+            aiGame = false;
         });
 
         multiplayerPanel.getBackBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+            aiGame = false;
         });
 
         return multiplayerPanel;
@@ -84,7 +96,7 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     public void OnGameJoined(int mapSize) {
         ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
         scene.setNetworkGame(true);
-        scene.initializeGameSession(new GameSessionData(new Map(mapSize), mapSize, null));
+        scene.initializeGameSession(new GameSessionData(new Map(mapSize), mapSize, AiDifficulty.Medium, aiGame));
     }
 
     @Override

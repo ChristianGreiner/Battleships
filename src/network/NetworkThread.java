@@ -19,11 +19,15 @@ public class NetworkThread extends Thread {
     private NetworkManager networkManager;
     private int mapSize = -1;
     private String saveGameId = null;
-    private volatile boolean confirmed = false;
+    private volatile boolean clientConfirmed = false;
+    private volatile boolean serverConfirmed = false;
     private BlockingQueue<String> messageQueue = new ArrayBlockingQueue<String>(1);
 
-    public synchronized void setConfirmed() {
-        this.confirmed = true;
+    public synchronized void setClientConfirmed() {
+        this.clientConfirmed = true;
+    }
+    public synchronized void setServerConfirmed() {
+        this.serverConfirmed = true;
     }
 
     public synchronized void addMessage(String message) {
@@ -167,9 +171,11 @@ public class NetworkThread extends Thread {
                         break;
                     }
 
+
+                    System.out.println("[SERVER] Is confirmed? " + serverConfirmed);
                     // sends confirmed when server is ready
                     while (true) {
-                        if(!this.confirmed) continue;
+                        if(!this.serverConfirmed) continue;
                         System.out.println("[SERVER] Sending confirmed");
                         Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: CONFIRMED");
                         out.write(String.format("%s%n", "CONFIRMED"));
@@ -232,7 +238,7 @@ public class NetworkThread extends Thread {
 
                     // waiting for sending the confirmed message
                     while (true) {
-                        if(!this.confirmed) continue;
+                        if(!this.clientConfirmed) continue;
                         System.out.println("[CLIENT] Sending confirmed");
                         Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: CONFIRMED");
                         out.write(String.format("%s%n", "CONFIRMED"));
@@ -248,9 +254,7 @@ public class NetworkThread extends Thread {
                         if(message.contains("CONFIRMED")) {
                             Game.getInstance().getLogger().info(this.networkType.toString() +  ": Gets message: " + message);
                             System.out.println("Server confirmed");
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Listeners:" + this.networkManager.getListeners().size());
                             for (NetworkListener listener : this.networkManager.getListeners()) {
-                                Game.getInstance().getLogger().info(this.networkType.toString() +  ": Listener:" + listener);
                                 listener.OnGameStarted();
                             }
                         }

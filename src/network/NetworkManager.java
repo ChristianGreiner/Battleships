@@ -85,7 +85,10 @@ public class NetworkManager {
     }
 
     public synchronized void confirmSession() {
-        this.networkThread.setConfirmed();
+        if(this.networkType == NetworkType.Host)
+            this.networkThread.setServerConfirmed();
+        else
+            this.networkThread.setClientConfirmed();
     }
 
     public synchronized void sendShot(Point location) {
