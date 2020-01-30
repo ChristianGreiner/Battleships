@@ -125,7 +125,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
         if (e.getKeyCode() == KeyEvent.VK_R) {
-            System.out.println("R Pressed");
             this.buildRenderer.rotate();
         }
     }

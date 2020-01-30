@@ -22,6 +22,7 @@ public class MapBuilderRenderer extends MapRenderer {
     private boolean carrierSelected;
     private boolean destroyerSelected;
     private boolean submarineSelected;
+    private boolean selected;
     private Point carrierPos;
     private Point battleshipPos;
     private Point destroyerPos;
@@ -67,38 +68,38 @@ public class MapBuilderRenderer extends MapRenderer {
         shipsLeftCnt[3] = this.mapData.Carriers - this.shipsCounter.get(Carrier.class);
 
         Graphics2D g = super.beginRendering();
-
-        Helper.drawCenteredString(g, "Carrier " + shipsLeftCnt[3] + "x", new Rectangle(this.carrierPos.x, this.carrierPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
-        Helper.drawCenteredString(g, "Battleship " + shipsLeftCnt[2] + "x", new Rectangle(this.battleshipPos.x, this.battleshipPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
-        Helper.drawCenteredString(g, "Destroyer " + shipsLeftCnt[1] + "x", new Rectangle(this.destroyerPos.x, this.destroyerPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
-        Helper.drawCenteredString(g, "Submarine " + shipsLeftCnt[0] + "x", new Rectangle(this.submarinePos.x, this.submarinePos.y, 4*  this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
+        //scaledFont
+        Helper.drawLeftAlignedString(g, "Carrier " + shipsLeftCnt[3] + "x", new Rectangle(this.carrierPos.x, this.carrierPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
+        Helper.drawLeftAlignedString(g, "Battleship " + shipsLeftCnt[2] + "x", new Rectangle(this.battleshipPos.x, this.battleshipPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
+        Helper.drawLeftAlignedString(g, "Destroyer " + shipsLeftCnt[1] + "x", new Rectangle(this.destroyerPos.x, this.destroyerPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
+        Helper.drawLeftAlignedString(g, "Submarine " + shipsLeftCnt[0] + "x", new Rectangle(this.submarinePos.x, this.submarinePos.y, 4*  this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
 
         g.setColor(Color.BLACK);
 
         if(shipsLeftCnt[3] > 0) {
             //draw carrier
-            drawImageShip(g, this.ShipSizes.get("Carrier"), Assets.Images.SHIP_CARRIER, new Rectangle(this.carrierPos.x, this.carrierPos.y + 30, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Carrier"), Assets.Images.SHIP_CARRIER, new Rectangle(this.carrierPos.x, this.carrierPos.y + 40, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
             //draw carrier outline
             //g.drawRect(this.carrierPos.x, this.carrierPos.y + 30, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y);
         }
 
         if(shipsLeftCnt[2] > 0) {
             //draw battleship
-            drawImageShip(g, this.ShipSizes.get("Battleship"), Assets.Images.SHIP_BATTLESHIP, new Rectangle(this.battleshipPos.x, this.battleshipPos.y + 30, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Battleship"), Assets.Images.SHIP_BATTLESHIP, new Rectangle(this.battleshipPos.x, this.battleshipPos.y + 40, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
             //draw battleship outline
             //g.drawRect(this.battleshipPos.x, this.battleshipPos.y + 30, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y);
         }
 
         if(shipsLeftCnt[1] > 0) {
             //draw destroyer
-            drawImageShip(g, this.ShipSizes.get("Destroyer"), Assets.Images.SHIP_DESTROYER, new Rectangle(this.destroyerPos.x, this.destroyerPos.y + 30, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Destroyer"), Assets.Images.SHIP_DESTROYER, new Rectangle(this.destroyerPos.x, this.destroyerPos.y + 40, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
             //draw destroyer outline
             //g.drawRect(this.destroyerPos.x, this.destroyerPos.y + 30, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y);
         }
 
         if(shipsLeftCnt[0] > 0) {
             //draw submarine
-            drawImageShip(g, this.ShipSizes.get("Submarine"), Assets.Images.SHIP_SUBMARINE, new Rectangle(this.submarinePos.x, this.submarinePos.y + 30, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Submarine"), Assets.Images.SHIP_SUBMARINE, new Rectangle(this.submarinePos.x, this.submarinePos.y + 40, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
             //draw battleship outline
             //g.drawRect(this.submarinePos.x, this.submarinePos.y + 30, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y);
         }
@@ -142,7 +143,7 @@ public class MapBuilderRenderer extends MapRenderer {
             return;
 
 
-        g.drawRect(shipPos.x, shipPos.y + 30, shipSize * this.tileSize.x, this.tileSize.y);
+        //g.drawRect(shipPos.x, shipPos.y + 30, shipSize * this.tileSize.x, this.tileSize.y);
 
         this.tempPoint = new Point((this.getMousePosition().x / super.tileSize.x) - 1, (this.getMousePosition().y / super.tileSize.y) - 1);
 
@@ -151,6 +152,7 @@ public class MapBuilderRenderer extends MapRenderer {
         } catch (Exception e) {}
 
         if (!this.pressed) {
+            this.selected = false;
             this.carrierSelected = false;
             this.battleshipSelected = false;
             this.destroyerSelected = false;
@@ -199,6 +201,8 @@ public class MapBuilderRenderer extends MapRenderer {
             g.setColor(new Color(124, 252, 0, 200));
         }
 
+        g.setStroke(new BasicStroke(3));
+
         if(this.rotated) {
             g.fillRect(this.getMousePosition().x, this.getMousePosition().y, drawnShipSize, drawingTileSize.y);
             if (drawDropPos && floatingShipMarker != null) {
@@ -211,6 +215,7 @@ public class MapBuilderRenderer extends MapRenderer {
             if(drawDropPos && floatingShipMarker != null) {
                 // g.setColor(Color.GREEN);
                 g.drawRect(floatingShipMarker.x, floatingShipMarker.y, drawingTileSize.y, drawnShipSize);
+                g.setStroke(new BasicStroke());
             }
         }
     }
@@ -218,7 +223,9 @@ public class MapBuilderRenderer extends MapRenderer {
     @Override
     public void rotate(){
         super.rotate();
-        this.rotated = !this.rotated;
+        if(this.selected) {
+            this.rotated = !this.rotated;
+        }
     }
 
     @Override
@@ -232,28 +239,35 @@ public class MapBuilderRenderer extends MapRenderer {
 
         this.pressed = true;
         //select carrier
-
         try {
             if(this.getMousePosition().x >= this.carrierPos.x && this.getMousePosition().x <= this.carrierPos.x + this.ShipSizes.get("Carrier") * this.tileSize.x
                     && this.getMousePosition().y >= this.carrierPos.y + 30 && this.getMousePosition().y <= this.carrierPos.y + 30 + this.tileSize.y
-                    && this.shipsLeftCnt[3] > 0)
+                    && this.shipsLeftCnt[3] > 0) {
                 this.carrierSelected = true;
+                this.selected = true;
+            }
 
                 //select battleship
             else if(this.getMousePosition().x >= this.battleshipPos.x && this.getMousePosition().x <= this.battleshipPos.x + this.ShipSizes.get("Battleship") * this.tileSize.x
                     && this.getMousePosition().y >= this.battleshipPos.y + 30 && this.getMousePosition().y <= this.battleshipPos.y + 30 + this.tileSize.y
-                    && this.shipsLeftCnt[2] > 0)
+                    && this.shipsLeftCnt[2] > 0) {
                 this.battleshipSelected = true;
+                this.selected = true;
+            }
 
             else if(this.getMousePosition().x >= this.destroyerPos.x && this.getMousePosition().x <= this.destroyerPos.x + this.ShipSizes.get("Destroyer") * this.tileSize.x
                     && this.getMousePosition().y >= this.destroyerPos.y + 30 && this.getMousePosition().y <= this.destroyerPos.y + 30 + this.tileSize.y
-                    && this.shipsLeftCnt[1] > 0)
+                    && this.shipsLeftCnt[1] > 0) {
                 this.destroyerSelected = true;
+                this.selected = true;
+            }
 
             else if(this.getMousePosition().x >= this.submarinePos.x && this.getMousePosition().x <= this.submarinePos.x + this.ShipSizes.get("Submarine") * this.tileSize.x
                     && this.getMousePosition().y >= this.submarinePos.y + 30 && this.getMousePosition().y <= this.submarinePos.y + 30 + this.tileSize.y
-                    && this.shipsLeftCnt[0] > 0)
+                    && this.shipsLeftCnt[0] > 0) {
                 this.submarineSelected = true;
+                this.selected = true;
+            }
 
         } catch (Exception ex) {}
     }
@@ -261,15 +275,7 @@ public class MapBuilderRenderer extends MapRenderer {
     @Override
     public void mouseWheelMoved(MouseWheelEvent e){
         super.mouseWheelMoved(e);
-
-        if (this.carrierSelected)
-            this.rotated = !this.rotated;
-        else if (this.battleshipSelected)
-            this.rotated = !this.rotated;
-        else if (this.destroyerSelected)
-            this.rotated = !this.rotated;
-        else if (this.submarineSelected)
-            this.rotated = !this.rotated;
+        this.rotate();
     }
 
 }

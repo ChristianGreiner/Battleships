@@ -883,7 +883,7 @@ public class Map implements MapInterface, Serializable {
         computeRemoveShip(ship);
 
         // trigger listener
-        System.out.println("UPDATE");
+        //System.out.println("UPDATE");
         for (int i = 0; i < this.listeners.size(); i++) {
             this.listeners.get(i).OnMapUpdated();
         }

@@ -80,6 +80,7 @@ public class Helper {
      * @param g    The Graphics instance.
      * @param text The String to draw.
      * @param rect The Rectangle to center the text in.
+     * @param font  The Font to use when drawing the text
      */
     public static void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
         FontRenderContext frc = new FontRenderContext(null, true, true);
@@ -95,6 +96,27 @@ public class Helper {
 
         g.setFont(font);
         g.drawString(text, rect.x + a, rect.y + b);
+    }
+
+    /**
+     * Draw a String that's aligned with the left side of a Rectangle
+     *
+     * @param g     The Graphics instance.
+     * @param text  The String to draw.
+     * @param rect  The bounding box for the text
+     * @param font  The Font to use when drawing the text
+     */
+    public static void drawLeftAlignedString(Graphics g, String text, Rectangle rect, Font font) {
+        FontRenderContext frc = new FontRenderContext(null, true, true);
+
+        Rectangle2D r2D = font.getStringBounds(text, frc);
+        int rHeight = (int) Math.round(r2D.getHeight());
+        int rY = (int) Math.round(r2D.getY());
+
+        int b = (rect.height / 2) - (rHeight / 2) - rY;
+
+        g.setFont(font);
+        g.drawString(text, rect.x, rect.y + b);
     }
 
     /**
