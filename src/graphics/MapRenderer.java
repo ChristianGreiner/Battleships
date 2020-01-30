@@ -115,7 +115,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     private void setTileSize()
     {
         if(this.gridSize != null && this.map != null)
-            this.tileSize = new Point(this.gridSize.x / (this.map.getSize() + 1), this.gridSize.y / (this.map.getSize() + 1));
+            this.tileSize = new Point((int)((double)this.gridSize.x /(double) (this.map.getSize() + 1 )), (int)((double)this.gridSize.y / (double)(this.map.getSize() + 1)));
     }
 
     public void resizeMapSize() {
@@ -232,6 +232,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             g.drawLine(i * tileSize.x, 0, i * tileSize.x, (map.getSize() + 1) * tileSize.y);
             //horizontal
             g.drawLine(0, i * tileSize.y, (map.getSize() + 1) * tileSize.x, i * tileSize.y);
+
         }
     }
 
@@ -422,7 +423,15 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             // draw sand left side
             drawImage(g, Assets.Images.SAND_LEFT,  new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y));
 
-            Helper.drawCenteredString(g, Character.toString((char) asciiCode), new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+            if(asciiCode < 91) {
+                Helper.drawCenteredString(g, Character.toString((char) asciiCode), new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+
+            }
+            else{
+                int temp = asciiCode - 26;
+                Helper.drawCenteredString(g, Character.toString((char) temp) + Character.toString((char) temp) , new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+            }
+
             asciiCode++;
 
         }
