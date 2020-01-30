@@ -14,6 +14,8 @@ import game.ships.Ship;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -418,24 +420,36 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     protected void drawLetters(Graphics2D g, Point tileSize) {
         // draw letters next to board
         int asciiCode = 65;
+        String text;
+
         for (int num = 1; num <= map.getSize(); num++) {
+
+            text = text = Character.toString((char) asciiCode);
 
             // draw sand left side
             drawImage(g, Assets.Images.SAND_LEFT,  new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y));
 
             if(asciiCode < 91) {
-                Helper.drawCenteredString(g, Character.toString((char) asciiCode), new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+
+                Font f = scaleFontToFit(text, tileSize.x, g);
+                Helper.drawCenteredString(g, text, new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), f);
 
             }
             else{
                 int temp = asciiCode - 26;
-                Helper.drawCenteredString(g, Character.toString((char) temp) + Character.toString((char) temp) , new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+
+                 text = Character.toString((char) temp) + Character.toString((char) temp);
+
+                Font f = scaleFontToFit(text, tileSize.x, g);
+                Helper.drawCenteredString(g, text , new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), f);
+
             }
 
             asciiCode++;
 
         }
     }
+
 
     protected void drawNumbers(Graphics2D g, Point tileSize) {
         g.setColor(Color.BLACK);
@@ -447,11 +461,23 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         // draw numbers above board
         for (Integer num = 1; num <= map.getSize(); num++) {
 
-            // draw sand top coner
+            // draw sand top corner
             drawImage(g, Assets.Images.SAND_TOP,  new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y));
 
-            Helper.drawCenteredString(g, num.toString(), new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+            Font f = scaleFontToFit(num.toString(), tileSize.x, g);
+            Helper.drawCenteredString(g, num.toString(), new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y), f);
         }
+    }
+
+    private Font scaleFontToFit(String text, int width, Graphics g)
+    {
+        Font pFont = Assets.Fonts.DEFAULT_BOLD;
+        float fontSize = pFont.getSize();
+        float fWidth = g.getFontMetrics(pFont).stringWidth(text);
+        if(fWidth <= width)
+            return pFont;
+        fontSize = ((float)width / fWidth) * fontSize;
+        return pFont.deriveFont(fontSize);
     }
 
     public void rotate(){
