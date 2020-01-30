@@ -54,9 +54,14 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
             scene.setNetworkGame(true);
             scene.initializeGameSession(this.sessionData);
         } else {
-            MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
-            scene.initializeSavegame(this.sessionData.getSavegame());
-            Game.getInstance().getNetworkManager().stopServer();
+            if(this.sessionData.isAiGame()) {
+                MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
+                scene.initializeSavegame(this.sessionData.getSavegame());
+            } else {
+                MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+                scene.initializeSavegame(this.sessionData.getSavegame());
+            }
+            //Game.getInstance().getNetworkManager().stopServer();
         }
 
         Game.getInstance().getNetworkManager().confirmSession();
@@ -85,6 +90,10 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void OnReceiveLoad(String id) {
+    }
+
+    @Override
+    public void OnReceivePass() {
     }
 
     @Override

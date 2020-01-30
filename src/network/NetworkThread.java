@@ -297,9 +297,7 @@ public class NetworkThread extends Thread {
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveAnswer(hitType);
                 }
-            } else if(message.contains("PASS")) {
-                // do nothing
-            } else if(message.contains("SAVE")) {
+            }else if(message.contains("SAVE")) {
                 String id = parseSaveLoadMessage(message);
                 Game.getInstance().getLogger().info(this.networkType.toString() +  ": Getting SAVE: " + id);
                 for (NetworkListener listener : this.networkManager.getListeners()) {
@@ -310,6 +308,11 @@ public class NetworkThread extends Thread {
                 Game.getInstance().getLogger().info(this.networkType.toString() +  ": Getting LOAD: " + id);
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveLoad(id);
+                }
+            } else if(message.contains("PASS")) {
+                Game.getInstance().getLogger().info(this.networkType.toString() +  ": GETTING PASS: ");
+                for (NetworkListener listener : this.networkManager.getListeners()) {
+                    listener.OnReceivePass();
                 }
             }
         }

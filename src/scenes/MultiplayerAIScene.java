@@ -13,6 +13,7 @@ import network.NetworkListener;
 import network.NetworkType;
 import ui.GamePanel;
 import ui.GuiScene;
+import ui.UiBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,7 +83,6 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
-
         changeTurnColors();
 
         return uiPanel;
@@ -103,7 +103,6 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     public void lateUpdate(double deltaTime) {
         if(this.gameState == GameState.Finished) {
             this.winner = this.playerTurn;
-           // JOptionPane.showMessageDialog(Game.getInstance().getWindow(),this.winner.toString() + " WON","Game Finished", JOptionPane.INFORMATION_MESSAGE);
             GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
             gameOverScene.setWinner(this.winner);
             gameOverScene.initializeGameSession(null);
@@ -146,15 +145,12 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     }
 
     private void changeTurnColors() {
-        final Color turnGreen = new Color(46, 204, 113);
-        final Color noTurnGreen = new Color(35, 156, 86);
-
         if(isMyTurn()) {
-            this.uiPanel.getPlayerLabelContainer().setBackground(turnGreen);
-            this.uiPanel.getEnemyLabelContainer().setBackground(noTurnGreen);
+            this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
+            this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.NOTURN_RED);
         } else {
-            this.uiPanel.getPlayerLabelContainer().setBackground(noTurnGreen);
-            this.uiPanel.getEnemyLabelContainer().setBackground(turnGreen); // green
+            this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.NOTURN_RED);
+            this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.TURN_GREEN);
         }
     }
 
@@ -177,14 +173,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        if(keyEvent.getKeyCode()  == KeyEvent.VK_E) {
-            this.setOtherTurn();
-        }
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-
     }
 
     @Override
@@ -197,6 +189,8 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
 
         this.enemyMap = new Map(data.getMapSize());
         this.enemyMapRenderer.setMap(this.enemyMap);
+
+        this.playerAi = new AI(this.enemyMap, gameSessionData.getAiDifficulty());
 
         Game.getInstance().getWindow().repaint();
         Game.getInstance().getWindow().revalidate();
@@ -238,8 +232,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
             if(this.playerMap.isInMap(pos)) {
                 HitData hitData = this.playerMap.shot(pos);
                 HitType hitType = hitData.getHitType();
-                if(hitType == HitType.Water || hitType == HitType.NotPossible)
+                if(hitType == HitType.Water || hitType == HitType.NotPossible) {
                     setOtherTurn();
+                }
 
                 if(hitType == HitType.NotPossible)
                     hitType = HitType.Water;
@@ -252,6 +247,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     @Override
     public void OnReceiveAnswer(HitType type) {
         if(this.lastShot != null) {
+
+            this.playerAi.receiveAnswer(type);
+
             this.enemyMap.markTile(this.lastShot, type);
             if(type == HitType.Water) {
                 setOtherTurn();
@@ -277,12 +275,21 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     }
 
     @Override
+    public void OnReceivePass() {
+        sendAiShot();
+    }
+
+    @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
     }
 
     @Override
     public void OnShotFired(Map map, Point pos) {
-        if(map.isInMap(pos) && isMyTurn()) {
+    }
+
+    public void sendAiShot() {
+        if(this.lastShot == null && isMyTurn()) {
+            Point pos = this.playerAi.shot();
             Game.getInstance().getNetworkManager().sendShot(pos);
             if(this.lastShot == null)
                 this.lastShot = pos;

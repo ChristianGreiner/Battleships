@@ -113,11 +113,11 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
             this.gameState = GameState.Finished;
         }
         else {
-            if(this.waitTimer >= 10) {
+            if(this.waitTimer >= 1) {
                 if(this.playerTurn == PlayerType.AI) {
-                    handleAiShot(this.enemyAi, this.enemyMap, this.enemyMapRenderer);
+                    handleAiShot(this.enemyAi, this.playerMap, this.enemyMapRenderer);
                 } else {
-                    handleAiShot(this.playerAi, this.playerMap, this.playerMapRenderer);
+                    handleAiShot(this.playerAi, this.enemyMap, this.playerMapRenderer);
                 }
 
                 this.waitTimer = 0;

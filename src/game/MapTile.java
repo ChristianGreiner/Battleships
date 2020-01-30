@@ -46,7 +46,7 @@ public class MapTile implements Serializable {
      * @return Whenever or not the tile is not hitted or blocked.
      */
     public boolean isFree() {
-        return (!hit && !blocked && hasShip());
+        return (!hit && !blocked && !hasShip());
     }
 
     /**

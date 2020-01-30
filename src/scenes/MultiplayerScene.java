@@ -102,7 +102,6 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     public void lateUpdate(double deltaTime) {
         if(this.gameState == GameState.Finished) {
             this.winner = this.playerTurn;
-           // JOptionPane.showMessageDialog(Game.getInstance().getWindow(),this.winner.toString() + " WON","Game Finished", JOptionPane.INFORMATION_MESSAGE);
             GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
             gameOverScene.setWinner(this.winner);
             gameOverScene.initializeGameSession(null);
@@ -142,18 +141,18 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
         this.uiPanel.invalidate();
         this.uiPanel.revalidate();
+
+
+        Game.getInstance().getLogger().info(this.networkType.toString() +  ": New Playerturn: " + this.playerTurn.toString());
     }
 
     private void changeTurnColors() {
-        final Color turnGreen = new Color(46, 204, 113);
-        final Color noTurnGreen = new Color(35, 156, 86);
-
         if(isMyTurn()) {
-            this.uiPanel.getPlayerLabelContainer().setBackground(turnGreen);
-            this.uiPanel.getEnemyLabelContainer().setBackground(noTurnGreen);
+            this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
+            this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.NOTURN_RED);
         } else {
-            this.uiPanel.getPlayerLabelContainer().setBackground(noTurnGreen);
-            this.uiPanel.getEnemyLabelContainer().setBackground(turnGreen); // green
+            this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.NOTURN_RED);
+            this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.TURN_GREEN);
         }
     }
 
@@ -240,6 +239,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
                 if(hitType == HitType.Water || hitType == HitType.NotPossible)
                     setOtherTurn();
 
+                // fallback
                 if(hitType == HitType.NotPossible)
                     hitType = HitType.Water;
 
@@ -253,8 +253,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         if(this.lastShot != null) {
             this.enemyMap.markTile(this.lastShot, type);
             if(type == HitType.Water) {
-                setOtherTurn();
                 Game.getInstance().getNetworkManager().sendPass();
+                setOtherTurn();
             }
 
             if(type == HitType.ShipDestroyed)
@@ -276,15 +276,22 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     }
 
     @Override
+    public void OnReceivePass() {
+        System.out.println("GETTING PASSs");
+    }
+
+    @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
     }
 
     @Override
     public void OnShotFired(Map map, Point pos) {
         if(map.isInMap(pos) && isMyTurn()) {
-            Game.getInstance().getNetworkManager().sendShot(pos);
-            if(this.lastShot == null)
-                this.lastShot = pos;
+            if(map.getTile(pos).isFree()) {
+                Game.getInstance().getNetworkManager().sendShot(pos);
+                if(this.lastShot == null)
+                    this.lastShot = pos;
+            }
         }
     }
 

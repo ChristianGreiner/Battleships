@@ -19,4 +19,6 @@ public interface NetworkListener {
     void OnReceiveSave(String id);
 
     void OnReceiveLoad(String id);
+
+    void OnReceivePass();
 }

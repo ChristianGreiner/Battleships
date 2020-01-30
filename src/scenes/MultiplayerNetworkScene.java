@@ -114,4 +114,8 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
         } else
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(),"Cant find a Savegame with the id: " + id,"Savegame loading...", JOptionPane.ERROR_MESSAGE);
     }
+
+    @Override
+    public void OnReceivePass() {
+    }
 }
