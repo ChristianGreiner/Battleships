@@ -113,7 +113,7 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
             this.gameState = GameState.Finished;
         }
         else {
-            if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+            if(this.waitTimer >= 10) {
                 if(this.playerTurn == PlayerType.AI) {
                     handleAiShot(this.enemyAi, this.enemyMap, this.enemyMapRenderer);
                 } else {
