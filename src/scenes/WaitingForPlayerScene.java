@@ -93,7 +93,6 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
         this.savegame = data.getSavegame();
 
         if(data.getSavegame() != null) {
-            System.out.println("START WITH " + data.getSavegame().getId());
             Game.getInstance().getNetworkManager().startServer(data.getSavegame().getId());
             Game.getInstance().getNetworkManager().confirmSession();
         }

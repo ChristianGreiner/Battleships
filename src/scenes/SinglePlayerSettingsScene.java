@@ -28,9 +28,10 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
     private GameSessionData gameSessionData;
     private GameSettingsPanel settingsPanel;
 
+
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
-        settingsPanel = new GameSettingsPanel().create(false);
+        settingsPanel = new GameSettingsPanel().create();
 
         settingsPanel.getBackBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
@@ -44,6 +45,16 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             difficulty = difficulty.replaceAll(" ", "");
 
             scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty)));
+        });
+
+        settingsPanel.getNewAIGameBtn().addActionListener((e) -> {
+            ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
+
+            int size = (int) settingsPanel.getSizeSpinner().getValue();
+            String difficulty = String.valueOf(settingsPanel.getAiDifficultyCbox().getSelectedItem());
+            difficulty = difficulty.replaceAll(" ", "");
+
+            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), true));
         });
 
         settingsPanel.getLoadGameBtn().addActionListener((e) -> {

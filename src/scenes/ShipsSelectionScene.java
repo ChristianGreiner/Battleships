@@ -1,6 +1,5 @@
 package scenes;
 
-import ai.AiDifficulty;
 import core.Drawable;
 import core.Game;
 import core.GameWindow;
@@ -18,13 +17,12 @@ import java.awt.event.KeyListener;
 
 public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, KeyListener, MapRendererListener, MapListener, GameSession {
 
-    private int mapSize;
-    private AiDifficulty aiDifficulty;
     private MapBuilderRenderer buildRenderer;
     private Map playerMap;
     private ShipSelectionPanel uiPanel;
     private MapGenerator mapGenerator;
     private boolean networkGame = false;
+    private GameSessionData gameSessionData;
 
     public boolean isNetworkGame() {
         return networkGame;
@@ -54,9 +52,8 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void initializeGameSession(GameSessionData data) {
-        this.mapSize = data.getMapSize();
-        this.aiDifficulty = data.getAiDifficulty();
-        this.playerMap = new Map(this.mapSize);
+        this.gameSessionData = data;
+        this.playerMap = new Map(data.getMapSize());
         this.buildRenderer.init(this.playerMap);
         this.buildRenderer.setMap(this.playerMap);
         this.buildRenderer.addKeyListener(this);
@@ -79,7 +76,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         });
 
         shipSelectionPanel.getBtnRandomMap().addActionListener((e) -> {
-            this.playerMap = this.mapGenerator.generate(this.mapSize);
+            this.playerMap = this.mapGenerator.generate(this.gameSessionData.getMapSize());
             this.buildRenderer.setMap(this.playerMap);
             this.OnMapUpdated();
             this.buildRenderer.requestFocus();
@@ -87,15 +84,26 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
             if(this.isNetworkGame()) {
-                MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
-                scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), null));
-
+                if(this.gameSessionData.isAiGame()) {
+                    MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
+                    scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), true));
+                } else {
+                    MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+                    scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), null));
+                }
                 Game.getInstance().getNetworkManager().confirmSession();
-
             } else {
-                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-                scene.reset();
-                scene.initializeGameSession(new GameSessionData(this.playerMap, this.playerMap.getSize(), this.aiDifficulty));
+
+                // local singleplayer game
+                if(this.gameSessionData.isAiGame()) {
+                    SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
+                    scene.reset();
+                    scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), this.gameSessionData.isAiGame()));
+                } else {
+                    SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+                    scene.reset();
+                    scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty()));
+                }
             }
         });
 
@@ -125,7 +133,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         }
         if (e.getKeyCode() == KeyEvent.VK_R) {
-            System.out.println("R Pressed");
             this.buildRenderer.rotate();
         }
     }

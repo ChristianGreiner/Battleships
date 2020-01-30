@@ -14,6 +14,8 @@ public class UiBuilder {
 
     public final static Color TRANSPARENT = new Color(0, 0, 0, 0);
     public final static Color BLACK_ALPHA = new Color(0, 0, 0, 155);
+    public final static Color TURN_GREEN = new Color(46, 204, 113);
+    public final static Color NOTURN_RED = Color.RED;
 
     public static JButton createButton(String name, Dimension size) {
         JButton btn = new JButton(name);

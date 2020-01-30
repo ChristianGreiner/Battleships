@@ -19,7 +19,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SinglePlayerScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
+public class SinglePlayerAIScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
 
     private Map playerMap;
     private Map enemyMap;
@@ -28,20 +28,18 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
     private GamePanel uiPanel;
-    private AI ai;
+    private AI enemyAi;
+    private AI playerAi;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private boolean paused = false;
     private PlayerType winner;
     private GameSessionData gameSessionData;
 
-    public SinglePlayerScene() {
-        super("SinglePlayer");
+    public SinglePlayerAIScene() {
+        super("SinglePlayerAIScene");
 
         this.playerMapRenderer = new MapRenderer(null);
         this.enemyMapRenderer = new MapRenderer(null);
-
-        this.playerMapRenderer.addMapRendererListener(this);
-        this.enemyMapRenderer.addMapRendererListener(this);
     }
 
     public void reset() {
@@ -67,7 +65,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         this.enemyMap = generator.generate(data.getMapSize());
 
-        this.ai = new AI(this.playerMap, difficulty);
+        this.enemyAi = new AI(this.playerMap, difficulty);
+        this.playerAi = new AI(this.enemyMap, difficulty);
 
         this.playerMapRenderer.setMap(this.playerMap);
         this.playerMapRenderer.setEditorMode(false);
@@ -83,7 +82,8 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     public void initializeSavegame(Savegame savegame) {
         this.playerMap = savegame.getPlayerMap();
         this.enemyMap = savegame.getEnemyMap();
-        this.ai = savegame.getAi();
+        this.enemyAi = savegame.getAi();
+        this.playerAi = savegame.getAi();
         this.playerMapRenderer.setMap(this.playerMap);
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.playerTurn = savegame.getCurrentTurn();
@@ -113,19 +113,16 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
             this.gameState = GameState.Finished;
         }
         else {
-            if(this.playerTurn == PlayerType.AI) {
-                if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
-                    handleAiShot();
-                    this.waitTimer = 0;
+            if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+                if(this.playerTurn == PlayerType.AI) {
+                    handleAiShot(this.enemyAi, this.enemyMap, this.enemyMapRenderer);
+                } else {
+                    handleAiShot(this.playerAi, this.playerMap, this.playerMapRenderer);
                 }
-                this.waitTimer += deltaTime;
 
-                this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.NOTURN_RED);
-                this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.TURN_GREEN);
-            } else {
-                this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
-                this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.NOTURN_RED);
+                this.waitTimer = 0;
             }
+            this.waitTimer += deltaTime;
         }
     }
 
@@ -161,16 +158,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         });
 
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
-            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            if(savegame != null) {
-                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-                scene.initializeSavegame(savegame);
-            }
         });
 
         singlePlayerPanel.getBtnSave().addActionListener((e) -> {
-            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
-            Game.getInstance().getGameFileHandler().saveSavegame(savegame);
         });
 
         this.uiPanel = singlePlayerPanel;
@@ -204,24 +194,41 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
     }
 
-    private void handleAiShot() {
-        Point point = this.ai.shot();
+    private void handleAiShot(AI ai, Map map, MapRenderer mapRenderer) {
+        Point point = ai.shot();
 
-        HitData hitData = this.playerMap.shot(point);
+        HitData hitData = map.shot(point);
 
         HitType lastHitType = hitData.getHitType();
 
         if (lastHitType != null)
-            this.ai.receiveAnswer(lastHitType);
+            ai.receiveAnswer(lastHitType);
 
         this.handleSoundFx(hitData.getHitType());
 
-        this.playerMapRenderer.playExplosion(hitData.getPosition());
+        mapRenderer.playExplosion(hitData.getPosition());
 
-        if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
-            this.playerTurn = PlayerType.AI;
-        } else if (hitData.getHitType() == HitType.Water) {
-            this.playerTurn = PlayerType.Player;
+        if(this.playerTurn == PlayerType.AI) {
+
+            if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
+                this.playerTurn = PlayerType.AI;
+            } else if (hitData.getHitType() == HitType.Water) {
+                this.playerTurn = PlayerType.Player;
+            }
+
+            this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
+            this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.NOTURN_RED);
+
+        } else {
+
+            if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
+                this.playerTurn = PlayerType.Player;
+            } else if (hitData.getHitType() == HitType.Water) {
+                this.playerTurn = PlayerType.AI;
+            }
+
+            this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.NOTURN_RED);
+            this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.TURN_GREEN);
         }
     }
 
@@ -231,20 +238,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     @Override
     public void OnShotFired(Map map, Point pos) {
-
-        if(this.playerTurn == PlayerType.Player) {
-            HitData hitData = map.shot(pos);
-            this.enemyMapRenderer.playExplosion(hitData.getPosition());
-
-            // set playerturn
-            if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
-                this.playerTurn = PlayerType.Player;
-            } else if (hitData.getHitType() == HitType.Water) {
-                this.playerTurn = PlayerType.AI;
-            }
-
-            this.handleSoundFx(hitData.getHitType());
-        }
     }
 
     private void handleSoundFx(HitType lastHitType) {

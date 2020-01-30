@@ -10,6 +10,7 @@ public class GameSettingsPanel extends JPanel {
     private JSpinner sizeSpn;
     private JButton loadGameBtn;
     private JButton newGameBtn;
+    private JButton newAIGameBtn;
     private JComboBox aiDifficultyCbox;
     private JButton backBtn;
 
@@ -33,7 +34,11 @@ public class GameSettingsPanel extends JPanel {
         return backBtn;
     }
 
-    public GameSettingsPanel create(boolean disableAi) {
+    public JButton getNewAIGameBtn() {
+        return newAIGameBtn;
+    }
+
+    public GameSettingsPanel create() {
 
         GameSettingsPanel panel = this;
 
@@ -116,45 +121,43 @@ public class GameSettingsPanel extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         panel.add(aiDifficultLblContainer, gbc);
 
-        if(!disableAi) {
-            final JLabel aiDifficultLbl = new JLabel();
-            aiDifficultLbl.setText("AI DIFFICULTY:");
-            aiDifficultLbl.setForeground(Color.white);
-            aiDifficultLbl.setFont(Assets.Fonts.DEFAULT);
-            aiDifficultLblContainer.add(aiDifficultLbl);
+        final JLabel aiDifficultLbl = new JLabel();
+        aiDifficultLbl.setText("AI DIFFICULTY:");
+        aiDifficultLbl.setForeground(Color.white);
+        aiDifficultLbl.setFont(Assets.Fonts.DEFAULT);
+        aiDifficultLblContainer.add(aiDifficultLbl);
 
-            final JPanel aiSelectionContainer = new JPanel();
-            aiSelectionContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-            aiSelectionContainer.setBackground(new Color(0, 0, 0, 155));
-            gbc = new GridBagConstraints();
-            gbc.gridx = 1;
-            gbc.gridy = 5;
-            gbc.fill = GridBagConstraints.BOTH;
-            panel.add(aiSelectionContainer, gbc);
+        final JPanel aiSelectionContainer = new JPanel();
+        aiSelectionContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        aiSelectionContainer.setBackground(new Color(0, 0, 0, 155));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel.add(aiSelectionContainer, gbc);
 
-            aiDifficultyCbox = new JComboBox();
-            aiDifficultyCbox.setPreferredSize(new Dimension(128, 32));
-            aiDifficultyCbox.setFont(Assets.Fonts.DEFAULT);
-            final DefaultComboBoxModel aiComboboxModel = new DefaultComboBoxModel();
-            aiComboboxModel.addElement("Full Retard");
-            aiComboboxModel.addElement("Easy");
-            aiComboboxModel.addElement("Medium");
-            aiComboboxModel.addElement("Hard");
-            aiComboboxModel.addElement("Extreme");
-            aiDifficultyCbox.setModel(aiComboboxModel);
-            aiSelectionContainer.add(aiDifficultyCbox);
-            aiDifficultyCbox.setSelectedItem("Medium");
+        aiDifficultyCbox = new JComboBox();
+        aiDifficultyCbox.setPreferredSize(new Dimension(128, 32));
+        aiDifficultyCbox.setFont(Assets.Fonts.DEFAULT);
+        final DefaultComboBoxModel aiComboboxModel = new DefaultComboBoxModel();
+        aiComboboxModel.addElement("Full Retard");
+        aiComboboxModel.addElement("Easy");
+        aiComboboxModel.addElement("Medium");
+        aiComboboxModel.addElement("Hard");
+        aiComboboxModel.addElement("Extreme");
+        aiDifficultyCbox.setModel(aiComboboxModel);
+        aiSelectionContainer.add(aiDifficultyCbox);
+        aiDifficultyCbox.setSelectedItem("Medium");
 
-            final JPanel spacer = new JPanel();
-            spacer.setBackground(new Color(0, 0, 0, 155));
-            spacer.setPreferredSize(new Dimension(256, 10));
-            spacer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-            gbc = new GridBagConstraints();
-            gbc.gridx = 1;
-            gbc.gridy = 7;
-            gbc.fill = GridBagConstraints.BOTH;
-            panel.add(spacer, gbc);
-        }
+        final JPanel spacer = new JPanel();
+        spacer.setBackground(new Color(0, 0, 0, 155));
+        spacer.setPreferredSize(new Dimension(256, 10));
+        spacer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel.add(spacer, gbc);
 
         final JPanel btnContainer = new JPanel();
         btnContainer.setLayout(new GridBagLayout());
@@ -187,10 +190,24 @@ public class GameSettingsPanel extends JPanel {
         gbc.fill = GridBagConstraints.VERTICAL;
         btnContainer.add(spacer5, gbc);
 
-        loadGameBtn = UiBuilder.createButton("LOAD GAME", new Dimension(266, UiBuilder.BUTTON_HEIGHT));
+        newAIGameBtn = UiBuilder.createButton("NEW AI GAME", new Dimension(266, UiBuilder.BUTTON_HEIGHT));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
+        btnContainer.add(newAIGameBtn, gbc);
+
+        final JPanel spacer7 = new JPanel();
+        spacer7.setOpaque(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        btnContainer.add(spacer7, gbc);
+
+        loadGameBtn = UiBuilder.createButton("LOAD GAME", new Dimension(266, UiBuilder.BUTTON_HEIGHT));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         btnContainer.add(loadGameBtn, gbc);
 
@@ -198,14 +215,14 @@ public class GameSettingsPanel extends JPanel {
         spacer6.setOpaque(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         gbc.fill = GridBagConstraints.VERTICAL;
         btnContainer.add(spacer6, gbc);
 
         backBtn = UiBuilder.createButton("BACK", new Dimension(266, UiBuilder.BUTTON_HEIGHT));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 7;
         btnContainer.add(backBtn, gbc);
 
         return panel;

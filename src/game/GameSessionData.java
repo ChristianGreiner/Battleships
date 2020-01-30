@@ -10,6 +10,7 @@ public class GameSessionData {
     private Map map;
     private AiDifficulty aiDifficulty;
     private Savegame savegame;
+    private boolean aiGame;
 
     /**
      * Gets the savegame.
@@ -43,6 +44,10 @@ public class GameSessionData {
         return aiDifficulty;
     }
 
+    public boolean isAiGame() {
+        return aiGame;
+    }
+
     /**
      * The game session data constructor.
      * @param map The map.
@@ -55,6 +60,23 @@ public class GameSessionData {
         this.aiDifficulty = aiDifficulty;
     }
 
+    /**
+     * The game session data constructor.
+     * @param map The map.
+     * @param mapSize The size of the map.
+     * @param aiDifficulty The difficulty of the ai.
+     */
+    public GameSessionData(Map map, int mapSize, AiDifficulty aiDifficulty, boolean aiGame) {
+        this.map = map;
+        this.mapSize = mapSize;
+        this.aiDifficulty = aiDifficulty;
+        this.aiGame = aiGame;
+    }
+
+    /**
+     * New Game session with just the savegame.
+     * @param savegame The savegame
+     */
     public GameSessionData(Savegame savegame) {
         this.savegame = savegame;
     }

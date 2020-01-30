@@ -141,6 +141,7 @@ public class Game implements Runnable {
         this.sceneManager.addScene(new SinglePlayerSettingsScene());
         this.sceneManager.addScene(new ShipsSelectionScene());
         this.sceneManager.addScene(new SinglePlayerScene());
+        this.sceneManager.addScene(new SinglePlayerAIScene());
         this.sceneManager.addScene(new MultiplayerNetworkScene());
         this.sceneManager.addScene(new MultiplayerHostSettingsScene());
         this.sceneManager.addScene(new WaitingForPlayerScene());
