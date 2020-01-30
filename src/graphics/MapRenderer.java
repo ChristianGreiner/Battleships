@@ -1,6 +1,5 @@
 package graphics;
 
-import com.sun.xml.internal.bind.WhiteSpaceProcessor;
 import core.Game;
 import core.Helper;
 import core.Renderer;
@@ -83,12 +82,14 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     public void setMap(Map map) {
         this.map = map;
-        this.explosionSprite = new Sprite(Assets.Images.EXPLOSION, 48);
-        if (this.explosionSprite.getSpriteSheet() != null) {
-            for (int i = 0; i < 12; i++)
-                this.explosionFrames.add(explosionSprite.getSprite(i, 0));
+        if(this.explosionAnim == null) {
+            this.explosionSprite = new Sprite(Assets.Images.EXPLOSION, 48);
+            if (this.explosionSprite.getSpriteSheet() != null) {
+                for (int i = 0; i < 12; i++)
+                    this.explosionFrames.add(explosionSprite.getSprite(i, 0));
 
-            this.explosionAnim = new Animation(explosionFrames.toArray(new BufferedImage[explosionFrames.size()]), 2);
+                this.explosionAnim = new Animation(explosionFrames.toArray(new BufferedImage[explosionFrames.size()]), 2);
+            }
         }
     }
 
@@ -429,7 +430,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             }
             else{
                 int temp = asciiCode - 26;
-                Helper.drawCenteredString(g, Character.toString((char) temp) + Character.toString((char) temp) , new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+                Helper.drawCenteredString(g, Character.toString((char) temp) + (char) temp, new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
             }
 
             asciiCode++;

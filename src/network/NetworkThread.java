@@ -309,11 +309,6 @@ public class NetworkThread extends Thread {
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveLoad(id);
                 }
-            } else if(message.contains("PASS")) {
-                Game.getInstance().getLogger().info(this.networkType.toString() +  ": GETTING PASS: ");
-                for (NetworkListener listener : this.networkManager.getListeners()) {
-                    listener.OnReceivePass();
-                }
             }
         }
     }

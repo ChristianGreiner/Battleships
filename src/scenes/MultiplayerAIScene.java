@@ -248,18 +248,22 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     public void OnReceiveAnswer(HitType type) {
         if(this.lastShot != null) {
 
+            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Ai getting answer: " + type);
             this.playerAi.receiveAnswer(type);
 
             this.enemyMap.markTile(this.lastShot, type);
+            this.lastShot = null;
+
             if(type == HitType.Water) {
                 setOtherTurn();
                 Game.getInstance().getNetworkManager().sendPass();
+            } else {
+                sendAiShot();
             }
 
             if(type == HitType.ShipDestroyed)
                 this.enemyShipsDestroyed++;
 
-            this.lastShot = null;
         }
     }
 
@@ -276,7 +280,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
 
     @Override
     public void OnReceivePass() {
-        sendAiShot();
+
     }
 
     @Override
@@ -290,6 +294,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     public void sendAiShot() {
         if(this.lastShot == null && isMyTurn()) {
             Point pos = this.playerAi.shot();
+            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Ai shots at: " + pos);
             Game.getInstance().getNetworkManager().sendShot(pos);
             if(this.lastShot == null)
                 this.lastShot = pos;
