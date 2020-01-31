@@ -1,5 +1,6 @@
 package graphics;
 
+import com.sun.xml.internal.bind.WhiteSpaceProcessor;
 import core.Game;
 import core.Helper;
 import core.Renderer;
@@ -36,10 +37,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     protected ArrayList<MapRendererListener> listener = new ArrayList<>();
     private BufferedImage backgroundBackground;
 
-    public boolean isDisabled() {
-        return disabled;
-    }
-
+    /**
+     * Disable/Enable the MapRenderer.
+     *
+     * @param disabled boolean to disable/enable
+     */
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
     }
@@ -64,10 +66,19 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         return this.editorMode;
     }
 
+    /**
+     * Disables/Enables the editorMode
+     *
+     * @param editorMode boolean to disable/enable
+     */
     public void setEditorMode(boolean editorMode) {
         this.editorMode = editorMode;
     }
 
+    /**
+     * Checks whether this is the enemy map or player map
+     * @return  whether or not this is the enemy map
+     */
     public boolean isEnemyMap() {
         return this.enemyMap;
     }
@@ -307,7 +318,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     protected void highlightShip(Graphics2D g) {
         //ship selection using mouse
-
         if (this.getMousePosition() == null || tileSize == null)
             return;
 
@@ -317,7 +327,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if (this.hoveredMapTile != null) {
             if (this.hoveredMapTile.hasShip() && !this.selected) {
 
-                //this.selectedShipTiles = this.hoveredMapTile.getShip().getTiles();
                 this.selectedShip = this.hoveredMapTile.getShip();
                 if (!this.pressed && this.selectedShip != null) {
                     g.setColor(new Color(124, 252, 0, 200));
@@ -348,11 +357,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
             //map.remove(this.selectedShip);
 
-            boolean quickfix_rotate;
+            boolean setRotation;
             g.setStroke(new BasicStroke(3));
             if (this.selectedShip.isRotated()) {
                 if (!this.rotated) {
-                    quickfix_rotate = true;
+                    setRotation = true;
                     if(!map.canMoveShip(this.selectedShip, dropPos, true)) {
                         g.setColor(Color.RED);
                     }
@@ -360,7 +369,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
 
                 } else {
-                    quickfix_rotate = false;
+                    setRotation = false;
                     dropPos.x = tempPoint.x;
                     floatingShipMarker.x = this.getMousePosition().x / tileSize.x * tileSize.x;
                     if(!map.canMoveShip(this.selectedShip, dropPos, false)) {
@@ -372,7 +381,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 }
             } else {
                 if (!this.rotated) {
-                    quickfix_rotate = false;
+                    setRotation = false;
                     if(!map.canMoveShip(this.selectedShip, dropPos, false)) {
                         g.setColor(Color.RED);
                     }
@@ -380,7 +389,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     g.drawRect(floatingShipMarker.x, floatingShipMarker.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
 
                 } else {
-                    quickfix_rotate = true;
+                    setRotation = true;
                     floatingShipMarker.y =  this.getMousePosition().y / tileSize.y * tileSize.y;
                     dropPos.y = tempPoint.y;
                     if(!map.canMoveShip(this.selectedShip, dropPos, true )) {
@@ -398,7 +407,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
                 for (MapRendererListener mouseListener : listener) {
                     if (mouseListener != null) {
-                        mouseListener.OnShipDropped(this.map, this.selectedShip, dropPos, quickfix_rotate);
+                        mouseListener.OnShipDropped(this.map, this.selectedShip, dropPos, setRotation);
                     }
                 }
                 this.rotated = false;
@@ -419,18 +428,29 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     protected void drawLetters(Graphics2D g, Point tileSize) {
         // draw letters next to board
         int asciiCode = 65;
+        String text;
+
         for (int num = 1; num <= map.getSize(); num++) {
+
+            text = text = Character.toString((char) asciiCode);
 
             // draw sand left side
             drawImage(g, Assets.Images.SAND_LEFT,  new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y));
 
             if(asciiCode < 91) {
-                Helper.drawCenteredString(g, Character.toString((char) asciiCode), new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+
+                Font f = scaleFontToFit(text, tileSize.x, g);
+                Helper.drawCenteredString(g, text, new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), f);
 
             }
             else{
                 int temp = asciiCode - 26;
-                Helper.drawCenteredString(g, Character.toString((char) temp) + (char) temp, new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+
+                 text = Character.toString((char) temp) + Character.toString((char) temp);
+
+                Font f = scaleFontToFit(text, tileSize.x, g);
+                Helper.drawCenteredString(g, text , new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), f);
+
             }
 
             asciiCode++;
@@ -448,15 +468,29 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         // draw numbers above board
         for (Integer num = 1; num <= map.getSize(); num++) {
 
-            // draw sand top coner
+            // draw sand top corner
             drawImage(g, Assets.Images.SAND_TOP,  new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y));
 
-            Helper.drawCenteredString(g, num.toString(), new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y), Assets.Fonts.DEFAULT_BOLD);
+            Font f = scaleFontToFit(num.toString(), tileSize.x, g);
+            Helper.drawCenteredString(g, num.toString(), new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y), f);
         }
     }
 
+    protected Font scaleFontToFit(String text, int width, Graphics g)
+    {
+        Font pFont = Assets.Fonts.DEFAULT_BOLD;
+        float fontSize = pFont.getSize();
+        float fWidth = g.getFontMetrics(pFont).stringWidth(text);
+        if(fWidth <= width)
+            return pFont;
+        fontSize = ((float)width / fWidth) * fontSize;
+        return pFont.deriveFont(fontSize);
+    }
+
     public void rotate(){
-        this.rotated = !this.rotated;
+        //System.out.println("Rotate called " + this.rotated);
+        if(this.selected)
+             this.rotated = !this.rotated;
     }
 
     @Override
@@ -528,8 +562,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if (!this.editorMode)
             return;
 
-        if (this.selected)
-            this.rotated = !this.rotated;
+        this.rotate();
     }
 
     @Override
