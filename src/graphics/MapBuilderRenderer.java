@@ -274,7 +274,6 @@ public class MapBuilderRenderer extends MapRenderer {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e){
-        super.mouseWheelMoved(e);
         this.rotate();
     }
 

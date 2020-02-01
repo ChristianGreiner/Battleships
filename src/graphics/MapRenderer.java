@@ -288,9 +288,12 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 shipImage = Assets.Images.SHIP_SUBMARINE;
             }
 
-            if(this.shipsVisable || ship.isDestroyed())
+            if(this.shipsVisable)
                 drawImageShip(g, ship.getSpace(), shipImage, shipPos, this.tileSize, ship.isRotated());
-
+            if(ship.isDestroyed()) {
+                System.out.println("SHIP DESTROYED");
+                drawImageShip(g, ship.getSpace(), shipImage, shipPos, this.tileSize, ship.isRotated());
+            }
         }
         for (int y = 0; y < this.map.getSize(); y++) {
             for (int x = 0; x < this.map.getSize(); x++) {
@@ -432,7 +435,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
         for (int num = 1; num <= map.getSize(); num++) {
 
-            text = text = Character.toString((char) asciiCode);
+            text = Character.toString((char) asciiCode);
 
             // draw sand left side
             drawImage(g, Assets.Images.SAND_LEFT,  new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y));
@@ -488,7 +491,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     }
 
     public void rotate(){
-        //System.out.println("Rotate called " + this.rotated);
         if(this.selected)
              this.rotated = !this.rotated;
     }
