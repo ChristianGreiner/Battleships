@@ -16,18 +16,17 @@ import java.awt.event.KeyListener;
 
 public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener, GameSession {
 
+    private GameSessionData gameSessionData;
+    private GameSettingsPanel settingsPanel;
+
     public SinglePlayerSettingsScene() {
         super("SinglePlayerSettingsScene");
     }
 
     @Override
-    public void onAdded() {
-        super.onAdded();
+    public void onSwitched() {
+        super.onSwitched();
     }
-
-    private GameSessionData gameSessionData;
-    private GameSettingsPanel settingsPanel;
-
 
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
@@ -59,9 +58,12 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
 
         settingsPanel.getLoadGameBtn().addActionListener((e) -> {
             Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            if(savegame != null) {
-                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-                scene.initializeSavegame(savegame);
+            if (savegame != null) {
+                if (!savegame.isNetworkGame()) {
+                    SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+                    scene.initializeSavegame(savegame);
+                } else
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a multiplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -77,7 +79,7 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
     }
 
     private void updateUi() {
-        if(this.settingsPanel != null && this.gameSessionData != null) {
+        if (this.settingsPanel != null && this.gameSessionData != null) {
             this.settingsPanel.getSizeSpinner().setValue(this.gameSessionData.getMapSize());
             this.settingsPanel.getAiDifficultyCbox().setSelectedItem(this.gameSessionData.getAiDifficulty().toString().toUpperCase());
 

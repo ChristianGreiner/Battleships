@@ -11,7 +11,8 @@ public class Sprite {
 
     /**
      * The constructor of a sprite.
-     * @param image The image of the sprite
+     *
+     * @param image    The image of the sprite
      * @param tileSize The size of the tiles.
      */
     public Sprite(BufferedImage image, int tileSize) {
@@ -21,6 +22,7 @@ public class Sprite {
 
     /**
      * Gets the sprite sheet.
+     *
      * @return The sprite sheet as buffered image.
      */
     public BufferedImage getSpriteSheet() {
@@ -29,6 +31,7 @@ public class Sprite {
 
     /**
      * Gets the tile size
+     *
      * @return The tilesize.
      */
     public int getTileSize() {
@@ -37,6 +40,7 @@ public class Sprite {
 
     /**
      * Gets the sprite at given x- and y-position.
+     *
      * @param xGrid The x pos.
      * @param yGrid The y pos.
      * @return The buffered image.

@@ -21,14 +21,14 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
         GameSettingsPanel settings = new GameSettingsPanel().create();
 
         settings.getNewGameBtn().addActionListener((e) -> {
-            WaitingForPlayerScene scene = (WaitingForPlayerScene)Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
+            WaitingForPlayerScene scene = (WaitingForPlayerScene) Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
 
             int size = (int) settings.getSizeSpinner().getValue();
             scene.initializeGameSession(new GameSessionData(null, size, null));
         });
 
         settings.getNewAIGameBtn().addActionListener((e) -> {
-            WaitingForPlayerScene scene = (WaitingForPlayerScene)Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
+            WaitingForPlayerScene scene = (WaitingForPlayerScene) Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
             int size = (int) settings.getSizeSpinner().getValue();
 
             String difficulty = String.valueOf(settings.getAiDifficultyCbox().getSelectedItem());
@@ -39,9 +39,12 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
 
         settings.getLoadGameBtn().addActionListener((e) -> {
             Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            if(savegame != null) {
-                WaitingForPlayerScene scene = (WaitingForPlayerScene)Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
-                scene.initializeGameSession(new GameSessionData(savegame));
+            if (savegame != null) {
+                if (savegame.isNetworkGame()) {
+                    WaitingForPlayerScene scene = (WaitingForPlayerScene) Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
+                    scene.initializeGameSession(new GameSessionData(savegame));
+                } else
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a singeplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }
         });
 

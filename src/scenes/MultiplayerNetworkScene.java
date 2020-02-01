@@ -19,15 +19,15 @@ import java.awt.event.KeyListener;
 
 public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScene, KeyListener, NetworkListener {
 
+    private boolean aiGame = false;
+
     public MultiplayerNetworkScene() {
         super("MultiplayerNetworkScene");
     }
 
-    private boolean aiGame = false;
-
     @Override
-    public void onAdded() {
-        super.onAdded();
+    public void onSwitched() {
+        super.onSwitched();
         Game.getInstance().getNetworkManager().addNetworkListener(this);
         aiGame = false;
     }
@@ -118,13 +118,13 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     @Override
     public void OnReceiveLoad(String id) {
-        Savegame savegame =  Game.getInstance().getGameFileHandler().loadSavegame(id);
+        Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame(id);
 
-        if(savegame != null) {
+        if (savegame != null) {
             MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
             scene.initializeSavegame(savegame);
         } else
-            JOptionPane.showMessageDialog(Game.getInstance().getWindow(),"Cant find a Savegame with the id: " + id,"Savegame loading...", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Cant find a Savegame with the id: " + id, "Savegame loading...", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override

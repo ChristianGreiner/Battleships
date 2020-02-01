@@ -26,21 +26,9 @@ public class Map implements MapInterface, Serializable {
     private ArrayList<MapListener> listeners;
     private MapData mapData;
 
-    public ArrayList<Ship> getDestroyedShips(){
-        return this.destroyedShips;
-    }
-
-    // dirty fix
-    public MapData getMapData() {
-        return mapData;
-    }
-
-    public HashMap<Type, Integer> getAvailableCounter() {
-        return availableCounter;
-    }
-
     /**
      * The constructor of the map.
+     *
      * @param size The size of the map.
      */
     public Map(int size) {
@@ -48,7 +36,7 @@ public class Map implements MapInterface, Serializable {
         this.tiles = new MapTile[size][size];
         this.mapData = MapGenerator.getConfigMap().get(this.size);
         this.listeners = new ArrayList<MapListener>();
-        this.ships =  new ArrayList<Ship>();
+        this.ships = new ArrayList<Ship>();
         this.destroyedShips = new ArrayList<>();
 
         for (int x = 0; x < size; x++) {
@@ -69,8 +57,22 @@ public class Map implements MapInterface, Serializable {
         this.availableCounter.put(Submarine.class, mapData.Submarines);
     }
 
+    public ArrayList<Ship> getDestroyedShips() {
+        return this.destroyedShips;
+    }
+
+    // dirty fix
+    public MapData getMapData() {
+        return mapData;
+    }
+
+    public HashMap<Type, Integer> getAvailableCounter() {
+        return availableCounter;
+    }
+
     /**
      * Gets a hashmap that counts ships by its type.
+     *
      * @return A hashmap of ships.
      */
     public HashMap<Type, Integer> getShipsCounter() {
@@ -79,6 +81,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Gets the number of ships.
+     *
      * @return The number of ships,
      */
     public int getNumberOfShips() {
@@ -87,6 +90,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Gets the number of destroyed ships.
+     *
      * @return The number of destroyed ship.s
      */
     public int getNumberOfDestoryedShips() {
@@ -95,6 +99,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Gets the size of the map.
+     *
      * @return The size.
      */
     public int getSize() {
@@ -103,6 +108,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Gets all ships as array.
+     *
      * @return All ships as array.
      */
     public ArrayList<Ship> getShips() {
@@ -115,22 +121,22 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Whenever or not the map is correct filled with ships.
+     *
      * @return True or false.
      */
     public boolean isCorrectFilled() {
 
         return this.mapData.Carriers == this.shipsCounter.get(Carrier.class) &&
-                this. mapData.Battleships == this.shipsCounter.get(Battleship.class) &&
+                this.mapData.Battleships == this.shipsCounter.get(Battleship.class) &&
                 this.mapData.Destroyers == this.shipsCounter.get(Destroyer.class) &&
                 this.mapData.Submarines == this.shipsCounter.get(Submarine.class);
     }
 
     public void markTile(Point pos, HitType type) {
-        if(isInMap(pos)) {
-            if(type == HitType.Water) {
+        if (isInMap(pos)) {
+            if (type == HitType.Water) {
                 this.tiles[pos.x][pos.y].setHit(true);
-            }
-            else if(type == HitType.Ship || type == HitType.ShipDestroyed) {
+            } else if (type == HitType.Ship || type == HitType.ShipDestroyed) {
                 this.tiles[pos.x][pos.y].setShip(new DummyShip(this));
                 this.tiles[pos.x][pos.y].setHit(true);
             }
@@ -139,6 +145,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Gets a tile by its position.
+     *
      * @param pos The position of the tile.
      * @return The Map tile.
      */
@@ -151,6 +158,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Whenever or not all ships are destroyed.
+     *
      * @return Returns whenever or not all ships are destroyed.
      */
     public boolean allShipsDestroyed() {
@@ -159,6 +167,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Gets a random free tile.
+     *
      * @return A random tile.
      */
     public MapTile getRandomFreeTile() {
@@ -174,6 +183,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Gets a random free tile having a ship in it.
+     *
      * @return A random tile.
      */
     public MapTile getRandomFreeTileIgnoreShip() {
@@ -204,14 +214,15 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Inserts a new ship into the map.
-     * @param ship The ship.
+     *
+     * @param ship     The ship.
      * @param position The position.
-     * @param rotated Whenever or not the ship is rotated.
+     * @param rotated  Whenever or not the ship is rotated.
      * @return Returns boolean if the ship could be placed.
      */
     public boolean insert(Ship ship, Point position, boolean rotated) {
 
-        if(!checkShipCountAmount(ship))
+        if (!checkShipCountAmount(ship))
             return false;
 
         if (!canInsertShip(ship, position, rotated))
@@ -243,8 +254,8 @@ public class Map implements MapInterface, Serializable {
         }
 
         // increase ship counter
-       int counter = this.shipsCounter.get(ship.getClass());
-        if(counter < this.availableCounter.get(ship.getClass()))
+        int counter = this.shipsCounter.get(ship.getClass());
+        if (counter < this.availableCounter.get(ship.getClass()))
             this.shipsCounter.put(ship.getClass(), counter + 1);
 
         this.ships.add(ship);
@@ -259,7 +270,7 @@ public class Map implements MapInterface, Serializable {
 
     private void computeRemoveShip(Ship ship) {
         int counter = this.shipsCounter.get(ship.getClass());
-        if(counter > 0) {
+        if (counter > 0) {
             counter--;
             this.shipsCounter.put(ship.getClass(), counter);
         }
@@ -630,6 +641,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Whenever or not a field is visable or not. Mainly used by the ai.
+     *
      * @param pos The pos of the field.
      * @return If the field is visable.
      */
@@ -809,13 +821,13 @@ public class Map implements MapInterface, Serializable {
     private boolean checkShipCountAmount(Ship ship) {
         MapData mapData = MapGenerator.getConfigMap().get(this.size);
 
-        if(ship.getClass().equals(Carrier.class))
+        if (ship.getClass().equals(Carrier.class))
             return this.shipsCounter.get(Carrier.class) < mapData.Carriers;
-        else if(ship.getClass().equals(Battleship.class))
+        else if (ship.getClass().equals(Battleship.class))
             return this.shipsCounter.get(Battleship.class) < mapData.Battleships;
-        else if(ship.getClass().equals(Destroyer.class))
+        else if (ship.getClass().equals(Destroyer.class))
             return this.shipsCounter.get(Destroyer.class) < mapData.Destroyers;
-        else if(ship.getClass().equals(Submarine.class))
+        else if (ship.getClass().equals(Submarine.class))
             return this.shipsCounter.get(Submarine.class) < mapData.Submarines;
 
         return false;
@@ -831,7 +843,7 @@ public class Map implements MapInterface, Serializable {
      */
     public boolean canInsertShip(Ship ship, Point position, boolean rotated) {
 
-        if(!checkShipCountAmount(ship))
+        if (!checkShipCountAmount(ship))
             return false;
 
         // prevent out of bounds
@@ -854,9 +866,10 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Tests if a ship can move to a specific position
-     * @param ship The ship
+     *
+     * @param ship     The ship
      * @param position The new position.
-     * @param rotated If the ships is rotated or not.
+     * @param rotated  If the ships is rotated or not.
      * @return If the ship can be moved.
      */
     public boolean canMoveShip(Ship ship, Point position, boolean rotated) {
@@ -872,6 +885,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Removes the ship from the map
+     *
      * @param ship The ship.
      */
     public void remove(Ship ship) {
@@ -896,13 +910,13 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
-    public boolean moveAndRotate(Ship ship, Point pos){
+    public boolean moveAndRotate(Ship ship, Point pos) {
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
         this.remove(ship);
 
         if (canInsertShip(ship, pos, nextRotation)) {
-            this.insert(ship, pos, nextRotation );
+            this.insert(ship, pos, nextRotation);
         } else {
             // fallback
             this.insert(ship, ship.getPosition(), oldRotation);
@@ -943,6 +957,7 @@ public class Map implements MapInterface, Serializable {
 
     /**
      * Checks if the point is in the map.
+     *
      * @param position The position
      * @return Whenever or not the point is in the map.
      */

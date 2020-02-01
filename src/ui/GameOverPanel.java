@@ -24,7 +24,7 @@ public class GameOverPanel extends JPanel {
     public void updateWinner(PlayerType winner) {
         String message;
 
-        if(winner == PlayerType.Player)
+        if (winner == PlayerType.Player)
             message = "YOU WIN";
         else
             message = "YOU LOSE";

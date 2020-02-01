@@ -16,6 +16,14 @@ public class MultiplayerNetworkPanel extends JPanel {
     private JButton joinAiBtn;
     private JTextField hostnameField;
 
+    public MultiplayerNetworkPanel() {
+        instance = this;
+    }
+
+    public static MultiplayerNetworkPanel getInstance() {
+        return instance;
+    }
+
     public JTextField getHostnameField() {
         return hostnameField;
     }
@@ -34,14 +42,6 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     public JButton getJoinAiBtn() {
         return joinAiBtn;
-    }
-
-    public MultiplayerNetworkPanel() {
-        instance = this;
-    }
-
-    public static MultiplayerNetworkPanel getInstance() {
-        return instance;
     }
 
     public MultiplayerNetworkPanel create() {

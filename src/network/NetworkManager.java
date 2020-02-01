@@ -11,21 +11,21 @@ import java.util.ArrayList;
 
 public class NetworkManager {
 
-    public ArrayList<NetworkListener> getListeners() {
-        return listeners;
-    }
-
     public final static int TCP_PORT = 50000;
     private ArrayList<NetworkListener> listeners;
     private NetworkType networkType;
     private NetworkThread networkThread;
 
-    public NetworkType getNetworkType() {
-        return networkType;
-    }
-
     public NetworkManager() {
         this.listeners = new ArrayList<>();
+    }
+
+    public ArrayList<NetworkListener> getListeners() {
+        return listeners;
+    }
+
+    public NetworkType getNetworkType() {
+        return networkType;
     }
 
     public void addNetworkListener(NetworkListener listener) {
@@ -46,7 +46,7 @@ public class NetworkManager {
             this.networkType = NetworkType.Client;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(Game.getInstance().getWindow(),"Can`t connect to server " + host,"Connection refused", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Can`t connect to server " + host, "Connection refused", JOptionPane.ERROR_MESSAGE);
             System.out.println("NO CONNECTION");
         }
     }
@@ -85,7 +85,7 @@ public class NetworkManager {
     }
 
     public synchronized void confirmSession() {
-        if(this.networkType == NetworkType.Host)
+        if (this.networkType == NetworkType.Host)
             this.networkThread.setServerConfirmed();
         else
             this.networkThread.setClientConfirmed();
@@ -102,11 +102,11 @@ public class NetworkManager {
     public synchronized void sendAnswer(HitType hitType) {
 
         int value = 0;
-        if(hitType == HitType.Water)
+        if (hitType == HitType.Water)
             value = 0;
-        else if(hitType == HitType.Ship)
+        else if (hitType == HitType.Ship)
             value = 1;
-        else if(hitType == HitType.ShipDestroyed)
+        else if (hitType == HitType.ShipDestroyed)
             value = 2;
 
         this.networkThread.addMessage("ANSWER " + value);

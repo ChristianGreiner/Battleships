@@ -11,6 +11,7 @@ public class Helper {
 
     /**
      * Returns a random number between a range.
+     *
      * @param min The min range.
      * @param max The max range.
      * @return The random number.
@@ -30,6 +31,7 @@ public class Helper {
 
     /**
      * Returns a random boolean.
+     *
      * @return The random boolean.
      */
     public static boolean randomBoolean() {
@@ -38,6 +40,7 @@ public class Helper {
 
     /**
      * Returns a random alignment.
+     *
      * @return Ther random alignment.
      */
     public static Alignment getRandomAlignment() {
@@ -51,6 +54,7 @@ public class Helper {
 
     /**
      * Gets a random direction
+     *
      * @param align The alignment.
      * @return The random direction.
      */
@@ -80,7 +84,7 @@ public class Helper {
      * @param g    The Graphics instance.
      * @param text The String to draw.
      * @param rect The Rectangle to center the text in.
-     * @param font  The Font to use when drawing the text
+     * @param font The Font to use when drawing the text
      */
     public static void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
         FontRenderContext frc = new FontRenderContext(null, true, true);
@@ -101,10 +105,10 @@ public class Helper {
     /**
      * Draw a String that's aligned with the left side of a Rectangle
      *
-     * @param g     The Graphics instance.
-     * @param text  The String to draw.
-     * @param rect  The bounding box for the text
-     * @param font  The Font to use when drawing the text
+     * @param g    The Graphics instance.
+     * @param text The String to draw.
+     * @param rect The bounding box for the text
+     * @param font The Font to use when drawing the text
      */
     public static void drawLeftAlignedString(Graphics g, String text, Rectangle rect, Font font) {
         FontRenderContext frc = new FontRenderContext(null, true, true);
@@ -121,9 +125,10 @@ public class Helper {
 
     /**
      * Limits a float value between min and max.
+     *
      * @param value The value.
-     * @param min The min value.
-     * @param max The max value.
+     * @param min   The min value.
+     * @param max   The max value.
      * @return The limitted value.
      */
     public static float limit(float value, float min, float max) {
@@ -132,6 +137,7 @@ public class Helper {
 
     /**
      * Check regex for a ip adress.
+     *
      * @param ip The ip adress.
      * @return The validation.
      */

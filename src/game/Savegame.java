@@ -19,14 +19,16 @@ public class Savegame implements Serializable {
     private PlayerType currentTurn = null;
     private NetworkType currentNetworkTurn = null;
     private AI ai = null;
+    private boolean isNetworkGame = false;
 
     /**
      * The constructor of the save game.
-     * @param playerMap The player map.
-     * @param enemyMap The enemy map.
+     *
+     * @param playerMap   The player map.
+     * @param enemyMap    The enemy map.
      * @param currentTurn The current turn of the players.
-     * @param difficulty The difficulty of the ai.
-     * @param ai THe current ai.
+     * @param difficulty  The difficulty of the ai.
+     * @param ai          THe current ai.
      */
     public Savegame(Map playerMap, Map enemyMap, PlayerType currentTurn, AiDifficulty difficulty, AI ai) {
         this.id = String.valueOf(System.currentTimeMillis());
@@ -37,6 +39,14 @@ public class Savegame implements Serializable {
         this.ai = ai;
     }
 
+    /**
+     * The constructor of the savegame.
+     *
+     * @param playerMap          The player map.
+     * @param enemyMap           The enemy map.
+     * @param currentNetworkTurn The current turn of the players.
+     * @param id                 The id of the savegame.
+     */
     public Savegame(Map playerMap, Map enemyMap, NetworkType currentNetworkTurn, String id) {
         this.id = id;
         this.playerMap = playerMap;
@@ -45,7 +55,26 @@ public class Savegame implements Serializable {
     }
 
     /**
+     * Whenever or not the game was an network game.
+     *
+     * @return True or false.
+     */
+    public boolean isNetworkGame() {
+        return isNetworkGame;
+    }
+
+    /**
+     * Sets the savegame as a network game.
+     *
+     * @param networkGame True or false
+     */
+    public void setNetworkGame(boolean networkGame) {
+        isNetworkGame = networkGame;
+    }
+
+    /**
      * Gets the ai.
+     *
      * @return The ai.
      */
     public AI getAi() {
@@ -54,6 +83,7 @@ public class Savegame implements Serializable {
 
     /**
      * Gets the timestamp of the savegame.
+     *
      * @return The timestamp.
      */
     public String getId() {
@@ -62,6 +92,7 @@ public class Savegame implements Serializable {
 
     /**
      * Gets the map of the player.
+     *
      * @return The map.
      */
     public Map getPlayerMap() {
@@ -70,6 +101,7 @@ public class Savegame implements Serializable {
 
     /**
      * Gets the map of the enemy.
+     *
      * @return The map.
      */
     public Map getEnemyMap() {
@@ -78,6 +110,7 @@ public class Savegame implements Serializable {
 
     /**
      * Gets the current turn of the playes.
+     *
      * @return The player type.
      */
     public PlayerType getCurrentTurn() {
@@ -86,6 +119,7 @@ public class Savegame implements Serializable {
 
     /**
      * Gets the difficulty of the ai.
+     *
      * @return The ai difficulty.
      */
     public AiDifficulty getDifficulty() {

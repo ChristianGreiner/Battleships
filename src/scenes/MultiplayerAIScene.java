@@ -37,6 +37,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     private int enemyShipsDestroyed = 0;
     private MapData mapData;
     private GameState gameState = null;
+    private float waitTimer = 0;
 
     public MultiplayerAIScene() {
         super("MultiplayerAIScene");
@@ -59,8 +60,8 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     }
 
     @Override
-    public void onAdded() {
-        super.onAdded();
+    public void onSwitched() {
+        super.onSwitched();
     }
 
     @Override
@@ -74,6 +75,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         this.uiPanel.getBtnSave().addActionListener((e) -> {
             long id = System.currentTimeMillis();
             Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, String.valueOf(id));
+            savegame.setNetworkGame(true);
             Game.getInstance().getGameFileHandler().saveSavegame(savegame);
             Game.getInstance().getNetworkManager().sendSave(id);
         });
@@ -88,18 +90,16 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         return uiPanel;
     }
 
-    private float waitTimer = 0;
-
     @Override
     public void update(double deltaTime) {
         this.enemyMapRenderer.setDisabled(!gameStarted);
 
-        if(gameStarted && this.mapData != null) {
+        if (gameStarted && this.mapData != null) {
             if (this.playerMap.allShipsDestroyed() || this.enemyShipsDestroyed == this.mapData.ShipsCount) {
                 this.gameState = GameState.Finished;
             }
 
-            if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+            if (this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
                 sendAiShot();
                 this.waitTimer = 0;
             }
@@ -110,9 +110,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
 
     @Override
     public void lateUpdate(double deltaTime) {
-        if(this.gameState == GameState.Finished) {
+        if (this.gameState == GameState.Finished) {
             this.winner = this.playerTurn;
-            GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
+            GameOverScene gameOverScene = (GameOverScene) Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
             gameOverScene.setWinner(this.winner);
             gameOverScene.initializeGameSession(null);
 
@@ -131,18 +131,16 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
 
     public void setOtherTurn() {
 
-        if(this.networkType == NetworkType.Host) {
-            if(this.playerTurn == NetworkType.Host) {
+        if (this.networkType == NetworkType.Host) {
+            if (this.playerTurn == NetworkType.Host) {
                 this.playerTurn = NetworkType.Client;
-            }
-            else  {
+            } else {
                 this.playerTurn = NetworkType.Host;
             }
         } else {
-            if(this.playerTurn == NetworkType.Client){
+            if (this.playerTurn == NetworkType.Client) {
                 this.playerTurn = NetworkType.Host;
-            }
-            else  {
+            } else {
                 this.playerTurn = NetworkType.Client;
             }
         }
@@ -154,7 +152,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     }
 
     private void changeTurnColors() {
-        if(isMyTurn()) {
+        if (isMyTurn()) {
             this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
             this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.NOTURN_RED);
         } else {
@@ -211,8 +209,8 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         this.playerMapRenderer.setMap(this.playerMap);
         this.enemyMapRenderer.setMap(this.enemyMap);
 
-        if(this.networkType == NetworkType.Client) {
-            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Initialized Savgame");
+        if (this.networkType == NetworkType.Client) {
+            Game.getInstance().getLogger().info(this.networkType.toString() + ": Initialized Savgame");
             Game.getInstance().getNetworkManager().confirmSession();
         }
 
@@ -237,15 +235,15 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
 
     @Override
     public void OnReceiveShot(Point pos) {
-        if(this.playerMap != null) {
-            if(this.playerMap.isInMap(pos)) {
+        if (this.playerMap != null) {
+            if (this.playerMap.isInMap(pos)) {
                 HitData hitData = this.playerMap.shot(pos);
                 HitType hitType = hitData.getHitType();
-                if(hitType == HitType.Water || hitType == HitType.NotPossible)
+                if (hitType == HitType.Water || hitType == HitType.NotPossible)
                     setOtherTurn();
 
                 // fallback
-                if(hitType == HitType.NotPossible)
+                if (hitType == HitType.NotPossible)
                     hitType = HitType.Water;
 
                 Game.getInstance().getNetworkManager().sendAnswer(hitType);
@@ -257,17 +255,17 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
 
     @Override
     public void OnReceiveAnswer(HitType type) {
-        Game.getInstance().getLogger().info(this.networkType.toString() +  ": Ai getting answer: " + type);
+        Game.getInstance().getLogger().info(this.networkType.toString() + ": Ai getting answer: " + type);
 
-        if(this.lastShot != null) {
+        if (this.lastShot != null) {
             this.playerAi.receiveAnswer(type);
             this.enemyMap.markTile(this.lastShot, type);
-            if(type == HitType.Water) {
+            if (type == HitType.Water) {
                 Game.getInstance().getNetworkManager().sendPass();
                 setOtherTurn();
             }
 
-            if(type == HitType.ShipDestroyed)
+            if (type == HitType.ShipDestroyed)
                 this.enemyShipsDestroyed++;
 
             this.lastShot = null;
@@ -280,6 +278,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     @Override
     public void OnReceiveSave(String id) {
         Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, id);
+        savegame.setNetworkGame(true);
         Game.getInstance().getGameFileHandler().saveSavegame(savegame);
         Game.getInstance().getNetworkManager().sendPass();
     }
@@ -302,12 +301,12 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     }
 
     public void sendAiShot() {
-        if(isMyTurn() && gameStarted) {
+        if (isMyTurn() && gameStarted) {
             Point pos = this.playerAi.shot();
-            if(this.enemyMap.isInMap(pos)) {
-                if(this.enemyMap.getTile(pos).isFree()) {
+            if (this.enemyMap.isInMap(pos)) {
+                if (this.enemyMap.getTile(pos).isFree()) {
                     Game.getInstance().getNetworkManager().sendShot(pos);
-                    if(this.lastShot == null)
+                    if (this.lastShot == null)
                         this.lastShot = pos;
                 }
             }

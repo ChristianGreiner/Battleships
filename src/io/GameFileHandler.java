@@ -19,6 +19,7 @@ public class GameFileHandler {
 
     /**
      * Reads the map config.
+     *
      * @param filename The name of the config file.
      * @return The map config.
      * @throws Exception Gets thrown when the map cant be find.
@@ -35,7 +36,8 @@ public class GameFileHandler {
 
     /**
      * Serialize an object to a file.
-     * @param object The object.
+     *
+     * @param object   The object.
      * @param fileName The file.
      */
     public void writeObject(Object object, String fileName) {
@@ -53,8 +55,9 @@ public class GameFileHandler {
 
     /**
      * Serialize an object to a file.
-     * @param object The object.
-     * @param file The file.
+     *
+     * @param object    The object.
+     * @param file      The file.
      * @param extension The extension of the file.
      */
     public void writeObject(Object object, File file, String extension) {
@@ -63,6 +66,7 @@ public class GameFileHandler {
 
     /**
      * Deserialize an object from a file.
+     *
      * @param fileName The file name.
      * @return The object.
      */
@@ -82,6 +86,7 @@ public class GameFileHandler {
 
     /**
      * Deserialize an object from a file.
+     *
      * @param file The file.
      * @return The object.
      */
@@ -94,6 +99,8 @@ public class GameFileHandler {
             in = new ObjectInputStream(fis);
             object = in.readObject();
             in.close();
+        } catch (InvalidClassException ex) {
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This savegame seems to be invalid or corrupted.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -102,6 +109,7 @@ public class GameFileHandler {
 
     /**
      * Writes the savegame to a file.
+     *
      * @param savegame The savegame.
      */
     public void saveSavegame(Savegame savegame) {
@@ -110,7 +118,7 @@ public class GameFileHandler {
         String fileName = String.valueOf(savegame.getId());
 
         File directory = new File(directoryName);
-        if (! directory.exists()){
+        if (!directory.exists()) {
             directory.mkdir();
         }
 
@@ -118,8 +126,29 @@ public class GameFileHandler {
         this.writeObject(savegame, file, "bsg");
     }
 
+    public void saveSavegameFileChooser(Savegame savegame) {
+        String PATH = System.getProperty("user.dir") + "/";
+        String directoryName = PATH.concat("savegames");
+        File directory = new File(directoryName);
+
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(directory);
+        fileChooser.setFileFilter(FILE_EXTENSION);
+
+        if (fileChooser.showSaveDialog(Game.getInstance().getWindow()) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+
+            this.writeObject(savegame, file, "bsg");
+        }
+    }
+
     /**
      * Loads the save game.
+     *
      * @return The save game.
      */
     public Savegame loadSavegame() {
@@ -130,7 +159,6 @@ public class GameFileHandler {
 
         if (fileChooser.showOpenDialog(Game.getInstance().getWindow()) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-
             Savegame savegame = (Savegame) this.loadObject(file);
             return savegame;
         }
@@ -138,6 +166,12 @@ public class GameFileHandler {
         return null;
     }
 
+    /**
+     * Loads a save game by given id.
+     *
+     * @param id The id of the savegame.
+     * @return The loaded savegame.
+     */
     public Savegame loadSavegame(String id) {
         System.out.println("LOADING " + id);
         try {
@@ -147,8 +181,7 @@ public class GameFileHandler {
 
             File file = new File(directoryName + "/" + fileName);
             return (Savegame) this.loadObject(file);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
 
         }
         return null;

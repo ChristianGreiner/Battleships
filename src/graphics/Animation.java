@@ -21,7 +21,8 @@ public class Animation {
 
     /**
      * The constructor of the animation.
-     * @param frames Array of frames of the animation.
+     *
+     * @param frames     Array of frames of the animation.
      * @param frameDelay The delay of frame.
      */
     public Animation(BufferedImage[] frames, int frameDelay) {
@@ -39,13 +40,14 @@ public class Animation {
 
         this.frameDelay = frameDelay;
 
-        if(Game.getInstance().getTargetFps() == 60)
+        if (Game.getInstance().getTargetFps() == 60)
             this.frameDelay *= 2;
 
     }
 
     /**
      * Whenever or not the animation is stopped.
+     *
      * @return If the animation is stopped.
      */
     public boolean isStopped() {
@@ -54,6 +56,7 @@ public class Animation {
 
     /**
      * Gets the frames of the animation.
+     *
      * @return A list of frames.
      */
     public List<SpriteFrame> getFrames() {
@@ -118,6 +121,7 @@ public class Animation {
 
     /**
      * Gets the image of the current sprite.
+     *
      * @return
      */
     public BufferedImage getSprite() {
@@ -148,8 +152,9 @@ public class Animation {
 
     /**
      * Draws the animation.
-     * @param g The graphics element.
-     * @param pos The position of the animation.
+     *
+     * @param g    The graphics element.
+     * @param pos  The position of the animation.
      * @param size The size of the image.
      */
     public void draw(Graphics g, Point pos, Point size) {

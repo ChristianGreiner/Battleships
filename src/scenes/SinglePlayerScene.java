@@ -33,6 +33,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private boolean paused = false;
     private PlayerType winner;
     private GameSessionData gameSessionData;
+    private float waitTimer = 0;
 
     public SinglePlayerScene() {
         super("SinglePlayer");
@@ -44,17 +45,15 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.enemyMapRenderer.addMapRendererListener(this);
     }
 
-    public void reset() {
+    @Override
+    public void onSwitched() {
+        super.onSwitched();
         this.winner = null;
         this.gameState = GameState.Started;
+
         this.playerMapRenderer.setDisabled(false);
         this.enemyMapRenderer.setDisabled(false);
         this.setUpdatePaused(false);
-    }
-
-    @Override
-    public void onAdded() {
-        super.onAdded();
     }
 
     public void initializeGameSession(GameSessionData data) {
@@ -89,8 +88,6 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.playerTurn = savegame.getCurrentTurn();
     }
 
-    private float waitTimer = 0;
-
     @Override
     public void update(double deltaTime) {
 
@@ -103,18 +100,16 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         if (this.playerMap.allShipsDestroyed() || this.enemyMap.allShipsDestroyed()) {
 
-            if(this.playerMap.allShipsDestroyed()) {
+            if (this.playerMap.allShipsDestroyed()) {
                 this.winner = PlayerType.AI;
-            }
-            else if(this.enemyMap.allShipsDestroyed()) {
+            } else if (this.enemyMap.allShipsDestroyed()) {
                 this.winner = PlayerType.Player;
             }
 
             this.gameState = GameState.Finished;
-        }
-        else {
-            if(this.playerTurn == PlayerType.AI) {
-                if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+        } else {
+            if (this.playerTurn == PlayerType.AI) {
+                if (this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
                     handleAiShot();
                     this.waitTimer = 0;
                 }
@@ -133,11 +128,10 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     public void lateUpdate(double deltaTime) {
 
         if (this.gameState == GameState.Finished) {
-            GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
+            GameOverScene gameOverScene = (GameOverScene) Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
             gameOverScene.setWinner(this.winner);
             gameOverScene.initializeGameSession(this.gameSessionData);
             this.setUpdatePaused(true);
-            this.reset();
         }
     }
 
@@ -162,15 +156,18 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
             Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            if(savegame != null) {
-                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-                scene.initializeSavegame(savegame);
+            if (savegame != null) {
+                if (!savegame.isNetworkGame()) {
+                    SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+                    scene.initializeSavegame(savegame);
+                } else
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a multiplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         singlePlayerPanel.getBtnSave().addActionListener((e) -> {
             Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
-            Game.getInstance().getGameFileHandler().saveSavegame(savegame);
+            Game.getInstance().getGameFileHandler().saveSavegameFileChooser(savegame);
         });
 
         this.uiPanel = singlePlayerPanel;
@@ -218,7 +215,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
         this.playerMapRenderer.playExplosion(hitData.getPosition());
 
-        if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
+        if (hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
             this.playerTurn = PlayerType.AI;
         } else if (hitData.getHitType() == HitType.Water) {
             this.playerTurn = PlayerType.Player;
@@ -232,12 +229,12 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     @Override
     public void OnShotFired(Map map, Point pos) {
 
-        if(this.playerTurn == PlayerType.Player) {
+        if (this.playerTurn == PlayerType.Player) {
             HitData hitData = map.shot(pos);
             this.enemyMapRenderer.playExplosion(hitData.getPosition());
 
             // set playerturn
-            if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
+            if (hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
                 this.playerTurn = PlayerType.Player;
             } else if (hitData.getHitType() == HitType.Water) {
                 this.playerTurn = PlayerType.AI;

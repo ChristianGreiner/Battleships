@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 public class CreditsPanel extends JPanel {
 
+    private CreditsRenderer creditsRenderer;
+
     public CreditsRenderer getCreditsRenderer() {
         return creditsRenderer;
     }
-
-    private CreditsRenderer creditsRenderer;
 
     public CreditsPanel create(ArrayList<Credit> credits) {
         CreditsPanel rootPanel = this;

@@ -10,6 +10,9 @@ import java.awt.*;
 public class ShipSelectionPanel extends JPanel {
 
     private MapBuilderRenderer mapRenderer;
+    private JButton btnRandomMap;
+    private JButton btnCancel;
+    private JButton btnStartGame;
 
     public ShipSelectionPanel(MapBuilderRenderer mapRenderer) {
         this.mapRenderer = mapRenderer;
@@ -28,9 +31,6 @@ public class ShipSelectionPanel extends JPanel {
         Game.getInstance().getWindow().revalidate();
     }
 
-    private JButton btnRandomMap;
-    private JButton btnCancel;
-
     public JButton getBtnRandomMap() {
         return btnRandomMap;
     }
@@ -42,8 +42,6 @@ public class ShipSelectionPanel extends JPanel {
     public JButton getBtnStartGame() {
         return btnStartGame;
     }
-
-    private JButton btnStartGame;
 
     public ShipSelectionPanel create(Dimension mapsRendererSize) {
         ShipSelectionPanel panel = this;

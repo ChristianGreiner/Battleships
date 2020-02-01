@@ -21,6 +21,7 @@ public class HitData {
 
     /**
      * Gets the ship if a ship was hitted.
+     *
      * @return The ship.
      */
     public Ship getShip() {
@@ -29,6 +30,7 @@ public class HitData {
 
     /**
      * Gets the position of the hit.
+     *
      * @return The position of the hit.
      */
     public Point getPosition() {
@@ -37,6 +39,7 @@ public class HitData {
 
     /**
      * Gets the type of hit.
+     *
      * @return The type of hit.
      */
     public HitType getHitType() {

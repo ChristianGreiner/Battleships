@@ -15,16 +15,16 @@ import java.awt.*;
 
 public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkListener, GameSession {
 
+    private GameSessionData sessionData;
+    private Savegame savegame;
+
     public WaitingForPlayerScene() {
         super("WaitingForPlayerScene");
     }
 
-    private GameSessionData sessionData;
-    private Savegame savegame;
-
     @Override
-    public void onAdded() {
-        super.onAdded();
+    public void onSwitched() {
+        super.onSwitched();
 
         Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
@@ -49,12 +49,12 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void OnPlayerConnected() {
-        if(this.savegame == null) {
+        if (this.savegame == null) {
             ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
             scene.setNetworkGame(true);
             scene.initializeGameSession(this.sessionData);
         } else {
-            if(this.sessionData.isAiGame()) {
+            if (this.sessionData.isAiGame()) {
                 MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
                 scene.initializeSavegame(this.sessionData.getSavegame());
             } else {
@@ -99,11 +99,10 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
         this.sessionData = data;
         this.savegame = data.getSavegame();
 
-        if(data.getSavegame() != null) {
+        if (data.getSavegame() != null) {
             Game.getInstance().getNetworkManager().startServer(data.getSavegame().getId());
             Game.getInstance().getNetworkManager().confirmSession();
-        }
-        else {
+        } else {
             Game.getInstance().getNetworkManager().startServer(data.getMapSize());
         }
     }

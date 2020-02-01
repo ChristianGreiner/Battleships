@@ -15,6 +15,7 @@ public class AssetsLoader {
 
     /**
      * Static assets loader reference.
+     *
      * @return The assets loader.
      */
     public static int getAssetsLoaded() {
@@ -23,6 +24,7 @@ public class AssetsLoader {
 
     /**
      * Loads a font.
+     *
      * @param fontName The font name
      * @param fontSize The font size.
      * @return The font.
@@ -41,6 +43,7 @@ public class AssetsLoader {
 
     /**
      * Loads an image.
+     *
      * @param imageName The image name.
      * @return The image.
      */
@@ -57,6 +60,7 @@ public class AssetsLoader {
 
     /**
      * Loads a buffered image.
+     *
      * @param imageName The name of the image.
      * @return The buffered image.
      */
@@ -72,12 +76,13 @@ public class AssetsLoader {
 
     /**
      * Loads a clip (sound).
+     *
      * @param soundName The sound name.
      * @return The clip.
      */
     public static Clip loadSound(String soundName) {
         try {
-            AudioInputStream  input = AudioSystem.getAudioInputStream(AssetsLoader.class.getClassLoader().getResource(soundName));
+            AudioInputStream input = AudioSystem.getAudioInputStream(AssetsLoader.class.getClassLoader().getResource(soundName));
 
             Clip soundClip = AudioSystem.getClip();
             soundClip.open(input);

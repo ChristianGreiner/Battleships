@@ -27,8 +27,8 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
     }
 
     @Override
-    public void onAdded() {
-        super.onAdded();
+    public void onSwitched() {
+        super.onSwitched();
     }
 
     @Override
@@ -81,7 +81,7 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
 
     @Override
     public void draw() {
-        if (this.creditsRenderer != null ) {
+        if (this.creditsRenderer != null) {
             this.creditsRenderer.draw();
         }
     }

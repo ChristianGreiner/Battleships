@@ -23,19 +23,6 @@ public class NetworkThread extends Thread {
     private volatile boolean serverConfirmed = false;
     private BlockingQueue<String> messageQueue = new ArrayBlockingQueue<String>(1);
 
-    public synchronized void setClientConfirmed() {
-        this.clientConfirmed = true;
-    }
-    public synchronized void setServerConfirmed() {
-        this.serverConfirmed = true;
-    }
-
-    public synchronized void addMessage(String message) {
-        if(this.messageQueue.isEmpty()) {
-            this.messageQueue.add(message);
-        }
-    }
-
     public NetworkThread(NetworkManager networkManager, ServerSocket serverSocket, int mapSize) {
         this.networkManager = networkManager;
         this.serverSocket = serverSocket;
@@ -56,9 +43,23 @@ public class NetworkThread extends Thread {
         this.networkType = NetworkType.Client;
     }
 
+    public synchronized void setClientConfirmed() {
+        this.clientConfirmed = true;
+    }
+
+    public synchronized void setServerConfirmed() {
+        this.serverConfirmed = true;
+    }
+
+    public synchronized void addMessage(String message) {
+        if (this.messageQueue.isEmpty()) {
+            this.messageQueue.add(message);
+        }
+    }
+
     private Point parseShotMessage(String message) {
         String[] size = message.split(" ");
-        if(size.length > 0) {
+        if (size.length > 0) {
             if (size[1] != null && size[2] != null) {
                 if (!size[1].isEmpty() && !size[2].isEmpty()) {
                     int x = Integer.parseInt(size[1]);
@@ -72,9 +73,9 @@ public class NetworkThread extends Thread {
 
     private int parseSizeMessage(String message) {
         String[] size = message.split(" ");
-        if(size.length > 0) {
-            if(size[1] != null) {
-                if(!size[1].isEmpty()) {
+        if (size.length > 0) {
+            if (size[1] != null) {
+                if (!size[1].isEmpty()) {
                     return Integer.parseInt(size[1]);
                 }
             }
@@ -84,27 +85,28 @@ public class NetworkThread extends Thread {
 
     private String parseSaveLoadMessage(String message) {
         String[] size = message.split(" ");
-        if(size.length > 0) {
-            if(size[1] != null) {
-                if(!size[1].isEmpty()) {
+        if (size.length > 0) {
+            if (size[1] != null) {
+                if (!size[1].isEmpty()) {
                     return size[1];
                 }
             }
         }
         return null;
     }
+
     private HitType parseAnswerMessage(String message) {
         String[] messageArray = message.split(" ");
-        if(messageArray.length > 0) {
-            if(messageArray[1] != null) {
-                if(!messageArray[1].isEmpty()) {
+        if (messageArray.length > 0) {
+            if (messageArray[1] != null) {
+                if (!messageArray[1].isEmpty()) {
                     HitType hitType = HitType.Water;
                     String value = messageArray[1];
-                    if(value.equals("0")) {
+                    if (value.equals("0")) {
                         hitType = HitType.Water;
-                    } else if(value.equals("1")) {
+                    } else if (value.equals("1")) {
                         hitType = HitType.Ship;
-                    } else if(value.equals("2")) {
+                    } else if (value.equals("2")) {
                         hitType = HitType.ShipDestroyed;
                     }
 
@@ -122,10 +124,10 @@ public class NetworkThread extends Thread {
         try {
             while (true) {
                 BufferedReader in = null;
-                Writer out =  null;
+                Writer out = null;
 
                 // HOST STUFF
-                if(this.networkType == NetworkType.Host) {
+                if (this.networkType == NetworkType.Host) {
 
                     // Wait for client connects to the game session
                     Socket socket = null;
@@ -148,12 +150,11 @@ public class NetworkThread extends Thread {
 
                     // 1. Sends the map size
                     System.out.println("[SERVER] Sending Map Size");
-                    if(this.mapSize != -1) {
-                        Game.getInstance().getLogger().info(this.networkType.toString() +  ": Sends message: " + "SIZE " + this.mapSize);
+                    if (this.mapSize != -1) {
+                        Game.getInstance().getLogger().info(this.networkType.toString() + ": Sends message: " + "SIZE " + this.mapSize);
                         out.write(String.format("%s%n", "SIZE " + this.mapSize));
-                    }
-                    else if(this.saveGameId != null) {
-                        Game.getInstance().getLogger().info(this.networkType.toString() +  ": Sends message: " + "LOAD " + this.saveGameId);
+                    } else if (this.saveGameId != null) {
+                        Game.getInstance().getLogger().info(this.networkType.toString() + ": Sends message: " + "LOAD " + this.saveGameId);
                         out.write(String.format("%s%n", "LOAD " + this.saveGameId));
                     }
 
@@ -164,8 +165,8 @@ public class NetworkThread extends Thread {
                         String message = in.readLine();
                         if (message == null) continue;
                         message = message.toUpperCase();
-                        if(message.contains("CONFIRMED")) {
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Gets message: CONFIRMED");
+                        if (message.contains("CONFIRMED")) {
+                            Game.getInstance().getLogger().info(this.networkType.toString() + ": Gets message: CONFIRMED");
                             System.out.println("[Server] Client CONFIRMED");
                         }
                         break;
@@ -175,9 +176,9 @@ public class NetworkThread extends Thread {
                     System.out.println("[SERVER] Is confirmed? " + serverConfirmed);
                     // sends confirmed when server is ready
                     while (true) {
-                        if(!this.serverConfirmed) continue;
+                        if (!this.serverConfirmed) continue;
                         System.out.println("[SERVER] Sending confirmed");
-                        Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: CONFIRMED");
+                        Game.getInstance().getLogger().info(this.networkType.toString() + ": Send message: CONFIRMED");
                         out.write(String.format("%s%n", "CONFIRMED"));
                         out.flush();
 
@@ -192,7 +193,7 @@ public class NetworkThread extends Thread {
                             String message = in.readLine();
                             if (message == null) continue;
                             message = message.toUpperCase();
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Get message: " + message);
+                            Game.getInstance().getLogger().info(this.networkType.toString() + ": Get message: " + message);
                             handlingMessage(message);
                             break;
                         }
@@ -201,33 +202,33 @@ public class NetworkThread extends Thread {
                             String message = this.messageQueue.take();
                             if (message == null) continue;
                             message = message.toUpperCase();
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: " + message);
+                            Game.getInstance().getLogger().info(this.networkType.toString() + ": Send message: " + message);
                             out.write(String.format("%s%n", message));
                             out.flush();
                             break;
                         }
                     }
 
-                // CLIENT STUFF
+                    // CLIENT STUFF
                 } else {
                     in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
                     out = new OutputStreamWriter(this.clientSocket.getOutputStream());
 
                     // Waiting for getting the map size or the load id
-                    while(true) {
+                    while (true) {
                         String message = in.readLine();
                         if (message == null) continue;
                         message = message.toUpperCase();
-                        if(message.contains("SIZE")) {
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Gets message: " + message);
+                        if (message.contains("SIZE")) {
+                            Game.getInstance().getLogger().info(this.networkType.toString() + ": Gets message: " + message);
                             int mapSize = parseSizeMessage(message);
-                            if(mapSize >= 5 && mapSize <= 30) {
+                            if (mapSize >= 5 && mapSize <= 30) {
                                 for (NetworkListener listener : this.networkManager.getListeners()) {
                                     listener.OnGameJoined(mapSize);
                                 }
                             }
-                        } else if(message.contains("LOAD")) {
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Gets message: " + message);
+                        } else if (message.contains("LOAD")) {
+                            Game.getInstance().getLogger().info(this.networkType.toString() + ": Gets message: " + message);
                             String id = parseSaveLoadMessage(message);
                             for (NetworkListener listener : this.networkManager.getListeners()) {
                                 listener.OnReceiveLoad(id);
@@ -238,9 +239,9 @@ public class NetworkThread extends Thread {
 
                     // waiting for sending the confirmed message
                     while (true) {
-                        if(!this.clientConfirmed) continue;
+                        if (!this.clientConfirmed) continue;
                         System.out.println("[CLIENT] Sending confirmed");
-                        Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: CONFIRMED");
+                        Game.getInstance().getLogger().info(this.networkType.toString() + ": Send message: CONFIRMED");
                         out.write(String.format("%s%n", "CONFIRMED"));
                         out.flush();
                         break;
@@ -251,8 +252,8 @@ public class NetworkThread extends Thread {
                         String message = in.readLine();
                         if (message == null) continue;
                         message = message.toUpperCase();
-                        if(message.contains("CONFIRMED")) {
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Gets message: " + message);
+                        if (message.contains("CONFIRMED")) {
+                            Game.getInstance().getLogger().info(this.networkType.toString() + ": Gets message: " + message);
                             System.out.println("Server confirmed");
                             for (NetworkListener listener : this.networkManager.getListeners()) {
                                 listener.OnGameStarted();
@@ -266,7 +267,7 @@ public class NetworkThread extends Thread {
                             String message = this.messageQueue.take();
                             if (message == null) continue;
                             message = message.toUpperCase();
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Send message: " + message);
+                            Game.getInstance().getLogger().info(this.networkType.toString() + ": Send message: " + message);
                             out.write(String.format("%s%n", message));
                             out.flush();
                             break;
@@ -276,40 +277,40 @@ public class NetworkThread extends Thread {
                             String message = in.readLine();
                             if (message == null) continue;
                             message = message.toUpperCase();
-                            Game.getInstance().getLogger().info(this.networkType.toString() +  ": Get message: " + message);
+                            Game.getInstance().getLogger().info(this.networkType.toString() + ": Get message: " + message);
                             handlingMessage(message);
                             break;
                         }
                     }
                 }
             }
-        } catch (Exception ex)  {
+        } catch (Exception ex) {
 
         }
     }
 
     private void handlingMessage(String message) {
         message = message.toUpperCase();
-        if(!message.isEmpty()) {
-            if(message.contains("SHOT")) {
+        if (!message.isEmpty()) {
+            if (message.contains("SHOT")) {
                 Point location = parseShotMessage(message);
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveShot(location);
                 }
-            } else if(message.contains("ANSWER")) {
+            } else if (message.contains("ANSWER")) {
                 HitType hitType = parseAnswerMessage(message);
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveAnswer(hitType);
                 }
-            }else if(message.contains("SAVE")) {
+            } else if (message.contains("SAVE")) {
                 String id = parseSaveLoadMessage(message);
-                Game.getInstance().getLogger().info(this.networkType.toString() +  ": Getting SAVE: " + id);
+                Game.getInstance().getLogger().info(this.networkType.toString() + ": Getting SAVE: " + id);
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveSave(id);
                 }
-            } else if(message.contains("LOAD")) {
+            } else if (message.contains("LOAD")) {
                 String id = parseSaveLoadMessage(message);
-                Game.getInstance().getLogger().info(this.networkType.toString() +  ": Getting LOAD: " + id);
+                Game.getInstance().getLogger().info(this.networkType.toString() + ": Getting LOAD: " + id);
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveLoad(id);
                 }
@@ -319,10 +320,10 @@ public class NetworkThread extends Thread {
 
     public void stopNetwork() {
         try {
-            if(this.serverSocket != null) {
+            if (this.serverSocket != null) {
                 this.serverSocket.close();
             }
-            if(this.clientSocket != null) {
+            if (this.clientSocket != null) {
                 this.clientSocket.close();
             }
         } catch (IOException e) {

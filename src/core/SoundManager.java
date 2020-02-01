@@ -12,16 +12,14 @@ public class SoundManager {
 
     private SoundPlayer backgroundPlayer;
 
-    public SoundManager() {
-    }
-
     public SoundPlayer getBackgroundPlayer() {
         return backgroundPlayer;
     }
 
     /**
      * Plays a music in the background.
-     * @param audioClip The music audio clip.
+     *
+     * @param audioClip    The music audio clip.
      * @param forceRestart Whenever or not the background player should restart the background music.
      */
     public void playBackgroundMusic(Clip audioClip, boolean forceRestart) {
@@ -45,6 +43,7 @@ public class SoundManager {
 
     /**
      * Plays a sound fx.
+     *
      * @param audioClip The sfx audio clip.
      */
     public void playSfx(Clip audioClip) {
@@ -55,20 +54,26 @@ public class SoundManager {
 
     /**
      * Plays a sound fx.
+     *
      * @param audioClip The sfx audio clip.
-     * @param volume The volume of the sfx audio clip.
+     * @param volume    The volume of the sfx audio clip.
      */
     public void playSfx(Clip audioClip, float volume) {
         SoundPlayer soundPlayer = new SoundPlayer(audioClip);
         soundPlayer.play(volume);
     }
 
-    public void handleHitSoundFx(HitType lastHitType) {
-        if (lastHitType == HitType.Water) {
+    /**
+     * Plays the sound according to the hit type.
+     *
+     * @param hitType The hit type
+     */
+    public void handleHitSoundFx(HitType hitType) {
+        if (hitType == HitType.Water) {
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.WATER_HIT);
-        } else if (lastHitType == HitType.Ship) {
+        } else if (hitType == HitType.Ship) {
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHIP_HIT);
-        } else if (lastHitType == HitType.ShipDestroyed) {
+        } else if (hitType == HitType.ShipDestroyed) {
             Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHIP_EXPLOSION);
         }
     }

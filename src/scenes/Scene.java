@@ -24,6 +24,6 @@ public abstract class Scene {
     public void onRemove() {
     }
 
-    public void onAdded() {
+    public void onSwitched() {
     }
 }

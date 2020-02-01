@@ -21,7 +21,8 @@ public class CreditsRenderer extends Renderer {
 
     /**
      * The constructor of the renderer.
-     * @param credits A list of credits.
+     *
+     * @param credits    A list of credits.
      * @param canvasSize The size of the canvas.
      */
     public CreditsRenderer(ArrayList<Credit> credits, Point canvasSize) {
@@ -48,7 +49,7 @@ public class CreditsRenderer extends Renderer {
             Helper.drawCenteredString(g, c.getText(), rec, c.getFont());
         }
 
-        if(Game.getInstance().getTargetFps() == 60)
+        if (Game.getInstance().getTargetFps() == 60)
             currentY -= 1;
         else
             currentY -= 3;

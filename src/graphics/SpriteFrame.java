@@ -12,7 +12,8 @@ public class SpriteFrame {
 
     /**
      * The constructor of a sprite frame.
-     * @param frame The buffered image frame.
+     *
+     * @param frame    The buffered image frame.
      * @param duration The duration of the sprite frame.
      */
     public SpriteFrame(BufferedImage frame, int duration) {
@@ -22,6 +23,7 @@ public class SpriteFrame {
 
     /**
      * Gets the frame.
+     *
      * @return The buffered image frame.
      */
     public BufferedImage getFrame() {

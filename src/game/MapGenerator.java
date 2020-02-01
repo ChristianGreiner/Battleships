@@ -11,15 +11,16 @@ import java.util.HashMap;
  */
 public class MapGenerator {
 
+    private static HashMap<Integer, MapData> configMap = new HashMap<>();
+
     /**
      * A container for storing the mapdata (value) foreach map size. (Key)
+     *
      * @return
      */
     public static HashMap<Integer, MapData> getConfigMap() {
         return configMap;
     }
-
-    private static HashMap<Integer, MapData> configMap = new HashMap<>();
 
     /**
      * Initialize the map generator and reads the map data. (Json file)
@@ -38,6 +39,7 @@ public class MapGenerator {
 
     /**
      * Generates the map.
+     *
      * @param size The size of the map.
      * @return The map.
      */

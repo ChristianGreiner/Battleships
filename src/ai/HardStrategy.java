@@ -94,8 +94,9 @@ public class HardStrategy implements AiStrategy, Serializable {
 
     /**
      * choose a new point in the grid or a new random point.
+     *
      * @param checkpoint selected point from process
-     * @param map current map of player in the game.
+     * @param map        current map of player in the game.
      * @return the new point
      */
 

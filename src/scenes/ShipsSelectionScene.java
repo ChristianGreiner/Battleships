@@ -24,6 +24,13 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     private boolean networkGame = false;
     private GameSessionData gameSessionData;
 
+    public ShipsSelectionScene() {
+        super("ShipsSelectionScene");
+
+        this.buildRenderer = new MapBuilderRenderer(null);
+        this.buildRenderer.addMapRendererListener(this);
+    }
+
     public boolean isNetworkGame() {
         return networkGame;
     }
@@ -32,16 +39,13 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         this.networkGame = networkGame;
     }
 
-    public ShipsSelectionScene() {
-        super("ShipsSelectionScene");
-
-        this.buildRenderer = new MapBuilderRenderer(null);
-        this.buildRenderer.addMapRendererListener(this);
-    }
-
     @Override
-    public void onAdded() {
-        super.onAdded();
+    public void onSwitched() {
+        super.onSwitched();
+
+        this.playerMap = null;
+        this.gameSessionData = null;
+
         this.mapGenerator = new MapGenerator();
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
         this.buildRenderer.setEditorMode(true);
@@ -83,9 +87,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         });
 
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
-            if(this.isNetworkGame()) {
+            if (this.isNetworkGame()) {
                 // Multiplayer with AI
-                if(this.gameSessionData.isAiGame()) {
+                if (this.gameSessionData.isAiGame()) {
                     MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
                     scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), true));
                 } else {
@@ -97,13 +101,12 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
             } else {
 
                 // local singleplayer with ai
-                if(this.gameSessionData.isAiGame()) {
+                if (this.gameSessionData.isAiGame()) {
                     SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
                     scene.reset();
                     scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), this.gameSessionData.isAiGame()));
                 } else {
                     SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-                    scene.reset();
                     scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty()));
                 }
             }
@@ -141,12 +144,12 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
     @Override
     public void draw() {
-        if(this.uiPanel != null && this.buildRenderer != null) {
+        if (this.uiPanel != null && this.buildRenderer != null) {
             if (this.uiPanel.isVisible() && this.uiPanel.isValid()) {
                 this.buildRenderer.draw();
             }
 
-            if(this.playerMap != null)
+            if (this.playerMap != null)
                 this.uiPanel.getBtnStartGame().setEnabled(this.playerMap.isCorrectFilled());
         }
     }
@@ -154,15 +157,13 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
         // ship not inserted  yet
-        if(ship.getPosition() == null){
+        if (ship.getPosition() == null) {
             map.insert(ship, pos, rotated);
-        }
-        else {
+        } else {
             // ship already inserted
-            if((ship.isRotated() && !rotated) || (!ship.isRotated() && rotated)){
+            if ((ship.isRotated() && !rotated) || (!ship.isRotated() && rotated)) {
                 map.moveAndRotate(ship, pos);
-            }
-            else
+            } else
                 map.move(ship, pos);
         }
 

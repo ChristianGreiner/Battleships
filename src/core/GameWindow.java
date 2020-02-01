@@ -90,6 +90,7 @@ public class GameWindow extends JFrame implements Runnable {
 
     /**
      * Gets the root panel of the window.
+     *
      * @return The root panel.
      */
     public JPanel getRootPanel() {
@@ -98,7 +99,8 @@ public class GameWindow extends JFrame implements Runnable {
 
     /**
      * Adds a gui element to the game window.
-     * @param panel The gui panel.
+     *
+     * @param panel    The gui panel.
      * @param guiScene The gui scene.
      */
     public void addGui(JPanel panel, GuiScene guiScene) {
@@ -113,6 +115,7 @@ public class GameWindow extends JFrame implements Runnable {
 
     /**
      * Removes a gui element from the game window.
+     *
      * @param panel The gui panel.
      */
     public void removeGui(JPanel panel) {
@@ -129,6 +132,11 @@ public class GameWindow extends JFrame implements Runnable {
         this.setVisible(true);
     }
 
+    /**
+     * Calculate the aspect ratio for the window.
+     *
+     * @return The new size of the window.
+     */
     public Dimension calcAspectRatio() {
 
         if (this.isFullscreen) {
@@ -156,20 +164,31 @@ public class GameWindow extends JFrame implements Runnable {
     }
 
 
+    /**
+     * Calcs the ratio / size for the map builder
+     *
+     * @return The new size.
+     */
     public Dimension getBuildMapRenderPanelSize() {
         Dimension currentSize = Game.getInstance().getWindow().getSize();
-        float ratio = (float)currentSize.width / VIRTUAL_WIDTH;
-        return new Dimension((int)((START_MAPSIZE * 2) * ratio),(int)(START_MAPSIZE * ratio));
+        float ratio = (float) currentSize.width / VIRTUAL_WIDTH;
+        return new Dimension((int) ((START_MAPSIZE * 2) * ratio), (int) (START_MAPSIZE * ratio));
     }
 
+    /**
+     * Calcs the ratio / size for the map.
+     *
+     * @return The size.
+     */
     public Dimension getMapRenderPanelSize() {
         Dimension currentSize = Game.getInstance().getWindow().getSize();
-        float ratio = (float)currentSize.width / VIRTUAL_WIDTH;
-        return new Dimension((int)(START_MAPSIZE * ratio),(int)(START_MAPSIZE * ratio));
+        float ratio = (float) currentSize.width / VIRTUAL_WIDTH;
+        return new Dimension((int) (START_MAPSIZE * ratio), (int) (START_MAPSIZE * ratio));
     }
 
     /**
      * Set the game window to fullscreen.
+     *
      * @param state
      */
     public void setFullscreen(boolean state) {
@@ -186,6 +205,7 @@ public class GameWindow extends JFrame implements Runnable {
 
     /**
      * Paints the game window.
+     *
      * @param graphics
      */
     @Override

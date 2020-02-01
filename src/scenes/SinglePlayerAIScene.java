@@ -34,6 +34,7 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
     private boolean paused = false;
     private PlayerType winner;
     private GameSessionData gameSessionData;
+    private float waitTimer = 0;
 
     public SinglePlayerAIScene() {
         super("SinglePlayerAIScene");
@@ -51,8 +52,8 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
     }
 
     @Override
-    public void onAdded() {
-        super.onAdded();
+    public void onSwitched() {
+        super.onSwitched();
     }
 
     public void initializeGameSession(GameSessionData data) {
@@ -89,8 +90,6 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         this.playerTurn = savegame.getCurrentTurn();
     }
 
-    private float waitTimer = 0;
-
     @Override
     public void update(double deltaTime) {
 
@@ -103,18 +102,16 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
 
         if (this.playerMap.allShipsDestroyed() || this.enemyMap.allShipsDestroyed()) {
 
-            if(this.playerMap.allShipsDestroyed()) {
+            if (this.playerMap.allShipsDestroyed()) {
                 this.winner = PlayerType.AI;
-            }
-            else if(this.enemyMap.allShipsDestroyed()) {
+            } else if (this.enemyMap.allShipsDestroyed()) {
                 this.winner = PlayerType.Player;
             }
 
             this.gameState = GameState.Finished;
-        }
-        else {
-            if(this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
-                if(this.playerTurn == PlayerType.AI) {
+        } else {
+            if (this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+                if (this.playerTurn == PlayerType.AI) {
                     handleAiShot(this.enemyAi, this.playerMap, this.enemyMapRenderer);
                 } else {
                     handleAiShot(this.playerAi, this.enemyMap, this.playerMapRenderer);
@@ -130,7 +127,7 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
     public void lateUpdate(double deltaTime) {
 
         if (this.gameState == GameState.Finished) {
-            GameOverScene gameOverScene = (GameOverScene)Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
+            GameOverScene gameOverScene = (GameOverScene) Game.getInstance().getSceneManager().setActiveScene(GameOverScene.class);
             gameOverScene.setWinner(this.winner);
             gameOverScene.initializeGameSession(this.gameSessionData);
             this.setUpdatePaused(true);
@@ -208,9 +205,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
 
         mapRenderer.playExplosion(hitData.getPosition());
 
-        if(this.playerTurn == PlayerType.AI) {
+        if (this.playerTurn == PlayerType.AI) {
 
-            if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
+            if (hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
                 this.playerTurn = PlayerType.AI;
             } else if (hitData.getHitType() == HitType.Water) {
                 this.playerTurn = PlayerType.Player;
@@ -221,7 +218,7 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
 
         } else {
 
-            if(hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
+            if (hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
                 this.playerTurn = PlayerType.Player;
             } else if (hitData.getHitType() == HitType.Water) {
                 this.playerTurn = PlayerType.AI;

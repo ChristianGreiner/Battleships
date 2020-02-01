@@ -25,6 +25,7 @@ public class SceneManager {
 
     /**
      * Gets the active running scene.
+     *
      * @return The active scene.
      */
     public Scene getActiveScene() {
@@ -33,6 +34,7 @@ public class SceneManager {
 
     /**
      * Adds a new scene to the game.
+     *
      * @param scene The scene.
      */
     public void addScene(Scene scene) {
@@ -41,6 +43,7 @@ public class SceneManager {
 
     /**
      * Gets a scene by its type.
+     *
      * @param type The type of the scene.
      * @return The scene.
      */
@@ -51,6 +54,7 @@ public class SceneManager {
     /**
      * Sets a scene active. The scene has to be added first.
      * If not, an exception gehts thrown.
+     *
      * @param type The type of the scene.
      * @return The activated scene.
      */
@@ -94,13 +98,14 @@ public class SceneManager {
             this.game.getWindow().addKeyListener((KeyListener) this.activeScene);
         }
 
-        this.activeScene.onAdded();
+        this.activeScene.onSwitched();
 
         return this.activeScene;
     }
 
     /**
      * Updates the active scenes if it uses the updateable interface.
+     *
      * @param deltaTime The current delta time.
      */
     public void update(double deltaTime) {
@@ -113,6 +118,7 @@ public class SceneManager {
 
     /**
      * Updates the active scene lately if it uses the updateable interface.
+     *
      * @param deltaTime The current delta time.
      */
     public void lateUpdate(double deltaTime) {

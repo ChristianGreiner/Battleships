@@ -36,19 +36,6 @@ public class Game implements Runnable {
     private Logger logger = Logger.getLogger("MyLog");
     private FileHandler fh;
 
-    public int getTargetFps() {
-        return targetFps;
-    }
-
-    public void setTargetFps(int targetFps) {
-        this.targetFps = targetFps;
-        this.optimalTime =  1000000000 / targetFps;
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
-
     public Game(String title, Point size) {
         instance = this;
         this.gameSize = size;
@@ -78,14 +65,29 @@ public class Game implements Runnable {
 
     /**
      * Gets the game instance.
+     *
      * @return The game instance.
      */
     public static Game getInstance() {
         return instance;
     }
 
+    public int getTargetFps() {
+        return targetFps;
+    }
+
+    public void setTargetFps(int targetFps) {
+        this.targetFps = targetFps;
+        this.optimalTime = 1000000000 / targetFps;
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
+
     /**
      * Gets the network manager
+     *
      * @return The network manager.
      */
     public NetworkManager getNetworkManager() {
@@ -94,6 +96,7 @@ public class Game implements Runnable {
 
     /**
      * Gets the scene manager.
+     *
      * @return The scene manager.
      */
     public SceneManager getSceneManager() {
@@ -102,6 +105,7 @@ public class Game implements Runnable {
 
     /**
      * Gets the game window container (JFrame) of swing.
+     *
      * @return The game window
      */
     public GameWindow getWindow() {
@@ -110,6 +114,7 @@ public class Game implements Runnable {
 
     /**
      * Gets the options of the game.
+     *
      * @return The options.
      */
     public Options getOptions() {
@@ -118,6 +123,7 @@ public class Game implements Runnable {
 
     /**
      * Gets the sound manager.
+     *
      * @return The sound manager.
      */
     public SoundManager getSoundManager() {
@@ -126,6 +132,7 @@ public class Game implements Runnable {
 
     /**
      * Gets the file handler.
+     *
      * @return The file handler.
      */
     public GameFileHandler getGameFileHandler() {
@@ -162,7 +169,7 @@ public class Game implements Runnable {
 
         // load config
         this.options = (Options) this.gameFileHandler.loadObject(Assets.Paths.OPTIONS);
-        if(this.options == null) {
+        if (this.options == null) {
             Game.getInstance().getGameFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
         }
 
@@ -201,7 +208,6 @@ public class Game implements Runnable {
             this.update(deltaTime);
 
             this.sceneManager.draw();
-            this.window.draw();
 
             this.lateUpdate(deltaTime);
 
@@ -216,6 +222,7 @@ public class Game implements Runnable {
 
     /**
      * Updates the game.
+     *
      * @param deltaTime
      */
     public void update(double deltaTime) {
@@ -225,6 +232,7 @@ public class Game implements Runnable {
 
     /**
      * Updates the game lately. Gets called after the regular update method.
+     *
      * @param deltaTime
      */
     public void lateUpdate(double deltaTime) {

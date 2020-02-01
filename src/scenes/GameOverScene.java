@@ -14,6 +14,11 @@ import javax.swing.*;
 public class GameOverScene extends Scene implements GuiScene, GameSession {
 
     private GameSessionData gameSessionData;
+    private GameOverPanel panel;
+
+    public GameOverScene() {
+        super("GameOverScene");
+    }
 
     public void setWinner(PlayerType winner) {
         this.panel.updateWinner(winner);
@@ -23,12 +28,6 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
         this.panel.updateWinner(winner);
     }
 
-    private GameOverPanel panel;
-
-    public GameOverScene() {
-        super("GameOverScene");
-    }
-
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
 
@@ -36,13 +35,12 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
         panel = new GameOverPanel().create();
 
         panel.getBtnRestart().addActionListener((e) -> {
-            if(this.gameSessionData != null) {
-                if(this.gameSessionData.isAiGame()) {
-                    SinglePlayerSettingsScene settingsScene = (SinglePlayerSettingsScene)Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
+            if (this.gameSessionData != null) {
+                if (this.gameSessionData.isAiGame()) {
+                    SinglePlayerSettingsScene settingsScene = (SinglePlayerSettingsScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerSettingsScene.class);
                     settingsScene.initializeGameSession(this.gameSessionData);
                 }
-            }
-            else Game.getInstance().getSceneManager().setActiveScene(MultiplayerNetworkScene.class);
+            } else Game.getInstance().getSceneManager().setActiveScene(MultiplayerNetworkScene.class);
 
         });
 

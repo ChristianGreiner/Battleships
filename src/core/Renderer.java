@@ -21,6 +21,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
 
     /**
      * When rendering stuff, begin has called first, then drawing, then call end().
+     *
      * @param clearRect The rectangle where the image should be cleard.
      * @return The swing graphics element.
      */
@@ -36,7 +37,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
                 height = 1;
             }
 
-            this.doubleBufferImage = (BufferedImage)createImage(width, height);
+            this.doubleBufferImage = (BufferedImage) createImage(width, height);
         }
 
         this.doubleBufferGraphics = this.doubleBufferImage.createGraphics();
@@ -51,7 +52,8 @@ public class Renderer extends JPanel implements Drawable, Updatable {
     }
 
     /**
-     *  When rendering stuff, begin has called first, then drawing, then call end().
+     * When rendering stuff, begin has called first, then drawing, then call end().
+     *
      * @return The swing graphics element.
      */
     public Graphics2D begin() {
@@ -67,6 +69,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
 
     /**
      * Paints the image.
+     *
      * @param g The graphics element.
      */
     @Override
@@ -78,7 +81,7 @@ public class Renderer extends JPanel implements Drawable, Updatable {
     }
 
     public void invalidateBuffer() {
-        if(!isDirty) {
+        if (!isDirty) {
             this.doubleBufferImage = null;
             this.doubleBufferGraphics = null;
         }

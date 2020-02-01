@@ -12,6 +12,7 @@ public class Options implements Serializable {
 
     /**
      * Gets the sfx volume.
+     *
      * @return The volume as float.
      */
     public float getSfxVolume() {
@@ -20,6 +21,7 @@ public class Options implements Serializable {
 
     /**
      * Sets the sfx volume.
+     *
      * @param sfxVolume The volume as float.
      */
     public void setSfxVolume(float sfxVolume) {
@@ -28,6 +30,7 @@ public class Options implements Serializable {
 
     /**
      * Gets the music volume.
+     *
      * @return The volume as float.
      */
     public float getMusicVolume() {
@@ -36,6 +39,7 @@ public class Options implements Serializable {
 
     /**
      * Sets the music volume.
+     *
      * @param musicVolume The volume as float.
      */
     public void setMusicVolume(float musicVolume) {
@@ -44,6 +48,7 @@ public class Options implements Serializable {
 
     /**
      * Gets the target fps of the game.
+     *
      * @return The fps.
      */
     public int getFps() {
@@ -52,6 +57,7 @@ public class Options implements Serializable {
 
     /**
      * Sets the target fps of the game.
+     *
      * @param fps The fps.
      */
     public void setFps(int fps) {

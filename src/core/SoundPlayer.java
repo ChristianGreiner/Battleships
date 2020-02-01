@@ -16,6 +16,7 @@ public class SoundPlayer {
 
     /**
      * Sets the volume ot the player.
+     *
      * @param value The volume.
      */
     public void setVolume(float value) {
@@ -28,6 +29,7 @@ public class SoundPlayer {
 
     /**
      * Plays the sound clip.
+     *
      * @param volume The volume of the clip.
      */
     public void play(float volume) {
@@ -49,8 +51,9 @@ public class SoundPlayer {
 
     /**
      * Plays the sound clip.
+     *
      * @param volume The volume of the clip.
-     * @param loop Whenever or not the sound clip should be looped.
+     * @param loop   Whenever or not the sound clip should be looped.
      */
     public void play(float volume, boolean loop) {
         this.play();
@@ -62,15 +65,9 @@ public class SoundPlayer {
         }
     }
 
-    public void play(boolean loop) {
-        if (this.soundClip != null) {
-            this.soundClip.setFramePosition(0);
-            if (loop)
-                this.soundClip.loop(Clip.LOOP_CONTINUOUSLY);
-            this.soundClip.start();
-        }
-    }
-
+    /**
+     * Stops the sound.
+     */
     public void stop() {
         if (this.soundClip != null)
             this.soundClip.stop();

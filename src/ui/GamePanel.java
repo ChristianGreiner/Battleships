@@ -21,6 +21,11 @@ public class GamePanel extends JPanel {
     private JLabel playerLabel;
     private JLabel opponentLabel;
 
+    public GamePanel(MapRenderer playerMapRenderer, MapRenderer enemyMapRenderer) {
+        this.playerMapRenderer = playerMapRenderer;
+        this.enemyMapRenderer = enemyMapRenderer;
+    }
+
     public JPanel getPlayerLabelContainer() {
         return playerLabelContainer;
     }
@@ -55,11 +60,6 @@ public class GamePanel extends JPanel {
 
     public MapRenderer getEnemyMapRenderer() {
         return enemyMapRenderer;
-    }
-
-    public GamePanel(MapRenderer playerMapRenderer, MapRenderer enemyMapRenderer) {
-        this.playerMapRenderer = playerMapRenderer;
-        this.enemyMapRenderer = enemyMapRenderer;
     }
 
     public GamePanel create(Dimension mapsRendererSize) {
@@ -99,7 +99,7 @@ public class GamePanel extends JPanel {
         playerLabel.setForeground(Color.WHITE);
         playerLabel.setFont(Assets.Fonts.DEFAULT_24);
         Border border = playerLabel.getBorder();
-        Border margin = new EmptyBorder(0,10,0,10);
+        Border margin = new EmptyBorder(0, 10, 0, 10);
         playerLabel.setBorder(new CompoundBorder(border, margin));
         playerLabelContainer.add(playerLabel);
 
@@ -128,7 +128,7 @@ public class GamePanel extends JPanel {
         opponentLabel = new JLabel();
         opponentLabel.setText("OPPONENT");
         border = opponentLabel.getBorder();
-        margin = new EmptyBorder(0,10,0,10);
+        margin = new EmptyBorder(0, 10, 0, 10);
         opponentLabel.setBorder(new CompoundBorder(border, margin));
         opponentLabel.setForeground(Color.WHITE);
         opponentLabel.setFont(Assets.Fonts.DEFAULT_24);

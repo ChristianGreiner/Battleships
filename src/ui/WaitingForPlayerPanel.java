@@ -1,7 +1,6 @@
 package ui;
 
 import core.Game;
-import core.Helper;
 import game.Assets;
 
 import javax.swing.*;
