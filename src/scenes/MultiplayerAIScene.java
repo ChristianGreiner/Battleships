@@ -288,8 +288,8 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     }
 
     @Override
-    public void OnReceivePass() {
-
+    public void OnGameClosed() {
+        Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
     }
 
     @Override

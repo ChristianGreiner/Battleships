@@ -4,6 +4,7 @@ package network;
 import core.Game;
 import game.HitType;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
@@ -263,6 +264,7 @@ public class NetworkThread extends Thread {
                     }
 
                     while (true) {
+
                         while (true) {
                             String message = this.messageQueue.take();
                             if (message == null) continue;
@@ -285,7 +287,11 @@ public class NetworkThread extends Thread {
                 }
             }
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game closed by the server.", "Network error", JOptionPane.ERROR_MESSAGE);
 
+            for (NetworkListener listener : this.networkManager.getListeners()) {
+                listener.OnGameClosed();
+            }
         }
     }
 

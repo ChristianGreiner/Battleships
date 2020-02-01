@@ -91,7 +91,8 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
     }
 
     @Override
-    public void OnReceivePass() {
+    public void OnGameClosed() {
+
     }
 
     @Override

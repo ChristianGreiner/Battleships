@@ -121,13 +121,21 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
         Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame(id);
 
         if (savegame != null) {
-            MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
-            scene.initializeSavegame(savegame);
+            if (savegame.isNetworkGame()) {
+                if (savegame.getAi() == null) {
+                    MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+                    scene.initializeSavegame(savegame);
+                } else {
+                    MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
+                    scene.initializeSavegame(savegame);
+                }
+            }
         } else
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Cant find a Savegame with the id: " + id, "Savegame loading...", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
-    public void OnReceivePass() {
+    public void OnGameClosed() {
+        Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
     }
 }

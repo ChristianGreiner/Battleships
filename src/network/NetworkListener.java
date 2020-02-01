@@ -20,5 +20,5 @@ public interface NetworkListener {
 
     void OnReceiveLoad(String id);
 
-    void OnReceivePass();
+    void OnGameClosed();
 }
