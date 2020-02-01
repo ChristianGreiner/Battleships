@@ -513,25 +513,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        try {
-            if (this.getMousePosition() != null && !disabled) {
-                if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
-                    if (!this.editorMode && this.enemyMap) {
-                        Point tempPoint = new Point(this.getMousePosition().x / tileSize.x - 1, this.getMousePosition().y / tileSize.y - 1);
 
-                        for (MapRendererListener mouseListener : listener) {
-                            if (mouseListener != null) {
-                                if (this.map.isInMap(tempPoint)) {
-                                    mouseListener.OnShotFired(this.map, tempPoint);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception ex) {
-
-        }
     }
 
     @Override
@@ -557,6 +539,24 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 }
             }
         }
+
+        try {
+            if (this.getMousePosition() != null && !disabled) {
+                if (this.getMousePosition() != null && this.getMousePosition().x >= tileSize.x && this.getMousePosition().y >= tileSize.y && this.getMousePosition().x <= this.getWidth() && this.getMousePosition().y <= this.getHeight()) {
+                    if (!this.editorMode && this.enemyMap) {
+                        Point tempPoint = new Point(this.getMousePosition().x / tileSize.x - 1, this.getMousePosition().y / tileSize.y - 1);
+
+                        for (MapRendererListener mouseListener : listener) {
+                            if (mouseListener != null) {
+                                if (this.map.isInMap(tempPoint)) {
+                                    mouseListener.OnShotFired(this.map, tempPoint);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {}
     }
 
     @Override
