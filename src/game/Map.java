@@ -22,8 +22,13 @@ public class Map implements MapInterface, Serializable {
     private int numberOfShips;
     private int numberOfDestoryedShips;
     private ArrayList<Ship> ships;
+    private ArrayList<Ship> destroyedShips;
     private ArrayList<MapListener> listeners;
     private MapData mapData;
+
+    public ArrayList<Ship> getDestroyedShips(){
+        return this.destroyedShips;
+    }
 
     // dirty fix
     public MapData getMapData() {
@@ -44,6 +49,7 @@ public class Map implements MapInterface, Serializable {
         this.mapData = MapGenerator.getConfigMap().get(this.size);
         this.listeners = new ArrayList<MapListener>();
         this.ships =  new ArrayList<Ship>();
+        this.destroyedShips = new ArrayList<>();
 
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
@@ -753,6 +759,7 @@ public class Map implements MapInterface, Serializable {
                     type = HitType.ShipDestroyed;
                     this.numberOfDestoryedShips++;
                     this.computeRemoveShip(ship);
+                    this.destroyedShips.add(ship);
 
                 } else {
                     // only ship

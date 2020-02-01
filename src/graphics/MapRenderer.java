@@ -264,37 +264,53 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             drawImage(g, image, rect);
     }
 
+    private Object[] shipImageHelper(Ship ship)
+    {
+        Rectangle shipPos = null;
+        Object[] tuple = new Object[2];
+
+        if(ship.isRotated())
+            shipPos = new Rectangle(ship.getPosition().x * tileSize.x + tileSize.x, ship.getPosition().y * tileSize.y + tileSize.y, ship.getSpace() * tileSize.x, tileSize.y);
+        else
+            shipPos = new Rectangle(ship.getPosition().x * tileSize.x + tileSize.x, ship.getPosition().y * tileSize.y + tileSize.y, tileSize.x, ship.getSpace() * tileSize.y);
+
+        Image shipImage = null;
+
+        if (ship instanceof Battleship) {
+            shipImage = Assets.Images.SHIP_BATTLESHIP;
+        } else if (ship instanceof Carrier) {
+            shipImage = Assets.Images.SHIP_CARRIER;
+        } else if (ship instanceof Destroyer) {
+            shipImage = Assets.Images.SHIP_DESTROYER;
+        } else {
+            shipImage = Assets.Images.SHIP_SUBMARINE;
+        }
+
+        tuple[0] = shipImage;
+        tuple[1] = shipPos;
+
+        return tuple;
+
+    }
+
     protected void drawShips(Graphics2D g, Point tileSize) {
+        Object[] tuple;
 
         for (int i = 0; i < this.map.getShips().size(); i++) {
             Ship ship = this.map.getShips().get(i);
 
-            Rectangle shipPos = null;
-
-            if(ship.isRotated())
-                shipPos = new Rectangle(ship.getPosition().x * tileSize.x + tileSize.x, ship.getPosition().y * tileSize.y + tileSize.y, ship.getSpace() * tileSize.x, tileSize.y);
-            else
-                shipPos = new Rectangle(ship.getPosition().x * tileSize.x + tileSize.x, ship.getPosition().y * tileSize.y + tileSize.y, tileSize.x, ship.getSpace() * tileSize.y);
-
-            Image shipImage = null;
-
-            if (ship instanceof Battleship) {
-                shipImage = Assets.Images.SHIP_BATTLESHIP;
-            } else if (ship instanceof Carrier) {
-                shipImage = Assets.Images.SHIP_CARRIER;
-            } else if (ship instanceof Destroyer) {
-                shipImage = Assets.Images.SHIP_DESTROYER;
-            } else {
-                shipImage = Assets.Images.SHIP_SUBMARINE;
-            }
+            tuple = shipImageHelper(ship);
 
             if(this.shipsVisable)
-                drawImageShip(g, ship.getSpace(), shipImage, shipPos, this.tileSize, ship.isRotated());
-            if(ship.isDestroyed()) {
-                System.out.println("SHIP DESTROYED");
-                drawImageShip(g, ship.getSpace(), shipImage, shipPos, this.tileSize, ship.isRotated());
-            }
+                drawImageShip(g, ship.getSpace(), (Image) tuple[0], (Rectangle) tuple[1], this.tileSize, ship.isRotated());
         }
+
+        for(Ship ship: this.map.getDestroyedShips()) {
+            tuple = shipImageHelper(ship);
+            drawImageShip(g, ship.getSpace(), (Image) tuple[0], (Rectangle) tuple[1], this.tileSize, ship.isRotated());
+
+        }
+
         for (int y = 0; y < this.map.getSize(); y++) {
             for (int x = 0; x < this.map.getSize(); x++) {
                 MapTile tile = this.map.getTile(new Point(x, y));
