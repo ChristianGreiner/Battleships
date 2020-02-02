@@ -69,8 +69,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
         this.uiPanel.getBtnSave().addActionListener((e) -> {
             long id = System.currentTimeMillis();
-            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, String.valueOf(id));
-            savegame.setNetworkGame(true);
+            MultiplayerSavegame savegame = new MultiplayerSavegame(String.valueOf(id), this.playerMap, this.enemyMap);
             Game.getInstance().getGameFileHandler().saveSavegame(savegame);
             Game.getInstance().getNetworkManager().sendSave(id);
         });
@@ -89,6 +88,11 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     @Override
     public void update(double deltaTime) {
         this.enemyMapRenderer.setDisabled(!gameStarted);
+
+        if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
+            this.playerMapRenderer.update(deltaTime);
+            this.enemyMapRenderer.update(deltaTime);
+        }
 
         if (gameStarted && this.mapData != null) {
             if (this.playerMap.allShipsDestroyed() || this.enemyShipsDestroyed == this.mapData.ShipsCount) {
@@ -196,9 +200,11 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         Game.getInstance().getWindow().revalidate();
     }
 
-    public void initializeSavegame(Savegame savegame) {
+    public void initializeSavegame(MultiplayerSavegame savegame) {
         this.playerMap = savegame.getPlayerMap();
         this.enemyMap = savegame.getEnemyMap();
+        this.playerTurn = NetworkType.Client;
+
         this.playerMapRenderer.setMap(this.playerMap);
         this.enemyMapRenderer.setMap(this.enemyMap);
 
@@ -241,6 +247,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
                 Game.getInstance().getNetworkManager().sendAnswer(hitType);
 
+                this.playerMapRenderer.playExplosion(pos);
                 Game.getInstance().getSoundManager().handleHitSoundFx(hitData.getHitType());
             }
         }
@@ -258,6 +265,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
             if (type == HitType.ShipDestroyed)
                 this.enemyShipsDestroyed++;
 
+            this.enemyMapRenderer.playExplosion(this.lastShot);
+
             this.lastShot = null;
 
             Game.getInstance().getSoundManager().handleHitSoundFx(type);
@@ -266,8 +275,7 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     @Override
     public void OnReceiveSave(String id) {
-        Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, id);
-        savegame.setNetworkGame(true);
+        MultiplayerSavegame savegame = new MultiplayerSavegame(id, this.playerMap, this.enemyMap);
         Game.getInstance().getGameFileHandler().saveSavegame(savegame);
         Game.getInstance().getNetworkManager().sendPass();
     }

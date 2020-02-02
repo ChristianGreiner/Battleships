@@ -3,10 +3,7 @@ package scenes;
 import ai.AiDifficulty;
 import core.Game;
 import core.GameWindow;
-import game.Assets;
-import game.GameSession;
-import game.GameSessionData;
-import game.Savegame;
+import game.*;
 import ui.GameSettingsPanel;
 import ui.GuiScene;
 
@@ -43,7 +40,7 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             String difficulty = String.valueOf(settingsPanel.getAiDifficultyCbox().getSelectedItem());
             difficulty = difficulty.replaceAll(" ", "");
 
-            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty)));
+            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), SavegameType.Singeplayer));
         });
 
         settingsPanel.getNewAIGameBtn().addActionListener((e) -> {
@@ -53,22 +50,32 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             String difficulty = String.valueOf(settingsPanel.getAiDifficultyCbox().getSelectedItem());
             difficulty = difficulty.replaceAll(" ", "");
 
-            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), true));
+            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), SavegameType.SingeplayerAi));
         });
 
         settingsPanel.getLoadGameBtn().addActionListener((e) -> {
-            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            if (savegame != null) {
+            try {
+                Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
+                if (savegame.getSavegameType() == SavegameType.Singeplayer) {
+                    SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+                    scene.initializeSavegame((SingleplayerSavegame) savegame);
+                } else if (savegame.getSavegameType() == SavegameType.SingeplayerAi) {
+                    SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
+                    scene.initializeSavegame((SingleplayerAiSavegame) savegame);
+                }
+                /*
                 if (!savegame.isNetworkGame()) {
                     if (savegame.getAi() != null && savegame.getPlayerAi() != null) {
-                        SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
-                        scene.initializeSavegame(savegame);
+
                     } else {
                         SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                         scene.initializeSavegame(savegame);
                     }
                 } else
-                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a multiplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a multiplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);*/
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This file seems to be corrupted", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }
         });
 

@@ -80,13 +80,13 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         sizeUpdated();
     }
 
-    public void initializeSavegame(Savegame savegame) {
+    public void initializeSavegame(SingleplayerAiSavegame savegame) {
 
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
 
         this.playerMap = savegame.getPlayerMap();
         this.enemyMap = savegame.getEnemyMap();
-        this.enemyAi = savegame.getAi();
+        this.enemyAi = savegame.getEnemyAi();
         this.playerAi = savegame.getPlayerAi();
         this.playerMapRenderer.setMap(this.playerMap);
         this.enemyMapRenderer.setMap(this.enemyMap);
@@ -115,9 +115,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         } else {
             if (this.waitTimer >= Game.getInstance().getTargetFps() * Game.getInstance().getOptions().getAiSpeedValue()) {
                 if (this.playerTurn == PlayerType.AI) {
-                    handleAiShot(this.enemyAi, this.playerMap, this.enemyMapRenderer);
+                    handleAiShot(this.enemyAi, this.playerMap);
                 } else {
-                    handleAiShot(this.playerAi, this.enemyMap, this.playerMapRenderer);
+                    handleAiShot(this.playerAi, this.enemyMap);
                 }
 
                 this.waitTimer = 0;
@@ -158,20 +158,22 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         });
 
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
-            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            if (savegame != null) {
-                if (!savegame.isNetworkGame()) {
-                    if (savegame.getAi() != null && savegame.getPlayerAi() != null) {
-                        SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
-                        scene.initializeSavegame(savegame);
-                    }
-                } else
-                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This savegame seems to be a single or multiplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+            try {
+                SingleplayerAiSavegame savegame = (SingleplayerAiSavegame) Game.getInstance().getGameFileHandler().loadSavegame();
+                if (savegame.getSavegameType() == SavegameType.SingeplayerAi) {
+                    SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
+                    scene.initializeSavegame(savegame);
+                } else {
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game isn't a valid singeplayer ai savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This file seems to be corrupted", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
             }
         });
 
         singlePlayerPanel.getBtnSave().addActionListener((e) -> {
-            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.enemyAi, this.playerAi);
+            SingleplayerAiSavegame savegame = new SingleplayerAiSavegame(this.playerMap, this.enemyMap, this.playerTurn, this.enemyAi, this.playerAi, this.difficulty);
             Game.getInstance().getGameFileHandler().saveSavegameFileChooser(savegame);
         });
 
@@ -209,7 +211,7 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         }
     }
 
-    private void handleAiShot(AI ai, Map map, MapRenderer mapRenderer) {
+    private void handleAiShot(AI ai, Map map) {
         Point point = ai.shot();
 
         HitData hitData = map.shot(point);
@@ -221,9 +223,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
 
         Game.getInstance().getSoundManager().handleHitSoundFx(hitData.getHitType());
 
-        mapRenderer.playExplosion(hitData.getPosition());
-
         if (this.playerTurn == PlayerType.AI) {
+
+            this.playerMapRenderer.playExplosion(hitData.getPosition());
 
             if (hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
                 this.playerTurn = PlayerType.AI;
@@ -235,6 +237,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
             this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.NOTURN_RED);
 
         } else {
+
+
+            this.enemyMapRenderer.playExplosion(hitData.getPosition());
 
             if (hitData.getHitType() == HitType.Ship || hitData.getHitType() == HitType.ShipDestroyed) {
                 this.playerTurn = PlayerType.Player;

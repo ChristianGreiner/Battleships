@@ -128,15 +128,10 @@ public class GameFileHandler {
 
     public void saveSavegameFileChooser(Savegame savegame) {
         String PATH = System.getProperty("user.dir") + "/";
-        String directoryName = PATH.concat("savegames");
-        File directory = new File(directoryName);
-
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
+        File saveGameDirectory = new File(PATH.concat("savegames"));
 
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(directory);
+        fileChooser.setCurrentDirectory(saveGameDirectory);
         fileChooser.setFileFilter(FILE_EXTENSION);
 
         if (fileChooser.showSaveDialog(Game.getInstance().getWindow()) == JFileChooser.APPROVE_OPTION) {

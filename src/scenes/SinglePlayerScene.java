@@ -79,13 +79,13 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         sizeUpdated();
     }
 
-    public void initializeSavegame(Savegame savegame) {
+    public void initializeSavegame(SingleplayerSavegame savegame) {
 
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
 
         this.playerMap = savegame.getPlayerMap();
         this.enemyMap = savegame.getEnemyMap();
-        this.ai = savegame.getAi();
+        this.ai = savegame.getEnemyAi();
         this.playerMapRenderer.setMap(this.playerMap);
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.playerTurn = savegame.getCurrentTurn();
@@ -158,18 +158,21 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         });
 
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
-            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            if (savegame != null) {
-                if (!savegame.isNetworkGame() && savegame.getPlayerAi() != null) {
+            try {
+                SingleplayerSavegame savegame = (SingleplayerSavegame) Game.getInstance().getGameFileHandler().loadSavegame();
+                if (savegame.getSavegameType() == SavegameType.Singeplayer) {
                     SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                     scene.initializeSavegame(savegame);
-                } else
-                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a multiplayer or ai savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game isn't a valid singeplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This file seems to be corrupted", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         singlePlayerPanel.getBtnSave().addActionListener((e) -> {
-            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.ai);
+            SingleplayerSavegame savegame = new SingleplayerSavegame(this.playerMap, this.enemyMap, this.playerTurn, this.ai, this.difficulty);
             Game.getInstance().getGameFileHandler().saveSavegameFileChooser(savegame);
         });
 

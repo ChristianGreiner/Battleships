@@ -335,10 +335,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 drawImageShip(g, ship.getSpace(), (Image) tuple[0], (Rectangle) tuple[1], this.tileSize, ship.isRotated());
         }
 
-        for (Ship ship : this.map.getDestroyedShips()) {
+        for (int i = 0; i < this.map.getDestroyedShips().size(); i++) {
+            Ship ship = this.map.getDestroyedShips().get(i);
             tuple = shipImageHelper(ship);
             drawImageShip(g, ship.getSpace(), (Image) tuple[0], (Rectangle) tuple[1], this.tileSize, ship.isRotated());
-
         }
 
         for (int y = 0; y < this.map.getSize(); y++) {

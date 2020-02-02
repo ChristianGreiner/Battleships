@@ -21,7 +21,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     private Map playerMap;
     private ShipSelectionPanel uiPanel;
     private MapGenerator mapGenerator;
-    private boolean networkGame = false;
     private GameSessionData gameSessionData;
 
     public ShipsSelectionScene() {
@@ -29,14 +28,6 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
 
         this.buildRenderer = new MapBuilderRenderer(null);
         this.buildRenderer.addMapRendererListener(this);
-    }
-
-    public boolean isNetworkGame() {
-        return networkGame;
-    }
-
-    public void setNetworkGame(boolean networkGame) {
-        this.networkGame = networkGame;
     }
 
     @Override
@@ -87,28 +78,20 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
         });
 
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
-            if (this.isNetworkGame()) {
-                // Multiplayer with AI
-                if (this.gameSessionData.isAiGame()) {
-                    MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
-                    scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), true));
-                } else {
-                    // Multiplayer without Ai
-                    MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
-                    scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), null));
-                }
+            if (this.gameSessionData.getGameType() == SavegameType.Singeplayer) {
+                SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+                scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), SavegameType.Singeplayer));
+            } else if (this.gameSessionData.getGameType() == SavegameType.SingeplayerAi) {
+                SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
+                scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), SavegameType.SingeplayerAi));
+            } else if (this.gameSessionData.getGameType() == SavegameType.Multiplayer) {
+                MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+                scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), null, SavegameType.Multiplayer));
                 Game.getInstance().getNetworkManager().confirmSession();
-            } else {
-
-                // local singleplayer with ai
-                if (this.gameSessionData.isAiGame()) {
-                    SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
-                    scene.reset();
-                    scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), this.gameSessionData.isAiGame()));
-                } else {
-                    SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-                    scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty()));
-                }
+            } else if (this.gameSessionData.getGameType() == SavegameType.MultiplayerAi) {
+                MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
+                scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), SavegameType.MultiplayerAi));
+                Game.getInstance().getNetworkManager().confirmSession();
             }
         });
 

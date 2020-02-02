@@ -4,10 +4,7 @@ import ai.AiDifficulty;
 import core.Game;
 import core.GameWindow;
 import core.Updatable;
-import game.GameSessionData;
-import game.HitType;
-import game.Map;
-import game.Savegame;
+import game.*;
 import network.NetworkListener;
 import ui.GuiScene;
 import ui.MultiplayerNetworkPanel;
@@ -19,17 +16,16 @@ import java.awt.event.KeyListener;
 
 public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScene, KeyListener, NetworkListener {
 
-    private boolean aiGame = false;
-
     public MultiplayerNetworkScene() {
         super("MultiplayerNetworkScene");
     }
+
+    private SavegameType networkGame;
 
     @Override
     public void onSwitched() {
         super.onSwitched();
         Game.getInstance().getNetworkManager().addNetworkListener(this);
-        aiGame = false;
     }
 
     @Override
@@ -47,22 +43,20 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
         multiplayerPanel.getJoinBtn().addActionListener((e) -> {
             Game.getInstance().getNetworkManager().joinServer(multiplayerPanel.getHostnameField().getText());
-            aiGame = false;
+            this.networkGame = SavegameType.Multiplayer;
         });
 
         multiplayerPanel.getJoinAiBtn().addActionListener((e) -> {
             Game.getInstance().getNetworkManager().joinServer(multiplayerPanel.getHostnameField().getText());
-            aiGame = true;
+            this.networkGame = SavegameType.MultiplayerAi;
         });
 
         multiplayerPanel.getHostBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MultiplayerHostSettingsScene.class);
-            aiGame = false;
         });
 
         multiplayerPanel.getBackBtn().addActionListener((e) -> {
             Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
-            aiGame = false;
         });
 
         return multiplayerPanel;
@@ -95,8 +89,7 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     @Override
     public void OnGameJoined(int mapSize) {
         ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
-        scene.setNetworkGame(true);
-        scene.initializeGameSession(new GameSessionData(new Map(mapSize), mapSize, AiDifficulty.Medium, aiGame));
+        scene.initializeGameSession(new GameSessionData(new Map(mapSize), mapSize, AiDifficulty.Medium, this.networkGame));
     }
 
     @Override
@@ -118,20 +111,15 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     @Override
     public void OnReceiveLoad(String id) {
-        Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame(id);
 
-        if (savegame != null) {
-            if (savegame.isNetworkGame()) {
-                if (savegame.getAi() == null) {
-                    MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
-                    scene.initializeSavegame(savegame);
-                } else {
-                    MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
-                    scene.initializeSavegame(savegame);
-                }
-            }
-        } else
-            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Cant find a Savegame with the id: " + id, "Savegame loading...", JOptionPane.ERROR_MESSAGE);
+        try {
+            MultiplayerSavegame savegame = (MultiplayerSavegame) Game.getInstance().getGameFileHandler().loadSavegame(id);
+            MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
+            scene.initializeSavegame(savegame);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This file seems to be corrupted or doesn't exist.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override

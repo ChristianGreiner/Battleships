@@ -5,6 +5,7 @@ import core.Game;
 import core.GameWindow;
 import game.GameSessionData;
 import game.Savegame;
+import game.SavegameType;
 import ui.GameSettingsPanel;
 import ui.GuiScene;
 
@@ -24,7 +25,7 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
             WaitingForPlayerScene scene = (WaitingForPlayerScene) Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
 
             int size = (int) settings.getSizeSpinner().getValue();
-            scene.initializeGameSession(new GameSessionData(null, size, null));
+            scene.initializeGameSession(new GameSessionData(null, size, null, SavegameType.Multiplayer));
         });
 
         settings.getNewAIGameBtn().addActionListener((e) -> {
@@ -33,18 +34,20 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
 
             String difficulty = String.valueOf(settings.getAiDifficultyCbox().getSelectedItem());
             difficulty = difficulty.replaceAll(" ", "");
-            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), true));
+            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), SavegameType.MultiplayerAi));
         });
 
-
         settings.getLoadGameBtn().addActionListener((e) -> {
-            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-            if (savegame != null) {
-                if (savegame.isNetworkGame()) {
+            try {
+                Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
+                if (savegame.getSavegameType() == SavegameType.Multiplayer || savegame.getSavegameType() == SavegameType.MultiplayerAi) {
                     WaitingForPlayerScene scene = (WaitingForPlayerScene) Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
                     scene.initializeGameSession(new GameSessionData(savegame));
-                } else
-                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a singeplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This file seems to be corrupted", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This file seems to be corrupted", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }
         });
 

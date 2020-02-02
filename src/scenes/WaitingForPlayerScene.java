@@ -2,10 +2,7 @@ package scenes;
 
 import core.Game;
 import core.GameWindow;
-import game.GameSession;
-import game.GameSessionData;
-import game.HitType;
-import game.Savegame;
+import game.*;
 import network.NetworkListener;
 import ui.GuiScene;
 import ui.WaitingForPlayerPanel;
@@ -25,7 +22,6 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
     @Override
     public void onSwitched() {
         super.onSwitched();
-
         Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
@@ -44,24 +40,21 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void sizeUpdated() {
-
     }
 
     @Override
     public void OnPlayerConnected() {
         if (this.savegame == null) {
             ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
-            scene.setNetworkGame(true);
             scene.initializeGameSession(this.sessionData);
         } else {
-            if (this.sessionData.isAiGame()) {
-                MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
-                scene.initializeSavegame(this.sessionData.getSavegame());
-            } else {
+            if (this.sessionData.getSavegame().getSavegameType() == SavegameType.Multiplayer) {
                 MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
-                scene.initializeSavegame(this.sessionData.getSavegame());
+                scene.initializeSavegame((MultiplayerSavegame) this.sessionData.getSavegame());
+            } else if (this.sessionData.getSavegame().getSavegameType() == SavegameType.MultiplayerAi) {
+                MultiplayerAIScene scene = (MultiplayerAIScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerAIScene.class);
+                scene.initializeSavegame((MultiplayerAiSavegame) this.sessionData.getSavegame());
             }
-            //Game.getInstance().getNetworkManager().stopServer();
         }
     }
 
@@ -75,7 +68,6 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void OnReceiveShot(Point pos) {
-
     }
 
     @Override
@@ -92,7 +84,6 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
 
     @Override
     public void OnGameClosed() {
-
     }
 
     @Override
