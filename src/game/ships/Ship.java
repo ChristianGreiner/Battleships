@@ -29,10 +29,6 @@ public abstract class Ship implements Serializable {
         return Ship.id;
     }
 
-    public Map getParentMap() {
-        return parentMap;
-    }
-
     public Point getPosition() {
         return position;
     }
@@ -80,5 +76,12 @@ public abstract class Ship implements Serializable {
         this.parentMap.setOutOfShipLength();
 
         return true;
+    }
+
+    public void forceDestroy() {
+        for (int i = 0; i < this.tiles.size(); i++) {
+            this.tiles.get(i).setHit(true);
+            this.neighborTiles.get(i).setBlocked(true);
+        }
     }
 }
