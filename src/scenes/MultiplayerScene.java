@@ -267,8 +267,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
                 setOtherTurn();
             }
 
-            if (type == HitType.ShipDestroyed)
+            if (type == HitType.ShipDestroyed) {
                 this.enemyShipsDestroyed++;
+                this.enemyMap.mergeDummyShips(lastShot);
+            }
 
             this.enemyMapRenderer.playExplosion(this.lastShot);
 

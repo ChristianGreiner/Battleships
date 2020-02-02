@@ -967,7 +967,7 @@ public class Map implements MapInterface, Serializable {
         return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
     }
 
-    public void MergeDummyShips(Point dShip) {
+    public void mergeDummyShips(Point dShip) {
 
         Point ShipPos = dShip;
         int ShipLengthCounter = 1;
