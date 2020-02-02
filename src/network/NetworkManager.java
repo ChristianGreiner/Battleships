@@ -35,6 +35,8 @@ public class NetworkManager {
     public void joinServer(String host) {
         try {
 
+            this.networkThread = null;
+
             // start socket
             Socket clientSocket = new Socket(host, TCP_PORT);
             System.out.println("[CLIENT] Client connected to Server!");
@@ -53,6 +55,8 @@ public class NetworkManager {
 
     public void startServer(int mapSize) {
         try {
+
+            this.networkThread = null;
 
             ServerSocket serverSocket = new ServerSocket(TCP_PORT);
             this.networkThread = new NetworkThread(this, serverSocket, mapSize);
@@ -117,6 +121,9 @@ public class NetworkManager {
     }
 
     public void stopServer() {
-        this.networkThread.stopNetwork();
+        if (this.networkThread != null) {
+            this.networkThread.stopNetwork();
+            this.networkThread.interrupt();
+        }
     }
 }

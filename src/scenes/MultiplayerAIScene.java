@@ -57,6 +57,8 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         super.onSwitched();
 
         this.winner = null;
+        this.lastShot = null;
+        this.playerTurn = NetworkType.Client;
         this.playerMapRenderer.setDisabled(false);
         this.enemyMapRenderer.setDisabled(false);
         this.setUpdatePaused(false);

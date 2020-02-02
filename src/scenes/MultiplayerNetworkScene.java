@@ -26,6 +26,8 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     public void onSwitched() {
         super.onSwitched();
         Game.getInstance().getNetworkManager().addNetworkListener(this);
+
+        Game.getInstance().getNetworkManager().stopServer();
     }
 
     @Override

@@ -54,6 +54,8 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         super.onSwitched();
 
         this.winner = null;
+        this.lastShot = null;
+        this.playerTurn = NetworkType.Client;
         this.playerMapRenderer.setDisabled(false);
         this.enemyMapRenderer.setDisabled(false);
         this.setUpdatePaused(false);
@@ -66,12 +68,15 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         uiPanel = uiPanel.create(new Dimension(512, 512));
 
         this.uiPanel.getBtnLoad().setEnabled(false);
+        this.uiPanel.getBtnLoad().setVisible(false);
 
         this.uiPanel.getBtnSave().addActionListener((e) -> {
             long id = System.currentTimeMillis();
             MultiplayerSavegame savegame = new MultiplayerSavegame(String.valueOf(id), this.playerMap, this.enemyMap);
             Game.getInstance().getGameFileHandler().saveSavegame(savegame);
             Game.getInstance().getNetworkManager().sendSave(id);
+
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game was saved to file " + savegame.getId(), "Game saved", JOptionPane.ERROR_MESSAGE);
         });
 
         this.uiPanel.getBtnExit().addActionListener((e) -> {

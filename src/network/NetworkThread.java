@@ -328,10 +328,16 @@ public class NetworkThread extends Thread {
         try {
             if (this.serverSocket != null) {
                 this.serverSocket.close();
+                this.serverSocket = null;
+                this.serverConfirmed = false;
             }
             if (this.clientSocket != null) {
                 this.clientSocket.close();
+                this.clientSocket = null;
+                this.clientConfirmed = false;
             }
+
+            this.messageQueue.clear();
         } catch (IOException e) {
         }
     }
