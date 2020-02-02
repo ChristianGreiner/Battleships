@@ -80,6 +80,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     }
 
     public void initializeSavegame(Savegame savegame) {
+
+        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
+
         this.playerMap = savegame.getPlayerMap();
         this.enemyMap = savegame.getEnemyMap();
         this.ai = savegame.getAi();
@@ -109,7 +112,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
             this.gameState = GameState.Finished;
         } else {
             if (this.playerTurn == PlayerType.AI) {
-                if (this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+                if (this.waitTimer >= Game.getInstance().getTargetFps() * Game.getInstance().getOptions().getAiSpeedValue()) {
                     handleAiShot();
                     this.waitTimer = 0;
                 }
@@ -157,11 +160,11 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
             Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
             if (savegame != null) {
-                if (!savegame.isNetworkGame()) {
+                if (!savegame.isNetworkGame() && savegame.getPlayerAi() != null) {
                     SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                     scene.initializeSavegame(savegame);
                 } else
-                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a multiplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a multiplayer or ai savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }
         });
 

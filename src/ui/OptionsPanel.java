@@ -12,6 +12,7 @@ public class OptionsPanel extends JPanel {
     private JSlider musicSlider;
     private JButton btnSave;
     private JComboBox fpsCBox;
+    private JComboBox aiSpeedCBox;
 
     public OptionsPanel() {
     }
@@ -30,6 +31,10 @@ public class OptionsPanel extends JPanel {
 
     public JComboBox getFpsCBox() {
         return fpsCBox;
+    }
+
+    public JComboBox getAiSeedCBox() {
+        return aiSpeedCBox;
     }
 
     public OptionsPanel create() {
@@ -130,21 +135,51 @@ public class OptionsPanel extends JPanel {
         this.fpsCBox.setPreferredSize(new Dimension(180, 24));
         this.fpsCBox.setFont(Assets.Fonts.DEFAULT);
 
-        final DefaultComboBoxModel aiComboboxModel = new DefaultComboBoxModel();
-        aiComboboxModel.addElement("30");
-        aiComboboxModel.addElement("60");
-        fpsCBox.setModel(aiComboboxModel);
+        final DefaultComboBoxModel fpsComboboxModel = new DefaultComboBoxModel();
+        fpsComboboxModel.addElement("30");
+        fpsComboboxModel.addElement("60");
+        fpsCBox.setModel(fpsComboboxModel);
 
         this.fpsCBox.setSelectedItem(Integer.toString(Game.getInstance().getOptions().getFps()));
-
         fpsContainer.add(this.fpsCBox);
+
+        JPanel aiSpeedContainer = new JPanel();
+        aiSpeedContainer.setBackground(UiBuilder.TRANSPARENT);
+        aiSpeedContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.BOTH;
+        optionsContainer.add(aiSpeedContainer, gbc);
+
+        JLabel aiSpeedLbl = new JLabel();
+        aiSpeedLbl.setBackground(UiBuilder.TRANSPARENT);
+        aiSpeedLbl.setText("AI Speed:");
+        aiSpeedLbl.setPreferredSize(new Dimension(136, 24));
+        aiSpeedLbl.setFont(Assets.Fonts.DEFAULT);
+        aiSpeedLbl.setForeground(Color.WHITE);
+        aiSpeedContainer.add(aiSpeedLbl);
+
+        this.aiSpeedCBox = new JComboBox();
+        this.aiSpeedCBox.setPreferredSize(new Dimension(180, 24));
+        this.aiSpeedCBox.setFont(Assets.Fonts.DEFAULT);
+
+        final DefaultComboBoxModel aiComboboxModel = new DefaultComboBoxModel();
+        aiComboboxModel.addElement("Slow");
+        aiComboboxModel.addElement("Normal");
+        aiComboboxModel.addElement("Fast");
+        aiComboboxModel.addElement("Extreme");
+        aiSpeedCBox.setModel(aiComboboxModel);
+
+        this.aiSpeedCBox.setSelectedItem(Game.getInstance().getOptions().getAiSpeed().toString());
+        aiSpeedContainer.add(this.aiSpeedCBox);
 
         JPanel btnContainer = new JPanel();
         btnContainer.setBackground(UiBuilder.TRANSPARENT);
         btnContainer.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
         gbc.fill = GridBagConstraints.BOTH;
         mainContainer.add(btnContainer, gbc);
 

@@ -17,9 +17,10 @@ public class Savegame implements Serializable {
     private Map enemyMap = null;
     private AiDifficulty difficulty = AiDifficulty.Easy;
     private PlayerType currentTurn = null;
-    private NetworkType currentNetworkTurn = null;
     private AI ai = null;
+    private AI playerAi = null;
     private boolean isNetworkGame = false;
+    private NetworkType currentNetworkTurn = null;
 
     /**
      * The constructor of the save game.
@@ -37,6 +38,16 @@ public class Savegame implements Serializable {
         this.currentTurn = currentTurn;
         this.difficulty = difficulty;
         this.ai = ai;
+    }
+
+    public Savegame(Map playerMap, Map enemyMap, PlayerType currentTurn, AiDifficulty difficulty, AI ai, AI playerAi) {
+        this.id = String.valueOf(System.currentTimeMillis());
+        this.playerMap = playerMap;
+        this.enemyMap = enemyMap;
+        this.currentTurn = currentTurn;
+        this.difficulty = difficulty;
+        this.ai = ai;
+        this.ai = playerAi;
     }
 
     /**
@@ -79,6 +90,15 @@ public class Savegame implements Serializable {
      */
     public AI getAi() {
         return ai;
+    }
+
+    /**
+     * Gets the player ai.
+     *
+     * @return The player ai.
+     */
+    public AI getPlayerAi() {
+        return playerAi;
     }
 
     /**

@@ -60,8 +60,13 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
             if (savegame != null) {
                 if (!savegame.isNetworkGame()) {
-                    SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-                    scene.initializeSavegame(savegame);
+                    if (savegame.getAi() != null && savegame.getPlayerAi() != null) {
+                        SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
+                        scene.initializeSavegame(savegame);
+                    } else {
+                        SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
+                        scene.initializeSavegame(savegame);
+                    }
                 } else
                     JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game is a multiplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }

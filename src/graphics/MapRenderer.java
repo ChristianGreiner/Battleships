@@ -359,6 +359,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 } else if (tile.isHit() && !tile.isBlocked() && tile.hasShip()) {
                     g.setColor(new Color(255, 0, 0, 30));
                     g.fillRect(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y);
+
+                    drawImage(g, Assets.Images.HITMARKER, new Rectangle(x * tileSize.x + tileSize.x, y * tileSize.y + tileSize.y, tileSize.x, tileSize.y));
                 }
             }
         }

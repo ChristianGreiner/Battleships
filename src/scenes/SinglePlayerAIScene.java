@@ -81,10 +81,13 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
     }
 
     public void initializeSavegame(Savegame savegame) {
+
+        Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
+
         this.playerMap = savegame.getPlayerMap();
         this.enemyMap = savegame.getEnemyMap();
         this.enemyAi = savegame.getAi();
-        this.playerAi = savegame.getAi();
+        this.playerAi = savegame.getPlayerAi();
         this.playerMapRenderer.setMap(this.playerMap);
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.playerTurn = savegame.getCurrentTurn();
@@ -110,7 +113,7 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
 
             this.gameState = GameState.Finished;
         } else {
-            if (this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+            if (this.waitTimer >= Game.getInstance().getTargetFps() * Game.getInstance().getOptions().getAiSpeedValue()) {
                 if (this.playerTurn == PlayerType.AI) {
                     handleAiShot(this.enemyAi, this.playerMap, this.enemyMapRenderer);
                 } else {
@@ -155,12 +158,27 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         });
 
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
+            Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
+            if (savegame != null) {
+                if (!savegame.isNetworkGame()) {
+                    if (savegame.getAi() != null && savegame.getPlayerAi() != null) {
+                        SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
+                        scene.initializeSavegame(savegame);
+                    }
+                } else
+                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This savegame seems to be a single or multiplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         singlePlayerPanel.getBtnSave().addActionListener((e) -> {
+            Savegame savegame = new Savegame(this.playerMap, this.enemyMap, this.playerTurn, this.difficulty, this.enemyAi, this.playerAi);
+            Game.getInstance().getGameFileHandler().saveSavegameFileChooser(savegame);
         });
 
         this.uiPanel = singlePlayerPanel;
+
+        this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
+        this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.NOTURN_RED);
 
         return singlePlayerPanel;
     }
@@ -201,7 +219,7 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         if (lastHitType != null)
             ai.receiveAnswer(lastHitType);
 
-        this.handleSoundFx(hitData.getHitType());
+        Game.getInstance().getSoundManager().handleHitSoundFx(hitData.getHitType());
 
         mapRenderer.playExplosion(hitData.getPosition());
 
@@ -235,16 +253,6 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
 
     @Override
     public void OnShotFired(Map map, Point pos) {
-    }
-
-    private void handleSoundFx(HitType lastHitType) {
-        if (lastHitType == HitType.Water) {
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.WATER_HIT);
-        } else if (lastHitType == HitType.Ship) {
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHIP_HIT);
-        } else if (lastHitType == HitType.ShipDestroyed) {
-            Game.getInstance().getSoundManager().playSfx(Assets.Sounds.SHIP_EXPLOSION);
-        }
     }
 
     @Override

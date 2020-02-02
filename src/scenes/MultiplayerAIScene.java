@@ -99,7 +99,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
                 this.gameState = GameState.Finished;
             }
 
-            if (this.waitTimer >= Game.getInstance().getTargetFps() * 1.2) {
+            if (this.waitTimer >= Game.getInstance().getTargetFps() * Game.getInstance().getOptions().getAiSpeedValue()) {
                 sendAiShot();
                 this.waitTimer = 0;
             }

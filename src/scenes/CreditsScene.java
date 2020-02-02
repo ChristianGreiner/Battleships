@@ -45,7 +45,8 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
         credits.add(new Credit("", Assets.Fonts.TITLE_BIG));
         credits.add(new Credit("ASSETS", Assets.Fonts.DEFAULT_BOLD_24));
         credits.add(new Credit("Tiles by Kenny Assets (kenney.nl)", Assets.Fonts.DEFAULT));
-        credits.add(new Credit("Music by FootageCrate (footagecrate.com)", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("Main Menu Music by FootageCrate (footagecrate.com)", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("The War by Ender Güney", Assets.Fonts.DEFAULT));
 
         this.rootPanel = new CreditsPanel().create(credits);
         this.creditsRenderer = this.rootPanel.getCreditsRenderer();

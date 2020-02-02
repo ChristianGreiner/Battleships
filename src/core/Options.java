@@ -1,5 +1,7 @@
 package core;
 
+import ai.AiSpeed;
+
 import java.io.Serializable;
 
 /**
@@ -9,6 +11,8 @@ public class Options implements Serializable {
     private float sfxVolume = .5f;
     private float musicVolume = .5f;
     private int fps = 60;
+    private AiSpeed aiSpeed = AiSpeed.Normal;
+    private float aiSpeedValue = 1.2f;
 
     /**
      * Gets the sfx volume.
@@ -62,5 +66,48 @@ public class Options implements Serializable {
      */
     public void setFps(int fps) {
         this.fps = fps;
+    }
+
+    /**
+     * Gets the ai speed.
+     *
+     * @return The speed of the ai.
+     */
+    public AiSpeed getAiSpeed() {
+        return aiSpeed;
+    }
+
+    /**
+     * Sets the a thinking speed.
+     *
+     * @param aiSpeed The speed.
+     */
+    public void setAiSpeed(AiSpeed aiSpeed) {
+        this.aiSpeed = aiSpeed;
+
+        switch (aiSpeed) {
+            case Extreme:
+                this.aiSpeedValue = 0.1f;
+                break;
+            case Fast:
+                this.aiSpeedValue = 0.5f;
+                break;
+            case Slow:
+                this.aiSpeedValue = 1.5f;
+                break;
+            case Normal:
+                this.aiSpeedValue = 1.2f;
+                break;
+        }
+
+    }
+
+    /**
+     * Gets the ai speed as value for calculation.
+     *
+     * @return The ai speed as value.
+     */
+    public float getAiSpeedValue() {
+        return this.aiSpeedValue;
     }
 }

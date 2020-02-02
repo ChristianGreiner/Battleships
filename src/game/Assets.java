@@ -23,6 +23,7 @@ public final class Assets {
         Images.SAND_TOP = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_TOP);
         Images.SAND_TOP_LEFT = AssetsLoader.loadBufferedImage(Assets.Paths.SAND_TOP_LEFT);
         Images.CROSSHAIR = AssetsLoader.loadBufferedImage(Assets.Paths.CROSSHAIR);
+        Images.HITMARKER = AssetsLoader.loadBufferedImage(Assets.Paths.HITMARKER);
 
         // load ships
         Images.SHIP_BATTLESHIP = AssetsLoader.loadBufferedImage(Assets.Paths.SHIP_BATTLESHIP);
@@ -44,7 +45,6 @@ public final class Assets {
         // load sounds
         Sounds.BUTTON_HOVER = AssetsLoader.loadSound(Paths.Button.HOVER_SFX);
         Sounds.BUTTON_CLICK = AssetsLoader.loadSound(Paths.Button.CLICK_SFX);
-        Sounds.SHOT_SFX = AssetsLoader.loadSound(Paths.SHOT_SFX);
         Sounds.WATER_HIT = AssetsLoader.loadSound(Paths.WATER_HIT);
         Sounds.SHIP_HIT = AssetsLoader.loadSound(Paths.SHIP_HIT);
         Sounds.SHIP_EXPLOSION = AssetsLoader.loadSound(Paths.SHIP_EXPLOSION);
@@ -70,6 +70,7 @@ public final class Assets {
         public static Image SAND_TOP;
         public static Image SAND_TOP_LEFT;
         public static Image CROSSHAIR;
+        public static Image HITMARKER;
         public static Image SHIP_BATTLESHIP;
         public static Image SHIP_CARRIER;
         public static Image SHIP_DESTROYER;
@@ -84,7 +85,6 @@ public final class Assets {
         public static Clip PLAYING_MUSIC;
         public static Clip BUTTON_HOVER;
         public static Clip BUTTON_CLICK;
-        public static Clip SHOT_SFX;
         public static Clip WATER_HIT;
         public static Clip SHIP_HIT;
         public static Clip SHIP_EXPLOSION;
@@ -122,18 +122,18 @@ public final class Assets {
         public final static String SAND_TOP = "images/tiles/sand_top.png";
         public final static String SAND_TOP_LEFT = "images/tiles/sand_top_left.png";
         public final static String CROSSHAIR = "images/ui/crosshair_black.png";
+        public final static String HITMARKER = "images/ui/hit.png";
         public final static String SHIP_BATTLESHIP = "images/ships/battleship.png";
         public final static String SHIP_CARRIER = "images/ships/carrier.png";
         public final static String SHIP_DESTROYER = "images/ships/destroyer.png";
         public final static String SHIP_SUBMARINE = "images/ships/submarine.png";
 
         public final static String MAINMENU_MUSIC = "music/mainmenu.wav";
-        public final static String PLAYING_MUSIC = "music/undiscovered.wav";
+        public final static String PLAYING_MUSIC = "music/thewar.wav";
 
         public final static String ROBOTO_FONT = "fonts/Roboto-Regular.ttf";
         public final static String ROBOTO_BOLD_FONT = "fonts/Roboto-Bold.ttf";
         public final static String PLAY_FONT = "fonts/Play-Regular.ttf";
-        public final static String SHOT_SFX = "sfx/shot.wav";
         public final static String WATER_HIT = "sfx/water_hit.wav";
         public final static String SHIP_HIT = "sfx/ship_hit.wav";
         public final static String SHIP_EXPLOSION = "sfx/ship_explosion.wav";

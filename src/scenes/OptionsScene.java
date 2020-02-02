@@ -1,5 +1,6 @@
 package scenes;
 
+import ai.AiSpeed;
 import core.Game;
 import core.GameWindow;
 import game.Assets;
@@ -45,9 +46,13 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
 
         options.getSaveBtn().addActionListener((e) -> {
             Game.getInstance().getOptions().setFps(Integer.parseInt(options.getFpsCBox().getSelectedItem().toString()));
-            Game.getInstance().getGameFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
-            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
+            Game.getInstance().getOptions().setAiSpeed(AiSpeed.valueOf(options.getAiSeedCBox().getSelectedItem().toString()));
+            System.out.println(Game.getInstance().getOptions().getAiSpeedValue());
             Game.getInstance().setTargetFps(Game.getInstance().getOptions().getFps());
+
+            Game.getInstance().getGameFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);
+
+            Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
         });
 
         return options;
