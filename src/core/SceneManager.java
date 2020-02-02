@@ -5,6 +5,8 @@ import ui.GuiScene;
 
 import javax.swing.*;
 import java.awt.event.KeyListener;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
@@ -66,7 +68,23 @@ public class SceneManager {
                 e.printStackTrace();
             }
         }
-        Scene scene = this.getScene(type);
+
+        Scene scene = null;
+
+        // Get Class instance
+        try {
+            Class<?> callsFromType = Class.forName(type.getTypeName());
+            Constructor<?> constructor = callsFromType.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            scene = (Scene) constructor.newInstance();
+
+        } catch (ClassNotFoundException e) {
+        } catch (InstantiationException e) {
+        } catch (InvocationTargetException e) {
+        } catch (NoSuchMethodException e) {
+        } catch (IllegalAccessException e) {
+        }
+
 
         if (this.activeScene != null) {
             if (this.activeScene instanceof KeyListener) {
