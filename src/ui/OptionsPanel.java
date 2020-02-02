@@ -166,7 +166,7 @@ public class OptionsPanel extends JPanel {
         this.fpsCBox.setFont(Assets.Fonts.DEFAULT);
 
         final DefaultComboBoxModel fpsComboboxModel = new DefaultComboBoxModel();
-        fpsComboboxModel.addElement("20");
+        fpsComboboxModel.addElement("15");
         fpsComboboxModel.addElement("30");
         fpsComboboxModel.addElement("60");
         fpsCBox.setModel(fpsComboboxModel);
