@@ -13,14 +13,27 @@ public class GameOverPanel extends JPanel {
     private JButton btnExit;
     private JLabel gameStatusLabel;
 
+    /**
+     * Gets the restart button.
+     *
+     * @return The button.
+     */
     public JButton getBtnRestart() {
         return btnRestart;
     }
 
+    /**
+     * Gets the exit button.
+     * @return The button.
+     */
     public JButton getBtnExit() {
         return btnExit;
     }
 
+    /**
+     * Updates the winner text.
+     * @param winner The winner.
+     */
     public void updateWinner(PlayerType winner) {
         String message;
 
@@ -32,11 +45,19 @@ public class GameOverPanel extends JPanel {
         this.gameStatusLabel.setText(message);
     }
 
+    /**
+     * Updates the network winner.
+     * @param winner The winner.
+     */
     public void updateWinner(NetworkType winner) {
         String message = winner.toString() + " WON!";
         this.gameStatusLabel.setText(message);
     }
 
+    /**
+     * Creates a new panel.
+     * @return The panel.
+     */
     public GameOverPanel create() {
         GameOverPanel mainContainer = this;
         mainContainer.setLayout(new GridBagLayout());
