@@ -9,37 +9,65 @@ import java.awt.*;
 public class MainMenuPanel extends JPanel {
 
     private static MainMenuPanel instance;
-    private final int paddingSize = 12;
     private JButton singleplayerBtn, multiplayerBtn, creditsBtn, optionsBtn, exitBtn;
 
     public MainMenuPanel() {
         instance = this;
     }
 
+    /**
+     * Gets an instance of the panel.
+     *
+     * @return The panel.
+     */
     public static MainMenuPanel getInstance() {
         return instance;
     }
 
+    /**
+     * Gets the single player button.
+     * @return The button.
+     */
     public JButton getSingleplayerBtn() {
         return singleplayerBtn;
     }
 
+    /**
+     * Gets the multiplayer button.
+     * @return The button.
+     */
     public JButton getMultiplayerBtn() {
         return multiplayerBtn;
     }
 
+    /**
+     * Gets the credits button.
+     * @return The button.
+     */
     public JButton getCreditsBtn() {
         return creditsBtn;
     }
 
+    /**
+     * Gets the option button.
+     * @return The button.
+     */
     public JButton getOptionsBtn() {
         return optionsBtn;
     }
 
+    /**
+     * Gets the exit  button.
+     * @return The button.
+     */
     public JButton getExitBtn() {
         return exitBtn;
     }
 
+    /**
+     * Creates a new panel.
+     * @return The panel.
+     */
     public MainMenuPanel create() {
         MainMenuPanel panel = this;
 

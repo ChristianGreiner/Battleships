@@ -9,7 +9,6 @@ import java.awt.*;
 public class MultiplayerNetworkPanel extends JPanel {
 
     private static MultiplayerNetworkPanel instance;
-    private final int paddingSize = 12;
     private JButton joinBtn;
     private JButton hostBtn;
     private JButton backBtn;
@@ -20,30 +19,59 @@ public class MultiplayerNetworkPanel extends JPanel {
         instance = this;
     }
 
+    /**
+     * Gets the instance of the panel.
+     *
+     * @return The Panel.
+     */
     public static MultiplayerNetworkPanel getInstance() {
         return instance;
     }
 
+    /**
+     * The hostname text field.
+     * @return The text field.
+     */
     public JTextField getHostnameField() {
         return hostnameField;
     }
 
+    /**
+     * Gets the join button.
+     * @return The button.
+     */
     public JButton getJoinBtn() {
         return joinBtn;
     }
 
+    /**
+     * Gets the host button.
+     * @return The button.
+     */
     public JButton getHostBtn() {
         return hostBtn;
     }
 
+    /**
+     * Gets the back button.
+     * @return The button.
+     */
     public JButton getBackBtn() {
         return backBtn;
     }
 
+    /**
+     * Gets the join ai button.
+     * @return The button.
+     */
     public JButton getJoinAiBtn() {
         return joinAiBtn;
     }
 
+    /**
+     * Creates a new panel.
+     * @return The panel.
+     */
     public MultiplayerNetworkPanel create() {
         MultiplayerNetworkPanel panel = this;
 

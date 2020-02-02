@@ -14,30 +14,59 @@ public class GameSettingsPanel extends JPanel {
     private JComboBox aiDifficultyCbox;
     private JButton backBtn;
 
+    /**
+     * Gets the load button.
+     *
+     * @return The button.
+     */
     public JButton getLoadGameBtn() {
         return loadGameBtn;
     }
 
+    /**
+     * Gets the new game button.
+     * @return The button.
+     */
     public JButton getNewGameBtn() {
         return newGameBtn;
     }
 
+    /**
+     * Gets the ai difficulty JComboBox.
+     * @return The JComboBox.
+     */
     public JComboBox getAiDifficultyCbox() {
         return aiDifficultyCbox;
     }
 
+    /**
+     * Gets the size spinner.
+     * @return The spinner.
+     */
     public JSpinner getSizeSpinner() {
         return sizeSpn;
     }
 
+    /**
+     * Gets the back button.
+     * @return The button.
+     */
     public JButton getBackBtn() {
         return backBtn;
     }
 
+    /**
+     * Gets the new ai game button.
+     * @return The button.
+     */
     public JButton getNewAIGameBtn() {
         return newAIGameBtn;
     }
 
+    /**
+     * Creates a new panel.
+     * @return The panel.
+     */
     public GameSettingsPanel create() {
 
         GameSettingsPanel panel = this;

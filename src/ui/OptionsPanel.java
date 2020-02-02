@@ -17,26 +17,51 @@ public class OptionsPanel extends JPanel {
     public OptionsPanel() {
     }
 
+    /**
+     * Gets the fx volume slider.
+     *
+     * @return The slider.
+     */
     public JSlider getSfxVolumeSlider() {
         return sfxSlider;
     }
 
+    /**
+     * Gets the music volume slider.
+     * @return The slider.
+     */
     public JSlider getMusicVolumeSlider() {
         return musicSlider;
     }
 
+    /**
+     * Gets the save button.
+     * @return The button.
+     */
     public JButton getSaveBtn() {
         return btnSave;
     }
 
+    /**
+     * Gets the fps JComboBox.
+     * @return The JComboBox.
+     */
     public JComboBox getFpsCBox() {
         return fpsCBox;
     }
 
+    /**
+     * Gets the ai speed JComboBox.
+     * @return The slider.
+     */
     public JComboBox getAiSeedCBox() {
         return aiSpeedCBox;
     }
 
+    /**
+     * Creates new panel.
+     * @return The panel.
+     */
     public OptionsPanel create() {
 
         OptionsPanel mainContainer = this;
