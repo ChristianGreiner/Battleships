@@ -6,6 +6,7 @@ import java.awt.*;
  * A container for displaying credits.
  */
 public class Credit {
+
     private String text;
     private Font font;
 

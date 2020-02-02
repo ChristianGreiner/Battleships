@@ -57,17 +57,21 @@ public class Map implements MapInterface, Serializable {
         this.availableCounter.put(Submarine.class, mapData.Submarines);
     }
 
+    /**
+     * Gets all destroyed ships.
+     *
+     * @return The ship.s
+     */
     public ArrayList<Ship> getDestroyedShips() {
         return this.destroyedShips;
     }
 
-    // dirty fix
+    /**
+     * Gets the map data.
+     * @return
+     */
     public MapData getMapData() {
         return mapData;
-    }
-
-    public HashMap<Type, Integer> getAvailableCounter() {
-        return availableCounter;
     }
 
     /**
@@ -115,6 +119,10 @@ public class Map implements MapInterface, Serializable {
         return ships;
     }
 
+    /**
+     * Adds a new listener to the map.
+     * @param listener The listener.
+     */
     public void addListener(MapListener listener) {
         this.listeners.add(listener);
     }
@@ -125,13 +133,17 @@ public class Map implements MapInterface, Serializable {
      * @return True or false.
      */
     public boolean isCorrectFilled() {
-
         return this.mapData.Carriers == this.shipsCounter.get(Carrier.class) &&
                 this.mapData.Battleships == this.shipsCounter.get(Battleship.class) &&
                 this.mapData.Destroyers == this.shipsCounter.get(Destroyer.class) &&
                 this.mapData.Submarines == this.shipsCounter.get(Submarine.class);
     }
 
+    /**
+     * Mark a tile as hit.
+     * @param pos The position.
+     * @param type The typ.
+     */
     public void markTile(Point pos, HitType type) {
         if (isInMap(pos)) {
             if (type == HitType.Water) {

@@ -12,8 +12,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.lang.reflect.Type;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.HashMap;
 
 /**
@@ -94,9 +92,6 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
      */
     @Override
     public void draw() {
-
-        Instant starts = Instant.now();
-
         if (!isInit)
             return;
 
@@ -112,9 +107,6 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
         }
 
         super.endRendering();
-
-        Instant ends = Instant.now();
-        System.out.println(Duration.between(starts, ends));
     }
 
     /**
