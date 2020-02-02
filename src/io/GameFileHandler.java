@@ -49,7 +49,6 @@ public class GameFileHandler {
             out.writeObject(object);
             out.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -102,7 +101,6 @@ public class GameFileHandler {
         } catch (InvalidClassException ex) {
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This savegame seems to be invalid or corrupted.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
         return object;
     }
@@ -126,6 +124,11 @@ public class GameFileHandler {
         this.writeObject(savegame, file, "bsg");
     }
 
+    /**
+     * Opens up a new save game file chooser.
+     *
+     * @param savegame The savegame.
+     */
     public void saveSavegameFileChooser(Savegame savegame) {
         String PATH = System.getProperty("user.dir") + "/";
         File saveGameDirectory = new File(PATH.concat("savegames"));
