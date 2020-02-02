@@ -3,6 +3,7 @@ package scenes;
 import core.Drawable;
 import core.Game;
 import core.GameWindow;
+import core.Updatable;
 import game.*;
 import game.ships.Ship;
 import graphics.MapBuilderRenderer;
@@ -15,7 +16,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, KeyListener, MapRendererListener, MapListener, GameSession {
+public class ShipsSelectionScene extends Scene implements Drawable, Updatable, GuiScene, KeyListener, MapRendererListener, MapListener, GameSession {
 
     private MapBuilderRenderer buildRenderer;
     private Map playerMap;
@@ -102,6 +103,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getBuildMapRenderPanelSize());
 
+        if (this.buildRenderer != null)
+            this.buildRenderer.updateGridSize();
+
         Game.getInstance().getWindow().repaint();
         Game.getInstance().getWindow().revalidate();
     }
@@ -168,4 +172,14 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     }
 
 
+    @Override
+    public void update(double deltaTime) {
+        if (this.buildRenderer != null)
+            this.buildRenderer.update(deltaTime);
+    }
+
+    @Override
+    public void lateUpdate(double deltaTime) {
+
+    }
 }

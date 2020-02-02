@@ -1,6 +1,7 @@
 package graphics;
 
 import core.Helper;
+import core.Updatable;
 import game.Assets;
 import game.Map;
 import game.MapData;
@@ -11,12 +12,14 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.lang.reflect.Type;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 
 /**
  * Class to draw the ship selection scene
  */
-public class MapBuilderRenderer extends MapRenderer {
+public class MapBuilderRenderer extends MapRenderer implements Updatable {
     HashMap<String, Integer> ShipSizes = new HashMap<String, Integer>();
     private int[] shipsLeftCnt = new int[4];
     private Point gridSize;
@@ -56,23 +59,15 @@ public class MapBuilderRenderer extends MapRenderer {
         this.mapData = MapGenerator.getConfigMap().get(map.getSize());
         this.map = map;
         isInit = true;
+
+        updateGridSize();
     }
 
-    /**
-     * Sets certain parameters for the MapRenderer as well as the positions for ships to be selected and draws everything.
-     */
     @Override
-    public void draw() {
-        if (!isInit)
-            return;
+    public void update(double deltaTime) {
+        super.update(deltaTime);
 
-        this.gridSize = new Point(this.getHeight(), this.getHeight());
-        this.setGridSize(this.gridSize);
-        this.tileSize = new Point(this.getWidth() / 20, this.getWidth() / 20);
-        this.carrierPos = new Point(this.getHeight() + 20, this.getHeight() / 9);
-        this.battleshipPos = new Point(this.getHeight() + 20, this.getHeight() / 9 + this.getHeight() / 5);
-        this.destroyerPos = new Point((this.getHeight()) + 20, this.getHeight() / 9 + (this.getHeight() / 5) * 2);
-        this.submarinePos = new Point((this.getHeight()) + 20, this.getHeight() / 9 + (this.getHeight() / 5) * 3);
+        if (map == null) return;
 
         this.shipsCounter = map.getShipsCounter();
 
@@ -80,6 +75,28 @@ public class MapBuilderRenderer extends MapRenderer {
         shipsLeftCnt[1] = this.mapData.Destroyers - this.shipsCounter.get(Destroyer.class);
         shipsLeftCnt[2] = this.mapData.Battleships - this.shipsCounter.get(Battleship.class);
         shipsLeftCnt[3] = this.mapData.Carriers - this.shipsCounter.get(Carrier.class);
+    }
+
+    public void updateGridSize() {
+        this.gridSize = new Point(this.getHeight(), this.getHeight());
+        this.setGridSize(this.gridSize);
+        this.tileSize = new Point(this.getWidth() / 20, this.getWidth() / 20);
+        this.carrierPos = new Point(this.getHeight() + 20, this.getHeight() / 9);
+        this.battleshipPos = new Point(this.getHeight() + 20, this.getHeight() / 9 + this.getHeight() / 5);
+        this.destroyerPos = new Point((this.getHeight()) + 20, this.getHeight() / 9 + (this.getHeight() / 5) * 2);
+        this.submarinePos = new Point((this.getHeight()) + 20, this.getHeight() / 9 + (this.getHeight() / 5) * 3);
+    }
+
+    /**
+     * Sets certain parameters for the MapRenderer as well as the positions for ships to be selected and draws everything.
+     */
+    @Override
+    public void draw() {
+
+        Instant starts = Instant.now();
+
+        if (!isInit)
+            return;
 
         Graphics2D g = super.beginRendering();
 
@@ -93,6 +110,9 @@ public class MapBuilderRenderer extends MapRenderer {
         }
 
         super.endRendering();
+
+        Instant ends = Instant.now();
+        System.out.println(Duration.between(starts, ends));
     }
 
     /**
@@ -100,10 +120,14 @@ public class MapBuilderRenderer extends MapRenderer {
      * @param g the Graphics element.
      */
     public void drawShipText(Graphics2D g){
-        String carrierText = "Carrier " + shipsLeftCnt[3] + "x";
-        String battleshipText = "Battleship " + shipsLeftCnt[2] + "x";
-        String destroyerText = "Destroyer " + shipsLeftCnt[1] + "x";
-        String submarineText = "Submarine " + shipsLeftCnt[0] + "x";
+
+        if (this.tileSize == null)
+            return;
+
+        String carrierText = "Carrier (" + shipsLeftCnt[3] + "x)";
+        String battleshipText = "Battleship (" + shipsLeftCnt[2] + "x)";
+        String destroyerText = "Destroyer (" + shipsLeftCnt[1] + "x)";
+        String submarineText = "Submarine (" + shipsLeftCnt[0] + "x)";
 
         Font scaledFont = scaleFontToFit(carrierText, this.tileSize.x * 4, Assets.Fonts.DEFAULT, g);
         Helper.drawLeftAlignedString(g, carrierText, new Rectangle(this.carrierPos.x, this.carrierPos.y, 4 * this.tileSize.x, this.tileSize.y), scaledFont);
@@ -128,8 +152,6 @@ public class MapBuilderRenderer extends MapRenderer {
         if (shipsLeftCnt[3] > 0) {
             //draw carrier
             drawImageShip(g, this.ShipSizes.get("Carrier"), Assets.Images.SHIP_CARRIER, new Rectangle(this.carrierPos.x, this.carrierPos.y + this.getHeight() / 9, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
-            //draw carrier outline
-            //g.drawRect(this.carrierPos.x, this.carrierPos.y + 30, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y);
         }
 
         if (shipsLeftCnt[2] > 0) {
