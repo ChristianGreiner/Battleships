@@ -184,8 +184,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         if (this.backgroundImage == null) {
             this.backgroundImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics2D bGr = this.backgroundImage.createGraphics();
-            for (int y = 0; y < this.map.getSize() + 1; y++) {
-                for (int x = 0; x < this.map.getSize() + 1; x++) {
+            for (int y = 0; y < Math.ceil((getHeight() / tileSize.y) + 1); y++) {
+                for (int x = 0; x < Math.ceil((getWidth() / tileSize.x) + 1); x++) {
                     Rectangle tilePos = new Rectangle(x * tileSize.x, y * tileSize.y, tileSize.x, tileSize.y);
                     drawImage(bGr, Assets.Images.WATER, tilePos);
                 }
@@ -194,7 +194,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
 
         // draw map background
-        g.drawImage(this.backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
+        g.drawImage(this.backgroundImage, 0, 0, getWidth(), getHeight(), null);
 
         this.drawShips(g, tileSize);
 
