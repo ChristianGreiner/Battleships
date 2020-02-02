@@ -34,14 +34,6 @@ public class GamePanel extends JPanel {
         return enemyLabelContainer;
     }
 
-    public JLabel getPlayerLabel() {
-        return playerLabel;
-    }
-
-    public JLabel getOpponentLabel() {
-        return opponentLabel;
-    }
-
     public JButton getBtnExit() {
         return btnExit;
     }
@@ -52,14 +44,6 @@ public class GamePanel extends JPanel {
 
     public JButton getBtnSave() {
         return btnSave;
-    }
-
-    public MapRenderer getPlayerMapRenderer() {
-        return playerMapRenderer;
-    }
-
-    public MapRenderer getEnemyMapRenderer() {
-        return enemyMapRenderer;
     }
 
     public GamePanel create(Dimension mapsRendererSize) {

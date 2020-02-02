@@ -17,6 +17,13 @@ public class UiBuilder {
     public final static Color TURN_GREEN = new Color(46, 204, 113);
     public final static Color NOTURN_RED = new Color(214, 48, 49);
 
+    /**
+     * Creates a new ui button-
+     *
+     * @param name The button name
+     * @param size The size
+     * @return Returns new button.
+     */
     public static JButton createButton(String name, Dimension size) {
         JButton btn = new JButton(name);
         btn.setBackground(new Color(44, 62, 80));

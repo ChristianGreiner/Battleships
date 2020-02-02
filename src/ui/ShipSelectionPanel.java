@@ -14,14 +14,44 @@ public class ShipSelectionPanel extends JPanel {
     private JButton btnCancel;
     private JButton btnStartGame;
 
+    /**
+     * Creates a new panel
+     *
+     * @param mapRenderer The map renderer.
+     */
     public ShipSelectionPanel(MapBuilderRenderer mapRenderer) {
         this.mapRenderer = mapRenderer;
     }
 
-    public MapBuilderRenderer getMapRenderer() {
-        return mapRenderer;
+    /**
+     * Gets the random map button.
+     * @return The button.
+     */
+    public JButton getBtnRandomMap() {
+        return btnRandomMap;
     }
 
+    /**
+     * Gets the cancel button.
+     * @return The button.
+     */
+    public JButton getBtnCancel() {
+        return btnCancel;
+    }
+
+    /**
+     * Gets the start button.
+     * @return The button.
+     */
+    public JButton getBtnStartGame() {
+        return btnStartGame;
+    }
+
+    /**
+     * Forces to update the map size.
+     *
+     * @param size The size of the map.
+     */
     public void updateMapSize(Dimension size) {
         this.mapRenderer.setPreferredSize(size);
         this.mapRenderer.setSize(size);
@@ -31,18 +61,11 @@ public class ShipSelectionPanel extends JPanel {
         Game.getInstance().getWindow().revalidate();
     }
 
-    public JButton getBtnRandomMap() {
-        return btnRandomMap;
-    }
-
-    public JButton getBtnCancel() {
-        return btnCancel;
-    }
-
-    public JButton getBtnStartGame() {
-        return btnStartGame;
-    }
-
+    /**
+     * Creates a new panel.
+     * @param mapsRendererSize The renderer size.
+     * @return The panel.
+     */
     public ShipSelectionPanel create(Dimension mapsRendererSize) {
         ShipSelectionPanel panel = this;
 

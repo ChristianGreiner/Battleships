@@ -10,10 +10,19 @@ public class WaitingForPlayerPanel extends JPanel {
 
     private JButton backBtn;
 
+    /**
+     * Gets the back button
+     *
+     * @return The button.
+     */
     public JButton getBackBtn() {
         return backBtn;
     }
 
+    /**
+     * Creates a new panel.
+     * @return The panel.
+     */
     public WaitingForPlayerPanel create() {
         WaitingForPlayerPanel panel = this;
 
