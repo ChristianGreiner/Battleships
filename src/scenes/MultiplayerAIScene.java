@@ -104,7 +104,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
                 this.gameState = GameState.Finished;
             }
 
-            if (this.waitTimer >= Game.getInstance().getTargetFps() * Game.getInstance().getOptions().getAiSpeedValue()) {
+            if (this.waitTimer >= Game.getInstance().getTargetFps() * 1.2f) {
                 sendAiShot();
                 this.waitTimer = 0;
             }
@@ -159,6 +159,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         if (isMyTurn()) {
             this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
             this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.NOTURN_RED);
+
         } else {
             this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.NOTURN_RED);
             this.uiPanel.getEnemyLabelContainer().setBackground(UiBuilder.TURN_GREEN);

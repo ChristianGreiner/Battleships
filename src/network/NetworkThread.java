@@ -183,6 +183,8 @@ public class NetworkThread extends Thread {
                         out.write(String.format("%s%n", "CONFIRMED"));
                         out.flush();
 
+                        JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game started!", "Battleships", JOptionPane.INFORMATION_MESSAGE);
+
                         for (NetworkListener listener : this.networkManager.getListeners()) {
                             listener.OnGameStarted();
                         }
@@ -256,6 +258,9 @@ public class NetworkThread extends Thread {
                         if (message.contains("CONFIRMED")) {
                             Game.getInstance().getLogger().info(this.networkType.toString() + ": Gets message: " + message);
                             System.out.println("Server confirmed");
+
+                            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game started!", "Battleships", JOptionPane.INFORMATION_MESSAGE);
+
                             for (NetworkListener listener : this.networkManager.getListeners()) {
                                 listener.OnGameStarted();
                             }
@@ -288,7 +293,6 @@ public class NetworkThread extends Thread {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game closed by the server.", "Network error", JOptionPane.ERROR_MESSAGE);
-
             for (NetworkListener listener : this.networkManager.getListeners()) {
                 listener.OnGameClosed();
             }
@@ -320,6 +324,8 @@ public class NetworkThread extends Thread {
                 for (NetworkListener listener : this.networkManager.getListeners()) {
                     listener.OnReceiveLoad(id);
                 }
+            } else if (message.contains("PASS")) {
+                Game.getInstance().getLogger().info(this.networkType.toString() + ": Getting PASS");
             }
         }
     }
