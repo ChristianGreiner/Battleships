@@ -37,7 +37,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     private boolean shipsVisable = true;
     private Point gridSize;
     private Ship selectedShip;
-    private BufferedImage backgroundBackground;
+    private BufferedImage backgroundImage;
     private boolean disabled = false;
     private ArrayList<BufferedImage> explosionFrames = new ArrayList<BufferedImage>();
     private Sprite explosionSprite;
@@ -63,10 +63,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
      */
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
-    }
-
-    public boolean isEditorMode() {
-        return this.editorMode;
     }
 
     /**
@@ -184,11 +180,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         setTileSize();
         g.setColor(new Color(147, 200, 218));
         g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(Color.WHITE);
 
-        if (this.backgroundBackground == null) {
-            this.backgroundBackground = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics2D bGr = this.backgroundBackground.createGraphics();
+        if (this.backgroundImage == null) {
+            this.backgroundImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D bGr = this.backgroundImage.createGraphics();
             for (int y = 0; y < this.map.getSize() + 1; y++) {
                 for (int x = 0; x < this.map.getSize() + 1; x++) {
                     Rectangle tilePos = new Rectangle(x * tileSize.x, y * tileSize.y, tileSize.x, tileSize.y);
@@ -199,7 +194,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
 
         // draw map background
-        g.drawImage(this.backgroundBackground, 0, 0, this.getWidth(), this.getHeight(), null);
+        g.drawImage(this.backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
 
         this.drawShips(g, tileSize);
 

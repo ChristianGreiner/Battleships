@@ -62,7 +62,7 @@ public class ShipsSelectionScene extends Scene implements Drawable, GuiScene, Ke
     public JPanel buildGui(GameWindow gameWindow) {
         ShipSelectionPanel shipSelectionPanel = new ShipSelectionPanel(this.buildRenderer);
 
-        shipSelectionPanel.create(new Dimension(1024, 512));
+        shipSelectionPanel.create(new Dimension(777, 512));
 
         this.uiPanel = shipSelectionPanel;
 

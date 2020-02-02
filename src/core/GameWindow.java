@@ -16,7 +16,7 @@ public class GameWindow extends JFrame implements Runnable {
 
     public static final int VIRTUAL_WIDTH = 1280;
     public static final int VIRTUAL_HEIGHT = 720;
-    public static final int START_MAPSIZE = 512;
+    public static final int START_MAPSIZE = 384;
     private static final float ASPECT_RATIO = (float) VIRTUAL_WIDTH / (float) VIRTUAL_HEIGHT;
     private boolean isFullscreen = false;
     private JPanel rootPanel;
@@ -172,7 +172,7 @@ public class GameWindow extends JFrame implements Runnable {
     public Dimension getBuildMapRenderPanelSize() {
         Dimension currentSize = Game.getInstance().getWindow().getSize();
         float ratio = (float) currentSize.width / VIRTUAL_WIDTH;
-        return new Dimension((int) ((START_MAPSIZE * 2) * ratio), (int) (START_MAPSIZE * ratio));
+        return new Dimension((int) ((START_MAPSIZE * 1.5) * ratio), (int) (START_MAPSIZE * ratio));
     }
 
     /**

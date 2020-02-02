@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Options implements Serializable {
     private float sfxVolume = .5f;
     private float musicVolume = .5f;
-    private int fps = 60;
+    private int fps = 30;
     private AiSpeed aiSpeed = AiSpeed.Normal;
     private float aiSpeedValue = 1.2f;
 
