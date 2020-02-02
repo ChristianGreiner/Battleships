@@ -43,8 +43,6 @@ public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
                 if (savegame.getSavegameType() == SavegameType.Multiplayer || savegame.getSavegameType() == SavegameType.MultiplayerAi) {
                     WaitingForPlayerScene scene = (WaitingForPlayerScene) Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);
                     scene.initializeGameSession(new GameSessionData(savegame));
-                } else {
-                    JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This file seems to be corrupted", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This file seems to be corrupted", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
