@@ -967,4 +967,72 @@ public class Map implements MapInterface, Serializable {
 
         return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
     }
+
+    public void MergeDummyShips(Point dShip) {
+
+        int ShipLengthCounter = 1;
+        boolean shipIsX = false;
+
+        Point neighborX = new Point(dShip.x + 1, dShip.y);
+        Point neighborXMinus = new Point(dShip.x - 1, dShip.y);
+        Point neighborY = new Point(dShip.x, dShip.y + 1);
+        Point neighborYMinus = new Point(dShip.x, dShip.y - 1);
+
+        if (isInMap(neighborX)) {
+            MapTile nTileX = new MapTile(neighborX);
+            if (nTileX.hasShip()) {
+                ShipLengthCounter++;
+                shipIsX = true;
+            }
+        }
+        if (isInMap(neighborXMinus)) {
+            MapTile nTileXMinus = new MapTile(neighborXMinus);
+            if (nTileXMinus.hasShip()) {
+                ShipLengthCounter++;
+                shipIsX = true;
+            }
+        }
+
+        if (!shipIsX) {
+            if (isInMap(neighborY)) {
+                MapTile nTileY = new MapTile(neighborX);
+                if (nTileY.hasShip()) {
+                    ShipLengthCounter++;
+                }
+            }
+            if (isInMap(neighborXMinus)) {
+                MapTile nTileYMinus = new MapTile(neighborYMinus);
+                if (nTileYMinus.hasShip()) {
+                    ShipLengthCounter++;
+                }
+            }
+        }
+
+        for (int i = 2; i <= 4; i++) {
+            Point neighbor;
+            Point neighborMinus;
+            if (shipIsX) {
+                neighbor = new Point(dShip.x + i, dShip.y);
+                neighborMinus = new Point(dShip.x - i, dShip.y);
+            } else {
+                neighbor = new Point(dShip.x + i, dShip.y);
+                neighborMinus = new Point(dShip.x - i, dShip.y);
+            }
+
+            if (isInMap(neighbor)) {
+                MapTile nTile = new MapTile(neighbor);
+                if (nTile.hasShip()) {
+                    ShipLengthCounter++;
+                }
+            }
+            if (isInMap(neighborMinus)) {
+                MapTile nTileMinus = new MapTile(neighborMinus);
+                if (nTileMinus.hasShip()) {
+                    ShipLengthCounter++;
+                }
+            }
+        }
+
+
+    }
 }
