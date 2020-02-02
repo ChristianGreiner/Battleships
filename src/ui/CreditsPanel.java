@@ -12,10 +12,20 @@ public class CreditsPanel extends JPanel {
 
     private CreditsRenderer creditsRenderer;
 
+    /**
+     * Gets the credits renderer.
+     *
+     * @return The renderer.
+     */
     public CreditsRenderer getCreditsRenderer() {
         return creditsRenderer;
     }
 
+    /**
+     * Creates a new panel.
+     * @param credits The list of credits.
+     * @return The panel.
+     */
     public CreditsPanel create(ArrayList<Credit> credits) {
         CreditsPanel rootPanel = this;
         rootPanel.setBackground(Color.WHITE);
