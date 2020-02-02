@@ -20,18 +20,36 @@ public class NetworkManager {
         this.listeners = new ArrayList<>();
     }
 
+    /**
+     * Gets all listener of the network.
+     *
+     * @return The listeners.
+     */
     public ArrayList<NetworkListener> getListeners() {
         return listeners;
     }
 
+    /**
+     * Gets the network type (client or host).
+     *
+     * @return The type.
+     */
     public NetworkType getNetworkType() {
         return networkType;
     }
 
+    /**
+     * Adds a new network listener to the manager.
+     * @param listener The listener.
+     */
     public void addNetworkListener(NetworkListener listener) {
         this.listeners.add(listener);
     }
 
+    /**
+     * Joins the a server.
+     * @param host The host ip address.
+     */
     public void joinServer(String host) {
         try {
 
@@ -53,6 +71,10 @@ public class NetworkManager {
         }
     }
 
+    /**
+     * Starts a new server.
+     * @param mapSize The map size of the game session.
+     */
     public void startServer(int mapSize) {
         try {
 
@@ -72,6 +94,10 @@ public class NetworkManager {
         }
     }
 
+    /**
+     * Starts a new game with a save game.
+     * @param id The id of the savegame.
+     */
     public void startServer(String id) {
         try {
 
@@ -88,6 +114,9 @@ public class NetworkManager {
         }
     }
 
+    /**
+     * Confirms the current session.
+     */
     public synchronized void confirmSession() {
         if (this.networkType == NetworkType.Host)
             this.networkThread.setServerConfirmed();
@@ -95,14 +124,25 @@ public class NetworkManager {
             this.networkThread.setClientConfirmed();
     }
 
+    /**
+     * Sends a shot message to the opponent.
+     * @param location The shot position.
+     */
     public synchronized void sendShot(Point location) {
         this.networkThread.addMessage("SHOT " + location.x + " " + location.y);
     }
 
+    /**
+     * Sends pass to the opponent.
+     */
     public synchronized void sendPass() {
         this.networkThread.addMessage("PASS");
     }
 
+    /**
+     * Sends a answer whenever or not the opponent hit the player.
+     * @param hitType The hit type.
+     */
     public synchronized void sendAnswer(HitType hitType) {
 
         int value = 0;
@@ -116,10 +156,17 @@ public class NetworkManager {
         this.networkThread.addMessage("ANSWER " + value);
     }
 
+    /**
+     * Sends a save message to the opponent.
+     * @param id The id of the savegame.
+     */
     public synchronized void sendSave(long id) {
         this.networkThread.addMessage("SAVE " + id);
     }
 
+    /**
+     * Stops the server.
+     */
     public void stopServer() {
         if (this.networkThread != null) {
             this.networkThread.stopNetwork();
