@@ -17,6 +17,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * Class to draw the {@link Map} of a Battleships game.
+ */
 public class MapRenderer extends Renderer implements MouseListener, MouseWheelListener, KeyListener {
 
     protected Map map;
@@ -41,6 +44,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     private Animation explosionAnim;
     private Point explosionAnimPos;
 
+    /**
+     * Constructor to initialize the MapRenderer Object.
+     * @param map The {@link Map} to be graphically represented.
+     */
     public MapRenderer(Map map) {
         this.map = map;
         this.addMouseListener(this);
@@ -146,6 +153,9 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             this.gridSize = size;
     }
 
+    /**
+     * Sets the size of the map's tiles.
+     */
     private void setTileSize() {
         if (this.gridSize != null && this.map != null)
             this.tileSize = new Point((int) ((double) this.gridSize.x / (double) (this.map.getSize() + 1)), (int) ((double) this.gridSize.y / (double) (this.map.getSize() + 1)));
@@ -163,7 +173,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
     /**
      * Begins the rendering batch.
      *
-     * @return The graphics element.
+     * @return The Graphics element.
      */
     public Graphics2D beginRendering() {
         Graphics2D g = this.begin();
@@ -243,6 +253,9 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.end();
     }
 
+    /**
+     * Draws everything.
+     */
     @Override
     public void draw() {
 
@@ -256,6 +269,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    /**
+     * Updates the explosion animation.
+     * @param deltaTime The time difference between 2 consecutive frames.
+     */
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
@@ -265,10 +282,20 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    /**
+     * Draws a crosshair image.
+     * @param g The Graphics element.
+     * @param pos position of where the crosshair needs to be drawn.
+     */
     private void drawCrosshair(Graphics2D g, Point pos) {
         g.drawImage(Assets.Images.CROSSHAIR, pos.x - 16, pos.y - 16, 32, 32, null);
     }
 
+    /**
+     * Draws the grid of the map.
+     * @param g The Graphics element.
+     * @param tileSize The size of the map's tiles.
+     */
     private void drawGrid(Graphics2D g, Point tileSize) {
         g.setColor(new Color(0, 0, 0, 50));
         for (int i = 0; i <= map.getSize() + 1; i++) {
@@ -280,10 +307,25 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    /**
+     * Draws an image.
+     * @param g The Graphics element.
+     * @param image The image to be drawn.
+     * @param rect The Rectangle the image needs to be drawn in.
+     */
     private void drawImage(Graphics2D g, Image image, Rectangle rect) {
         g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
     }
 
+    /**
+     * Draws the images of ships.
+     * @param g The Graphics Element.
+     * @param space The space occupied by a ship.
+     * @param image The image to be drawn.
+     * @param rect The Rectangle the image needs to be drawn in.
+     * @param tileSize The size of the map's tiles.
+     * @param rotated Indicator for whether or not the image should be drawn vertically or horizontally.
+     */
     protected void drawImageShip(Graphics2D g, int space, Image image, Rectangle rect, Point tileSize, boolean rotated) {
         if (rotated) {
             AffineTransform backup = g.getTransform();
@@ -295,6 +337,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             drawImage(g, image, rect);
     }
 
+    /**
+     * Helper method to select the right image for a given ship.
+     * @param ship The ship to be drawn.
+     * @return An Object array containing the appropriate image and position of a ship.
+     */
     private Object[] shipImageHelper(Ship ship) {
         Rectangle shipPos = null;
         Object[] tuple = new Object[2];
@@ -323,6 +370,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     }
 
+    /**
+     * Draws images in the spots of the map that are occupied by ships.
+     * @param g The Graphics element.
+     * @param tileSize The size of the map's tiles.
+     */
     protected void drawShips(Graphics2D g, Point tileSize) {
         Object[] tuple;
 
@@ -366,6 +418,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    /**
+     * Draws an outline around a ship that the cursor is hovering over.
+     * @param g The Graphics element.
+     */
     protected void highlightShip(Graphics2D g) {
         //ship selection using mouse
         if (this.getMousePosition() == null || tileSize == null)
@@ -380,11 +436,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                 this.selectedShip = this.hoveredMapTile.getShip();
                 if (!this.pressed && this.selectedShip != null) {
                     g.setColor(new Color(124, 252, 0, 200));
+                    g.setStroke(new BasicStroke(3));
                     if (this.selectedShip.isRotated()) {
                         g.drawRect(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y, tileSize.x * this.selectedShip.getSpace(), tileSize.y);
                     } else {
                         g.drawRect(this.selectedShip.getPosition().x * tileSize.x + tileSize.x, this.selectedShip.getPosition().y * tileSize.y + tileSize.y, tileSize.x, tileSize.x * this.selectedShip.getSpace());
                     }
+                    g.setStroke(new BasicStroke());
                 }
             } else if (!this.selected) {
                 this.drawHighlightTile(g);
@@ -392,6 +450,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    /**
+     * Draws a rectangle representing a ship that's being moved around.
+     * @param g The Graphics element.
+     */
     protected void dragAndDropShip(Graphics2D g) {
         //picking up ship
         if (this.selected && this.selectedShip != null) {
@@ -404,8 +466,6 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             Point floatingShipMarker = new Point((this.getMousePosition().x / tileSize.x * tileSize.x) - (this.mouseShipOffset.x / tileSize.x * tileSize.x), (this.getMousePosition().y / tileSize.y * tileSize.y) - (this.mouseShipOffset.y / tileSize.y * tileSize.y));
 
             Point dropPos = new Point(tempPoint.x - (this.mouseShipOffset.x / tileSize.x - 1) - 1, tempPoint.y - (this.mouseShipOffset.y / tileSize.y - 1) - 1);
-
-            //map.remove(this.selectedShip);
 
             boolean setRotation;
             g.setStroke(new BasicStroke(3));
@@ -465,6 +525,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    /**
+     * Highlights the tile the cursor is hovering over.
+     * @param g The Graphics element.
+     */
     protected void drawHighlightTile(Graphics2D g) {
         Point mousePos = new Point(this.getMousePosition().x, this.getMousePosition().y);
 
@@ -472,10 +536,17 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             this.highlightPoint = new Point((mousePos.x / tileSize.x) * tileSize.x, (mousePos.y / tileSize.y) * tileSize.y);
 
             g.setColor(Color.GREEN);
+            g.setStroke(new BasicStroke(3));
             g.drawRect(this.highlightPoint.x, this.highlightPoint.y, tileSize.x, tileSize.y);
+            g.setStroke(new BasicStroke());
         }
     }
 
+    /**
+     * Draws images of sand and the alphabetical indeces of the map tiles on the left side of the map.
+     * @param g The Graphics element.
+     * @param tileSize The size of the map's tiles.
+     */
     protected void drawLetters(Graphics2D g, Point tileSize) {
         // draw letters next to board
         int asciiCode = 65;
@@ -508,6 +579,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    /**
+     * Draws images of sand and the numerical indeces of the map tiles above the map.
+     * @param g The Graphics element
+     * @param tileSize The size of the map's tiles.
+     */
     protected void drawNumbers(Graphics2D g, Point tileSize) {
         g.setColor(Color.BLACK);
         g.setFont(Assets.Fonts.DEFAULT);
@@ -526,6 +602,14 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         }
     }
 
+    /**
+     * Scales a text so it fits into a given space.
+     * @param text The text to be resized.
+     * @param width The width of the space the text needs to fit into.
+     * @param pFont The font to be used for the text.
+     * @param g The Graphics element.
+     * @return The correctly sized font.
+     */
     protected Font scaleFontToFit(String text, int width, Font pFont, Graphics g) {
         float fontSize = pFont.getSize();
         float fWidth = g.getFontMetrics(pFont).stringWidth(text);
@@ -543,11 +627,23 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             this.rotated = !this.rotated;
     }
 
+    /**
+     * Invoked when the mouse button has been clicked (pressed
+     * and released) on a component.
+     *
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
 
     }
 
+    /**
+     * Handles the pressing of mousebuttons. If the left mousebutton is being pressed the ship the cursor is hovering over gets selected.
+     * If the right mousebutton is being pressed the ship the cursor is hovering over gets removed.
+     * If the right mousebutton is being pressed while over the map of the opponent a shotFired event gets sent.
+     * @param e The MouseEvent.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
 
@@ -591,21 +687,39 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         } catch (Exception ex) {}
     }
 
+    /**
+     * Indicates that no mousebutton is being pressed anymore.
+     * @param e The MouseEvent.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         this.pressed = false;
     }
 
+    /**
+     * Invoked when the mouse enters a component.
+     *
+     * @param e
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
 
+    /**
+     * Invoked when the mouse exits a component.
+     *
+     * @param e
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 
     }
 
+    /**
+     * Invokes the rotate method if the MapRenderer isn't in editorMode.
+     * @param e The MouseWheelEvent.
+     */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
 
@@ -615,14 +729,37 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
         this.rotate();
     }
 
+    /**
+     * Invoked when a key has been typed.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key typed event.
+     *
+     * @param e
+     */
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 
+    /**
+     * Invoked when a key has been pressed.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key pressed event.
+     *
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
+
     }
 
+    /**
+     * Invoked when a key has been released.
+     * See the class description for {@link KeyEvent} for a definition of
+     * a key released event.
+     *
+     * @param e
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 
