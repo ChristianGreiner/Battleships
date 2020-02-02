@@ -490,7 +490,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
             if (asciiCode < 91) {
 
-                Font f = scaleFontToFit(text, tileSize.x, g);
+                Font f = scaleFontToFit(text, tileSize.x, Assets.Fonts.DEFAULT_BOLD, g);
                 Helper.drawCenteredString(g, text, new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), f);
 
             } else {
@@ -498,7 +498,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
                 text = Character.toString((char) temp) + (char) temp;
 
-                Font f = scaleFontToFit(text, tileSize.x, g);
+                Font f = scaleFontToFit(text, tileSize.x, Assets.Fonts.DEFAULT_BOLD, g);
                 Helper.drawCenteredString(g, text, new Rectangle(0, num * tileSize.y, tileSize.x, tileSize.y), f);
 
             }
@@ -521,13 +521,12 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
             // draw sand top corner
             drawImage(g, Assets.Images.SAND_TOP, new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y));
 
-            Font f = scaleFontToFit(num.toString(), tileSize.x, g);
+            Font f = scaleFontToFit(num.toString(), tileSize.x, Assets.Fonts.DEFAULT_BOLD, g);
             Helper.drawCenteredString(g, num.toString(), new Rectangle(num * tileSize.x, 0, tileSize.x, tileSize.y), f);
         }
     }
 
-    protected Font scaleFontToFit(String text, int width, Graphics g) {
-        Font pFont = Assets.Fonts.DEFAULT_BOLD;
+    protected Font scaleFontToFit(String text, int width, Font pFont, Graphics g) {
         float fontSize = pFont.getSize();
         float fWidth = g.getFontMetrics(pFont).stringWidth(text);
         if (fWidth <= width)

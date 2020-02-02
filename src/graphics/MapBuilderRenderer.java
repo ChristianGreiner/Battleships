@@ -55,10 +55,10 @@ public class MapBuilderRenderer extends MapRenderer {
         this.gridSize = new Point(this.getHeight(), this.getHeight());
         this.setGridSize(this.gridSize);
         this.tileSize = new Point(this.getWidth() / 20, this.getWidth() / 20);
-        this.carrierPos = new Point((this.getWidth() / 3) * 2, 30);
-        this.battleshipPos = new Point((this.getWidth() / 3) * 2, 30 + this.getHeight() / 5);
-        this.destroyerPos = new Point((this.getWidth() / 3) * 2, 30 + (this.getHeight() / 5) * 2);
-        this.submarinePos = new Point((this.getWidth() / 3) * 2, 30 + (this.getHeight() / 5) * 3);
+        this.carrierPos = new Point(this.getHeight() + 20, 40);
+        this.battleshipPos = new Point(this.getHeight() + 20, 40 + this.getHeight() / 5);
+        this.destroyerPos = new Point((this.getHeight()) + 20, 40 + (this.getHeight() / 5) * 2);
+        this.submarinePos = new Point((this.getHeight()) + 20, 40 + (this.getHeight() / 5) * 3);
 
         this.shipsCounter = map.getShipsCounter();
 
@@ -68,12 +68,40 @@ public class MapBuilderRenderer extends MapRenderer {
         shipsLeftCnt[3] = this.mapData.Carriers - this.shipsCounter.get(Carrier.class);
 
         Graphics2D g = super.beginRendering();
-        //scaledFont
-        Helper.drawLeftAlignedString(g, "Carrier " + shipsLeftCnt[3] + "x", new Rectangle(this.carrierPos.x, this.carrierPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
-        Helper.drawLeftAlignedString(g, "Battleship " + shipsLeftCnt[2] + "x", new Rectangle(this.battleshipPos.x, this.battleshipPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
-        Helper.drawLeftAlignedString(g, "Destroyer " + shipsLeftCnt[1] + "x", new Rectangle(this.destroyerPos.x, this.destroyerPos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
-        Helper.drawLeftAlignedString(g, "Submarine " + shipsLeftCnt[0] + "x", new Rectangle(this.submarinePos.x, this.submarinePos.y, 4 * this.tileSize.x, this.tileSize.y), Assets.Fonts.DEFAULT);
 
+        this.drawShipText(g);
+
+        this.drawShipSelectionImages(g);
+
+        try {
+            moveShip(g);
+        } catch (Exception e) {
+        }
+
+        super.endRendering();
+    }
+
+
+    public void drawShipText(Graphics2D g){
+        String carrierText = "Carrier " + shipsLeftCnt[3] + "x";
+        String battleshipText = "Battleship " + shipsLeftCnt[2] + "x";
+        String destroyerText = "Destroyer " + shipsLeftCnt[1] + "x";
+        String submarineText = "Submarine " + shipsLeftCnt[0] + "x";
+
+        Font scaledFont = scaleFontToFit(carrierText, this.tileSize.x * 4, Assets.Fonts.DEFAULT, g);
+        Helper.drawLeftAlignedString(g, carrierText, new Rectangle(this.carrierPos.x, this.carrierPos.y, 4 * this.tileSize.x, this.tileSize.y), scaledFont);
+
+        scaledFont = scaleFontToFit(battleshipText, this.tileSize.x * 4, Assets.Fonts.DEFAULT, g);
+        Helper.drawLeftAlignedString(g, battleshipText, new Rectangle(this.battleshipPos.x, this.battleshipPos.y, 4 * this.tileSize.x, this.tileSize.y), scaledFont);
+
+        scaledFont = scaleFontToFit(destroyerText, this.tileSize.x * 4, Assets.Fonts.DEFAULT, g);
+        Helper.drawLeftAlignedString(g, destroyerText, new Rectangle(this.destroyerPos.x, this.destroyerPos.y, 4 * this.tileSize.x, this.tileSize.y), scaledFont);
+
+        scaledFont = scaleFontToFit(submarineText, this.tileSize.x * 4, Assets.Fonts.DEFAULT, g);
+        Helper.drawLeftAlignedString(g, submarineText, new Rectangle(this.submarinePos.x, this.submarinePos.y, 4 * this.tileSize.x, this.tileSize.y), scaledFont);
+    }
+
+    public void drawShipSelectionImages(Graphics2D g){
         g.setColor(Color.BLACK);
 
         if (shipsLeftCnt[3] > 0) {
@@ -97,16 +125,9 @@ public class MapBuilderRenderer extends MapRenderer {
             //draw submarine
             drawImageShip(g, this.ShipSizes.get("Submarine"), Assets.Images.SHIP_SUBMARINE, new Rectangle(this.submarinePos.x, this.submarinePos.y + 40, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
         }
-
-        try {
-            moveShip(g);
-        } catch (Exception e) {
-        }
-
-        super.endRendering();
     }
 
-    void moveShip(Graphics2D g) {
+   public void moveShip(Graphics2D g) {
 
         int shipSize;
         Ship shipToDrop;

@@ -766,7 +766,7 @@ public class Map implements MapInterface, Serializable {
             } else if (tile.hasShip()) {
                 ship = tile.getShip();
 
-                // Ship destoryed
+                // Ship destroyed
                 if (ship.isDestroyed()) {
                     type = HitType.ShipDestroyed;
                     this.numberOfDestoryedShips++;
