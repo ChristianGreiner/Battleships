@@ -254,11 +254,13 @@ public class Map implements MapInterface, Serializable {
         }
 
         // increase ship counter
-        int counter = this.shipsCounter.get(ship.getClass());
-        if (counter < this.availableCounter.get(ship.getClass()))
-            this.shipsCounter.put(ship.getClass(), counter + 1);
+        if (this.shipsCounter.containsKey(ship.getClass())) {
+            int counter = this.shipsCounter.get(ship.getClass());
+            if (counter < this.availableCounter.get(ship.getClass()))
+                this.shipsCounter.put(ship.getClass(), counter + 1);
 
-        this.ships.add(ship);
+            this.ships.add(ship);
+        }
 
         // trigger listener
         for (int i = 0; i < this.listeners.size(); i++) {
@@ -269,13 +271,15 @@ public class Map implements MapInterface, Serializable {
     }
 
     private void computeRemoveShip(Ship ship) {
-        int counter = this.shipsCounter.get(ship.getClass());
-        if (counter > 0) {
-            counter--;
-            this.shipsCounter.put(ship.getClass(), counter);
-        }
+        if (this.shipsCounter.containsKey(ship.getClass())) {
+            int counter = this.shipsCounter.get(ship.getClass());
+            if (counter > 0) {
+                counter--;
+                this.shipsCounter.put(ship.getClass(), counter);
+            }
 
-        this.ships.remove(ship);
+            this.ships.remove(ship);
+        }
     }
 
     private ArrayList<MapTile> getNeighborTiles(Ship ship) {
