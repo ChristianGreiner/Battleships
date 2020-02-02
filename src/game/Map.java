@@ -772,7 +772,6 @@ public class Map implements MapInterface, Serializable {
                     this.numberOfDestoryedShips++;
                     this.computeRemoveShip(ship);
                     this.destroyedShips.add(ship);
-
                 } else {
                     // only ship
                     type = HitType.Ship;
@@ -970,6 +969,7 @@ public class Map implements MapInterface, Serializable {
 
     public void MergeDummyShips(Point dShip) {
 
+        Point ShipPos = dShip;
         int ShipLengthCounter = 1;
         boolean shipIsX = false;
 
@@ -979,34 +979,35 @@ public class Map implements MapInterface, Serializable {
         Point neighborYMinus = new Point(dShip.x, dShip.y - 1);
 
         if (isInMap(neighborX)) {
-            MapTile nTileX = new MapTile(neighborX);
-            if (nTileX.hasShip()) {
+            if (tiles[neighborX.x][neighborX.y].hasShip()) {
                 ShipLengthCounter++;
                 shipIsX = true;
             }
         }
         if (isInMap(neighborXMinus)) {
-            MapTile nTileXMinus = new MapTile(neighborXMinus);
-            if (nTileXMinus.hasShip()) {
+            if (tiles[neighborXMinus.x][neighborXMinus.y].hasShip()) {
                 ShipLengthCounter++;
                 shipIsX = true;
+                ShipPos = neighborXMinus;
             }
         }
 
         if (!shipIsX) {
             if (isInMap(neighborY)) {
-                MapTile nTileY = new MapTile(neighborX);
-                if (nTileY.hasShip()) {
+                if (tiles[neighborY.x][neighborY.y].hasShip()) {
                     ShipLengthCounter++;
                 }
             }
             if (isInMap(neighborXMinus)) {
-                MapTile nTileYMinus = new MapTile(neighborYMinus);
-                if (nTileYMinus.hasShip()) {
+                if (tiles[neighborYMinus.x][neighborYMinus.y].hasShip()) {
                     ShipLengthCounter++;
+                    ShipPos = neighborYMinus;
                 }
             }
         }
+
+        boolean proofPlus = true;
+        boolean proofMinus = true;
 
         for (int i = 2; i <= 4; i++) {
             Point neighbor;
@@ -1019,20 +1020,43 @@ public class Map implements MapInterface, Serializable {
                 neighborMinus = new Point(dShip.x - i, dShip.y);
             }
 
-            if (isInMap(neighbor)) {
-                MapTile nTile = new MapTile(neighbor);
-                if (nTile.hasShip()) {
+            if (isInMap(neighbor) && proofPlus) {
+                if (tiles[neighbor.x][neighbor.y].hasShip()) {
                     ShipLengthCounter++;
-                }
-            }
-            if (isInMap(neighborMinus)) {
-                MapTile nTileMinus = new MapTile(neighborMinus);
-                if (nTileMinus.hasShip()) {
+                } else proofPlus = false;
+            } else proofPlus = false;
+            if (isInMap(neighborMinus) && proofMinus) {
+                if (tiles[neighborMinus.x][neighborMinus.y].hasShip()) {
                     ShipLengthCounter++;
-                }
-            }
+                    ShipPos = neighborMinus;
+                } else proofMinus = false;
+            } else proofMinus = false;
         }
 
+        Ship ship = null;
+        switch (ShipLengthCounter) {
+            case 2:
+                ship = new Submarine(this);
+                ship.setRotated(shipIsX);
+                ship.setPosition(ShipPos);
+                break;
+            case 3:
+                ship = new Battleship(this);
+                ship.setRotated(shipIsX);
+                ship.setPosition(ShipPos);
+                break;
+            case 4:
+                ship = new Destroyer(this);
+                ship.setRotated(shipIsX);
+                ship.setPosition(ShipPos);
+                break;
+            case 5:
+                ship = new Carrier(this);
+                ship.setRotated(shipIsX);
+                ship.setPosition(ShipPos);
+                break;
+        }
 
+        destroyedShips.add(ship);
     }
 }
