@@ -40,9 +40,10 @@ public class NetworkThread extends Thread {
 
     /**
      * Creates a new network thread.
+     *
      * @param networkManager The manager.
-     * @param serverSocket The socket.
-     * @param saveGameId The save game id.
+     * @param serverSocket   The socket.
+     * @param saveGameId     The save game id.
      */
     public NetworkThread(NetworkManager networkManager, ServerSocket serverSocket, String saveGameId) {
         this.networkManager = networkManager;
@@ -53,8 +54,9 @@ public class NetworkThread extends Thread {
 
     /**
      * Creates a network manager.
+     *
      * @param networkManager The manager.
-     * @param socket The socket.
+     * @param socket         The socket.
      */
     public NetworkThread(NetworkManager networkManager, Socket socket) {
         this.networkManager = networkManager;
@@ -78,6 +80,7 @@ public class NetworkThread extends Thread {
 
     /**
      * Adds a new message to the message queue.
+     *
      * @param message The message.
      */
     public synchronized void addMessage(String message) {

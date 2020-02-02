@@ -37,6 +37,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Gets the enemy label container.
+     *
      * @return The container.
      */
     public JPanel getEnemyLabelContainer() {
@@ -45,6 +46,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Gets the exit button.
+     *
      * @return The button.
      */
     public JButton getBtnExit() {
@@ -53,6 +55,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Gets the load button.
+     *
      * @return The button.
      */
     public JButton getBtnLoad() {
@@ -61,6 +64,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Gets the save button.
+     *
      * @return The button.
      */
     public JButton getBtnSave() {
@@ -69,6 +73,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Creates a new panel.
+     *
      * @param mapsRendererSize The render size of the map.
      * @return The panel.
      */
@@ -187,6 +192,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Forces to update the map size.
+     *
      * @param size The size of the map.
      */
     public void updateMapSize(Dimension size) {

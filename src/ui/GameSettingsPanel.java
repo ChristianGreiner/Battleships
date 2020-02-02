@@ -25,6 +25,7 @@ public class GameSettingsPanel extends JPanel {
 
     /**
      * Gets the new game button.
+     *
      * @return The button.
      */
     public JButton getNewGameBtn() {
@@ -33,6 +34,7 @@ public class GameSettingsPanel extends JPanel {
 
     /**
      * Gets the ai difficulty JComboBox.
+     *
      * @return The JComboBox.
      */
     public JComboBox getAiDifficultyCbox() {
@@ -41,6 +43,7 @@ public class GameSettingsPanel extends JPanel {
 
     /**
      * Gets the size spinner.
+     *
      * @return The spinner.
      */
     public JSpinner getSizeSpinner() {
@@ -49,6 +52,7 @@ public class GameSettingsPanel extends JPanel {
 
     /**
      * Gets the back button.
+     *
      * @return The button.
      */
     public JButton getBackBtn() {
@@ -57,6 +61,7 @@ public class GameSettingsPanel extends JPanel {
 
     /**
      * Gets the new ai game button.
+     *
      * @return The button.
      */
     public JButton getNewAIGameBtn() {
@@ -65,6 +70,7 @@ public class GameSettingsPanel extends JPanel {
 
     /**
      * Creates a new panel.
+     *
      * @return The panel.
      */
     public GameSettingsPanel create() {

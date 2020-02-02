@@ -32,7 +32,6 @@ public class GameOverScene extends Scene implements GuiScene, GameSession {
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
 
-
         panel = new GameOverPanel().create();
 
         panel.getBtnRestart().addActionListener((e) -> {

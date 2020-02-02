@@ -18,7 +18,7 @@ public class GameSessionData {
      * @param map          The map.
      * @param mapSize      The size of the map.
      * @param aiDifficulty The difficulty of the ai.
-     * @param gameType      The game type.
+     * @param gameType     The game type.
      */
     public GameSessionData(Map map, int mapSize, AiDifficulty aiDifficulty, SavegameType gameType) {
         this.map = map;

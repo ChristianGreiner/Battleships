@@ -28,6 +28,7 @@ public class OptionsPanel extends JPanel {
 
     /**
      * Gets the music volume slider.
+     *
      * @return The slider.
      */
     public JSlider getMusicVolumeSlider() {
@@ -36,6 +37,7 @@ public class OptionsPanel extends JPanel {
 
     /**
      * Gets the save button.
+     *
      * @return The button.
      */
     public JButton getSaveBtn() {
@@ -44,6 +46,7 @@ public class OptionsPanel extends JPanel {
 
     /**
      * Gets the fps JComboBox.
+     *
      * @return The JComboBox.
      */
     public JComboBox getFpsCBox() {
@@ -52,6 +55,7 @@ public class OptionsPanel extends JPanel {
 
     /**
      * Gets the ai speed JComboBox.
+     *
      * @return The slider.
      */
     public JComboBox getAiSeedCBox() {
@@ -60,6 +64,7 @@ public class OptionsPanel extends JPanel {
 
     /**
      * Creates new panel.
+     *
      * @return The panel.
      */
     public OptionsPanel create() {

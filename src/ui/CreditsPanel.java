@@ -23,6 +23,7 @@ public class CreditsPanel extends JPanel {
 
     /**
      * Creates a new panel.
+     *
      * @param credits The list of credits.
      * @return The panel.
      */

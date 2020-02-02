@@ -46,6 +46,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Constructor to initialize the MapRenderer Object.
+     *
      * @param map The {@link Map} to be graphically represented.
      */
     public MapRenderer(Map map) {
@@ -266,6 +267,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Updates the explosion animation.
+     *
      * @param deltaTime The time difference between 2 consecutive frames.
      */
     @Override
@@ -279,7 +281,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws a crosshair image.
-     * @param g The Graphics element.
+     *
+     * @param g   The Graphics element.
      * @param pos position of where the crosshair needs to be drawn.
      */
     private void drawCrosshair(Graphics2D g, Point pos) {
@@ -288,7 +291,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws the grid of the map.
-     * @param g The Graphics element.
+     *
+     * @param g        The Graphics element.
      * @param tileSize The size of the map's tiles.
      */
     private void drawGrid(Graphics2D g, Point tileSize) {
@@ -304,9 +308,10 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws an image.
-     * @param g The Graphics element.
+     *
+     * @param g     The Graphics element.
      * @param image The image to be drawn.
-     * @param rect The Rectangle the image needs to be drawn in.
+     * @param rect  The Rectangle the image needs to be drawn in.
      */
     private void drawImage(Graphics2D g, Image image, Rectangle rect) {
         g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
@@ -314,12 +319,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws the images of ships.
-     * @param g The Graphics Element.
-     * @param space The space occupied by a ship.
-     * @param image The image to be drawn.
-     * @param rect The Rectangle the image needs to be drawn in.
+     *
+     * @param g        The Graphics Element.
+     * @param space    The space occupied by a ship.
+     * @param image    The image to be drawn.
+     * @param rect     The Rectangle the image needs to be drawn in.
      * @param tileSize The size of the map's tiles.
-     * @param rotated Indicator for whether or not the image should be drawn vertically or horizontally.
+     * @param rotated  Indicator for whether or not the image should be drawn vertically or horizontally.
      */
     protected void drawImageShip(Graphics2D g, int space, Image image, Rectangle rect, Point tileSize, boolean rotated) {
         if (rotated) {
@@ -334,6 +340,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Helper method to select the right image for a given ship.
+     *
      * @param ship The ship to be drawn.
      * @return An Object array containing the appropriate image and position of a ship.
      */
@@ -367,7 +374,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws images in the spots of the map that are occupied by ships.
-     * @param g The Graphics element.
+     *
+     * @param g        The Graphics element.
      * @param tileSize The size of the map's tiles.
      */
     protected void drawShips(Graphics2D g, Point tileSize) {
@@ -415,6 +423,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws an outline around a ship that the cursor is hovering over.
+     *
      * @param g The Graphics element.
      */
     protected void highlightShip(Graphics2D g) {
@@ -447,6 +456,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws a rectangle representing a ship that's being moved around.
+     *
      * @param g The Graphics element.
      */
     protected void dragAndDropShip(Graphics2D g) {
@@ -522,6 +532,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Highlights the tile the cursor is hovering over.
+     *
      * @param g The Graphics element.
      */
     protected void drawHighlightTile(Graphics2D g) {
@@ -539,7 +550,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws images of sand and the alphabetical indeces of the map tiles on the left side of the map.
-     * @param g The Graphics element.
+     *
+     * @param g        The Graphics element.
      * @param tileSize The size of the map's tiles.
      */
     protected void drawLetters(Graphics2D g, Point tileSize) {
@@ -576,7 +588,8 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Draws images of sand and the numerical indeces of the map tiles above the map.
-     * @param g The Graphics element
+     *
+     * @param g        The Graphics element
      * @param tileSize The size of the map's tiles.
      */
     protected void drawNumbers(Graphics2D g, Point tileSize) {
@@ -599,10 +612,11 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Scales a text so it fits into a given space.
-     * @param text The text to be resized.
+     *
+     * @param text  The text to be resized.
      * @param width The width of the space the text needs to fit into.
      * @param pFont The font to be used for the text.
-     * @param g The Graphics element.
+     * @param g     The Graphics element.
      * @return The correctly sized font.
      */
     protected Font scaleFontToFit(String text, int width, Font pFont, Graphics g) {
@@ -637,6 +651,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
      * Handles the pressing of mousebuttons. If the left mousebutton is being pressed the ship the cursor is hovering over gets selected.
      * If the right mousebutton is being pressed the ship the cursor is hovering over gets removed.
      * If the right mousebutton is being pressed while over the map of the opponent a shotFired event gets sent.
+     *
      * @param e The MouseEvent.
      */
     @Override
@@ -679,11 +694,13 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
                     }
                 }
             }
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 
     /**
      * Indicates that no mousebutton is being pressed anymore.
+     *
      * @param e The MouseEvent.
      */
     @Override
@@ -713,6 +730,7 @@ public class MapRenderer extends Renderer implements MouseListener, MouseWheelLi
 
     /**
      * Invokes the rotate method if the MapRenderer isn't in editorMode.
+     *
      * @param e The MouseWheelEvent.
      */
     @Override

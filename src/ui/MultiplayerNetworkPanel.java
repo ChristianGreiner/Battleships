@@ -30,6 +30,7 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     /**
      * The hostname text field.
+     *
      * @return The text field.
      */
     public JTextField getHostnameField() {
@@ -38,6 +39,7 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     /**
      * Gets the join button.
+     *
      * @return The button.
      */
     public JButton getJoinBtn() {
@@ -46,6 +48,7 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     /**
      * Gets the host button.
+     *
      * @return The button.
      */
     public JButton getHostBtn() {
@@ -54,6 +57,7 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     /**
      * Gets the back button.
+     *
      * @return The button.
      */
     public JButton getBackBtn() {
@@ -62,6 +66,7 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     /**
      * Gets the join ai button.
+     *
      * @return The button.
      */
     public JButton getJoinAiBtn() {
@@ -70,6 +75,7 @@ public class MultiplayerNetworkPanel extends JPanel {
 
     /**
      * Creates a new panel.
+     *
      * @return The panel.
      */
     public MultiplayerNetworkPanel create() {

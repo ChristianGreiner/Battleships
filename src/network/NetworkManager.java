@@ -40,6 +40,7 @@ public class NetworkManager {
 
     /**
      * Adds a new network listener to the manager.
+     *
      * @param listener The listener.
      */
     public void addNetworkListener(NetworkListener listener) {
@@ -48,6 +49,7 @@ public class NetworkManager {
 
     /**
      * Joins the a server.
+     *
      * @param host The host ip address.
      */
     public void joinServer(String host) {
@@ -73,6 +75,7 @@ public class NetworkManager {
 
     /**
      * Starts a new server.
+     *
      * @param mapSize The map size of the game session.
      */
     public void startServer(int mapSize) {
@@ -96,6 +99,7 @@ public class NetworkManager {
 
     /**
      * Starts a new game with a save game.
+     *
      * @param id The id of the savegame.
      */
     public void startServer(String id) {
@@ -126,6 +130,7 @@ public class NetworkManager {
 
     /**
      * Sends a shot message to the opponent.
+     *
      * @param location The shot position.
      */
     public synchronized void sendShot(Point location) {
@@ -141,6 +146,7 @@ public class NetworkManager {
 
     /**
      * Sends a answer whenever or not the opponent hit the player.
+     *
      * @param hitType The hit type.
      */
     public synchronized void sendAnswer(HitType hitType) {
@@ -158,6 +164,7 @@ public class NetworkManager {
 
     /**
      * Sends a save message to the opponent.
+     *
      * @param id The id of the savegame.
      */
     public synchronized void sendSave(long id) {

@@ -41,6 +41,7 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Constructor to invoke the constructor of MapRenderer and populate the ShipSizes HashMap with the sizes of all the ships.
+     *
      * @param map The {@link Map} wherein the ships will be placed.
      */
     public MapBuilderRenderer(Map map) {
@@ -53,6 +54,7 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Initializes the MapBuilderRenderer.
+     *
      * @param map The {@link Map} wherein the ships will be placed.
      */
     public void init(Map map) {
@@ -117,9 +119,10 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Draws the text above ships.
+     *
      * @param g the Graphics element.
      */
-    public void drawShipText(Graphics2D g){
+    public void drawShipText(Graphics2D g) {
 
         if (this.tileSize == null)
             return;
@@ -144,9 +147,10 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Draws the ships to be selected.
+     *
      * @param g The Graphics element.
      */
-    public void drawShipSelectionImages(Graphics2D g){
+    public void drawShipSelectionImages(Graphics2D g) {
         g.setColor(Color.BLACK);
 
         if (shipsLeftCnt[3] > 0) {
@@ -172,9 +176,10 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Handles the action of moving a ship.
+     *
      * @param g The Graphics element.
      */
-   public void moveShip(Graphics2D g) {
+    public void moveShip(Graphics2D g) {
 
         int shipSize;
         Ship shipToDrop;
@@ -224,8 +229,9 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Draws a rectangle representing a ship when it's being moved.
-     * @param g The Graphics element.
-     * @param shipSize  The size of the ship to draw.
+     *
+     * @param g          The Graphics element.
+     * @param shipSize   The size of the ship to draw.
      * @param shipToDrop The Ship Object that's being moved.
      */
     private void drawShip(Graphics2D g, int shipSize, Ship shipToDrop) {
@@ -284,6 +290,7 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Stops the highlighted tile from being drawn.
+     *
      * @param g The Graphics element.
      */
     @Override
@@ -293,6 +300,7 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Allows for a ship to be selected from the ones that are still available.
+     *
      * @param e The MouseEvent.
      */
     @Override
@@ -311,7 +319,7 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
             //select battleship
             else if (this.getMousePosition().x >= this.battleshipPos.x && this.getMousePosition().x <= this.battleshipPos.x + this.ShipSizes.get("Battleship") * this.tileSize.x
-                    && this.getMousePosition().y >= this.battleshipPos.y + this.getHeight() / 9 && this.getMousePosition().y <= this.battleshipPos.y +  this.getHeight() / 9 + this.tileSize.y
+                    && this.getMousePosition().y >= this.battleshipPos.y + this.getHeight() / 9 && this.getMousePosition().y <= this.battleshipPos.y + this.getHeight() / 9 + this.tileSize.y
                     && this.shipsLeftCnt[2] > 0) {
                 this.battleshipSelected = true;
                 this.selected = true;
@@ -333,6 +341,7 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
     /**
      * Invokes the rotate() method when the mousewheel is moved.
+     *
      * @param e The MouseWheelEvent.
      */
     @Override
