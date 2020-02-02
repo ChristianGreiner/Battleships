@@ -100,10 +100,10 @@ public class MapBuilderRenderer extends MapRenderer {
      * @param g the Graphics element.
      */
     public void drawShipText(Graphics2D g){
-        String carrierText = "Carrier (" + shipsLeftCnt[3] + "x)";
-        String battleshipText = "Battleship (" + shipsLeftCnt[2] + "x)";
-        String destroyerText = "Destroyer (" + shipsLeftCnt[1] + "x)";
-        String submarineText = "Submarine (" + shipsLeftCnt[0] + "x)";
+        String carrierText = "Carrier " + shipsLeftCnt[3] + "x";
+        String battleshipText = "Battleship " + shipsLeftCnt[2] + "x";
+        String destroyerText = "Destroyer " + shipsLeftCnt[1] + "x";
+        String submarineText = "Submarine " + shipsLeftCnt[0] + "x";
 
         Font scaledFont = scaleFontToFit(carrierText, this.tileSize.x * 4, Assets.Fonts.DEFAULT, g);
         Helper.drawLeftAlignedString(g, carrierText, new Rectangle(this.carrierPos.x, this.carrierPos.y, 4 * this.tileSize.x, this.tileSize.y), scaledFont);
@@ -127,22 +127,24 @@ public class MapBuilderRenderer extends MapRenderer {
 
         if (shipsLeftCnt[3] > 0) {
             //draw carrier
-            drawImageShip(g, this.ShipSizes.get("Carrier"), Assets.Images.SHIP_CARRIER, new Rectangle(this.carrierPos.x, this.carrierPos.y + 40, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Carrier"), Assets.Images.SHIP_CARRIER, new Rectangle(this.carrierPos.x, this.carrierPos.y + this.getHeight() / 9, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            //draw carrier outline
+            //g.drawRect(this.carrierPos.x, this.carrierPos.y + 30, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y);
         }
 
         if (shipsLeftCnt[2] > 0) {
             //draw battleship
-            drawImageShip(g, this.ShipSizes.get("Battleship"), Assets.Images.SHIP_BATTLESHIP, new Rectangle(this.battleshipPos.x, this.battleshipPos.y + 40, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Battleship"), Assets.Images.SHIP_BATTLESHIP, new Rectangle(this.battleshipPos.x, this.battleshipPos.y + this.getHeight() / 9, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
         }
 
         if (shipsLeftCnt[1] > 0) {
             //draw destroyer
-            drawImageShip(g, this.ShipSizes.get("Destroyer"), Assets.Images.SHIP_DESTROYER, new Rectangle(this.destroyerPos.x, this.destroyerPos.y + 40, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Destroyer"), Assets.Images.SHIP_DESTROYER, new Rectangle(this.destroyerPos.x, this.destroyerPos.y + this.getHeight() / 9, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
         }
 
         if (shipsLeftCnt[0] > 0) {
             //draw submarine
-            drawImageShip(g, this.ShipSizes.get("Submarine"), Assets.Images.SHIP_SUBMARINE, new Rectangle(this.submarinePos.x, this.submarinePos.y + 40, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Submarine"), Assets.Images.SHIP_SUBMARINE, new Rectangle(this.submarinePos.x, this.submarinePos.y + this.getHeight() / 9, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
         }
     }
 
