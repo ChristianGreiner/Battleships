@@ -81,10 +81,10 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
         this.gridSize = new Point(this.getHeight(), this.getHeight());
         this.setGridSize(this.gridSize);
         this.tileSize = new Point(this.getWidth() / 20, this.getWidth() / 20);
-        this.carrierPos = new Point(this.getHeight() + 20, 40);
-        this.battleshipPos = new Point(this.getHeight() + 20, 40 + this.getHeight() / 5);
-        this.destroyerPos = new Point((this.getHeight()) + 20, 40 + (this.getHeight() / 5) * 2);
-        this.submarinePos = new Point((this.getHeight()) + 20, 40 + (this.getHeight() / 5) * 3);
+        this.carrierPos = new Point(this.getHeight() + 20, this.getHeight() / 9);
+        this.battleshipPos = new Point(this.getHeight() + 20, this.getHeight() / 9 + this.getHeight() / 5);
+        this.destroyerPos = new Point((this.getHeight()) + 20, this.getHeight() / 9 + (this.getHeight() / 5) * 2);
+        this.submarinePos = new Point((this.getHeight()) + 20, this.getHeight() / 9 + (this.getHeight() / 5) * 3);
     }
 
     /**
@@ -303,7 +303,7 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
         //select carrier
         try {
             if (this.getMousePosition().x >= this.carrierPos.x && this.getMousePosition().x <= this.carrierPos.x + this.ShipSizes.get("Carrier") * this.tileSize.x
-                    && this.getMousePosition().y >= this.carrierPos.y + 30 && this.getMousePosition().y <= this.carrierPos.y + 30 + this.tileSize.y
+                    && this.getMousePosition().y >= this.carrierPos.y + this.getHeight() / 9 && this.getMousePosition().y <= this.carrierPos.y + this.getHeight() / 9 + this.tileSize.y
                     && this.shipsLeftCnt[3] > 0) {
                 this.carrierSelected = true;
                 this.selected = true;
@@ -311,17 +311,17 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
 
             //select battleship
             else if (this.getMousePosition().x >= this.battleshipPos.x && this.getMousePosition().x <= this.battleshipPos.x + this.ShipSizes.get("Battleship") * this.tileSize.x
-                    && this.getMousePosition().y >= this.battleshipPos.y + 30 && this.getMousePosition().y <= this.battleshipPos.y + 30 + this.tileSize.y
+                    && this.getMousePosition().y >= this.battleshipPos.y + this.getHeight() / 9 && this.getMousePosition().y <= this.battleshipPos.y +  this.getHeight() / 9 + this.tileSize.y
                     && this.shipsLeftCnt[2] > 0) {
                 this.battleshipSelected = true;
                 this.selected = true;
             } else if (this.getMousePosition().x >= this.destroyerPos.x && this.getMousePosition().x <= this.destroyerPos.x + this.ShipSizes.get("Destroyer") * this.tileSize.x
-                    && this.getMousePosition().y >= this.destroyerPos.y + 30 && this.getMousePosition().y <= this.destroyerPos.y + 30 + this.tileSize.y
+                    && this.getMousePosition().y >= this.destroyerPos.y + this.getHeight() / 9 && this.getMousePosition().y <= this.destroyerPos.y + this.getHeight() / 9 + this.tileSize.y
                     && this.shipsLeftCnt[1] > 0) {
                 this.destroyerSelected = true;
                 this.selected = true;
             } else if (this.getMousePosition().x >= this.submarinePos.x && this.getMousePosition().x <= this.submarinePos.x + this.ShipSizes.get("Submarine") * this.tileSize.x
-                    && this.getMousePosition().y >= this.submarinePos.y + 30 && this.getMousePosition().y <= this.submarinePos.y + 30 + this.tileSize.y
+                    && this.getMousePosition().y >= this.submarinePos.y + this.getHeight() / 9 && this.getMousePosition().y <= this.submarinePos.y + this.getHeight() / 9 + this.tileSize.y
                     && this.shipsLeftCnt[0] > 0) {
                 this.submarineSelected = true;
                 this.selected = true;

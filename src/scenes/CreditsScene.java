@@ -39,7 +39,7 @@ public class CreditsScene extends Scene implements KeyListener, GuiScene, Drawab
         credits.add(new Credit("BATTLESHIPS", Assets.Fonts.TITLE_BIG));
         credits.add(new Credit("", Assets.Fonts.TITLE_BIG));
         credits.add(new Credit("CREDITS", Assets.Fonts.DEFAULT_BOLD_24));
-        credits.add(new Credit("Jospeh Rieger (User Interface)", Assets.Fonts.DEFAULT));
+        credits.add(new Credit("Joseph Rieger (User Interface)", Assets.Fonts.DEFAULT));
         credits.add(new Credit("Christian Greiner (Game Engine und Speiellogik)", Assets.Fonts.DEFAULT));
         credits.add(new Credit("Shadrach Patrick (Artificial Intelligence)", Assets.Fonts.DEFAULT));
         credits.add(new Credit("", Assets.Fonts.TITLE_BIG));
