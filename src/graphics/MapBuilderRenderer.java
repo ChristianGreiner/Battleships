@@ -13,9 +13,6 @@ import java.awt.event.MouseWheelEvent;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
-/**
- * Class to draw the ship selection scene
- */
 public class MapBuilderRenderer extends MapRenderer {
     HashMap<String, Integer> ShipSizes = new HashMap<String, Integer>();
     private int[] shipsLeftCnt = new int[4];
@@ -36,10 +33,6 @@ public class MapBuilderRenderer extends MapRenderer {
     private MapData mapData;
     private boolean isInit = false;
 
-    /**
-     * Constructor to invoke the constructor of MapRenderer and populate the ShipSizes HashMap with the sizes of all the ships.
-     * @param map The {@link Map} wherein the ships will be placed.
-     */
     public MapBuilderRenderer(Map map) {
         super(map);
         this.ShipSizes.put("Carrier", 5);
@@ -48,19 +41,12 @@ public class MapBuilderRenderer extends MapRenderer {
         this.ShipSizes.put("Submarine", 2);
     }
 
-    /**
-     * Initializes the MapBuilderRenderer.
-     * @param map The {@link Map} wherein the ships will be placed.
-     */
     public void init(Map map) {
         this.mapData = MapGenerator.getConfigMap().get(map.getSize());
         this.map = map;
         isInit = true;
     }
 
-    /**
-     * Sets certain parameters for the MapRenderer as well as the positions for ships to be selected and draws everything.
-     */
     @Override
     public void draw() {
         if (!isInit)
@@ -95,10 +81,7 @@ public class MapBuilderRenderer extends MapRenderer {
         super.endRendering();
     }
 
-    /**
-     * Draws the text above ships.
-     * @param g the Graphics element.
-     */
+
     public void drawShipText(Graphics2D g){
         String carrierText = "Carrier " + shipsLeftCnt[3] + "x";
         String battleshipText = "Battleship " + shipsLeftCnt[2] + "x";
@@ -118,40 +101,32 @@ public class MapBuilderRenderer extends MapRenderer {
         Helper.drawLeftAlignedString(g, submarineText, new Rectangle(this.submarinePos.x, this.submarinePos.y, 4 * this.tileSize.x, this.tileSize.y), scaledFont);
     }
 
-    /**
-     * Draws the ships to be selected.
-     * @param g The Graphics element.
-     */
     public void drawShipSelectionImages(Graphics2D g){
         g.setColor(Color.BLACK);
 
         if (shipsLeftCnt[3] > 0) {
             //draw carrier
-            drawImageShip(g, this.ShipSizes.get("Carrier"), Assets.Images.SHIP_CARRIER, new Rectangle(this.carrierPos.x, this.carrierPos.y + 40, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Carrier"), Assets.Images.SHIP_CARRIER, new Rectangle(this.carrierPos.x, this.carrierPos.y + this.getHeight() / 11, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
             //draw carrier outline
             //g.drawRect(this.carrierPos.x, this.carrierPos.y + 30, this.ShipSizes.get("Carrier") * this.tileSize.x, this.tileSize.y);
         }
 
         if (shipsLeftCnt[2] > 0) {
             //draw battleship
-            drawImageShip(g, this.ShipSizes.get("Battleship"), Assets.Images.SHIP_BATTLESHIP, new Rectangle(this.battleshipPos.x, this.battleshipPos.y + 40, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Battleship"), Assets.Images.SHIP_BATTLESHIP, new Rectangle(this.battleshipPos.x, this.battleshipPos.y + this.getHeight() / 11, this.ShipSizes.get("Battleship") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
         }
 
         if (shipsLeftCnt[1] > 0) {
             //draw destroyer
-            drawImageShip(g, this.ShipSizes.get("Destroyer"), Assets.Images.SHIP_DESTROYER, new Rectangle(this.destroyerPos.x, this.destroyerPos.y + 40, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Destroyer"), Assets.Images.SHIP_DESTROYER, new Rectangle(this.destroyerPos.x, this.destroyerPos.y + this.getHeight() / 11, this.ShipSizes.get("Destroyer") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
         }
 
         if (shipsLeftCnt[0] > 0) {
             //draw submarine
-            drawImageShip(g, this.ShipSizes.get("Submarine"), Assets.Images.SHIP_SUBMARINE, new Rectangle(this.submarinePos.x, this.submarinePos.y + 40, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
+            drawImageShip(g, this.ShipSizes.get("Submarine"), Assets.Images.SHIP_SUBMARINE, new Rectangle(this.submarinePos.x, this.submarinePos.y + this.getHeight() / 11, this.ShipSizes.get("Submarine") * this.tileSize.x, this.tileSize.y), this.tileSize, true);
         }
     }
 
-    /**
-     * Handles the action of moving a ship.
-     * @param g The Graphics element.
-     */
    public void moveShip(Graphics2D g) {
 
         int shipSize;
@@ -200,12 +175,6 @@ public class MapBuilderRenderer extends MapRenderer {
 
     }
 
-    /**
-     * Draws a rectangle representing a ship when it's being moved.
-     * @param g The Graphics element.
-     * @param shipSize  The size of the ship to draw.
-     * @param shipToDrop The Ship Object that's being moved.
-     */
     private void drawShip(Graphics2D g, int shipSize, Ship shipToDrop) {
         int drawnShipSize;
         Point drawingTileSize;
@@ -249,9 +218,6 @@ public class MapBuilderRenderer extends MapRenderer {
         }
     }
 
-    /**
-     * Rotates the selected ship.
-     */
     @Override
     public void rotate() {
         super.rotate();
@@ -260,19 +226,11 @@ public class MapBuilderRenderer extends MapRenderer {
         }
     }
 
-    /**
-     * Stops the highlighted tile from being drawn.
-     * @param g The Graphics element.
-     */
     @Override
     public void drawHighlightTile(Graphics2D g) {
         return;
     }
 
-    /**
-     * Allows for a ship to be selected from the ones that are still available.
-     * @param e The MouseEvent.
-     */
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
@@ -309,10 +267,6 @@ public class MapBuilderRenderer extends MapRenderer {
         }
     }
 
-    /**
-     * Invokes the rotate() method when the mousewheel is moved.
-     * @param e The MouseWheelEvent.
-     */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         this.rotate();
