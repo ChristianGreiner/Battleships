@@ -20,7 +20,7 @@ public class Map implements MapInterface, Serializable {
     private int size;
     private int outOfShipLength = 1; // value of the ship with the smallest size, which is completely destroyed
     private int numberOfShips;
-    private int numberOfDestoryedShips;
+    private int numberOfDestroyedShips;
     private ArrayList<Ship> ships;
     private ArrayList<Ship> destroyedShips;
     private ArrayList<MapListener> listeners;
@@ -93,8 +93,8 @@ public class Map implements MapInterface, Serializable {
      *
      * @return The number of destroyed ship.s
      */
-    public int getNumberOfDestoryedShips() {
-        return numberOfDestoryedShips;
+    public int getNumberOfDestroyedShips() {
+        return numberOfDestroyedShips;
     }
 
     /**
@@ -162,7 +162,7 @@ public class Map implements MapInterface, Serializable {
      * @return Returns whenever or not all ships are destroyed.
      */
     public boolean allShipsDestroyed() {
-        return this.getNumberOfShips() == this.getNumberOfDestoryedShips();
+        return this.getNumberOfShips() == this.getNumberOfDestroyedShips();
     }
 
     /**
@@ -769,10 +769,9 @@ public class Map implements MapInterface, Serializable {
                 // Ship destroyed
                 if (ship.isDestroyed()) {
                     type = HitType.ShipDestroyed;
-                    this.numberOfDestoryedShips++;
+                    this.numberOfDestroyedShips++;
                     this.computeRemoveShip(ship);
                     this.destroyedShips.add(ship);
-
                 } else {
                     // only ship
                     type = HitType.Ship;
@@ -966,5 +965,105 @@ public class Map implements MapInterface, Serializable {
             return false;
 
         return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
+    }
+
+    public void MergeDummyShips(Point dShip) {
+
+        Point ShipPos = dShip;
+        int ShipLengthCounter = 1;
+        boolean shipIsX = false;
+
+        Point neighborX = new Point(dShip.x + 1, dShip.y);
+        Point neighborXMinus = new Point(dShip.x - 1, dShip.y);
+        Point neighborY = new Point(dShip.x, dShip.y + 1);
+        Point neighborYMinus = new Point(dShip.x, dShip.y - 1);
+
+        if (isInMap(neighborX)) {
+            if (this.tiles[neighborX.x][neighborX.y].hasShip()) {
+                computeRemoveShip(this.tiles[neighborX.x][neighborX.y].getShip());
+                ShipLengthCounter++;
+                shipIsX = true;
+            }
+        }
+        if (isInMap(neighborXMinus)) {
+            if (this.tiles[neighborXMinus.x][neighborXMinus.y].hasShip()) {
+                computeRemoveShip(this.tiles[neighborXMinus.x][neighborXMinus.y].getShip());
+                ShipLengthCounter++;
+                shipIsX = true;
+                ShipPos = neighborXMinus;
+            }
+        }
+
+        if (!shipIsX) {
+            if (isInMap(neighborY)) {
+                if (this.tiles[neighborY.x][neighborY.y].hasShip()) {
+                    computeRemoveShip(this.tiles[neighborY.x][neighborY.y].getShip());
+                    ShipLengthCounter++;
+                }
+            }
+            if (isInMap(neighborXMinus)) {
+                if (this.tiles[neighborYMinus.x][neighborYMinus.y].hasShip()) {
+                    computeRemoveShip(this.tiles[neighborYMinus.x][neighborYMinus.y].getShip());
+                    ShipLengthCounter++;
+                    ShipPos = neighborYMinus;
+                }
+            }
+        }
+
+        boolean proofPlus = true;
+        boolean proofMinus = true;
+
+        for (int i = 2; i <= 4; i++) {
+            Point neighbor;
+            Point neighborMinus;
+            if (shipIsX) {
+                neighbor = new Point(dShip.x + i, dShip.y);
+                neighborMinus = new Point(dShip.x - i, dShip.y);
+            } else {
+                neighbor = new Point(dShip.x + i, dShip.y);
+                neighborMinus = new Point(dShip.x - i, dShip.y);
+            }
+
+            if (isInMap(neighbor) && proofPlus) {
+                if (this.tiles[neighbor.x][neighbor.y].hasShip()) {
+                    computeRemoveShip(this.tiles[neighbor.x][neighbor.y].getShip());
+                    ShipLengthCounter++;
+                } else proofPlus = false;
+            } else proofPlus = false;
+            if (isInMap(neighborMinus) && proofMinus) {
+                if (this.tiles[neighborMinus.x][neighborMinus.y].hasShip()) {
+                    computeRemoveShip(this.tiles[neighborMinus.x][neighborMinus.y].getShip());
+                    ShipLengthCounter++;
+                    ShipPos = neighborMinus;
+                } else proofMinus = false;
+            } else proofMinus = false;
+        }
+
+        Ship ship = null;
+        switch (ShipLengthCounter) {
+            case 2:
+                ship = new Submarine(this);
+                ship.setRotated(shipIsX);
+                ship.setPosition(ShipPos);
+                break;
+            case 3:
+                ship = new Battleship(this);
+                ship.setRotated(shipIsX);
+                ship.setPosition(ShipPos);
+                break;
+            case 4:
+                ship = new Destroyer(this);
+                ship.setRotated(shipIsX);
+                ship.setPosition(ShipPos);
+                break;
+            case 5:
+                ship = new Carrier(this);
+                ship.setRotated(shipIsX);
+                ship.setPosition(ShipPos);
+                break;
+        }
+        this.numberOfDestroyedShips++;
+        insert(ship, ShipPos, shipIsX);
+        this.destroyedShips.add(ship);
     }
 }
