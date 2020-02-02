@@ -72,6 +72,11 @@ public class Game implements Runnable {
         return instance;
     }
 
+    /**
+     * Gets the target fps of the game.
+     *
+     * @return The fps.
+     */
     public int getTargetFps() {
         return targetFps;
     }

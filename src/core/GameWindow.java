@@ -87,16 +87,6 @@ public class GameWindow extends JFrame implements Runnable {
         return (state & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
     }
 
-
-    /**
-     * Gets the root panel of the window.
-     *
-     * @return The root panel.
-     */
-    public JPanel getRootPanel() {
-        return rootPanel;
-    }
-
     /**
      * Adds a gui element to the game window.
      *

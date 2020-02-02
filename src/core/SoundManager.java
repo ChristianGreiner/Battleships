@@ -51,18 +51,6 @@ public class SoundManager {
         soundPlayer.play(Game.getInstance().getOptions().getSfxVolume());
     }
 
-
-    /**
-     * Plays a sound fx.
-     *
-     * @param audioClip The sfx audio clip.
-     * @param volume    The volume of the sfx audio clip.
-     */
-    public void playSfx(Clip audioClip, float volume) {
-        SoundPlayer soundPlayer = new SoundPlayer(audioClip);
-        soundPlayer.play(volume);
-    }
-
     /**
      * Plays the sound according to the hit type.
      *
