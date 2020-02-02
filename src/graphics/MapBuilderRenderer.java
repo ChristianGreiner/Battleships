@@ -69,10 +69,10 @@ public class MapBuilderRenderer extends MapRenderer {
         this.gridSize = new Point(this.getHeight(), this.getHeight());
         this.setGridSize(this.gridSize);
         this.tileSize = new Point(this.getWidth() / 20, this.getWidth() / 20);
-        this.carrierPos = new Point(this.getHeight() + 20, 40);
-        this.battleshipPos = new Point(this.getHeight() + 20, 40 + this.getHeight() / 5);
-        this.destroyerPos = new Point((this.getHeight()) + 20, 40 + (this.getHeight() / 5) * 2);
-        this.submarinePos = new Point((this.getHeight()) + 20, 40 + (this.getHeight() / 5) * 3);
+        this.carrierPos = new Point(this.getHeight() + 20, this.getHeight() / 9);
+        this.battleshipPos = new Point(this.getHeight() + 20, this.getHeight() / 9 + this.getHeight() / 5);
+        this.destroyerPos = new Point((this.getHeight()) + 20, this.getHeight() / 9 + (this.getHeight() / 5) * 2);
+        this.submarinePos = new Point((this.getHeight()) + 20, this.getHeight() / 9 + (this.getHeight() / 5) * 3);
 
         this.shipsCounter = map.getShipsCounter();
 
