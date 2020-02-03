@@ -171,7 +171,6 @@ public class GameFileHandler {
      * @return The loaded savegame.
      */
     public Savegame loadSavegame(String id) {
-        System.out.println("LOADING " + id);
         try {
             String PATH = System.getProperty("user.dir") + "/";
             String directoryName = PATH.concat("savegames");
