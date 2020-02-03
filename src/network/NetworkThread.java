@@ -22,7 +22,7 @@ public class NetworkThread extends Thread {
     private String saveGameId = null;
     private volatile boolean clientConfirmed = false;
     private volatile boolean serverConfirmed = false;
-    private BlockingQueue<String> messageQueue = new ArrayBlockingQueue<String>(1);
+    private BlockingQueue<String> messageQueue;
 
     /**
      * Creates a new network thread.
@@ -36,6 +36,7 @@ public class NetworkThread extends Thread {
         this.serverSocket = serverSocket;
         this.networkType = NetworkType.Host;
         this.mapSize = mapSize;
+        this.messageQueue = new ArrayBlockingQueue<String>(1);
     }
 
     /**
@@ -50,6 +51,7 @@ public class NetworkThread extends Thread {
         this.serverSocket = serverSocket;
         this.networkType = NetworkType.Host;
         this.saveGameId = saveGameId;
+        this.messageQueue = new ArrayBlockingQueue<String>(1);
     }
 
     /**
@@ -62,6 +64,7 @@ public class NetworkThread extends Thread {
         this.networkManager = networkManager;
         this.clientSocket = socket;
         this.networkType = NetworkType.Client;
+        this.messageQueue = new ArrayBlockingQueue<String>(1);
     }
 
     /**
@@ -154,6 +157,9 @@ public class NetworkThread extends Thread {
         super.run();
 
         try {
+
+            this.messageQueue = new ArrayBlockingQueue<String>(1);
+
             while (true) {
                 BufferedReader in = null;
                 Writer out = null;
