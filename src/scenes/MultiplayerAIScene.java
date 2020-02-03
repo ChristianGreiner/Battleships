@@ -301,8 +301,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
                     setOtherTurn();
 
                 // fallback
-                if (hitType == HitType.NotPossible)
+                if (hitType == HitType.NotPossible) {
                     hitType = HitType.Water;
+                }
 
                 Game.getInstance().getNetworkManager().sendAnswer(hitType);
 
@@ -329,11 +330,12 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
                 setOtherTurn();
             }
 
-            if (type == HitType.ShipDestroyed)
+            if (type == HitType.ShipDestroyed) {
                 this.enemyShipsDestroyed++;
+                this.enemyMap.mergeDummyShips(lastShot);
+            }
 
             this.enemyMapRenderer.playExplosion(this.lastShot);
-
 
             this.lastShot = null;
 
