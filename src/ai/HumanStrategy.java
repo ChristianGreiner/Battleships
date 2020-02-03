@@ -120,8 +120,6 @@ public class HumanStrategy implements AiStrategy, Serializable {
         // Continue Hit
         Alignment align = Helper.getRandomAlignment();
 
-        //System.out.println("SCHIFF GETROFFEN");
-
         //check, if alignment was set in last hit
         if (this.shipAlignment == Alignment.Horizontal || this.shipAlignment == Alignment.Vertical) {
             align = this.shipAlignment;

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.Serializable;
 
 /**
- * In the AllMightyMode, the AI can hit directly a ship with a low probability, otherwise it will shoot after the HumanStrategy.
+ * In the AllMightyMode, the AI can directly hit a ship with a low probability, otherwise it will shoot after the HumanStrategy.
  */
 public class AllMightyMode implements AiStrategy, Serializable {
 

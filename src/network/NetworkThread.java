@@ -323,6 +323,7 @@ public class NetworkThread extends Thread {
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game closed by the server.", "Network error", JOptionPane.ERROR_MESSAGE);
             for (NetworkListener listener : this.networkManager.getListeners()) {
                 listener.OnGameClosed();

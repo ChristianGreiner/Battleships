@@ -47,7 +47,6 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
         options.getSaveBtn().addActionListener((e) -> {
             Game.getInstance().getOptions().setFps(Integer.parseInt(options.getFpsCBox().getSelectedItem().toString()));
             Game.getInstance().getOptions().setAiSpeed(AiSpeed.valueOf(options.getAiSeedCBox().getSelectedItem().toString()));
-            System.out.println(Game.getInstance().getOptions().getAiSpeedValue());
             Game.getInstance().setTargetFps(Game.getInstance().getOptions().getFps());
 
             Game.getInstance().getGameFileHandler().writeObject(Game.getInstance().getOptions(), Assets.Paths.OPTIONS);

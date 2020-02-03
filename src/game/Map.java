@@ -963,7 +963,6 @@ public class Map implements MapInterface, Serializable {
         computeRemoveShip(ship);
 
         // trigger listener
-        //System.out.println("UPDATE");
         for (int i = 0; i < this.listeners.size(); i++) {
             this.listeners.get(i).OnMapUpdated();
         }
@@ -1071,7 +1070,7 @@ public class Map implements MapInterface, Serializable {
                     ShipLengthCounter++;
                 }
             }
-            if (isInMap(neighborXMinus)) {
+            if (isInMap(neighborYMinus)) {
                 if (this.tiles[neighborYMinus.x][neighborYMinus.y].hasShip()) {
                     this.remove(this.tiles[neighborYMinus.x][neighborYMinus.y].getShip());
                     ShipLengthCounter++;
