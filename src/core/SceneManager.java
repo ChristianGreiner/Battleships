@@ -62,11 +62,7 @@ public class SceneManager {
      */
     public Scene setActiveScene(Type type) {
         if (!this.scenes.containsKey(type)) {
-            try {
-                throw new Exception("Scene not found");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return null;
         }
 
         Scene scene = null;

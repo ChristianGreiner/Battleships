@@ -34,9 +34,7 @@ public class AssetsLoader {
             assetsLoaded++;
             return Font.createFont(Font.TRUETYPE_FONT, AssetsLoader.class.getClassLoader().getResourceAsStream(fontName)).deriveFont(fontSize);
         } catch (FontFormatException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -52,7 +50,6 @@ public class AssetsLoader {
             assetsLoaded++;
             return ImageIO.read(AssetsLoader.class.getClassLoader().getResourceAsStream(imageName));
         } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return null;
@@ -69,7 +66,6 @@ public class AssetsLoader {
             assetsLoaded++;
             return ImageIO.read(AssetsLoader.class.getClassLoader().getResourceAsStream(imageName));
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -91,11 +87,8 @@ public class AssetsLoader {
 
             return soundClip;
         } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
         } catch (LineUnavailableException e) {
-            e.printStackTrace();
         }
 
         return null;

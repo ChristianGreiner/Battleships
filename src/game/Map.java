@@ -834,12 +834,6 @@ public class Map implements MapInterface, Serializable {
             }
 
             data = new HitData(pos, ship, type);
-        } else {
-            try {
-                throw new Exception("Point out of Map");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         return data;

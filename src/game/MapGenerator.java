@@ -33,7 +33,6 @@ public class MapGenerator {
                 configMap.put(data[i].MapSize, data[i]);
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

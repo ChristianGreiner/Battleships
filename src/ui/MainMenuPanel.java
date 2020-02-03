@@ -6,11 +6,17 @@ import game.Assets;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * JPanel for the main menu.
+ */
 public class MainMenuPanel extends JPanel {
 
     private static MainMenuPanel instance;
     private JButton singleplayerBtn, multiplayerBtn, creditsBtn, optionsBtn, exitBtn;
 
+    /**
+     * Contructor for the main meu panel.
+     */
     public MainMenuPanel() {
         instance = this;
     }
@@ -117,6 +123,13 @@ public class MainMenuPanel extends JPanel {
         return panel;
     }
 
+    /**
+     * Adds button to the panel.
+     * @param title Title of the button.
+     * @param container Container the button should be in.
+     * @param y Y component.
+     * @return Returns the ready-made button.
+     */
     private JButton addButton(String title, JPanel container, int y) {
         JButton btn = UiBuilder.createButton(title, new Dimension(320, UiBuilder.BUTTON_HEIGHT));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -128,6 +141,12 @@ public class MainMenuPanel extends JPanel {
         return btn;
     }
 
+    /**
+     * Adds space.
+     * @param container Container where space should be added.
+     * @param y The y component.
+     * @param insets Insets.
+     */
     private void addSpace(JPanel container, int y, Insets insets) {
         final JPanel spacer = new JPanel();
         GridBagConstraints gbc = new GridBagConstraints();
@@ -140,6 +159,10 @@ public class MainMenuPanel extends JPanel {
         container.add(spacer, gbc);
     }
 
+    /**
+     * Draws the backround.
+     * @param graphics the graphics component.
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

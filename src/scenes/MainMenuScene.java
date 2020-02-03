@@ -9,12 +9,21 @@ import ui.MainMenuPanel;
 
 import javax.swing.*;
 
+/**
+ * The main menu scene.
+ */
 public class MainMenuScene extends Scene implements Updatable, GuiScene {
 
+    /**
+     * Constructor for the main menu scene.
+     */
     public MainMenuScene() {
         super("MainMenuScene");
     }
 
+    /**
+     * Handler for switch events.
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
@@ -30,6 +39,11 @@ public class MainMenuScene extends Scene implements Updatable, GuiScene {
 
     }
 
+    /**
+     * Builds the gui.
+     * @param gameWindow The game window.
+     * @return a ready-made JPanel.
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         MainMenuPanel menu = new MainMenuPanel().create();

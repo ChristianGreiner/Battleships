@@ -19,6 +19,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * The class for the singleplayer scene.
+ */
 public class SinglePlayerScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
 
     private Map playerMap;
@@ -35,6 +38,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     private GameSessionData gameSessionData;
     private float waitTimer = 0;
 
+    /**
+     * The constructor for the singleplayer scene.
+     */
     public SinglePlayerScene() {
         super("SinglePlayer");
 
@@ -45,6 +51,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.enemyMapRenderer.addMapRendererListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
@@ -56,6 +65,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.setUpdatePaused(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void initializeGameSession(GameSessionData data) {
         this.gameSessionData = data;
         this.difficulty = data.getAiDifficulty();
@@ -80,6 +92,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         sizeUpdated();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void initializeSavegame(SingleplayerSavegame savegame) {
 
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
@@ -92,6 +107,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.playerTurn = savegame.getCurrentTurn();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(double deltaTime) {
 
@@ -128,6 +146,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void lateUpdate(double deltaTime) {
 
@@ -139,6 +160,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw() {
         if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
@@ -147,6 +171,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         GamePanel singlePlayerPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
@@ -180,6 +207,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         return singlePlayerPanel;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
@@ -198,6 +228,10 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
 
     }
 
+    /**
+     * Returns to the main menu when ESC was pressed.
+     * @param keyEvent The keyEvent.
+     */
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -206,6 +240,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
     }
 
+    /**
+     * Handles a shot from the AI.
+     */
     private void handleAiShot() {
         Point point = this.ai.shot();
 
@@ -231,6 +268,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void OnShotFired(Map map, Point pos) {
 
@@ -249,6 +289,9 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void OnRotated(Map map, Ship ship) {
         map.rotate(ship);

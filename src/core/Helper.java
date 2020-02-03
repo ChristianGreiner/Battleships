@@ -20,6 +20,24 @@ public class Helper {
         return min + (int) (Math.random() * ((max - min) + 1));
     }
 
+    /**
+     * Gets a random float number between to nubmers.
+     *
+     * @param min The min number.
+     * @param max The max number.
+     * @return The number.
+     */
+    public static float randFloat(float min, float max) {
+        return r.nextFloat() * (max - min) + min;
+    }
+
+    /**
+     * Gets a random number between to numbers.
+     *
+     * @param min The min value.
+     * @param max The max value.
+     * @return The number.
+     */
     public static int getRandomNumberInRange(int min, int max) {
 
         if (min >= max) {

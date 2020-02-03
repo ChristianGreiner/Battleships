@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Class for the JPanel used in the {@link scenes.CreditsScene}
+ */
 public class CreditsPanel extends JPanel {
 
     private CreditsRenderer creditsRenderer;

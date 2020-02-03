@@ -11,15 +11,31 @@ import ui.GuiScene;
 
 import javax.swing.*;
 
+/**
+ * Class for the settings scene when hosting a game.
+ */
 public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
 
+    /**
+     * Constructor for the setting scene.
+     */
     public MultiplayerHostSettingsScene() {
         super("MultiplayerHostSettingsScene");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         GameSettingsPanel settings = new GameSettingsPanel().create();
+
+        // remove full retard
+        settings.getAiDifficultyCbox().removeItemAt(0);
+
+        // remove full hard
+        settings.getAiDifficultyCbox().removeItemAt(3);
 
         settings.getNewGameBtn().addActionListener((e) -> {
             WaitingForPlayerScene scene = (WaitingForPlayerScene) Game.getInstance().getSceneManager().setActiveScene(WaitingForPlayerScene.class);

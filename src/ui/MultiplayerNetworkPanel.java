@@ -6,6 +6,9 @@ import game.Assets;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class for the multiplayer network panel.
+ */
 public class MultiplayerNetworkPanel extends JPanel {
 
     private static MultiplayerNetworkPanel instance;
@@ -15,6 +18,9 @@ public class MultiplayerNetworkPanel extends JPanel {
     private JButton joinAiBtn;
     private JTextField hostnameField;
 
+    /**
+     * Constructor for the multiplayer network panel.
+     */
     public MultiplayerNetworkPanel() {
         instance = this;
     }
@@ -130,6 +136,13 @@ public class MultiplayerNetworkPanel extends JPanel {
         return panel;
     }
 
+    /**
+     * Adds button to the panel.
+     * @param title Title of the button.
+     * @param container Container the button should be in.
+     * @param y Y component.
+     * @return Returns the ready-made button.
+     */
     private JButton addButton(String title, JPanel container, int y) {
         JButton btn = UiBuilder.createButton(title, new Dimension(320, UiBuilder.BUTTON_HEIGHT));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -141,6 +154,12 @@ public class MultiplayerNetworkPanel extends JPanel {
         return btn;
     }
 
+    /**
+     * Adds space.
+     * @param container Container where space should be added.
+     * @param y The y component.
+     * @param insets Insets.
+     */
     private void addSpace(JPanel container, int y, Insets insets) {
         final JPanel spacer = new JPanel();
         GridBagConstraints gbc = new GridBagConstraints();
@@ -153,6 +172,10 @@ public class MultiplayerNetworkPanel extends JPanel {
         container.add(spacer, gbc);
     }
 
+    /**
+     * Draws the backround.
+     * @param graphics The graphics component.
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

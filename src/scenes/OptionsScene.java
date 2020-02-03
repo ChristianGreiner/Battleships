@@ -13,18 +13,31 @@ import javax.swing.event.ChangeListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Class for the options scene.
+ */
 public class OptionsScene extends Scene implements GuiScene, KeyListener {
 
+    /**
+     * Constructor for the options scene.
+     */
     public OptionsScene() {
         super("OptionsScene");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         OptionsPanel options = new OptionsPanel().create();
@@ -37,6 +50,7 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
         });
 
         options.getMusicVolumeSlider().addChangeListener(new ChangeListener() {
+
             @Override
             public void stateChanged(ChangeEvent changeEvent) {
                 Game.getInstance().getOptions().setMusicVolume(options.getMusicVolumeSlider().getValue() * 0.01f);
@@ -72,6 +86,10 @@ public class OptionsScene extends Scene implements GuiScene, KeyListener {
 
     }
 
+    /**
+     * Returns to the main menu scene when ESC was pressed.
+     * @param e the keyEvent.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {

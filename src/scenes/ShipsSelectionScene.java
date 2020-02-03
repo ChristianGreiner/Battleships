@@ -16,6 +16,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Class for the ship selection scene.
+ */
 public class ShipsSelectionScene extends Scene implements Drawable, Updatable, GuiScene, KeyListener, MapRendererListener, MapListener, GameSession {
 
     private MapBuilderRenderer buildRenderer;
@@ -24,6 +27,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
     private MapGenerator mapGenerator;
     private GameSessionData gameSessionData;
 
+    /**
+     * Constructor for the ship selection scene.
+     */
     public ShipsSelectionScene() {
         super("ShipsSelectionScene");
 
@@ -31,6 +37,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
         this.buildRenderer.addMapRendererListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
@@ -46,6 +55,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
         this.sizeUpdated();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initializeGameSession(GameSessionData data) {
         this.gameSessionData = data;
@@ -59,6 +71,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
         Game.getInstance().getWindow().revalidate();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         ShipSelectionPanel shipSelectionPanel = new ShipSelectionPanel(this.buildRenderer);
@@ -99,6 +114,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
         return shipSelectionPanel;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getBuildMapRenderPanelSize());
@@ -119,6 +137,10 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
     public void keyPressed(KeyEvent keyEvent) {
     }
 
+    /**
+     * Returns to the main menu if ESC was pressed and triggers the rotate event in MapBuilderRenderer if R was pressed.
+     * @param e the keyEvent.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -129,6 +151,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw() {
         if (this.uiPanel != null && this.buildRenderer != null) {
@@ -141,6 +166,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
         // ship not inserted  yet
@@ -157,11 +185,17 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
         this.OnMapUpdated();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void OnShotFired(Map map, Point pos) {
         return;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void OnRotated(Map map, Ship ship) {
         map.rotate(ship);
@@ -172,6 +206,9 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(double deltaTime) {
         if (this.buildRenderer != null)
