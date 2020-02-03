@@ -1049,40 +1049,24 @@ public class Map implements MapInterface, Serializable {
 
         if (isInMap(neighborX)) {
             if (this.tiles[neighborX.x][neighborX.y].hasShip()) {
-                this.remove(this.tiles[neighborX.x][neighborX.y].getShip());
-                ShipLengthCounter++;
+                //this.remove(this.tiles[neighborX.x][neighborX.y].getShip());
+                //ShipLengthCounter++;
                 shipIsX = true;
             }
         }
         if (isInMap(neighborXMinus)) {
             if (this.tiles[neighborXMinus.x][neighborXMinus.y].hasShip()) {
-                this.remove(this.tiles[neighborXMinus.x][neighborXMinus.y].getShip());
-                ShipLengthCounter++;
+                //this.remove(this.tiles[neighborXMinus.x][neighborXMinus.y].getShip());
+                //ShipLengthCounter++;
                 shipIsX = true;
                 ShipPos = neighborXMinus;
-            }
-        }
-
-        if (!shipIsX) {
-            if (isInMap(neighborY)) {
-                if (this.tiles[neighborY.x][neighborY.y].hasShip()) {
-                    this.remove(this.tiles[neighborY.x][neighborY.y].getShip());
-                    ShipLengthCounter++;
-                }
-            }
-            if (isInMap(neighborYMinus)) {
-                if (this.tiles[neighborYMinus.x][neighborYMinus.y].hasShip()) {
-                    this.remove(this.tiles[neighborYMinus.x][neighborYMinus.y].getShip());
-                    ShipLengthCounter++;
-                    ShipPos = neighborYMinus;
-                }
             }
         }
 
         boolean proofPlus = true;
         boolean proofMinus = true;
 
-        for (int i = 2; i <= 4; i++) {
+        for (int i = 1; i <= 4; i++) {
             Point neighbor;
             Point neighborMinus;
             if (shipIsX) {
@@ -1097,12 +1081,14 @@ public class Map implements MapInterface, Serializable {
                 if (this.tiles[neighbor.x][neighbor.y].hasShip()) {
                     this.remove(this.tiles[neighbor.x][neighbor.y].getShip());
                     ShipLengthCounter++;
+                    System.out.println("SLC FY " + i + ": " + ShipLengthCounter);
                 } else proofPlus = false;
             } else proofPlus = false;
             if (isInMap(neighborMinus) && proofMinus) {
                 if (this.tiles[neighborMinus.x][neighborMinus.y].hasShip()) {
                     this.remove(this.tiles[neighborMinus.x][neighborMinus.y].getShip());
                     ShipLengthCounter++;
+                    System.out.println("SLC FYM " + i + ": " + ShipLengthCounter);
                     ShipPos = neighborMinus;
                 } else proofMinus = false;
             } else proofMinus = false;
@@ -1131,6 +1117,7 @@ public class Map implements MapInterface, Serializable {
                 ship.setPosition(ShipPos);
                 break;
         }
+        System.out.println(ship + " " + ShipPos + " " + ShipLengthCounter + " ");
         this.numberOfDestroyedShips++;
         this.setShipTiles(ship, ShipPos, shipIsX);
         ship.setNeighborTiles(getNeighborTiles(ship));
