@@ -6,6 +6,9 @@ import game.Assets;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class to for the options panel.
+ */
 public class OptionsPanel extends JPanel {
 
     private JSlider sfxSlider;
@@ -225,6 +228,10 @@ public class OptionsPanel extends JPanel {
         return mainContainer;
     }
 
+    /**
+     * Draws the backround.
+     * @param graphics The graphics component.
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

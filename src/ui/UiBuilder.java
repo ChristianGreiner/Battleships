@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Class for the UI builder.
+ */
 public class UiBuilder {
 
     public final static int BUTTON_HEIGHT = 38;
