@@ -11,12 +11,22 @@ import ui.GuiScene;
 
 import javax.swing.*;
 
+/**
+ * Class for the settings scene when hosting a game.
+ */
 public class MultiplayerHostSettingsScene extends Scene implements GuiScene {
 
+    /**
+     * Constructor for the setting scene.
+     */
     public MultiplayerHostSettingsScene() {
         super("MultiplayerHostSettingsScene");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         GameSettingsPanel settings = new GameSettingsPanel().create();

@@ -19,6 +19,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Class for multiplayer scene.
+ */
 public class MultiplayerScene extends Scene implements Updatable, GuiScene, Drawable, KeyListener, GameSession, NetworkListener, MapRendererListener {
 
     private Map playerMap;
@@ -36,6 +39,9 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     private MapData mapData;
     private GameState gameState = null;
 
+    /**
+     * Constructor for multiplayer scene.
+     */
     public MultiplayerScene() {
         super("MultiplayerScene");
 
@@ -49,6 +55,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
@@ -61,6 +71,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         this.setUpdatePaused(false);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         this.uiPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
@@ -90,6 +104,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         return uiPanel;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void update(double deltaTime) {
         this.enemyMapRenderer.setDisabled(!gameStarted);
@@ -106,6 +124,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void lateUpdate(double deltaTime) {
         if (this.gameState == GameState.Finished) {
@@ -118,6 +140,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void draw() {
         if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
@@ -126,6 +152,9 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         }
     }
 
+    /**
+     * Changes whose player's turn it is.
+     */
     public void setOtherTurn() {
 
         if (this.networkType == NetworkType.Host) {
@@ -151,6 +180,9 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         Game.getInstance().getLogger().info(this.networkType.toString() + ": New Playerturn: " + this.playerTurn.toString());
     }
 
+    /**
+     * Change colors indicating whose turn it is.
+     */
     private void changeTurnColors() {
         if (isMyTurn()) {
             this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
@@ -161,10 +193,18 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         }
     }
 
+    /**
+     * Check if it's my turn.
+     * @return if it's my turn.
+     */
     private boolean isMyTurn() {
         return this.playerTurn == this.networkType;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
@@ -178,6 +218,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     }
 
+    /**
+     * Changes whose turn it is when E is pressed.
+     * @param keyEvent The keyEvent.
+     */
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == KeyEvent.VK_E) {
@@ -190,6 +234,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
 
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void initializeGameSession(GameSessionData data) {
         this.gameSessionData = data;
@@ -205,6 +253,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         Game.getInstance().getWindow().revalidate();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     public void initializeSavegame(MultiplayerSavegame savegame) {
         this.playerMap = savegame.getPlayerMap();
         this.enemyMap = savegame.getEnemyMap();
@@ -230,6 +282,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     public void OnGameJoined(int mapSize) {
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnGameStarted() {
         this.gameStarted = true;
@@ -237,6 +293,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         this.gameState = GameState.Running;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnReceiveShot(Point pos) {
         if (this.playerMap != null) {
@@ -258,6 +318,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnReceiveAnswer(HitType type) {
         if (this.lastShot != null) {
@@ -280,6 +344,10 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnReceiveSave(String id) {
         MultiplayerSavegame savegame = new MultiplayerSavegame(id, this.playerMap, this.enemyMap);
@@ -291,15 +359,27 @@ public class MultiplayerScene extends Scene implements Updatable, GuiScene, Draw
     public void OnReceiveLoad(String id) {
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnGameClosed() {
         Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnShipDropped(Map map, Ship ship, Point pos, boolean rotated) {
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnShotFired(Map map, Point pos) {
         if (map.isInMap(pos) && isMyTurn() && gameStarted) {

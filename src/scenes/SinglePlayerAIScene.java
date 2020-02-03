@@ -19,6 +19,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Class for Singleplayer AI scene.
+ */
 public class SinglePlayerAIScene extends Scene implements KeyListener, MapRendererListener, Updatable, Drawable, GuiScene, GameSession {
 
     private Map playerMap;
@@ -36,6 +39,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
     private GameSessionData gameSessionData;
     private float waitTimer = 0;
 
+    /**
+     * Constructor for the singleplayer AI scene.
+     */
     public SinglePlayerAIScene() {
         super("SinglePlayerAIScene");
 
@@ -43,6 +49,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         this.enemyMapRenderer = new MapRenderer(null);
     }
 
+    /**
+     * Resets the scene.
+     */
     public void reset() {
         this.winner = null;
         this.gameState = GameState.Started;
@@ -51,11 +60,18 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         this.setUpdatePaused(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
     }
 
+    /**
+     * Initilizes the game session
+     * @param data The game session data.
+     */
     public void initializeGameSession(GameSessionData data) {
         this.gameSessionData = data;
         this.difficulty = data.getAiDifficulty();
@@ -80,6 +96,10 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         sizeUpdated();
     }
 
+    /**
+     * Initilzes the save game.
+     * @param savegame The save game.
+     */
     public void initializeSavegame(SingleplayerAiSavegame savegame) {
 
         Game.getInstance().getSoundManager().playBackgroundMusic(Assets.Sounds.PLAYING_MUSIC, true);
@@ -93,6 +113,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         this.playerTurn = savegame.getCurrentTurn();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(double deltaTime) {
 
@@ -126,6 +149,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void lateUpdate(double deltaTime) {
 
@@ -138,6 +164,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw() {
         if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
@@ -146,6 +175,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         GamePanel singlePlayerPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
@@ -183,6 +215,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         return singlePlayerPanel;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
@@ -201,6 +236,10 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
 
     }
 
+    /**
+     * Returns to the main menu if ESC was pressed.
+     * @param keyEvent the keyEvent.
+     */
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -209,6 +248,11 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         }
     }
 
+    /**
+     * Handles a shot from the AI.
+     * @param ai The AI that shot.
+     * @param map The map it shot at.
+     */
     private void handleAiShot(AI ai, Map map) {
         Point point = ai.shot();
 
@@ -258,6 +302,9 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
     public void OnShotFired(Map map, Point pos) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void OnRotated(Map map, Ship ship) {
         map.rotate(ship);
