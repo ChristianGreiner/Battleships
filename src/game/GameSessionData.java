@@ -72,6 +72,10 @@ public class GameSessionData {
         return aiDifficulty;
     }
 
+    /**
+     * Get game type.
+     * @return the game type.
+     */
     public SavegameType getGameType() {
         return gameType;
     }

@@ -13,6 +13,12 @@ public class HitData {
     private HitType type;
     private Ship ship;
 
+    /**
+     * Constructor for hit data.
+     * @param position The position the hit.
+     * @param ship The ship that was hit.
+     * @param type The hit type.
+     */
     public HitData(Point position, Ship ship, HitType type) {
         this.position = position;
         this.ship = ship;
@@ -20,7 +26,7 @@ public class HitData {
     }
 
     /**
-     * Gets the ship if a ship was hitted.
+     * Gets the ship if a ship was hit.
      *
      * @return The ship.
      */
