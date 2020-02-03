@@ -63,6 +63,10 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
         updateGridSize();
     }
 
+    /**
+     * Updates everything according to the time that has passed.
+     * @param deltaTime The delta time.
+     */
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
@@ -77,6 +81,9 @@ public class MapBuilderRenderer extends MapRenderer implements Updatable {
         shipsLeftCnt[3] = this.mapData.Carriers - this.shipsCounter.get(Carrier.class);
     }
 
+    /**
+     * Updates the size of the grid.
+     */
     public void updateGridSize() {
         this.gridSize = new Point(this.getHeight(), this.getHeight());
         this.setGridSize(this.gridSize);

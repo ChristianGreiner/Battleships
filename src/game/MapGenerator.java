@@ -82,6 +82,12 @@ public class MapGenerator {
         return map;
     }
 
+    /**
+     * Inserts a ship.
+     * @param ship The ship to be inserted.
+     * @param map The {@link Map} the ship has to be inserted into.
+     * @return Returns a boolean if the insertion was succesful.
+     */
     private boolean insertShip(Ship ship, Map map) {
         MapTile freeTile = map.getRandomFreeTile();
         return map.insert(ship, freeTile.getPos(), Helper.randomBoolean());

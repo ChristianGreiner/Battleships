@@ -12,6 +12,9 @@ import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * Thread of the network
+ */
 public class NetworkThread extends Thread {
 
     private ServerSocket serverSocket;
@@ -92,6 +95,11 @@ public class NetworkThread extends Thread {
         }
     }
 
+    /**
+     * Parses the incoming shot message.
+     * @param message The message that has been received.
+     * @return Returns the point where the opponent shot at.
+     */
     private Point parseShotMessage(String message) {
         String[] size = message.split(" ");
         if (size.length > 0) {
@@ -106,6 +114,11 @@ public class NetworkThread extends Thread {
         return null;
     }
 
+    /**
+     * Parses the size message.
+     * @param message The message to be parsed.
+     * @return The size of the map.
+     */
     private int parseSizeMessage(String message) {
         String[] size = message.split(" ");
         if (size.length > 0) {
@@ -118,6 +131,11 @@ public class NetworkThread extends Thread {
         return 0;
     }
 
+    /**
+     * Parses the load and save messages.
+     * @param message The message to be parsed.
+     * @return The message.
+     */
     private String parseSaveLoadMessage(String message) {
         String[] size = message.split(" ");
         if (size.length > 0) {
@@ -130,6 +148,11 @@ public class NetworkThread extends Thread {
         return null;
     }
 
+    /**
+     * Parses the message that is received after firing a shot.
+     * @param message The message to be parsed.
+     * @return The hit type.
+     */
     private HitType parseAnswerMessage(String message) {
         String[] messageArray = message.split(" ");
         if (messageArray.length > 0) {
@@ -152,6 +175,9 @@ public class NetworkThread extends Thread {
         return null;
     }
 
+    /**
+     * Runs the thread.
+     */
     @Override
     public void run() {
         super.run();
@@ -337,6 +363,10 @@ public class NetworkThread extends Thread {
         }
     }
 
+    /**
+     * Handles messages.
+     * @param message The message to be handled.
+     */
     private void handlingMessage(String message) {
         message = message.toUpperCase();
         if (!message.isEmpty()) {

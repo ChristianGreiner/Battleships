@@ -3,6 +3,9 @@ package game;
 import ai.AI;
 import ai.AiDifficulty;
 
+/**
+ * Savegame for regular singleplayer games.
+ */
 public class SingleplayerSavegame extends Savegame {
 
     private AiDifficulty difficulty = AiDifficulty.Easy;
