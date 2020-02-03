@@ -8,16 +8,16 @@ import java.io.Serializable;
  */
 public class Savegame implements Serializable {
 
+    protected SavegameType savegameType;
     private String id;
     private Map playerMap = null;
     private Map enemyMap = null;
-    protected SavegameType savegameType;
 
     /**
      * The constructor of the save game.
      *
-     * @param playerMap   The player map.
-     * @param enemyMap    The enemy map.
+     * @param playerMap The player map.
+     * @param enemyMap  The enemy map.
      */
     public Savegame(Map playerMap, Map enemyMap) {
         this.id = String.valueOf(System.currentTimeMillis());
@@ -28,9 +28,9 @@ public class Savegame implements Serializable {
     /**
      * The constructor of the save game.
      *
-     * @param id   The the id of the savegame.
-     * @param playerMap   The player map.
-     * @param enemyMap    The enemy map.
+     * @param id        The the id of the savegame.
+     * @param playerMap The player map.
+     * @param enemyMap  The enemy map.
      */
     public Savegame(String id, Map playerMap, Map enemyMap) {
         this.id = id;

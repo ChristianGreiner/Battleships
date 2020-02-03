@@ -8,9 +8,9 @@ import java.io.Serializable;
  * The options class used for storing the options of the game.
  */
 public class Options implements Serializable {
-    private float sfxVolume = .5f;
-    private float musicVolume = .5f;
-    private int fps = 30;
+    private float sfxVolume = .25f;
+    private float musicVolume = .25f;
+    private int fps = 15;
     private AiSpeed aiSpeed = AiSpeed.Normal;
     private float aiSpeedValue = 1.2f;
 

@@ -14,9 +14,7 @@ import java.io.Serializable;
 
 public class EasyStrategy implements AiStrategy, Serializable {
 
-    //private boolean shipFocused;
     private boolean focusable;
-    //private Point hitPoint;
 
     private HumanStrategy internstrategy = new HumanStrategy();
 
@@ -39,7 +37,6 @@ public class EasyStrategy implements AiStrategy, Serializable {
         } else if (focusable) {
             this.internstrategy.prepare(type, lastHit);
             if (type == HitType.ShipDestroyed) {
-                //this.shipFocused = false;
                 setFocusable(false);
             }
         }
@@ -48,12 +45,10 @@ public class EasyStrategy implements AiStrategy, Serializable {
     @Override
     public Point process(Map map) {
 
-        //if (this.shipFocused){
         if (this.focusable) {
             this.internstrategy.setShipFocused(focusable);
             return this.internstrategy.process(map);
         }
-        //}
         return map.getRandomFreeTileIgnoreShip().getPos();
     }
 }

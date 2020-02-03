@@ -12,6 +12,9 @@ import java.io.File;
  */
 public final class Assets {
 
+    /**
+     * Inits all assets.
+     */
     public static void init() {
 
         // load images

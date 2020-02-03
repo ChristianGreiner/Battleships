@@ -57,17 +57,21 @@ public class Map implements MapInterface, Serializable {
         this.availableCounter.put(Submarine.class, mapData.Submarines);
     }
 
+    /**
+     * Gets all destroyed ships.
+     *
+     * @return The ship.s
+     */
     public ArrayList<Ship> getDestroyedShips() {
         return this.destroyedShips;
     }
 
-    // dirty fix
+    /**
+     * Gets the map data.
+     * @return
+     */
     public MapData getMapData() {
         return mapData;
-    }
-
-    public HashMap<Type, Integer> getAvailableCounter() {
-        return availableCounter;
     }
 
     /**
@@ -115,6 +119,10 @@ public class Map implements MapInterface, Serializable {
         return ships;
     }
 
+    /**
+     * Adds a new listener to the map.
+     * @param listener The listener.
+     */
     public void addListener(MapListener listener) {
         this.listeners.add(listener);
     }
@@ -125,13 +133,17 @@ public class Map implements MapInterface, Serializable {
      * @return True or false.
      */
     public boolean isCorrectFilled() {
-
         return this.mapData.Carriers == this.shipsCounter.get(Carrier.class) &&
                 this.mapData.Battleships == this.shipsCounter.get(Battleship.class) &&
                 this.mapData.Destroyers == this.shipsCounter.get(Destroyer.class) &&
                 this.mapData.Submarines == this.shipsCounter.get(Submarine.class);
     }
 
+    /**
+     * Mark a tile as hit.
+     * @param pos The position.
+     * @param type The typ.
+     */
     public void markTile(Point pos, HitType type) {
         if (isInMap(pos)) {
             if (type == HitType.Water) {
@@ -254,6 +266,12 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
+    /**
+     * Sets the tiles a ship occupies.
+     * @param ship The {@link Ship} in the map.
+     * @param position The position of the ship.
+     * @param rotated Whether or not the ship is rotated.
+     */
     private void setShipTiles(Ship ship, Point position, boolean rotated) {
         if (rotated) {
             // check horizontal
@@ -274,6 +292,10 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
+    /**
+     * Decrements shipsCounter if a ship has to be removed and removes it.
+     * @param ship The ship to be removed
+     */
     private void computeRemoveShip(Ship ship) {
         if (this.shipsCounter.containsKey(ship.getClass())) {
             int counter = this.shipsCounter.get(ship.getClass());
@@ -286,6 +308,11 @@ public class Map implements MapInterface, Serializable {
         }
     }
 
+    /**
+     * Get the adjacent tiles of a ship.
+     * @param ship The ship of which the adjacent tiles need to be returned.
+     * @return The adjacent tiles.
+     */
     private ArrayList<MapTile> getNeighborTiles(Ship ship) {
 
         ArrayList<MapTile> tiles = new ArrayList<>();
@@ -436,12 +463,25 @@ public class Map implements MapInterface, Serializable {
         return tiles;
     }
 
+    /**
+     * Adds adjacent tiles.
+     * @param tiles The tiles to be added.
+     * @param x The x component of the postion where they have to be added.
+     * @param y the y component of the position where they have to be added.
+     */
     private void AddNeighborTiles(ArrayList<MapTile> tiles, int x, int y) {
         MapTile t = this.tiles[x][y];
         t.setNeighbor(true);
         tiles.add(t);
     }
 
+    /**
+     * Checks whether or not tiles are empty.
+     * @param startPos Where the checking needs to start.
+     * @param size How many tiles need to be checked.
+     * @param rotated Direction of the checking.
+     * @return true or false depending on whether or not the tiles are empty.
+     */
     private boolean areTilesEmpty(Point startPos, int size, boolean rotated) {
 
         for (int i = 0; i < size; i++) {
@@ -462,6 +502,13 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
+    /**
+     * Checks whether or not adjacent tiles of a line are empty.
+     * @param position Starting posiiton.
+     * @param space Lenght of the check.
+     * @param rotated Direction of the check.
+     * @return true or false depending on whether or not there are empty adjacent tiles.
+     */
     private boolean hasFreeNeighborTiles(Point position, int space, boolean rotated) {
 
         if (!isInMap(position))
@@ -825,6 +872,11 @@ public class Map implements MapInterface, Serializable {
         return true;
     }
 
+    /**
+     * Checks if the right number of ships are in the map.
+     * @param ship The ship that needs to be checked.
+     * @return Returns boolean if the ship is allowed to be in the map.
+     */
     private boolean checkShipCountAmount(Ship ship) {
         MapData mapData = MapGenerator.getConfigMap().get(this.size);
 
@@ -846,7 +898,7 @@ public class Map implements MapInterface, Serializable {
      * @param ship     The ship.
      * @param position The position where it should be placed.
      * @param rotated  Whether or not the ship is rotated.
-     * @return Returns boolean if the should could be insert sucessfully
+     * @return Returns boolean if the ship could be insert sucessfully
      */
     public boolean canInsertShip(Ship ship, Point position, boolean rotated) {
 
@@ -911,12 +963,17 @@ public class Map implements MapInterface, Serializable {
         computeRemoveShip(ship);
 
         // trigger listener
-        //System.out.println("UPDATE");
         for (int i = 0; i < this.listeners.size(); i++) {
             this.listeners.get(i).OnMapUpdated();
         }
     }
 
+    /**
+     * Moves and simultaneously rotates a ship.
+     * @param ship The ship to be moved and rotated.
+     * @param pos The position the ship needs to be moved to.
+     * @return Returns boolean if the ship could be moved and rotated.
+     */
     public boolean moveAndRotate(Ship ship, Point pos) {
         boolean oldRotation = ship.isRotated();
         boolean nextRotation = !ship.isRotated();
@@ -976,9 +1033,8 @@ public class Map implements MapInterface, Serializable {
     }
 
     /**
-     * Replace dummy ships with a ship of appropriate size.
-     *
-     * @param dShip last position of the ship
+     * Removes {@link DummyShip}s and replaces them with a "real" ship of appropriate length.
+     * @param dShip Point where the merging starts.
      */
     public void mergeDummyShips(Point dShip) {
 
@@ -1026,7 +1082,7 @@ public class Map implements MapInterface, Serializable {
         boolean proofPlus = true;
         boolean proofMinus = true;
 
-        for (int i = 2; i <= 5; i++) {
+        for (int i = 2; i <= 4; i++) {
             Point neighbor;
             Point neighborMinus;
             if (shipIsX) {

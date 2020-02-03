@@ -24,6 +24,13 @@ public class NetworkThread extends Thread {
     private volatile boolean serverConfirmed = false;
     private BlockingQueue<String> messageQueue = new ArrayBlockingQueue<String>(1);
 
+    /**
+     * Creates a new network thread.
+     *
+     * @param networkManager The manager.
+     * @param serverSocket   The server socket.
+     * @param mapSize        The size of the map.
+     */
     public NetworkThread(NetworkManager networkManager, ServerSocket serverSocket, int mapSize) {
         this.networkManager = networkManager;
         this.serverSocket = serverSocket;
@@ -31,6 +38,13 @@ public class NetworkThread extends Thread {
         this.mapSize = mapSize;
     }
 
+    /**
+     * Creates a new network thread.
+     *
+     * @param networkManager The manager.
+     * @param serverSocket   The socket.
+     * @param saveGameId     The save game id.
+     */
     public NetworkThread(NetworkManager networkManager, ServerSocket serverSocket, String saveGameId) {
         this.networkManager = networkManager;
         this.serverSocket = serverSocket;
@@ -38,20 +52,37 @@ public class NetworkThread extends Thread {
         this.saveGameId = saveGameId;
     }
 
+    /**
+     * Creates a network manager.
+     *
+     * @param networkManager The manager.
+     * @param socket         The socket.
+     */
     public NetworkThread(NetworkManager networkManager, Socket socket) {
         this.networkManager = networkManager;
         this.clientSocket = socket;
         this.networkType = NetworkType.Client;
     }
 
+    /**
+     * Set the client confirmation.
+     */
     public synchronized void setClientConfirmed() {
         this.clientConfirmed = true;
     }
 
+    /**
+     * Sets the server confirmation.
+     */
     public synchronized void setServerConfirmed() {
         this.serverConfirmed = true;
     }
 
+    /**
+     * Adds a new message to the message queue.
+     *
+     * @param message The message.
+     */
     public synchronized void addMessage(String message) {
         if (this.messageQueue.isEmpty()) {
             this.messageQueue.add(message);
@@ -292,6 +323,7 @@ public class NetworkThread extends Thread {
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Game closed by the server.", "Network error", JOptionPane.ERROR_MESSAGE);
             for (NetworkListener listener : this.networkManager.getListeners()) {
                 listener.OnGameClosed();
@@ -330,6 +362,9 @@ public class NetworkThread extends Thread {
         }
     }
 
+    /**
+     * Stops the network.
+     */
     public void stopNetwork() {
         try {
             if (this.serverSocket != null) {

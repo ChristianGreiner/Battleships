@@ -25,6 +25,7 @@ public class ShipSelectionPanel extends JPanel {
 
     /**
      * Gets the random map button.
+     *
      * @return The button.
      */
     public JButton getBtnRandomMap() {
@@ -33,6 +34,7 @@ public class ShipSelectionPanel extends JPanel {
 
     /**
      * Gets the cancel button.
+     *
      * @return The button.
      */
     public JButton getBtnCancel() {
@@ -41,6 +43,7 @@ public class ShipSelectionPanel extends JPanel {
 
     /**
      * Gets the start button.
+     *
      * @return The button.
      */
     public JButton getBtnStartGame() {
@@ -63,6 +66,7 @@ public class ShipSelectionPanel extends JPanel {
 
     /**
      * Creates a new panel.
+     *
      * @param mapsRendererSize The renderer size.
      * @return The panel.
      */

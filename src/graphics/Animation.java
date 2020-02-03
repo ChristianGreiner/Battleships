@@ -40,7 +40,11 @@ public class Animation {
 
         this.frameDelay = frameDelay;
 
-        if (Game.getInstance().getTargetFps() == 60)
+        if (Game.getInstance().getTargetFps() == 15)
+            this.frameDelay = 0;
+        else if (Game.getInstance().getTargetFps() == 30)
+            this.frameDelay = 1;
+        else if (Game.getInstance().getTargetFps() == 60)
             this.frameDelay *= 2;
 
     }

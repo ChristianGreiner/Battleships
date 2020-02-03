@@ -93,11 +93,9 @@ public class Renderer extends JPanel implements Drawable, Updatable {
 
     @Override
     public void update(double deltaTime) {
-
     }
 
     @Override
     public void lateUpdate(double deltaTime) {
-
     }
 }

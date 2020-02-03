@@ -26,6 +26,7 @@ public class MainMenuPanel extends JPanel {
 
     /**
      * Gets the single player button.
+     *
      * @return The button.
      */
     public JButton getSingleplayerBtn() {
@@ -34,6 +35,7 @@ public class MainMenuPanel extends JPanel {
 
     /**
      * Gets the multiplayer button.
+     *
      * @return The button.
      */
     public JButton getMultiplayerBtn() {
@@ -42,6 +44,7 @@ public class MainMenuPanel extends JPanel {
 
     /**
      * Gets the credits button.
+     *
      * @return The button.
      */
     public JButton getCreditsBtn() {
@@ -50,6 +53,7 @@ public class MainMenuPanel extends JPanel {
 
     /**
      * Gets the option button.
+     *
      * @return The button.
      */
     public JButton getOptionsBtn() {
@@ -58,6 +62,7 @@ public class MainMenuPanel extends JPanel {
 
     /**
      * Gets the exit  button.
+     *
      * @return The button.
      */
     public JButton getExitBtn() {
@@ -66,6 +71,7 @@ public class MainMenuPanel extends JPanel {
 
     /**
      * Creates a new panel.
+     *
      * @return The panel.
      */
     public MainMenuPanel create() {

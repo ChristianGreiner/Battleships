@@ -16,11 +16,11 @@ import java.awt.event.KeyListener;
 
 public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScene, KeyListener, NetworkListener {
 
+    private SavegameType networkGame;
+
     public MultiplayerNetworkScene() {
         super("MultiplayerNetworkScene");
     }
-
-    private SavegameType networkGame;
 
     @Override
     public void onSwitched() {

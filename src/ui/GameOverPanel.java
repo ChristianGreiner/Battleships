@@ -24,6 +24,7 @@ public class GameOverPanel extends JPanel {
 
     /**
      * Gets the exit button.
+     *
      * @return The button.
      */
     public JButton getBtnExit() {
@@ -32,6 +33,7 @@ public class GameOverPanel extends JPanel {
 
     /**
      * Updates the winner text.
+     *
      * @param winner The winner.
      */
     public void updateWinner(PlayerType winner) {
@@ -47,6 +49,7 @@ public class GameOverPanel extends JPanel {
 
     /**
      * Updates the network winner.
+     *
      * @param winner The winner.
      */
     public void updateWinner(NetworkType winner) {
@@ -56,6 +59,7 @@ public class GameOverPanel extends JPanel {
 
     /**
      * Creates a new panel.
+     *
      * @return The panel.
      */
     public GameOverPanel create() {

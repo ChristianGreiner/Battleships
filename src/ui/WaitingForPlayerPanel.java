@@ -21,6 +21,7 @@ public class WaitingForPlayerPanel extends JPanel {
 
     /**
      * Creates a new panel.
+     *
      * @return The panel.
      */
     public WaitingForPlayerPanel create() {
