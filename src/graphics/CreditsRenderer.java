@@ -32,6 +32,9 @@ public class CreditsRenderer extends Renderer {
         this.canvasSize = canvasSize;
     }
 
+    /**
+     * Draws the credits.
+     */
     @Override
     public void draw() {
         super.draw();

@@ -4,6 +4,9 @@ import game.HitType;
 
 import java.awt.*;
 
+/**
+ * Networklistener interface.
+ */
 public interface NetworkListener {
 
     /**
