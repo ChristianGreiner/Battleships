@@ -11,20 +11,32 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Class for the settings scene for singleplayer games.
+ */
 public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyListener, GameSession {
 
     private GameSessionData gameSessionData;
     private GameSettingsPanel settingsPanel;
 
+    /**
+     * Constructor for singleplayer settings scene.
+     */
     public SinglePlayerSettingsScene() {
         super("SinglePlayerSettingsScene");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         settingsPanel = new GameSettingsPanel().create();
@@ -90,6 +102,9 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         return settingsPanel;
     }
 
+    /**
+     * Updates the UI.
+     */
     private void updateUi() {
         if (this.settingsPanel != null && this.gameSessionData != null) {
             this.settingsPanel.getSizeSpinner().setValue(this.gameSessionData.getMapSize());
@@ -116,6 +131,10 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
 
     }
 
+    /**
+     * Returns to the main menu scene when ESC was pressed.
+     * @param e The keyEvent.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -123,6 +142,9 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initializeGameSession(GameSessionData data) {
         this.gameSessionData = data;

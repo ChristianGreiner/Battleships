@@ -10,21 +10,33 @@ import ui.WaitingForPlayerPanel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class for the waiting for player scene.
+ */
 public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkListener, GameSession {
 
     private GameSessionData sessionData;
     private Savegame savegame;
 
+    /**
+     * Constructor for the scene.
+     */
     public WaitingForPlayerScene() {
         super("WaitingForPlayerScene");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
         Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
 
@@ -42,6 +54,9 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
     public void sizeUpdated() {
     }
 
+    /**
+     * Event handler for when a player connects.
+     */
     @Override
     public void OnPlayerConnected() {
         if (this.savegame == null) {
@@ -86,6 +101,9 @@ public class WaitingForPlayerScene extends Scene implements GuiScene, NetworkLis
     public void OnGameClosed() {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initializeGameSession(GameSessionData data) {
         this.sessionData = data;

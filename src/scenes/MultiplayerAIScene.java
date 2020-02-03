@@ -20,6 +20,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Scene for mutiplayer AI games.
+ */
 public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Drawable, KeyListener, GameSession, NetworkListener, MapRendererListener {
 
     private Map playerMap;
@@ -39,6 +42,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     private GameState gameState = null;
     private float waitTimer = 0;
 
+    /**
+     * Constructor for multiplayer AI scene.
+     */
     public MultiplayerAIScene() {
         super("MultiplayerAIScene");
 
@@ -52,6 +58,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         Game.getInstance().getNetworkManager().addNetworkListener(this);
     }
 
+    /**
+     * Handler for switch events.
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
@@ -64,6 +73,11 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         this.setUpdatePaused(false);
     }
 
+    /**
+     * Builds the gui.
+     * @param gameWindow The game window.
+     * @return a ready-made JPanel.
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         this.uiPanel = new GamePanel(this.playerMapRenderer, this.enemyMapRenderer);
@@ -90,6 +104,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         return uiPanel;
     }
 
+    /**
+     * Updates the scene.
+     * @param deltaTime The delta time.
+     */
     @Override
     public void update(double deltaTime) {
         this.enemyMapRenderer.setDisabled(!gameStarted);
@@ -113,6 +131,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         }
     }
 
+    /**
+     * Initilizes the game over scene once the game is over.
+     * @param deltaTime The delta time.
+     */
     @Override
     public void lateUpdate(double deltaTime) {
         if (this.gameState == GameState.Finished) {
@@ -125,6 +147,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         }
     }
 
+    /**
+     * Draws everything.
+     */
     @Override
     public void draw() {
         if (this.enemyMapRenderer != null && this.playerMapRenderer != null) {
@@ -133,6 +158,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         }
     }
 
+    /**
+     * Changes whose turn it is.
+     */
     public void setOtherTurn() {
 
         if (this.networkType == NetworkType.Host) {
@@ -155,6 +183,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         this.uiPanel.revalidate();
     }
 
+    /**
+     * Changes the colors of whose turn it is.
+     */
     private void changeTurnColors() {
         if (isMyTurn()) {
             this.uiPanel.getPlayerLabelContainer().setBackground(UiBuilder.TURN_GREEN);
@@ -166,10 +197,17 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         }
     }
 
+    /**
+     * Checks if it's my turn.
+     * @return Boolean if it is your turn.
+     */
     private boolean isMyTurn() {
         return this.playerTurn == this.networkType;
     }
 
+    /**
+     * handler for size update.
+     */
     @Override
     public void sizeUpdated() {
         this.uiPanel.updateMapSize(Game.getInstance().getWindow().getMapRenderPanelSize());
@@ -191,6 +229,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     public void keyReleased(KeyEvent keyEvent) {
     }
 
+    /**
+     * Initilizes the game session
+     * @param data The game session data.
+     */
     @Override
     public void initializeGameSession(GameSessionData data) {
         this.gameSessionData = data;
@@ -208,6 +250,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         Game.getInstance().getWindow().revalidate();
     }
 
+    /**
+     * Initilizes the samegame.
+     * @param savegame The savegame to be initilized.
+     */
     public void initializeSavegame(MultiplayerAiSavegame savegame) {
         this.playerMap = savegame.getPlayerMap();
         this.enemyMap = savegame.getEnemyMap();
@@ -231,6 +277,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     public void OnGameJoined(int mapSize) {
     }
 
+    /**
+     * Event handler for game start.
+     */
     @Override
     public void OnGameStarted() {
         this.gameStarted = true;
@@ -238,6 +287,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         this.gameState = GameState.Running;
     }
 
+    /**
+     * Event handler for when a shot has been received.
+     * @param pos The shot position.
+     */
     @Override
     public void OnReceiveShot(Point pos) {
         if (this.playerMap != null) {
@@ -260,6 +313,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         }
     }
 
+    /**
+     * Event handler for when an answer was received.
+     * @param type The hit type.
+     */
     @Override
     public void OnReceiveAnswer(HitType type) {
         Game.getInstance().getLogger().info(this.networkType.toString() + ": Ai getting answer: " + type);
@@ -284,6 +341,10 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
         }
     }
 
+    /**
+     * Event handler for when the message for saving has been received.
+     * @param id The id of the savegame.
+     */
     @Override
     public void OnReceiveSave(String id) {
         MultiplayerAiSavegame savegame = new MultiplayerAiSavegame(id, this.playerMap, this.enemyMap);
@@ -295,6 +356,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     public void OnReceiveLoad(String id) {
     }
 
+    /**
+     * Event handler for when the match gets ended.
+     */
     @Override
     public void OnGameClosed() {
         Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
@@ -308,6 +372,9 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     public void OnShotFired(Map map, Point pos) {
     }
 
+    /**
+     * Sends an AI shot.
+     */
     public void sendAiShot() {
         if (isMyTurn() && gameStarted) {
             Point pos = this.playerAi.shot();

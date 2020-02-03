@@ -14,14 +14,24 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Class for the Multiplayer network scene.
+ */
 public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScene, KeyListener, NetworkListener {
 
     private SavegameType networkGame;
 
+    /**
+     * Constructor for the multiplayer network scene.
+     */
     public MultiplayerNetworkScene() {
         super("MultiplayerNetworkScene");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void onSwitched() {
         super.onSwitched();
@@ -39,6 +49,10 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public JPanel buildGui(GameWindow gameWindow) {
         MultiplayerNetworkPanel multiplayerPanel = new MultiplayerNetworkPanel().create();
@@ -72,6 +86,10 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     public void keyTyped(KeyEvent keyEvent) {
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -88,6 +106,10 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
     public void OnPlayerConnected() {
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnGameJoined(int mapSize) {
         ShipsSelectionScene scene = (ShipsSelectionScene) Game.getInstance().getSceneManager().setActiveScene(ShipsSelectionScene.class);
@@ -111,6 +133,10 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
 
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnReceiveLoad(String id) {
 
@@ -124,6 +150,10 @@ public class MultiplayerNetworkScene extends Scene implements Updatable, GuiScen
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void OnGameClosed() {
         Game.getInstance().getSceneManager().setActiveScene(MainMenuScene.class);
