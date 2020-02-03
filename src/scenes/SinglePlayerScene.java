@@ -86,8 +86,7 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         this.enemyMapRenderer.setMap(this.enemyMap);
         this.enemyMapRenderer.setEditorMode(false);
         this.enemyMapRenderer.setEnemyMap(true);
-        this.enemyMapRenderer.setShipsVisable(true);
-
+        this.enemyMapRenderer.setShipsVisable(false);
 
         sizeUpdated();
     }
