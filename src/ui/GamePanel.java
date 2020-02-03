@@ -10,6 +10,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Class for the JPanel for the game itself.
+ */
 public class GamePanel extends JPanel {
     private MapRenderer playerMapRenderer;
     private MapRenderer enemyMapRenderer;
@@ -21,6 +24,11 @@ public class GamePanel extends JPanel {
     private JLabel playerLabel;
     private JLabel opponentLabel;
 
+    /**
+     * Contructor for the game panel.
+     * @param playerMapRenderer The Renderer for the player's map.
+     * @param enemyMapRenderer The Renderer for the opponent's map.
+     */
     public GamePanel(MapRenderer playerMapRenderer, MapRenderer enemyMapRenderer) {
         this.playerMapRenderer = playerMapRenderer;
         this.enemyMapRenderer = enemyMapRenderer;
@@ -209,6 +217,10 @@ public class GamePanel extends JPanel {
         Game.getInstance().getWindow().revalidate();
     }
 
+    /**
+     * Paints the backround.
+     * @param graphics The graphics component.
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

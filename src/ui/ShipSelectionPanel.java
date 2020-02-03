@@ -7,6 +7,9 @@ import graphics.MapBuilderRenderer;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class for the ship selection panel.
+ */
 public class ShipSelectionPanel extends JPanel {
 
     private MapBuilderRenderer mapRenderer;
@@ -181,6 +184,10 @@ public class ShipSelectionPanel extends JPanel {
     }
 
 
+    /**
+     * Draws the backround
+     * @param graphics the graphics component.
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

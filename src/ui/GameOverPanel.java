@@ -7,6 +7,9 @@ import network.NetworkType;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class for the JPanel used in the {@link scenes.GameOverScene}
+ */
 public class GameOverPanel extends JPanel {
 
     private JButton btnRestart;
@@ -137,6 +140,10 @@ public class GameOverPanel extends JPanel {
         return mainContainer;
     }
 
+    /**
+     * Draws the backround.
+     * @param graphics The graphics component.
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

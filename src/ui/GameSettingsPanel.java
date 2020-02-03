@@ -5,6 +5,9 @@ import game.Assets;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The JPanel used for settings.
+ */
 public class GameSettingsPanel extends JPanel {
 
     private JSpinner sizeSpn;
