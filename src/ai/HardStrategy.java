@@ -24,6 +24,10 @@ public class HardStrategy implements AiStrategy, Serializable {
 
     private HumanStrategy internstrategy = new HumanStrategy();
 
+    /**
+     * Constructor for the hard strategy.
+     * @param map The map it will play on.
+     */
     public HardStrategy(Map map) {
         this.maxshotperline = map.getSize() / 5;
         for (int i = 0; i < map.getSize(); i++) {
@@ -32,6 +36,10 @@ public class HardStrategy implements AiStrategy, Serializable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void prepare(HitType type, Point lastHit) {
         //rastercheck(lastHit);
@@ -46,6 +54,10 @@ public class HardStrategy implements AiStrategy, Serializable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Point process(Map map) {
         Point trypoint = this.internstrategy.process(map);

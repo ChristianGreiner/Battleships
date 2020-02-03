@@ -6,6 +6,9 @@ import game.Map;
 import java.awt.*;
 import java.io.Serializable;
 
+/**
+ * Class for AI.
+ */
 public class AI extends AbstractAi implements Serializable {
 
     private Point lastShotPos;

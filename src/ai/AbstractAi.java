@@ -4,6 +4,9 @@ import game.Map;
 
 import java.io.Serializable;
 
+/**
+ * Abstract class for AI
+ */
 public abstract class AbstractAi implements AiInterface, Serializable {
 
     protected AiDifficulty difficulty;

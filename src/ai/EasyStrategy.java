@@ -18,6 +18,10 @@ public class EasyStrategy implements AiStrategy, Serializable {
 
     private HumanStrategy internstrategy = new HumanStrategy();
 
+    /**
+     * Sets focusable.
+     * @param focusable Whether or not it's focusable.
+     */
     private void setFocusable(boolean focusable) {
         if (!focusable) {
             this.focusable = false;
@@ -26,6 +30,10 @@ public class EasyStrategy implements AiStrategy, Serializable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void prepare(HitType type, Point lastHit) {
         if (!focusable) {
@@ -42,6 +50,10 @@ public class EasyStrategy implements AiStrategy, Serializable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Point process(Map map) {
 

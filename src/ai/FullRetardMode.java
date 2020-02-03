@@ -19,6 +19,10 @@ public class FullRetardMode implements AiStrategy, Serializable {
     private ArrayList<Point> shipFields = new ArrayList<>();
 
 
+    /**
+     * Constructor for the full retard mode.
+     * @param map
+     */
     FullRetardMode(Map map) {
         for (int x = 0; x < map.getSize(); x++) {
             for (int y = 0; y < map.getSize(); y++) {
@@ -30,6 +34,10 @@ public class FullRetardMode implements AiStrategy, Serializable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void prepare(HitType type, Point lastHit) {
         if (type == HitType.Ship) {
@@ -48,6 +56,10 @@ public class FullRetardMode implements AiStrategy, Serializable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Point process(Map map) {
         if (!this.freeFields.isEmpty()) {

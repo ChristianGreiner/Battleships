@@ -4,6 +4,9 @@ import game.HitType;
 
 import java.awt.*;
 
+/**
+ * Interface for AI
+ */
 public interface AiInterface {
 
     /**

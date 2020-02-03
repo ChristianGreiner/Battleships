@@ -25,10 +25,18 @@ public class HumanStrategy implements AiStrategy, Serializable {
     private Direction lastDirection;
     private boolean shipFocused;
 
+    /**
+     * Set ship focus.
+     * @param shipFocused Whether or not ship is focused.
+     */
     void setShipFocused(boolean shipFocused) {
         this.shipFocused = shipFocused;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void prepare(HitType type, Point lastHit) {
 
@@ -105,6 +113,10 @@ public class HumanStrategy implements AiStrategy, Serializable {
         this.lastDirection = null;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Point process(Map map) {
 

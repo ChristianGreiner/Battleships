@@ -14,6 +14,10 @@ public class AllMightyMode implements AiStrategy, Serializable {
     private HumanStrategy internstrategy = new HumanStrategy();
     private boolean shipFocused;
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void prepare(HitType type, Point lastHit) {
         if (type == HitType.Ship) {
@@ -28,6 +32,10 @@ public class AllMightyMode implements AiStrategy, Serializable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Point process(Map map) {
         if (!this.shipFocused) {
@@ -45,6 +53,10 @@ public class AllMightyMode implements AiStrategy, Serializable {
         return this.internstrategy.process(map);
     }
 
+    /**
+     * Picks a number between 1 and 10 and returns true if it's less than or equal to 2.
+     * @return Returns true if the random number is less than or equal to 2.
+     */
     private boolean permitInfluencedHit() {
         int number = (int) (Math.random() * 10);
         return number <= 2;

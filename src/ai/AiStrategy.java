@@ -5,6 +5,9 @@ import game.Map;
 
 import java.awt.*;
 
+/**
+ * Interface for AI strategy.
+ */
 public interface AiStrategy {
 
     /**
