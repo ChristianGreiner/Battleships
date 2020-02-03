@@ -3,6 +3,9 @@ package game;
 import ai.AI;
 import ai.AiDifficulty;
 
+/**
+ * Savegame for AI games in singleplayer mode.
+ */
 public class SingleplayerAiSavegame extends SingleplayerSavegame {
 
     private AI playerAi = null;

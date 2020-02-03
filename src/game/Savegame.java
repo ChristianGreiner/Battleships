@@ -38,6 +38,10 @@ public class Savegame implements Serializable {
         this.enemyMap = enemyMap;
     }
 
+    /**
+     * Reurns the typ of savegame.
+     * @return the typ of savegame.
+     */
     public SavegameType getSavegameType() {
         return savegameType;
     }

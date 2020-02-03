@@ -3,6 +3,7 @@ package graphics;
 import core.Game;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +157,6 @@ public class Animation {
 
     /**
      * Draws the animation.
-     *
      * @param g    The graphics element.
      * @param pos  The position of the animation.
      * @param size The size of the image.

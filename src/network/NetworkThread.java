@@ -12,6 +12,9 @@ import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * Thread of the network
+ */
 public class NetworkThread extends Thread {
 
     private ServerSocket serverSocket;
@@ -22,7 +25,7 @@ public class NetworkThread extends Thread {
     private String saveGameId = null;
     private volatile boolean clientConfirmed = false;
     private volatile boolean serverConfirmed = false;
-    private BlockingQueue<String> messageQueue = new ArrayBlockingQueue<String>(1);
+    private BlockingQueue<String> messageQueue;
 
     /**
      * Creates a new network thread.
@@ -36,6 +39,7 @@ public class NetworkThread extends Thread {
         this.serverSocket = serverSocket;
         this.networkType = NetworkType.Host;
         this.mapSize = mapSize;
+        this.messageQueue = new ArrayBlockingQueue<String>(1);
     }
 
     /**
@@ -50,6 +54,7 @@ public class NetworkThread extends Thread {
         this.serverSocket = serverSocket;
         this.networkType = NetworkType.Host;
         this.saveGameId = saveGameId;
+        this.messageQueue = new ArrayBlockingQueue<String>(1);
     }
 
     /**
@@ -62,6 +67,7 @@ public class NetworkThread extends Thread {
         this.networkManager = networkManager;
         this.clientSocket = socket;
         this.networkType = NetworkType.Client;
+        this.messageQueue = new ArrayBlockingQueue<String>(1);
     }
 
     /**
@@ -89,6 +95,11 @@ public class NetworkThread extends Thread {
         }
     }
 
+    /**
+     * Parses the incoming shot message.
+     * @param message The message that has been received.
+     * @return Returns the point where the opponent shot at.
+     */
     private Point parseShotMessage(String message) {
         String[] size = message.split(" ");
         if (size.length > 0) {
@@ -103,6 +114,11 @@ public class NetworkThread extends Thread {
         return null;
     }
 
+    /**
+     * Parses the size message.
+     * @param message The message to be parsed.
+     * @return The size of the map.
+     */
     private int parseSizeMessage(String message) {
         String[] size = message.split(" ");
         if (size.length > 0) {
@@ -115,6 +131,11 @@ public class NetworkThread extends Thread {
         return 0;
     }
 
+    /**
+     * Parses the load and save messages.
+     * @param message The message to be parsed.
+     * @return The message.
+     */
     private String parseSaveLoadMessage(String message) {
         String[] size = message.split(" ");
         if (size.length > 0) {
@@ -127,6 +148,11 @@ public class NetworkThread extends Thread {
         return null;
     }
 
+    /**
+     * Parses the message that is received after firing a shot.
+     * @param message The message to be parsed.
+     * @return The hit type.
+     */
     private HitType parseAnswerMessage(String message) {
         String[] messageArray = message.split(" ");
         if (messageArray.length > 0) {
@@ -149,11 +175,17 @@ public class NetworkThread extends Thread {
         return null;
     }
 
+    /**
+     * Runs the thread.
+     */
     @Override
     public void run() {
         super.run();
 
         try {
+
+            this.messageQueue = new ArrayBlockingQueue<String>(1);
+
             while (true) {
                 BufferedReader in = null;
                 Writer out = null;
@@ -331,6 +363,10 @@ public class NetworkThread extends Thread {
         }
     }
 
+    /**
+     * Handles messages.
+     * @param message The message to be handled.
+     */
     private void handlingMessage(String message) {
         message = message.toUpperCase();
         if (!message.isEmpty()) {

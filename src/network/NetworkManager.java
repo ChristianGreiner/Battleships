@@ -9,6 +9,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Manages the network.
+ */
 public class NetworkManager {
 
     public final static int TCP_PORT = 50000;
