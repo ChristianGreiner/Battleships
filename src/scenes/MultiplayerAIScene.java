@@ -1,10 +1,7 @@
 package scenes;
 
 import ai.AI;
-import core.Drawable;
-import core.Game;
-import core.GameWindow;
-import core.Updatable;
+import core.*;
 import game.*;
 import game.ships.Ship;
 import graphics.MapRenderer;
@@ -122,7 +119,7 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
                 this.gameState = GameState.Finished;
             }
 
-            if (this.waitTimer >= Game.getInstance().getTargetFps() * 1.2f) {
+            if (this.waitTimer >= Game.getInstance().getTargetFps() * Helper.randFloat(1.2f, 1.8f)) {
                 sendAiShot();
                 this.waitTimer = 0;
             }
@@ -380,13 +377,11 @@ public class MultiplayerAIScene extends Scene implements Updatable, GuiScene, Dr
     public void sendAiShot() {
         if (isMyTurn() && gameStarted) {
             Point pos = this.playerAi.shot();
-            if (this.enemyMap.isInMap(pos)) {
-                if (this.enemyMap.getTile(pos).isFree()) {
-                    Game.getInstance().getNetworkManager().sendShot(pos);
-                    if (this.lastShot == null)
-                        this.lastShot = pos;
-                }
-            }
+
+            Game.getInstance().getNetworkManager().sendShot(pos);
+
+            if (this.lastShot == null)
+                this.lastShot = pos;
         }
     }
 
