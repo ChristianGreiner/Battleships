@@ -57,9 +57,7 @@ public class Game implements Runnable {
             logger.info("Start Game");
 
         } catch (SecurityException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -220,7 +218,6 @@ public class Game implements Runnable {
                 long timeout = (lastLoopTime - System.nanoTime() + this.optimalTime) / 1000000;
                 Thread.sleep(timeout >= 0 ? timeout : 1);
             } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }

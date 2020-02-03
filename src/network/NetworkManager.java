@@ -94,9 +94,8 @@ public class NetworkManager {
 
             this.networkType = NetworkType.Host;
 
-
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Address is already in use.", "Network", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -117,7 +116,7 @@ public class NetworkManager {
             this.networkType = NetworkType.Host;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "Address is already in use.", "Network", JOptionPane.ERROR_MESSAGE);
         }
     }
 
