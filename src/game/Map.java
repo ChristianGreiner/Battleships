@@ -975,6 +975,11 @@ public class Map implements MapInterface, Serializable {
         return position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size;
     }
 
+    /**
+     * Replace dummy ships with a ship of appropriate size.
+     *
+     * @param dShip last position of the ship
+     */
     public void mergeDummyShips(Point dShip) {
 
         Point ShipPos = dShip;
@@ -1009,7 +1014,7 @@ public class Map implements MapInterface, Serializable {
                     ShipLengthCounter++;
                 }
             }
-            if (isInMap(neighborXMinus)) {
+            if (isInMap(neighborYMinus)) {
                 if (this.tiles[neighborYMinus.x][neighborYMinus.y].hasShip()) {
                     this.remove(this.tiles[neighborYMinus.x][neighborYMinus.y].getShip());
                     ShipLengthCounter++;
@@ -1021,7 +1026,7 @@ public class Map implements MapInterface, Serializable {
         boolean proofPlus = true;
         boolean proofMinus = true;
 
-        for (int i = 2; i <= 4; i++) {
+        for (int i = 2; i <= 5; i++) {
             Point neighbor;
             Point neighborMinus;
             if (shipIsX) {

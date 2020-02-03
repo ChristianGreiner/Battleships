@@ -11,6 +11,11 @@ public class AI extends AbstractAi implements Serializable {
     private Point lastShotPos;
     private AiStrategy strategy;
 
+    /**
+     * @param map        the {@link Map} of the enemy
+     * @param difficulty the difficulty level
+     */
+
     public AI(Map map, AiDifficulty difficulty) {
         super(map, difficulty);
 
@@ -34,7 +39,7 @@ public class AI extends AbstractAi implements Serializable {
     /**
      * calls the process function of the certain strategy
      *
-     * @return the choosen point of the startegy
+     * @return the chosen point of the strategy
      */
     @Override
     public Point shot() {
@@ -42,9 +47,9 @@ public class AI extends AbstractAi implements Serializable {
     }
 
     /**
-     * calls the prepare function of the certain startegy
+     * calls the prepare function of the certain strategy
      *
-     * @param hitType the answer to the hitten point
+     * @param hitType the answer to the hit point
      */
     @Override
     public void receiveAnswer(HitType hitType) {
