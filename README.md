@@ -1,17 +1,18 @@
 # Battleships
 
-Ein Schiffe versenken - Klon in Java von
+A recreation of the game Battleships in Java by:
 
 - Joseph Rieger (User Interface) ([@Remoo-t](https://github.com/Remoo-t))
-- Christian Greiner (Game Engine, Spiellogik, Netzwerk)
+- Christian Greiner (Game Engine, Game Logic, Networking)
 - Shadrach Patrick (Artificial Intelligence) ([@ShadrachPatrick](https://github.com/ShadrachPatrick))
 
-## Spiel starten
+## Starting the game
 
-Um das Spiel zu starten, wird eine korrekte Installation von Java 8 vorrausgesetzt.
-Wenn das der Fall ist, kann mit Doppelklick auf die Jar-Datei (Battleships.jar) das Spiel ausgeführt werden.
+To start the game a proper installation of Java 8 is required.
+Once that is done the game can be started by double clicking the Battleships.jar file.
 
-### Über die Konsole starten
+
+### Starting the game through the terminal
 
 ``
 $> java -jar Battleships.jar
