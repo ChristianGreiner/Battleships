@@ -2,7 +2,7 @@
 
 A recreation of the game Battleships in Java by:
 
-- Joseph Rieger (User Interface) ([@JosephRieger](https://github.com/Remoo-t))
+- Joseph Rieger (User Interface) ([@JosephRieger](https://github.com/JosephRieger))
 - Christian Greiner (Game Engine, Game Logic, Networking)
 - Shadrach Patrick (Artificial Intelligence) ([@ShadrachPatrick](https://github.com/ShadrachPatrick))
 
