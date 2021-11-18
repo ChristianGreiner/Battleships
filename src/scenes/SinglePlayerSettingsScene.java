@@ -52,7 +52,7 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             String difficulty = String.valueOf(settingsPanel.getAiDifficultyCbox().getSelectedItem());
             difficulty = difficulty.replaceAll(" ", "");
 
-            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), SavegameType.Singeplayer));
+            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), SavegameType.Singleplayer));
         });
 
         settingsPanel.getNewAIGameBtn().addActionListener((e) -> {
@@ -62,16 +62,16 @@ public class SinglePlayerSettingsScene extends Scene implements GuiScene, KeyLis
             String difficulty = String.valueOf(settingsPanel.getAiDifficultyCbox().getSelectedItem());
             difficulty = difficulty.replaceAll(" ", "");
 
-            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), SavegameType.SingeplayerAi));
+            scene.initializeGameSession(new GameSessionData(null, size, AiDifficulty.valueOf(difficulty), SavegameType.SingleplayerAi));
         });
 
         settingsPanel.getLoadGameBtn().addActionListener((e) -> {
             try {
                 Savegame savegame = Game.getInstance().getGameFileHandler().loadSavegame();
-                if (savegame.getSavegameType() == SavegameType.Singeplayer) {
+                if (savegame.getSavegameType() == SavegameType.Singleplayer) {
                     SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                     scene.initializeSavegame((SingleplayerSavegame) savegame);
-                } else if (savegame.getSavegameType() == SavegameType.SingeplayerAi) {
+                } else if (savegame.getSavegameType() == SavegameType.SingleplayerAi) {
                     SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
                     scene.initializeSavegame((SingleplayerAiSavegame) savegame);
                 }

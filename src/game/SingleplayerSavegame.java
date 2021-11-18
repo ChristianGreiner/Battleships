@@ -23,7 +23,7 @@ public class SingleplayerSavegame extends Savegame {
         this.currentTurn = currentTurn;
         this.enemyAi = enemyAi;
         this.difficulty = difficulty;
-        this.savegameType = SavegameType.Singeplayer;
+        this.savegameType = SavegameType.Singleplayer;
     }
 
     /**

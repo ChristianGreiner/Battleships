@@ -22,7 +22,7 @@ public class SingleplayerAiSavegame extends SingleplayerSavegame {
     public SingleplayerAiSavegame(Map playerMap, Map enemyMap, PlayerType currentTurn, AI enemyAi, AI playerAi, AiDifficulty difficulty) {
         super(playerMap, enemyMap, currentTurn, enemyAi, difficulty);
         this.playerAi = playerAi;
-        this.savegameType = SavegameType.SingeplayerAi;
+        this.savegameType = SavegameType.SingleplayerAi;
     }
 
     /**

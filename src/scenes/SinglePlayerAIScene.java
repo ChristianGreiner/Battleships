@@ -192,12 +192,12 @@ public class SinglePlayerAIScene extends Scene implements KeyListener, MapRender
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
             try {
                 SingleplayerAiSavegame savegame = (SingleplayerAiSavegame) Game.getInstance().getGameFileHandler().loadSavegame();
-                if (savegame.getSavegameType() == SavegameType.SingeplayerAi) {
+                if (savegame.getSavegameType() == SavegameType.SingleplayerAi) {
                     SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
                     scene.initializeSavegame(savegame);
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game isn't a valid singeplayer ai savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game isn't a valid Singleplayer ai savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
 
             }
         });

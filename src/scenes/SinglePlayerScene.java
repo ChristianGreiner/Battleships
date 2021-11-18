@@ -187,12 +187,12 @@ public class SinglePlayerScene extends Scene implements KeyListener, MapRenderer
         singlePlayerPanel.getBtnLoad().addActionListener((e) -> {
             try {
                 SingleplayerSavegame savegame = (SingleplayerSavegame) Game.getInstance().getGameFileHandler().loadSavegame();
-                if (savegame.getSavegameType() == SavegameType.Singeplayer) {
+                if (savegame.getSavegameType() == SavegameType.Singleplayer) {
                     SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
                     scene.initializeSavegame(savegame);
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game isn't a valid singeplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Game.getInstance().getWindow(), "This save game isn't a valid Singleplayer savegame.", "Can't load savegame.", JOptionPane.ERROR_MESSAGE);
             }
         });
 

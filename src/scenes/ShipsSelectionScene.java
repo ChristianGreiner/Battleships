@@ -94,12 +94,12 @@ public class ShipsSelectionScene extends Scene implements Drawable, Updatable, G
         });
 
         shipSelectionPanel.getBtnStartGame().addActionListener((e) -> {
-            if (this.gameSessionData.getGameType() == SavegameType.Singeplayer) {
+            if (this.gameSessionData.getGameType() == SavegameType.Singleplayer) {
                 SinglePlayerScene scene = (SinglePlayerScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerScene.class);
-                scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), SavegameType.Singeplayer));
-            } else if (this.gameSessionData.getGameType() == SavegameType.SingeplayerAi) {
+                scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), SavegameType.Singleplayer));
+            } else if (this.gameSessionData.getGameType() == SavegameType.SingleplayerAi) {
                 SinglePlayerAIScene scene = (SinglePlayerAIScene) Game.getInstance().getSceneManager().setActiveScene(SinglePlayerAIScene.class);
-                scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), SavegameType.SingeplayerAi));
+                scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), this.gameSessionData.getAiDifficulty(), SavegameType.SingleplayerAi));
             } else if (this.gameSessionData.getGameType() == SavegameType.Multiplayer) {
                 MultiplayerScene scene = (MultiplayerScene) Game.getInstance().getSceneManager().setActiveScene(MultiplayerScene.class);
                 scene.initializeGameSession(new GameSessionData(this.playerMap, this.gameSessionData.getMapSize(), null, SavegameType.Multiplayer));
